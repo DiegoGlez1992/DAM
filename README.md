@@ -1,5 +1,5 @@
 # C.F.G.S. Desarrollo de Aplicaciones Multiplataforma (DAM)
-Este temario y ejercicios corresponden al I.E.S. Augusto González de Linares de Santander, Cantabria, en el curso 2021/2023 en modalidad a distancia.
+Este temario y ejercicios corresponden al I.E.S. Augusto González de Linares de Santander, Cantabria, de la promoción 2021/2023 en modalidad a distancia.
 
 ### Primer Curso (DAM1)
 * Bases de Datos
