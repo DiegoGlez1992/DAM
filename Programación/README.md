@@ -9,4 +9,4 @@ Este temario y ejercicios corresponden al módulo de programación de 1º, del C
 ### PROG04 - Uso de estructuras de control
 * Nota tarea: 9.10
 ### PROG05 - Desarrollo de clases
-* Nota tarea:
+* Nota tarea: 10.00
