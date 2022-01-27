@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+“http://www.w3.org/TR/html4/strict.dtd”>
+<html>
+<head>
+<title>Formulario</title>
+
+<style type="text/css">
+</style>
+
+</head>
+<body>
+<h1>Formulario de alta de usuario</h1>
+
+
+<form action="programa.php" method="post" tabindex=”ordennavegación”>
+<table border="1">
+	<tr>
+		<td colspan="2">
+		<p align="center">Identificador de nuevo usuario:<input type="text" name="idusuario" size="20" readonly="readonly" value="usu_012345"></p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<p>Nombre:<input type="text" name="Nombre" size="20" value="asas"></p>
+		</td>
+		<td>
+		<p>Apellido:<input type="text" name="Apellido" size="20" value="xss"></p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<p>Contraseña:<input type="password" name="pass" size="20" value="***"></p>
+		</td>
+		<td>
+		<p>Confirmar contraseña:<input type="password" name="pass" size="20"></p>
+		</td>
+	</tr>
+		<td colspan="2">
+		<p>Email:<input type="text" name="Email" size="20" value="asd"></p>
+		</td>
+	<tr>
+		<td>
+		<p>Sexo</p>
+		</td>
+		<td>
+		<input type="radio" name="genero" checked="checked">Varon
+		<input type="radio" name="genero">Mujer
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<p>Aficiones</p>
+		</td>
+		<td>
+		<p><input type="checkbox" name="aficiones">Deporte</p>
+		<p><input type="checkbox" name="aficiones" checked="checked">Lectura</p>
+		<!-- Por defecto seleccionado Lectura como indica el enunciado, aunque en la imagen también aparece Deporte.
+		Para ello sólo tendríamos que incluir otro checked="checked" en el input de Deporte-->
+		<p><input type="checkbox" name="aficiones">Cine</p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		Pais
+		</td>
+		<td>
+		<select>
+		<option value="pais">Francia</option>
+		<option value="pais">España</option>
+		<option value="pais">Portugal</option>
+		</select>
+		</td>
+	</tr>
+		<tr>
+		<td>
+		Colores favoritos
+		</td>
+		<td>
+		<select multiple="multiple">
+		<option value="colores" selected="selected">Rojo</option>
+		<option value="colores">Verde</option>
+		<option value="colores" selected="selected">Azul</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		Subir su foto
+		</td>
+		<td>
+			<input type="file" name="Examinar...">
+		</td>
+	<tr>
+		<td>
+		Comentarios personales
+		</td>
+		<td>
+		<textarea name="comentarios" cols="40" rows="5">
+	Escriba aqui sus comentarios
+	</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<p align="center"><input type="reset" value="Resetear"/></p>
+		</td>
+		<td>
+		<p align="center"><input type="submit" value="Enviar"/></p>
+		</td>
+	</tr>
+	</tr>
+		<td colspan="2">
+		<p align="center"><input type="button" value="Modificar datos del usuario" disabled /></p>
+		</td>
+	<tr>
+</table>
+</form>
+	
+</body>
+</html>
