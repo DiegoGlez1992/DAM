@@ -9,4 +9,4 @@ Este temario y ejercicios corresponden al módulo de sistemas informáticos de 1
 ### SI04 - Administración básica del sistema Windows
 * Nota tarea: 7.50
 ### SI05 - Instalación y explotación de un sistema Linux
-* Nota tarea:
+* Nota tarea: 10.00
