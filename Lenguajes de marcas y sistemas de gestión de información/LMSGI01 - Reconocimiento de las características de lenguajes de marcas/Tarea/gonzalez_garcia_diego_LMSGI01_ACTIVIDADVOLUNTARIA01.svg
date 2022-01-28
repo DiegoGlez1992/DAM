@@ -1,0 +1,49 @@
+<?xml version="1.0" standalone="yes"?> 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"> 
+<svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+  	<rect x="0" y="0" width="600" height="600" fill="#cccccc" />
+	<text id="TextElement" x="20" y="0" style="font-family:Arial;font-size:15; visibility:hidden"> Diego González García
+      		<set attributeName="visibility" attributeType="CSS" to="visible" begin="1s" dur="5s" fill="freeze" />
+      		<animateMotion path="M 0 0 L 0 80" begin="1s" dur="5s" fill="freeze" />
+      		<animateTransform attributeName="transform" attributeType="XML" type="scale" from="1" to="3" additive="sum" begin="1s" dur="5s" fill="freeze" /> 
+    	</text>
+    	<g transform="translate(150,120)">
+    		<path d="M150 75 L75 275 L225 275 Z" fill="green"/>
+      		<rect x="125" y="275" width="50" height="100" fill="brown"/>
+      		<circle cx="210" cy="265" r="4">
+            		<animate attributeName="fill"  dur="2s" values="darkyellow;yellow;lightyellow;lightorange;orange;darkorange;darkperu;peru;lightperu;lightblue;blue;darkblue;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="185" cy="255" r="4">
+            		<animate attributeName="fill"  dur="2s" values="lightorange;orange;darkorange;darkperu;peru;lightperu;lightblue;blue;darkblue;darkyellow;yellow;lightyellow;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="180" cy="195" r="4">
+            		<animate attributeName="fill"  dur="2s" values="darkperu;peru;lightperu;lightblue;blue;darkblue;darkyellow;yellow;lightyellow;lightorange;orange;darkorange;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="120" cy="215" r="4">
+            		<animate attributeName="fill"  dur="2s" values="lightblue;blue;darkblue;darkyellow;yellow;lightyellow;lightorange;orange;darkorange;darkperu;peru;lightperu;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="150" cy="175" r="4">
+            		<animate attributeName="fill"  dur="2s" values="darkyellow;yellow;lightyellow;lightorange;orange;darkorange;darkperu;peru;lightperu;lightblue;blue;darkblue;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="150" cy="125" r="4">
+            		<animate attributeName="fill"  dur="2s" values="lightorange;orange;darkorange;darkperu;peru;lightperu;lightblue;blue;darkblue;darkyellow;yellow;lightyellow;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="100" cy="255" r="4">
+            		<animate attributeName="fill"  dur="2s" values="darkperu;peru;lightperu;lightblue;blue;darkblue;darkyellow;yellow;lightyellow;lightorange;orange;darkorange;" repeatCount="indefinite"/>
+            	</circle>
+            	<circle cx="150" cy="230" r="4">
+            		<animate attributeName="fill"  dur="2s" values="lightblue;blue;darkblue;darkyellow;yellow;lightyellow;lightorange;orange;darkorange;darkperu;peru;lightperu;" repeatCount="indefinite"/>
+            	</circle>
+        	<circle cx="150" cy="105" r="10" fill="red"/>
+        	<circle cx="160" cy="145" r="10" fill="red"/>
+        	<circle cx="150" cy="255" r="10" fill="red"/>
+        	<circle cx="130" cy="165" r="10" fill="red"/>
+        	<circle cx="150" cy="210" r="10" fill="red"/>
+        	<circle cx="120" cy="235" r="10" fill="red"/>
+        	<circle cx="190" cy="225" r="10" fill="red"/>
+        	<polygon points="150 0,140 40,105 40,135 60,120 100,150 75,180 100,165 60,195 40,160 40" style="fill:yellow;">
+            		<animateTransform attributeName="transform"	type="rotate" from="500 -90 0" to="360 0 0" begin="0s" dur="1.5s"/>
+            		<animate attributeName="fill"  dur="5s" values="yellow;darkyellow;yellow;" repeatCount="indefinite"/>
+        	</polygon>      
+    	</g>
+</svg>
