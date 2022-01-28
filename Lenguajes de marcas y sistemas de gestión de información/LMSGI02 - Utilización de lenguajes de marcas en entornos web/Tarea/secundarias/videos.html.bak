@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Videos</title>
+	</head>
+	<body>
+		<a href="../index.html" target="_blank">Volver a la pagina principal</a>
+		</br></br>
+		<h1>Grandvalira</h1>
+		<video width="640" height="480" controls>
+		  <source src="../multimedia/Grandvalira1.mp4" type="video/mp4">
+		  Your browser does not support the video tag.
+		</video>
+		<video width="640" height="480" controls>
+		  <source src="../multimedia/Grandvalira2.mp4" type="video/mp4">
+		  Your browser does not support the video tag.
+		</video>
+	</body>
+</html>

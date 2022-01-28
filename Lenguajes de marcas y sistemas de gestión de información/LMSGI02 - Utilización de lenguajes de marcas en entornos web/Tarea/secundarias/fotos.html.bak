@@ -1,0 +1,17 @@
+<html lang="es">
+	<head>
+		<title>Fotos</title>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<a href="../index.html" target="_blank">Volver a la pagina principal</a>
+		</br></br>
+		<h1>Andorra la Vella</h1>
+		<img alt="Imagen de Andorra la Vella" src="../multimedia/Andorra_la_Vella.jpg" border="5" width="500" height="auto">
+		<h1>Grandvalira</h1>
+		<img alt="Imagen de Grandvalira" src="../multimedia/Grandvalira1.jpg" border="5" width="500" height="auto">
+		<br><br>
+		<img alt="Imagen de grupo" src="../multimedia/Grupo.jpg" border="5" width="500" height="auto">
+	</body>
+</html>

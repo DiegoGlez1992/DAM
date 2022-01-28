@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<title>Formulario</title>
+		<link rel="stylesheet" href="estilo_formulario.css">
+	</head>
+	<body>
+		<div id="contenedor">
+			<h1>REGÍSTRATE</h1>
+			<form name="miFormulario" action="formulario.php" method="post">
+				<fieldset>
+				<legend>Rellena los siguientes datos</legend>
+					<br>
+					<label for="nombre"><strong>Nombre:</strong></label>
+					<input type="text" id="nombre" name="nombre" required>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<label for="apellidos"><strong>Apellidos:</strong></label>
+					<input type="text" id="apellidos" name="apellidos" size="30" required><br><br>
+					<label for="email"><strong>Correo electrónico:</strong></label>
+					<input type="email" id="email" name="email" size="60" required><br><br>
+					<br>
+					<fieldset>
+					<legend>Tipo de habitación</legend>
+						<input type="radio" id="individual" name="tipo habititacion" value="individual">
+	  					<label for="individual">Individual</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="doble" name="tipo habititacion" value="doble">
+	  					<label for="doble">Doble</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="familiar" name="tipo habititacion" value="familiar">
+	  					<label for="familiar">Familiar</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="suite" name="tipo habititacion" value="suite">
+	  					<label for="suite">Suite</label>
+					</fieldset>
+					<br><br>
+					<fieldset>
+					<legend>Servicios del hotel</legend>
+						<input type="checkbox" id="parking" name="parking" value="si">
+						<label for="parking">Parking</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="guarderia" name="guarderia" value="si">
+						<label for="guarderia">Guardería</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="spa" name="spa" value="si">
+						<label for="spa">Spa</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="piscina" name="piscina" value="si">
+						<label for="piscina">Piscina Climatizada</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" id="peluqueria" name="peluqueria" value="si">
+						<label for="peluqueria">Peluquería</label>
+					</fieldset>
+					<br><br>
+					<label for="actividad">Elige una actividad complementaria:</label>
+					<select id="actividad" name="actividad">
+						<option value="niguna actividad">Ninguna actividad</option>
+						<option value="alquiler de bicicleta">Alquiler de bicicletas</option>
+						<option value="rutas a caballo">Rutas a caballo</option>
+						<option value="escalada">Escalada</option>
+					</select>
+					<br><br>
+					<textarea id="comentario" name="comentario" rows="6" cols="50" placeholder="Escribe cualquier información que creas de interés."></textarea>
+					<img id="logo" alt="Logo Andorra" src="multimedia/Andorra.jpg" align="middle">
+					<br><br>
+					<input type="submit" value="Enviar" formaction="mailto:info@tarea2delmsgi.es" formenctype="text/plain" formmethod="post">
+					<input type="reset" value="Borrar formulario">
+					<input type="submit" value="Volver" formaction="index.html" formnovalidate>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>

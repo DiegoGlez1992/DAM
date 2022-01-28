@@ -1,0 +1,53 @@
+
+h1, h2, h3, h4, h5, h6, sub { color: orange; }
+p { font-size: 16px; }
+
+#contenedor{
+	font-family: calibri;
+}
+
+/*-- Cabecera --------------------------------------------------------*/
+header {
+	background-color: white;
+	border-style: solid;
+	border-color: darkblue;
+	text-align: center;
+}
+
+/*-- Menu ------------------------------------------------------------*/
+nav {
+	float: left;
+	background-color: lightblue;
+	width: 20%;
+	height: 900px;
+	border-style: solid;
+	border-left-style: none;
+	border-color: darkblue;
+}
+
+/*-- Contenido -------------------------------------------------------*/
+section {
+	float: left;
+	background-color: white;
+	width: 79%;
+	border-style: solid;
+	border-color: darkblue;
+	text-align: justify;
+}
+
+article {
+	margin: 15px;
+}
+
+section img {
+	float: right;
+	margin: 15px;
+	width: 30%;
+}
+
+/*-- Pie de página ---------------------------------------------------*/
+footer {
+	background-color: darkblue;
+	color: white;
+	text-align: center;	
+}
