@@ -1,0 +1,59 @@
+
+/*-- Cuerpo ---------------------------------------------------------*/
+body {
+	background-color: white;
+}
+img {
+	max-with: 100%;
+}
+
+/*-- Cabecera -------------------------------------------------------*/
+header {
+	background-color: black;
+	color: lightgreen;
+	padding: 1%;
+	text-align: center;
+	border-radius: 2em;
+	border-style: solid;
+	box-shadow: 1px 4px 15px 0 orange;
+	text-shadow: 3px 3px 5px blue;
+}
+
+/*-- Sección --------------------------------------------------------*/
+section h2 {
+	color: green;
+	text-align: center;
+	text-decoration: underline wavy orange;
+	padding-bottom: 2%;
+}
+
+/*-- Artículos ------------------------------------------------------*/
+article {
+	background-color: black;
+	color: white;
+	padding: 2%;
+	margin: 30px;
+	text-align: justify;
+	border-radius: 2em;
+	border-style: solid;
+	box-shadow: 1px 4px 15px 0 orange;
+}
+
+article img {
+	display: block;
+	margin: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	border-radius: 5em;
+	border-style: outset;
+	
+}
+
+/*-- Pie de página ---------------------------------------------------*/
+footer {
+	background-color: darkgreen;
+	color: white;
+	text-align: center;	
+	border-radius: 2em;
+}

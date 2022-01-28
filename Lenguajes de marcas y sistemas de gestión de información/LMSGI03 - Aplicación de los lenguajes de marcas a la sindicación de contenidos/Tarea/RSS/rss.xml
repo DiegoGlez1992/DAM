@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>Canal de noticias para la asignatura LMSGI</title>
+		<link>http://localhost/RSS/actualidad/</link>
+		<description>Canal RSS de suscripcion de noticias</description>
+		<language>es-es</language>
+		<item>
+			<title>Blog IES Augusto Gonzalez de Linares</title>
+			<link>http://agustoenelaugusto.com</link>
+			<description>Blog del instituto de educación secundaria Augusto González de Linares</description>
+			<guid>http://agustoenelaugusto.com/</guid>
+		</item>
+		<item>
+			<title>Web IES Augusto Gonzalez de Linares</title>
+			<link>http://www.iesaglinares.com/</link>
+			<description>Toda la informacion del instituto de educación secundaria Augusto González de Linares</description>
+			<guid>http://www.iesaglinares.com/</guid>
+		</item>
+		<item>
+			<title>Últimas noticias electrónicas</title>
+			<link>http://localhost/RSS/actualidad/noticia.html</link>
+			<description>Blog de noticias tecnológicas de actualidad</description>
+			<author>dgonzalezg22@educantabria.es(Diego Gonzalez Garcia)</author>
+			<guid>http://localhost/RSS/actualidad/noticia.html</guid>
+		</item>
+	</channel>
+</rss>
