@@ -7,4 +7,4 @@ Este temario y ejercicios corresponden al módulo de bases de datos de 1º, del 
 ### BD03 - Interpretación de diagramas entidad-relación
 * Nota tarea: 6.00
 ### BD04 - Realización de consultas
-* Nota tarea: 
+* Nota tarea: 9.53
