@@ -5,4 +5,4 @@ Este temario y ejercicios corresponden al módulo de Lenguajes de marcas y siste
 ### LMSGI02 - Utilización de lenguajes de marcas en entornos web
 * Nota tarea: 9.31
 ### LMSGI03 - Aplicación de los lenguajes de marcas a la sindicación de contenidos
-* Nota tarea: 
+* Nota tarea: 10.00
