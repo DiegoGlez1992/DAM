@@ -5,4 +5,4 @@ Este temario y ejercicios corresponden al módulo de entornos de desarrollo de 1
 ### ED02 - Instalación y uso de entornos de desarrollo
 * Nota tarea: 8.50
 ### ED03 - Diseño y realización de pruebas
-* Nota tarea: 
+* Nota tarea: 10.00
