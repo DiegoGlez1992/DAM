@@ -5,4 +5,4 @@ Este temario y ejercicios corresponden al módulo de formación y orientación l
 ### FOL04 - La relación colectiva en el trabajo
 * Nota tarea: 8.00
 ### FOL05 - La Seguridad Social
-* Nota tarea: 
+* Nota tarea: 10.00
