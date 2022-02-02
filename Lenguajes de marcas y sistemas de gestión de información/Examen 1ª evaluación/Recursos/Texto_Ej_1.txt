@@ -1,0 +1,10 @@
+Utilizarlo para almacenar la información de los siguientes equipos informáticos:
+
+1.	Equipo de identificativo, “eq1344”. Se trata de una CPU Torre de marca DELL, modelo “Inspiron Small Desktop”, 
+comprada el 12 de marzo de 2021, ubicada en el aula A31, del departamento de Informática y Comunicaciones, 
+con procesador “Intel Core i7 - 10700F”, con 8GB de memoria, disco SSD de 512 Gb. El número de serie es: DL3996626F33.
+
+
+2.	Equipo de identificativo, “eq1345”. Se trata de una impresora de marca HP, modelo “DeskJet 2721e”, 
+de impresión por tinta, comprada el 16 de enero de 2022, ubicada en el aula A27, 
+del departamento de Administración y Gestión. El número de serie es: HP78664543.
