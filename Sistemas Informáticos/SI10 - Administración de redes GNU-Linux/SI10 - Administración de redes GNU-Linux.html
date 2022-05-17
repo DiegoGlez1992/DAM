@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<!-- saved from url=(0124)https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Administración de redes GNU-Linux</title>
+<link rel="shortcut icon" href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/favicon.ico" type="image/x-icon">
+<meta name="generator" content="eXeLearning 2.5 - exelearning.net">
+<link rel="stylesheet" type="text/css" href="./SI10 - Administración de redes GNU-Linux_files/base.css">
+<link rel="stylesheet" type="text/css" href="./SI10 - Administración de redes GNU-Linux_files/exe_lightbox.css">
+<link rel="stylesheet" type="text/css" href="./SI10 - Administración de redes GNU-Linux_files/content.css">
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="./SI10 - Administración de redes GNU-Linux_files/exe_jquery.js.descarga"></script>
+<script type="text/javascript" src="./SI10 - Administración de redes GNU-Linux_files/exe_lightbox.js.descarga"></script>
+<script type="text/javascript" src="./SI10 - Administración de redes GNU-Linux_files/common_i18n.js.descarga"></script>
+<script type="text/javascript" src="./SI10 - Administración de redes GNU-Linux_files/common.js.descarga"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body class="exe-single-page js travelclub-common-loaded"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<header id="header" role="banner">
+<div id="headerContent">
+<h1>Administración de redes GNU-Linux</h1>
+</div>
+</header>
+<section id="main" role="main">
+<article class="node level-1-node" id="exe-node-0">
+<header class="nodeDecoration">
+<h1 id="exenode_0_AdministracinderedesGNULinux" class="nodeTitle">Administración de redes GNU-Linux</h1>
+</header>
+<article class="iDevice_wrapper CasopracticofpdIdevice em_iDevice" id="id3-0">
+<div class="iDevice emphasis_casopracticofpd">
+<header class="iDevice_header" style="background-image:url(icon_casopracticofpd.png)"><h2 class="iDeviceTitle">Caso práctico</h2></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta3_147" class="block iDevice_content">
+<p><img alt="María trabajando en un equipo." class="elemento_derecha" src="./SI10 - Administración de redes GNU-Linux_files/CASO__soporte_red_3.jpg" title="María." width="192" height="108"></p>
+<p>María visita a Juan.</p>
+<p>-Juan, vamos a mejorar la red de la empresa y para eso necesito que utilices un servidor para que actúe como router y le proporcione a le empresa los servicios más importantes. Encaminamiento y DHCP, y luego le instalaremos más servicios.</p>
+<p>-Muy bien María, he visto por Internet que Linux funciona muy bien con redes. De hecho su máxima potencia se utiliza para actuar como servidor. Ahora mismo me pongo a configurar el servidor.</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper DestacadofpdIdevice" id="id1-0">
+<div class="iDevice emphasis0">
+<div class="iDevice_destacadofpd">
+<div id="ta1_151" class="block iDevice_content">
+<figure class="exe-figure exe-image position-center license-pd" style="width: 282px;"><img src="./SI10 - Administración de redes GNU-Linux_files/ministerio-de-educacion-y-formacion-profesional-web.jpg" alt="Ilustración del logotipo del Ministerio de Educación y Formación Profesional." title="Logotipo del Ministerio de Educación y Formación Profesional." style="display: block; margin-left: auto; margin-right: auto;" width="282" hspace="auto" height="69">
+<figcaption class="figcaption"><a href="https://www.educacionyfp.gob.es/portada.html" target="_blank" class="author" rel="noopener">Ministerio de Educación y Formación Profesional.</a> <span class="license"><span class="sep">(</span><span>Dominio público</span><span class="sep">)</span></span></figcaption>
+</figure>
+<p style="text-align: center;"><span style="font-size: 13.5pt; color: #000000;"><strong>Materiales formativos de FP Online propiedad del Ministerio de Educación y Formación Profesional.</strong></span><br><a href="http://www.educacionyfp.gob.es/fpadistancia/comunes/aviso-legal-materiales.html">Aviso Legal</a></p>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-1">
+<header class="nodeDecoration">
+<h1 id="exenode_1_1ConfiguracinderedyrouterenLinux" class="nodeTitle">1.- Configuración de red y router en Linux.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id4-1">
+<div class="iDevice emphasis0">
+<div id="ta4_154" class="block iDevice_content">
+<p>La unidad comienza con la configuración de 2 máquinas Linux en red; se configurarán en la misma red interna que las dos máquinas de Windows de la unidad 9. </p>
+<p class="default">En la primera máquina Linux se pondrán dos tarjetas de red, una en NAT con la máquina anfitrión por la que sale a Internet, y la otra en red interna con las otras 3 máquinas. Esta máquina Linux realizará las funciones de router, de forma que las otras 3 máquinas también saldrán a Internet.<br>En el resto de la unidad, se estudian los distintos servicios de forma que en esta máquina router se instalarán distintos servicios: samba, nfs, ssh,…</p>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-2">
+<header class="nodeDecoration">
+<h1 id="exenode_2_11Configuracinde2mquinasLinuxenRed" class="nodeTitle">1.1.- Configuración de 2 máquinas Linux en Red.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id5-2">
+<div class="iDevice emphasis0">
+<div id="ta5_154" class="block iDevice_content">
+<div class="box generalbox book_content" id="yui_3_17_2_1_1595950504951_285">
+<div class="no-overflow" id="yui_3_17_2_1_1595950504951_288">
+<div class="level1" id="yui_3_17_2_1_1595950504951_287">Este apartado es el primer ejercicio de la tarea de la unidad.
+<h3>Paso 1. Clonar la máquina Linux utilizada en anteriores unidades</h3>
+<ol>
+<li>Clonar con VirtualBox la máquina Linux utilizada en unidades anteriores. Realizar una clonación completa y reiniciando la dirección MAC.</li>
+<li>En la máquina clonada, poner como nombre de máquina <strong>clienteLinux</strong>. Para ello, utilizar nano o direccionamiento:<br>root@SistemasUbuntu:~# <strong>echo </strong><strong>clienteLinux</strong><strong> &gt; /</strong><strong>etc</strong><strong>/</strong><strong>hostname</strong></li>
+<li>Editar el archivo /etc/hosts y cambiar el nombre de la máquina (donde aparece SistemasUbuntu, cambiarlo por clienteLinux)<br clear="all">Observación: el archivo /etc/hosts sirve para configurar un DNS básico en la red local.</li>
+</ol>
+<h3>Paso 2. Configuración de red en máquina Linux servidor.</h3>
+<p class="default">La máquina original Linux va a tener 2 tarjetas de red para configurar un router:</p>
+<ul class="lista_verificacion">
+<li>La primera tarjeta de red, sigue como hasta ahora, en NAT con la máquina anfitrión, saliendo a Internet a través de ella.</li>
+<li>La segunda tarjeta de red, la pondremos en red interna para comunicarse con la otra máquina Linux.</li>
+</ul>
+<h4>1. Añadir segunda tarjeta de red a la máquina</h4>
+<p class="default">En VirtualBox en configuración de Red, habilitar adaptador 2 (pestaña adaptador 2) y ponerlo en red interna, tal como aparece en la imagen.<br clear="all">Con esta operación, esta máquina ya se encuentra en la misma red física que las 2 máquinas Windows, (están en el mismo switch), pues el nombre de la red interna no lo hemos cambiado. Cuando configuremos la IP se configurará de forma que estén en la misma red lógica.</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 201px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Tarjeta_2_en_red_interna.png" rel="lightbox" title="Ampliar Tarjeta 2 en red interna"><img src="./SI10 - Administración de redes GNU-Linux_files/Tarjeta_2_en_red_interna.png" alt="Ilustración que muestra como añadir una segunda tarjeta de red" title="Tarjeta 2 en red interna" width="201" height="112"></a>
+<figcaption class="figcaption"><span class="author"> Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<h4>2. Nombres de las tarjetas de red en Linux. Comando ifconfig</h4>
+<p class="default">Al ejecutar ifconfig se ven los nombres asignados por Ubuntu a las tarjetas de red y sus direcciones IP asignadas. En la captura que hay a continuación se visualiza:</p>
+<ul class="lista_verificacion">
+<li>Tarjeta enp0s3 (tarjeta de red en NAT con maquina anfitrión) con la dirección IP 10.0.2.15</li>
+<li>Tarjeta enp0s8 (tarjeta de red en red interna, que comunicará con todas las máquinas restantes) sin dirección IP de momento.</li>
+</ul>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 201px;"><a href="./SI10 - Administración de redes GNU-Linux_files/ifconfig_en_maquina_servidor.png" rel="lightbox" title="Ampliar Ifconfig servidor"><img src="./SI10 - Administración de redes GNU-Linux_files/ifconfig_en_maquina_servidor.png" alt="Ilustración que muestra el comando ifconfig en la máquina servidor" title="Ifconfig servidor" width="201" height="113"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><span style="color: #0000ff;"><span style="font-size: 10pt;"></span></span></a></figure>
+<p class="default"><strong>Observación: </strong><strong>el comando </strong><strong>ifconfig</strong><strong> </strong><strong>puede no estar instalado</strong><br>La primera vez que se ejecuta<strong><u> </u></strong>ifconfig, en Ubuntu 18.04 dice que no está instalado y que hay que instalar net-tools:</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> miguel@sistemasUbuntu:~$ <strong>ifconfig</strong><br clear="all"><span style="color: #00b050;">No se ha encontrado la orden «</span><span style="color: #00b050;">ifconfig</span><span style="color: #00b050;">», pero se puede instalar con:</span><span style="color: #00b050;"><br clear="all">sudo </span><span style="color: #00b050;">apt</span><span style="color: #00b050;"> </span><span style="color: #00b050;">install</span><span style="color: #00b050;"> net-</span><span style="color: #00b050;">tools</span><br>miguel@sistemasUbuntu:~$ <strong>sudo</strong><strong> apt install net-tools</strong><span style="color: #00b050;"><br>….</span><span style="color: #00b050;"><br>Configurando</span><span style="color: #00b050;"> net-tools </span><span style="color: #00b050;">(1.60+g</span><span style="color: #00b050;">it20161116.90da8a0-1ubuntu1)</span><br>miguel@sistemasUbuntu:~$ </span></p>
+<p class="default">Es posible, que incluso de algún error al instalar net-tools, porque no se haya actualizado nada en nuestro Ubuntu. En ese caso será necesario actualizar los paquetes instalados previamente. Ejecutar los 2 comandos siguientes:</p>
+<ul class="lista_verificacion">
+<li>Actualizar lista paquetes:&nbsp;&nbsp; #<b>apt update</b></li>
+<li>Actualizar paquetes instalados:&nbsp; #<b>apt upgrade</b></li>
+</ul>
+<h4 class="default">3. Configurar IP de la segunda tarjeta de red</h4>
+<p class="default">La configuración de las tarjetas de red en Ubuntu se encuentra en el directorio /etc/network.</p>
+<p class="default">El fichero para configurar las direcciones IP se llama interfaces. A continuación, se añade la configuración IP de la tarjeta de red enp0s8 en red interna.</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>nano</strong><strong> /</strong><strong>etc</strong><strong>/network/interfaces</strong><span style="color: #00b050;"><br># </span><span style="color: #00b050;">interfaces(</span><span style="color: #00b050;">5) file used by </span><span style="color: #00b050;">ifup</span><span style="color: #00b050;">(8) and </span><span style="color: #00b050;">ifdown</span><span style="color: #00b050;">(8)</span><span style="color: #00b050;"><br>auto</span><span style="color: #00b050;"> lo</span><span style="color: #00b050;"><br>iface</span><span style="color: #00b050;"> lo </span><span style="color: #00b050;">inet</span><span style="color: #00b050;"> </span><span style="color: #00b050;">loopback</span><span style="color: #ff0000;"><br>Añadir las líneas siguientes</span><span style="color: #ff0000;"> en el archivo</span><span style="color: #ff0000;">:</span><span style="color: #ff0000;"></span><br>#ip estática en enp0s8<br>auto enp0s8<br>iface enp0s8 inet static<br>address 192.168.100.103<br>netmask 255.255.255.0<br>network 192.168.100.0<br>broadcast 192.168.100.255 </span></p>
+<h5>Reiniciar la red y comprobar que funciona enps08</h5>
+<p class="default">Para que tenga efecto el cambio, se reinicia el servicio de red.<span class="" style="background-color: #dcdcdc;"><strong><br></strong><span>root@SistemasUbuntu:~#</span><strong> service</strong><strong> </strong><strong>networking</strong><strong> </strong><strong>restart</strong><br>root@SistemasUbuntu:~# <strong>ifconfig</strong> <span style="color: #ff0000;">#vemos que enp0s8 </span><span style="color: #ff0000;">tiene la nueva dirección IP asignada</span><br>root@SistemasUbuntu:~# <strong>ping 192.168.100.103</strong> <span style="color: #ff0000;"> </span><span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;">debe responder afirmativamente </span><span style="color: #ff0000;">comprobando que hay conectividad de red en el propio equipo.</span><br>root@SistemasUbuntu:~# <strong>ping 8.8.8.8</strong><span style="color: #ff0000;"><br>#responde pues, tenemos conexión a Internet y esta dirección IP existe. Esta d</span><span style="color: #ff0000;">i</span><span style="color: #ff0000;">rección IP corresponde al servidor DNS de Google.</span> </span></p>
+<h3>Paso 3. Configuración en máquina clienteLinux</h3>
+<p class="default">Esta máquina solo tiene una tarjeta de red. Configurar en VirtualBox la tarjeta en red interna.<br>Al ejecutar ifconfig se observa que solo hay una interfaz de red con el nombre enps03. Se configura la dirección IP en el archivo interfaces:</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <strong>nano /</strong><strong>etc</strong><strong>/</strong><strong>netwok</strong><strong>/interfaces<br></strong><span style="color: #92d050;">…</span><span style="color: #92d050;">....</span><span style="color: #92d050;"><span></span><span></span><br clear="all"></span><span style="color: #ff0000;">#Se a</span><span style="color: #ff0000;">ñad</span><span style="color: #ff0000;">en</span><span style="color: #ff0000;"> las líneas siguientes al final del archivo: </span><br clear="all">#ip estática en enp0s3<br clear="all">auto enp0s3<br clear="all">iface enp0s3 inet static<br clear="all">address 192.168.100.104<br clear="all">netmask 255.255.255.0<br clear="all">network 192.168.100.0<br clear="all">broadcast 192.168.100.255<br clear="all">gateway 192.168.100.103</span></p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"></span></p>
+<p>Recordar que la puerta de enlace o gateway es la dirección IP por la que nos comunicamos con otras redes. En la primera máquina Linux no había que añadir puerta de enlace, pues sale a Internet directamente. Pero esta segunda máquina Linux, saldrá a Internet a través de la primera, configurando como puerta de enlace (gateway) su dirección IP.</p>
+Para que tenga efecto el cambio, se reinicia el servicio de red:<br clear="all">root@clienteLinux:~# <strong>service</strong><strong> </strong><strong>networking</strong><strong> </strong><strong>restart</strong>
+<p></p>
+<p class="default">Además, la primera máquina Linux tiene otra tarjeta de red, con IP 10.0.2.15 que sale a Internet. En el siguiente apartado, se configura para que esta máquina sea un router; de forma que todas estas máquinas puedan salir a Internet a través de la máquina SistemasUbuntu.</p>
+<p class="default"><strong>Comprobaciones de que la nueva conexión funciona:</strong><br><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <b>ifconfig</b> <span style="color: #ff0000;">#vemos que enp0s3 funciona con nueva </span><span style="color: #ff0000;">ip</span><br>root@clienteLinux:~# <b>ping 192.168.100.104</b><span style="color: #ff0000;"><b><br></b>#nuestra propia </span><span style="color: #ff0000;">ip</span><span style="color: #ff0000;"> responde al ping.</span><br>root@clienteLinux:~# <b>ping 192.168.100.103</b> <span style="color: #ff0000;">#responde la otra máquina </span><span style="color: #ff0000;">linux</span><br>root@clienteLinux:~# <b>ping 8.8.8.8</b> <span style="color: #ff0000;">#no responde, pues </span><span style="color: #ff0000;">aunque </span><span style="color: #ff0000;">se haya</span><span style="color: #ff0000;"> configur</span><span style="color: #ff0000;">a</span><span style="color: #ff0000;">do la puerta de enlace, </span><span style="color: #ff0000;">la primera máquina aún no está configurada como </span><span style="color: #ff0000;">router</span><span style="color: #ff0000;">, por lo que no comunica las 2 redes.</span></span></p>
+<p><strong>Observación</strong><br>Ahora hay 4 máquinas en la misma red:<br>Las 2 máquinas Windows con IP 192.168.100.101 y 192.168.100.102<br>Las 2 máquinas Linux con IP 192.168.100.103 y 192.168.100.104<br>Todas con la máscara 255.255.255.0</p>
+<b>Configuración de red en Ubuntu 18.04</b>
+<p class="default">En la versión Ubuntu 18.04, la empresa Canonical ha introducido un servicio de red networkd cuyo objetivo es gestionar la red con scripts (versión Ubuntu 18.04 Server) o gráficamente (network-manager, en versión Ubuntu 18.04 Desktop). <br clear="all">En este libro, se ha utilizado la configuración tradicional basada en archivo /etc/networki/interfaces para la configuración de las distintas tarjetas y el archivo /etc/resolv.conf para los servidores DNS.</p>
+<h4>Resumen de parámetros de la red</h4>
+<ul class="lista_verificacion">
+<li>Archivo con nombre del equipo: <b>/etc/hostname</b></li>
+<li>Archivo de configuración de las conexiones: <b>/etc/network/interfaces</b></li>
+<li>Archivo donde se configura DNS: <b>/etc/resolv.conf</b></li>
+<li>Archivo para establecer DNS local: <b>/etc/hosts</b></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper ParasabermasfpdIdevice em_iDevice" id="id6-2">
+<div class="iDevice emphasis_parasabermasfpd">
+<header class="iDevice_header" style="background-image:url(icon_parasabermasfpd.png)"><h2 class="iDeviceTitle">Para saber más</h2></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta6_128" class="block iDevice_content">
+<p>Para ver más información sobre configurar red en Ubuntu 18.04 ver vínculo:<br clear="all"><span style="color: #000080;"><u><a href="https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux" target="_blank" title="Acceder a configurar ip estática en Ubuntu 18.04" rel="noopener">Configurar ip estática en Ubuntu 18.04</a></u></span></p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-3">
+<header class="nodeDecoration">
+<h1 id="exenode_3_12EnrutamientoenLinux" class="nodeTitle">1.2.- Enrutamiento en Linux.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id7-3">
+<div class="iDevice emphasis0">
+<div id="ta7_154" class="block iDevice_content">
+<div class="level1" id="yui_3_17_2_1_1595951282881_286">
+<p class="título1">En este apartado se va a habilitar el enrutamiento en la máquina SistemasUbuntu. Se activará regla iptables para permitir el tráfico, de forma que el resto de las máquinas salgan a Internet a través del router SistemasUbuntu.</p>
+<p class="título1">Este contenido es el ejercicio 2 de la tarea.</p>
+<h3>Paso 1. Habilitar router en máquina SistemasUbuntu.</h3>
+<p class="default">En <strong>primer lugar</strong> se <strong>activa el servicio de enrutamiento</strong> de Linux. Para ello se activa ip_forward de la forma siguiente: <span class="" style="background-color: #dcdcdc;"> <br>root@SistemasUbuntu:~# <strong>cat /proc/sys/net/ipv4/ip_forward</strong><span style="color: #00b050;"><br>0</span><br>root@SistemasUbuntu:~# <strong>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</strong><span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;"> Con el comando echo, hemos sustituido un 0 por 1 dentro del archivo. De esta forma, decimos a la máquina que va a enrutar.</span></span></p>
+<p class="default">En <strong>segundo lugar</strong> se <strong>activa una regla iptable</strong>, servicio de cortafuegos de Linux, que diga que deja pasar todo el tráfico.<br clear="all"><span class="" style="background-color: #dcdcdc;">root@SistemasUbuntu:~# <strong>iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -d 0/0 -j MASQUERADE</strong><br><span style="color: #ff0000;"># Con esta regla, no hay restricción de tráfico. Si quisiéramos restricciones de tráfico, tendríamos que habilitar más reglas iptables. <br></span></span></p>
+<h3>Paso 2. Comprobar enrutamiento en máquina clienteLinux</h3>
+<p class="default">Para comprobar que la máquina SistemasUbuntu ya está enrutando, se ejecuta ping en la máquina clienteLinux hacia el exterior: <span class="" style="background-color: #dcdcdc;"> <br>root@clienteLinux:~# ping 8.8.8.8 <span style="color: #ff0000;">#R</span><span style="color: #ff0000;">esponde, ya hay comunicación con Internet</span><br>root@clienteLinux:~# ping <a href="http://www.google.es/"><u></u></a><u></u> <a href="http://www.google.es/"><u>www.elpais.es</u></a> <span style="color: #ff0000;">#</span><span style="color: #ff0000;">N</span><span style="color: #ff0000;">o responde, pues no se ha config</span><span style="color: #ff0000;">u</span><span style="color: #ff0000;">rado </span><span style="color: #ff0000;">la </span><span style="color: #ff0000;">dirección </span><span style="color: #ff0000;">IP </span><span style="color: #ff0000;">del servidor DNS.</span><span style="color: #ff0000;"> </span><span style="color: #ff0000;"></span><span style="color: #ff0000;"><br>#No hay ningún equipo en nuestra red que traduzca </span><a href="http://www.google.es/"><u>www.elpais.es</u></a><span style="color: #ff0000;"> a la IP co</span><span style="color: #ff0000;">n</span><span style="color: #ff0000;">creta. </span> </span></p>
+<h4>Configurar DNS en máquinas Linux</h4>
+<p>Cuando se utilizan direcciones IP estáticas, además de la máscara de red, se debe configurar la puerta de enlace y los servidores DNS a utilizar. En este caso, se ha decidido configurar como DNS los propios servidores DNS de Google con direcciones IP 8.8.8.8 (DNS primario) e IP 8.8.4.4 (DNS secundario). Siempre se configuran 2 servidores DNS por si el primero falla en la conexión.</p>
+<p class="standard">Para realizarlo, ejecutar: <span class="" style="background-color: #dcdcdc;"> <br>root@clienteLinux:~# <strong>mv /etc/resolv.conf /etc/resolv.conf.old</strong><span style="color: #ff0000;"></span><span style="color: #ff0000;"><br>#Guardamos </span><span style="color: #ff0000;">el archivo resolv.conf original</span><span style="color: #ff0000;"> con otro nombre,</span><span style="color: #ff0000;"> </span><span style="color: #ff0000;">por si </span><span style="color: #ff0000;">en un futuro queremos tener el archivo original. </span><span style="color: #ff0000;">A continuación se insertan los 2 DNS en el archivo.</span><br>root@clienteLinux:~# <strong>echo nameserver 8.8.8.8 &gt; /etc/resolv.conf</strong><br>root@clienteLinux:~# <strong>echo nameserver 8.8.4.4 &gt;&gt; /etc/resolv.conf</strong><br>root@clienteLinux:~# <strong>cat /etc/resolv.conf</strong><span style="color: #00b050;"><br>nameserver 8.8.8.8</span><span style="color: #00b050;"><br>nameserver 8.8.4.4</span><br>root@clienteLinux:~# <strong>ping </strong><strong>www.elpais.es</strong><strong> </strong> <span style="color: #ff0000;">#</span><span style="color: #ff0000;">ya </span><span style="color: #ff0000;">responde afirmativamente</span><span style="color: #ff0000;">, pues</span><span style="color: #ff0000;"> </span><span style="color: #ff0000;">e</span><span style="color: #ff0000;">l </span><span style="color: #ff0000;">servidor </span><span style="color: #ff0000;">DNS </span><span style="color: #ff0000;">sabe que IP tiene el servidor www.elpais.es</span></span></p>
+<h3>Paso 3. Realizar un script con inicio automático, para que el enrutamiento se inicie siempre.</h3>
+<p class="default">Si reiniciamos la máquina SistemasUbuntu, ya no enrutará. Es decir, la máquina clienteLinux ya no responde afirmativamente a ping 8.8.8.8.</p>
+<p class="default">¿Cómo solucionarlo?<br clear="all">Crear un script con los comandos del paso 1. Este script se ejecutará siempre que se inicie el equipo de forma automática.<br>En Ubuntu el archivo <strong>/etc/rc.local se </strong><strong>ejecuta siempre que se inicia GNU-Linux</strong><strong>.</strong><br>En Ubuntu 18.04 este archivo no existe, pero lo creamos e introducimos los comandos vistos:</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>nano /etc/rc.local</strong><span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;">Se e</span><span style="color: #ff0000;">scrib</span><span style="color: #ff0000;">en</span><span style="color: #ff0000;"> las 4 líneas siguientes:</span><br>#!/bin/bash<br>echo 1 &gt; /proc/sys/net/ipv4/ip_forward<br>iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -d 0/0 -j MASQUERADE<br clear="all">exit 0&nbsp;&nbsp;&nbsp; <span style="color: #ff0000;">#Siempre </span><span style="color: #ff0000;">debe ser </span><span style="color: #ff0000;">la última línea de</span><span style="color: #ff0000;">l script</span><span style="color: #ff0000;"> rc.local</span><br>root@SistemasUbuntu:~# <strong>chmod +x /etc/rc.local</strong><span style="color: #ff0000;"><br>#Se cambia permisos al archivo para que sea ejecutable.</span><br>root@SistemasUbuntu:~# <strong>reboot</strong><span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;">Al reiniciar el equipo, se ejecuta rc.local, de forma que esta máquina ya enruta en todo momento.</span><span style="color: #ff0000;"> Comprobar que clienteLinux responde bien a ping </span><span style="color: #ff0000;">www.elpais.es</span> </span></p>
+<h3>Paso 4. Salida a Internet de máquinas Windows cliente1 y cliente2</h3>
+<p class="default">Para que las máquinas Windows de la unidad 9 salgan a Internet, solo falta configurar en ellas la puerta de enlace y el servidor DNS que en su momento los dejamos en blanco según captura.<br>Configurar como puerta de enlace la máquina SistemasUbuntu: 192.168.100.103<br>Configurar como DNS los servidores de Google, 8.8.8.8 y 8.8.4.4.</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 200px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Puerta_de_enlace_y_servidor_DNS.png" rel="lightbox" title="Ampliar Puerta de enlace y servidor DNS"><img src="./SI10 - Administración de redes GNU-Linux_files/Puerta_de_enlace_y_servidor_DNS.png" alt="Ilustración que muestra como se configura puerta de enlace y DNS" title="Puerta de enlace y servidor DNS" class="img-responsive atto_image_button_text-bottom" width="200" height="133"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<p class="default" style="text-align: center;"></p>
+<p class="default">Tener en cuenta que según la memoria RAM de la máquina anfitrión es posible que solo se puedan tener 2 o 3 máquinas virtuales encendidas. Reconfigurar si es necesaria la memoria de cada máquina en VirtualBox. Si las máquinas son de 64 bits, dejar 1600 MB en cada una. Si son de 32 bits, sólo 1024 MB.<br>En esta unidad, para realizar las prácticas siempre tendrá que estar encendida la máquina SistemasUbuntu, y alguna más como mínimo.</p>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-4">
+<header class="nodeDecoration">
+<h1 id="exenode_4_13ServiciosycomandosTCPIPenGNULinux" class="nodeTitle">1.3.- Servicios y comandos TCP/IP en GNU-Linux.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id8-4">
+<div class="iDevice emphasis0">
+<div id="ta8_154" class="block iDevice_content">
+<div class="box generalbox book_content" id="yui_3_17_2_1_1595951690258_282">
+<div class="no-overflow" id="yui_3_17_2_1_1595951690258_287">
+<div class="level1" id="yui_3_17_2_1_1595951690258_286">
+<h3>Servicios en GNU-Linux</h3>
+<p class="default">Los servicios en Linux se configuran con un archivo de texto, normalmente con extensión "conf". Así, una vez instalado el servicio web Apache se configura en el archivo /etc/apache2/apache2.conf</p>
+<p class="default">Los servicios en Linux se pueden parar e iniciar con el comando <b>service</b>. Hay 4 opciones: <b>stop, start, restart, status</b>.</p>
+<p class="default">Como ejemplo, para el servicio networking (servicio de red) se puede ejecutar: <span class="" style="background-color: #dcdcdc;"> <br># service networking start<span style="color: #ff0000;">&nbsp;&nbsp; #iniciar servicio de red</span><br># service networking stop<span style="color: #ff0000;">&nbsp;&nbsp; #parar servicio de red</span><br># service networking restart&nbsp; <span style="color: #ff0000;">#reiniciar servicio de red</span><br># service networking status<span style="color: #ff0000;">&nbsp; #informa si el servicio se está ejecutando o está parado. Cuando se está ejecutando, aparece la palabra </span><span style="color: #00b150;">running</span> <span style="color: #ff0000;">(en color verde). </span> </span></p>
+<h3>Comandos TCP/IP en Linux</h3>
+<p class="default">Los comandos TCP/IP como dicen su nombre, no son exclusivos de Windows o Linux, sino del protocolo TCP.&nbsp; De ahí que los comandos realizan la misma acción y sólo cambia el nombre alguno ligeramente. La relación en Linux son:</p>
+<ul class="lista_verificacion">
+<li>ifconfig /all (equivale a ipconfig en Windows)</li>
+<li>ping</li>
+<li>hostname</li>
+<li>arp</li>
+<li>traceroute (equivale a tracert en Windows)</li>
+<li>netstat</li>
+<li>nslookup</li>
+<li>route</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-5">
+<header class="nodeDecoration">
+<h1 id="exenode_5_2ServicioSAMBA" class="nodeTitle">2.- Servicio SAMBA.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id9-5">
+<div class="iDevice emphasis0">
+<div id="ta9_154" class="block iDevice_content">
+<div class="level1">El servicio SAMBA sirve para compartir recursos entre máquinas Windows y Linux, para ello se utiliza el protocolo SMB, que es el que se encarga de compartir recursos en Windows. Si solo se comparten recursos entre máquinas Linux, el servicio nativo para ese fin es el servicio NFS que se verá en libro siguiente de esta misma unidad. <b><br></b></div>
+<div class="level1"><b>&nbsp;</b></div>
+<div class="level1"><b>Características del servicio Samba</b><br>
+<ul class="lista_verificacion">
+<li>Se utilizan los puertos 137, 138, 139 y 443. Puertos 137 y 138 con protocolo UDP y 139 y 443 con protocolo TCP.</li>
+<li>Los servicios en Linux, se configuran en un archivo. En el caso de Samba el <strong>archivo de configuración es /</strong><strong>etc</strong><strong>/samba/</strong><strong>smb.conf</strong></li>
+<li>Cuando se tenga el recurso compartido, desde un cliente Linux, podremos acceder al recurso con el comando mount y sistema de ficheros cifs; desde un cliente Windows, a través del explorador en Red o con la ruta UNC.</li>
+</ul>
+El servicio Samba se instala y configura en el ejercicio 3 de la tarea.<br>
+<h4>Paso 1. Instalación del servidor Samba. En máquina router.</h4>
+<p class="default">Instalar SAMBA, con los 2 paquetes siguientes (se va a instalar la versión 4.3 que se encuentra en repositorios de Ubuntu 18.04):<br clear="all">root@SistemasUbuntu:~# <b>apt-get install samba samba-common-bin</b></p>
+<p class="default">Comprobar si está activo SAMBA. Para ello, hay que saber que SAMBA está compuesto de 2 demonios: smbd y nmbd. Comprobamos con service que están corriendo. Se verá running en verde: <span class="" style="background-color: #dcdcdc;"> <br>root@SistemasUbuntu:~# <b>service smbd status</b></span></p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"><br>● nmbd.service - LSB: start Samba NetBIOS nameserver (nmbd)<br>Loaded: loaded (/etc/init.d/nmbd; bad; vendor preset: enabled)<br>Active: <strong><span style="color: #009900;">active (running)</span></strong> since dom 2018-04-22 23:30:15 CEST; 2s ago<br>……..…… <span style="color: #ff0000;">(</span><span style="color: #ff0000;">para</span><span style="color: #ff0000;"> salir pulsar</span><span style="color: #ff0000;"> q)</span><br>root@SistemasUbuntu:~# <b>service nmbd status</b> </span></p>
+<h4>Paso 2. Configuración del archivo /etc/samba/smb.conf</h4>
+<p class="default"><b>Editar el archivo smb.conf</b> y donde aparece workgroup, rellenar el nombre del grupo de trabajo de tus máquinas windows de la unidad 9. (Si apareciera la línea comentada habría que descomentarla)<br><b>workgroup = NOMBRE_GRUPO_TRABAJO</b></p>
+<p class="default">Para este ejemplo, se van a compartir 2 recursos. Una carpeta pública para todos los usuarios, con permisos de solo lectura y otra privada para algunos usuarios, con permisos de lectura y escritura. Para ello, <b>añadir al final de archivo smb.conf</b>:</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> [publico]<br>path = /samba/lectura<br>browseable = yes<br>guest ok = yes<br>read only = yes<br><br>[escritura]<br>path = /samba/escritura<br>browseable = yes<br>guest ok = no<br>writeable = yes<br>valid users = @samba </span></p>
+<p class="default"><strong>Significado de las distintas etiquetas: </strong></p>
+<ul class="lista_verificacion">
+<li>La etiqueta browseable = yes, sirve para que los usuarios conectados, puedan ver en el explorador el recurso, sino es un recurso secreto.</li>
+<li>En el recurso lectura se ha permitido el acceso a invitados (guest ok = yes), sin embargo, en el recurso escritura no (guest ok = no)</li>
+<li>En escritura, se ha permitido el acceso a los usuarios que pertenezcan al grupo samba de nuestro Linux (valid users = @samba). También se podría poner usuarios concretos, sin utilizar @. Por ejemplo para permitir acceso a juan y a los usuarios del grupo samba se especifica: <br clear="all">valid users = juan, @samba</li>
+</ul>
+<h4>Paso 3. Creación de usuario, grupos, carpetas y permisos en la máquina servidor.</h4>
+<p class="default">Vamos a crear el grupo samba, e introducir en dicho grupo a los usuarios juan y juana. (juan es un usuario nuevo, y juana un usuario de los creados en la práctica de la unidad 9)</p>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>adduser</strong><strong> </strong><strong>juan</strong><br>root@SistemasUbuntu:~# <strong>addgroup</strong><strong> samba</strong><br>root@SistemasUbuntu:~# <strong>adduser</strong><strong> juan samba</strong><br>root@SistemasUbuntu:~# <strong>adduser</strong><strong> </strong><strong>juana</strong><strong> samba</strong><span style="color: #00b050;"><br>#Creamos la carpeta samba y subcarpetas lectura y escritura. Cambiamos la pr</span><span style="color: #00b050;">o</span><span style="color: #00b050;">piedad de la carpeta al grupo samba, y sus permisos, de forma que puedan guardar cambios todos los usuarios del grupo.</span><br>root@SistemasUbuntu:~# <strong>mkdir</strong><strong> /samba</strong><br>root@SistemasUbuntu:~# <strong>mkdir</strong><strong> /samba/lectura</strong><br>root@SistemasUbuntu:~# <strong>mkdir</strong><strong> /samba/</strong><strong>escritura</strong><br>root@SistemasUbuntu:~# <strong>chgrp</strong><strong> samba -R /samba</strong><br>root@SistemasUbuntu:~# <strong>chmod</strong><strong> 770 -R /samba</strong> </span></p>
+<p class="default">Todos estos comandos son comandos de administración de Linux explicados en las unidades 5 y 6. Ahora, se utilizan comandos específicos de Samba, para añadir a los usuarios juan y juana como usuarios del servicio samba. Para ello:<br><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>smbpasswd</strong><strong> -a </strong><strong>juan</strong><br>root@SistemasUbuntu:~# <strong>smbpasswd</strong><strong> -a </strong><strong>juana</strong> </span></p>
+<p class="default">Una vez realizados cambios en los archivos de configuración de cualquier servicio, hay que reiniciarlo para que surtan efecto los cambios. En el caso de Samba, reiniciamos los 2 demonios:<br><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <b>service smbd restart</b><br>root@SistemasUbuntu:~# <b>service nmbd restart </b></span></p>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-6">
+<header class="nodeDecoration">
+<h1 id="exenode_6_21Conexindesdemquinascliente" class="nodeTitle">2.1.- Conexión desde máquinas cliente.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id10-6">
+<div class="iDevice emphasis0">
+<div id="ta10_154" class="block iDevice_content">
+<div class="level1" id="yui_3_17_2_1_1595951891940_287">
+<h4>Conexión desde máquinas clientes Windows</h4>
+<p class="default" id="yui_3_17_2_1_1595951891940_286">Iniciar máquina cliente1 de la unidad 9. Recuerda, que hemos configurado en archivo de samba, el nombre del grupo de trabajo. Conectar a la máquina a traves del explorador con Red o con la ruta UNC \\SistemasUbuntu. Se abrirá la ventana con los recursos compartidos lectura y escritura.<br>Al pulsar doble clic para realizar la conexión se solicita usuario, conectar con juan.<br>Si sale el mensaje de que no se tiene acceso, ejecutar los 2 comandos que se ven en la captura.</p>
+<p>A continuación se accede a ambas carpetas, con los permisos correctos.</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 199px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Acceso_cliente_Samba_en_Windows.png" rel="lightbox" title="Ampliar Acceso cliente Samba en Windows"><img src="./SI10 - Administración de redes GNU-Linux_files/Acceso_cliente_Samba_en_Windows.png" alt="Ilustracion que muestra el acceso cliente Samba en Windows" title="Acceso cliente Samba en Windows" class="img-responsive atto_image_button_text-bottom" width="199" height="91"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<h4>Conexión desde máquinas clientes Linux</h4>
+<p class="default">Para realizar la conexión desde la máquina “clienteLinux” seguir los pasos siguientes:</p>
+<h5>Instalar software para el cliente:</h5>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# apt install samba-common-bin<br clear="all">root@clienteLinux:~# apt install cifs-utils </span></p>
+<h5>Realizar conexión gráfica</h5>
+<p class="default">Desde el explorador de archivos Nautilus, si pulsamos en RED, ya se ve la máquina SistemasUbuntu. En la captura se realiza una conexión al recurso escritura con el usuario juan.</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 201px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Acceso_cliente_Samba_en_Linux.png" rel="lightbox" title="Ampliar scceso cliente Samba en Linux"><img src="./SI10 - Administración de redes GNU-Linux_files/Acceso_cliente_Samba_en_Linux.png" alt="Ilustración que muestra como se accede desde un cliente a samba" title="Acceso cliente Samba en Linux" class="img-responsive atto_image_button_text-bottom" width="201" height="88"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><span class="Hipervnculo-H" style="font-size: 10pt;"></span></a></figure>
+<h5>Realizar conexión desde terminal. Comando mount:</h5>
+<p class="default"><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <strong>mkdir</strong><strong> /</strong><strong>mnt</strong><strong>/escritura</strong><br clear="all"><span style="color: #ff0000;">#Se utiliza el comando </span><span style="color: #ff0000;">mount</span><span style="color: #ff0000;">, con sistema de ficheros </span><span style="color: #ff0000;">cifs</span><span style="color: #ff0000;"> y usuario juan.</span><span style="color: #ff0000;"><br clear="all"></span>root@clienteLinux:~# <strong>mount</strong><strong> -t </strong><strong>cifs</strong><strong> -o </strong><strong>user</strong><strong>=</strong><strong>juan,pass</strong><strong>=clave //192.168.100.103/escritura /</strong><strong>mnt</strong><strong>/escritura</strong><br clear="all">root@clienteLinux:~# <strong>mkdir</strong><strong> /</strong><strong>mnt</strong><strong>/escritura/carpeta2</strong><br clear="all"><span style="color: #ff0000;">#Se ha creado carpeta2 en servidor Linux</span> </span></p>
+<p class="default">¿Qué hacer para que el usuario no tenga que utilizar el comando mount cada vez que se conecte? <br clear="all">Se añade en /etc/fstab la línea de montaje automático (en la unidad 6)<br><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <strong>nano /</strong><strong>etc</strong><strong>/</strong><strong>fstab</strong><span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;">Añadir al final del archivo la línea siguiente:</span><br>//192.168.100.103/escritura /mnt/escritura cifs rw,username=juan 0 0<span style="color: #ff0000;"><br>#</span><span style="color: #ff0000;">Al iniciar el equipo, </span><span style="color: #ff0000;">antes de comenzar sesión en GNU-Linux se pregunta usu</span><span style="color: #ff0000;">a</span><span style="color: #ff0000;">rio de acceso a los recursos de Sam</span><span style="color: #ff0000;">ba.</span> </span></p>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper EleccionmultiplefpdIdevice em_iDevice" id="id18-6">
+<div class="iDevice emphasis_autoevaluacionfpd">
+<header class="iDevice_header" style="background-image:url(icon_autoevaluacionfpd.gif)"><h2 class="iDeviceTitle">Autoevaluación</h2></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<section class="question">
+<form name="multi-choice-form-18_141" action="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#" onsubmit="return false" class="activity-form">
+<h1 class="js-sr-av">Pregunta</h1>
+<div id="taquestion18_141" class="block question iDevice_content">
+<p>¿Cual es falsa sobre Samba?</p>
+</div>
+<section class="iDevice_answers">
+<h1 class="js-sr-av">Respuestas</h1>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i18_144" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_144">Opción 1</a></label><input type="radio" name="option18_141" id="i18_144" class="exe-radio-option exe-radio-option-0-4-18_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-18_144"><div id="taans18_144" class="block iDevice_content">
+<p>Samba permite compartir recursos entre máquinas Windows y Linux</p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i18_2439" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2439">Opción 2</a></label><input type="radio" name="option18_141" id="i18_2439" class="exe-radio-option exe-radio-option-1-4-18_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-18_2439"><div id="taans18_2439" class="block iDevice_content">
+<p>El fichero de configuración es /etc/samba/smb.conf</p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i18_2442" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2442">Opción 3</a></label><input type="radio" name="option18_141" id="i18_2442" class="exe-radio-option exe-radio-option-2-4-18_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-18_2442"><div id="taans18_2442" class="block iDevice_content">
+<p>Utiliza 2 puertos</p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i18_2445" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2445">Opción 4</a></label><input type="radio" name="option18_141" id="i18_2445" class="exe-radio-option exe-radio-option-3-4-18_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-18_2445"><div id="taans18_2445" class="block iDevice_content">
+<p>Para montar un recurso se utiliza la opción cifs en el comando mount</p>
+</div>
+</div>
+</section>
+</section>
+<section class="iDevice_feedbacks js-feedback" role="status">
+<h1 class="js-sr-av">Retroalimentación</h1>
+<section id="sa0b18_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+<section id="sa1b18_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+<section id="sa2b18_141" class="feedback js-hidden">
+<p>Opción correcta</p>
+</section>
+<section id="sa3b18_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+</section>
+</form>
+<section class="iDevice_solution feedback js-hidden">
+<h1>Solución</h1>
+<ol>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_144">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa0b18_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2439">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa1b18_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2442">Opción correcta</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa2b18_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-18_2445">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa3b18_141">Retroalimentación</a>)</span></li>
+</ol>
+</section>
+</section>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-7">
+<header class="nodeDecoration">
+<h1 id="exenode_7_3ServicioNFS" class="nodeTitle">3.- Servicio NFS.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id11-7">
+<div class="iDevice emphasis0">
+<div id="ta11_154" class="block iDevice_content">
+<h3>Instalación y configuración del servidor NFS</h3>
+<div class="no-overflow">
+<p></p>
+<div class="level1">El servicio NFS comparte recursos entre máquinas Linux, sin ser compatible con máquinas Windows. El servicio NFS es más seguro que Samba. </div>
+<div class="level1">Una vez instalado el servicio, se configurarán las carpetas a compartir en el <b>archivo de configuración /etc/exports</b>.&nbsp; A continuación se reinicia el servicio. <br>Para la conexión de los clientes se utiliza el comando mount.</div>
+<div class="level1"></div>
+<div class="level1">El servicio NFS se instala y configura en el ejercicio 4 de la tarea.<br><b><br></b></div>
+<div class="level1"><b>Paso 1. Instalar servidor NFS</b>
+<p class="preformattedtext"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>apt</strong><strong> </strong><strong>install</strong><strong> </strong><strong>nfs</strong><strong>-</strong><strong>kernel</strong><strong>-server</strong> </span></p>
+<p class="preformattedtext"><b>Paso 2. Configurar que recursos se comparten en el archivo /etc/exports</b> <br clear="all"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <strong>nano /</strong><strong>etc</strong><strong>/</strong><strong>exports</strong> <br clear="all"><span style="color: #ff0000;">#Añadir al final del fichero las 2 líneas siguientes:</span><br clear="all">/nfs/escritura 192.168.100.104(rw)<br clear="all">/nfs/lectura 192.168.100.0/24(ro) <span style="color: #ff0000;"> <br clear="all">#La primera línea comparte con escritura (read write) exclusivamente al equipo 192.168.100.104.<br clear="all">#La segunda línea comparte solo lectura (read only) a todos los equipos de nuestra red (observa que queda totalmente definida, pues se pone la dirección de red y los bits de la máscara. </span></span></p>
+<p class="preformattedtext"><b>Paso 3. Se crean las carpetas y se cambian los propietarios al usuario nobody y grupo nogroup</b> <span class="" style="background-color: #dcdcdc;"> <br clear="all">root@SistemasUbuntu:~# <b>sudo mkdir /nfs</b><br clear="all">root@SistemasUbuntu:~# <b>sudo mkdir /nfs/lectura</b><br clear="all">root@SistemasUbuntu:~# <b>sudo mkdir /nfs/escritura</b><br clear="all"><span style="color: #ff0000;"> #Para que no haya problema de acceso, la carpeta tiene que pertenecer al usuario nobody y al grupo nogroup (usuario y grupo genéricos de Linux para servicios) </span> <br clear="all">root@SistemasUbuntu:~# <b>sudo chown -R nobody /nfs </b><br clear="all">root@SistemasUbuntu:~# <b>sudo chgrp -R nogroup /nfs</b><br clear="all"><span style="color: #ff0000;"> #Se crea un archivo en la carpeta lectura </span> <br clear="all">root@SistemasUbuntu:~<b># echo hola &gt; /nfs/lectura/saludo.txt</b><br><span style="color: #ff0000;"> #Se cambian los permisos, de forma que puedan realizar todos los cambios en la carpeta el usuario y grupos propietarios: </span> <br>root@SistemasUbuntu:~# <b>chmod -R 770 /nfs</b><br><span style="color: #ff0000;"> # Se reinicia el servidor, de esa forma se lee el archivo /etc/exports y comprueba la existencia de los directorios compartidos.</span> <br>root@SistemasUbuntu:~# <b>service nfs-kernel-server restart</b> </span></p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-8">
+<header class="nodeDecoration">
+<h1 id="exenode_8_31ClienteNFS" class="nodeTitle">3.1.- Cliente NFS.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id12-8">
+<div class="iDevice emphasis0">
+<div id="ta12_154" class="block iDevice_content">
+<h4>Instalar cliente NFS en equipo clienteLinux y montar recurso con mount</h4>
+<p class="preformattedtext"><b>Instalar cliente NFS<br clear="all"></b> <span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <b>apt install nfs-common</b></span></p>
+<p class="preformattedtext"><b>Crear las carpeta donde se van a montar los recursos<br clear="all"></b> <span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <b>mkdir /mnt/nfs</b><br clear="all">root@clienteLinux:~# <b>mkdir /mnt/nfs/lectura</b><br clear="all">root@clienteLinux:~# <b>mkdir /mnt/nfs/escritura</b></span></p>
+<p class="preformattedtext"><b>Montar el recurso de lectura. Comprobar que se tiene lectura y no escritura</b> <br clear="all"><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <b>mount -t nfs 192.168.100.103:/nfs/lectura /mnt/nfs/lectura</b> <span style="color: #ff0000;"> <br># Se comprueba que se puede leer el archivo saludo.txt creado en el servidor</span><br>root@clienteLinux:~# <b>ls -l /mnt/nfs/lectura</b> <br clear="all"><span style="color: #00b050;">total 4 <br clear="all">-rw-r--r-- 1 root root 5 abr 23 11:56 saludo.txt </span> <br clear="all">root@clienteLinux:~# <b>cat /mnt/nfs/lectura/saludo.txt</b> <br clear="all"><span style="color: #00b050;">hola</span> <br><span style="color: #ff0000;"> # Se comprueba que no se puede escribir: </span> <br>root@clienteLinux:~# <b>echo soyCliente &gt; /mnt/nfs/lectura/cliente.txt</b> <br clear="all"><span style="color: #00b050;">bash</span><span style="color: #00b050;">: /</span><span style="color: #00b050;">mnt</span><span style="color: #00b050;">/</span><span style="color: #00b050;">nfs</span><span style="color: #00b050;">/lectura/cliente.txt: Sistema de archivos de solo lectura</span></span></p>
+<p class="preformattedtext"><b>Montar el recurso de escritura. Se comprueba que se puede escribir</b> <br clear="all"><span class="" style="background-color: #dcdcdc;"> root@clienteLinux:~# <b>mount -t nfs 192.168.100.103:/nfs/escritura /mnt/nfs/escritura</b><br clear="all">root@clienteLinux:~# <b>echo soyCliente &gt; /mnt/nfs/escritura/cliente.txt</b><br clear="all"></span></p>
+<h4>Archivo /etc/fstab líneas para no montar cada vez que se inicia el PC</h4>
+<p class="preformattedtext">Para no tener que utilizar el comando mount en cada sesión, se añaden las líneas correspondienes en el archivo /etc/fstab<br><span class="" style="background-color: #dcdcdc;"> </span></p>
+<p class="preformattedtext"><span class="" style="background-color: #dcdcdc;"><span>root@clienteLinux:~#</span><b> sudo nano /etc/fstab<br clear="all"></b><span style="color: #ff0000;">#Añadir las 2 líneas siguientes:</span> <br clear="all">192.168.100.103:/nfs/lectura&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /mnt/nfs/lectura&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nfs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ro,intr,x-gvfs-show&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; 0<br clear="all">192.168.100.103:/nfs/escritura&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /mnt/nfs/escritura&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nfs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rw,intr,x-gvfs-show&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp; 0 </span></p>
+<p class="preformattedtext"><u>Observaciones sobre las opciones:</u><u><br clear="all"></u></p>
+<ul class="lista_verificacion">
+<li>Se monta con sistema nfs, y las opciones son:</li>
+<li>ro/rw (read only/ read write según permiso en carpeta de servidor)</li>
+<li>intr: evita bloqueo en caso de error</li>
+<li>x-gvfs-show: que se monte gráficamente, además de terminal</li>
+</ul>
+<p class="preformattedtext"></p>
+<p style="punctuation-wrap: hanging; line-height: 1;">Al iniciar el equipo, además de tener acceso en terminal, en el explorador de archivos Nautilus, habrá un acceso directo a las 2 carpetas.</p>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-9">
+<header class="nodeDecoration">
+<h1 id="exenode_9_4Serviciossh" class="nodeTitle">4.- Servicio ssh.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id13-9">
+<div class="iDevice emphasis0">
+<div id="ta13_154" class="block iDevice_content">
+<h3>Accesos remotos</h3>
+<div class="no-overflow">
+<p></p>
+<div class="level1">
+<p class="default">El servicio acceso remoto consiste en acceder desde un equipo a otro de la red, y trabajar como si físicamente se estuviera en él. Los servicios más utilizados para acceder de forma remota a un sistema GNU/Linux son:</p>
+<ul class="lista_verificacion">
+<li>Telnet. Permite acceder al sistema de forma remota por terminal, pero de una manera no segura.</li>
+<li>Open SSH. Permite acceder al sistema por terminal, pero de forma segura ya que se cifran las comunicaciones. Además, permite transferir archivos.</li>
+<li>VNC. Mientras que los servicios telnet y SSH permiten conectarse al servidor por medio de un terminal, el servidor VNC permite utilizar el servidor utilizando el escritorio instalado en el sistema: GNOME o KDE.</li>
+</ul>
+<h3><span class="InternetLink-H" style="color: #00000a;">Parámetros de ssh e instalación</span><span class="InternetLink-H" style="color: #00000a;"></span><span class="InternetLink-H" style="color: #00000a;"></span></h3>
+<ul class="lista_verificacion">
+<li>El servicio ssh se puede instalar tanto en Windows como en Linux. Igualmente se puede aceder con clientes de ambos sistemas.</li>
+<li>El servicio ssh utiliza el puerto 22.</li>
+<li>Los usuarios de conexión, son los propios de la máquina Linux donde está instalado el servidor.</li>
+<li>El servicio ssh tiene dos ventajas muy importantes con respecto al servicio Telnet:<br>-&nbsp; El servicio ssh es seguro a diferencia de telnet.<br>-&nbsp; El servicio ssh además de acceso remoto permite la transferencia de ficheros con la utilidad scp.</li>
+</ul>
+En el ejercicio 5 de la tarea se instala y se realizan conexiones con el servicio ssh.<br>Para instalar el servidor ssh se ejecuta en la máquina servidor:<br clear="all">
+<p class="preformattedtext"><span class="" style="background-color: #dcdcdc;"> root@SistemasUbuntu:~# <b>apt install ssh<br></b> <span style="color: #ff0000;">#Comprobamos que ya se está ejecutando</span> <br>root@SistemasUbuntu:~# <b>service ssh status</b> <br clear="all"></span></p>
+<p class="preformattedtext">En el <b>archivo de configuración /etc/ssh/sshd_config</b> se configuran usuarios y/o equipos cliente que se les permite conectar.<br clear="all">En este caso, no le vamos a configurar. Por defecto se permite conectar desde toda la red y todos los usuarios del equipo.</p>
+<h3>Conexión desde equipos cliente</h3>
+<p class="preformattedtext">En el cliente no hay que instalar nada, simplemente conectarse con:<br clear="all">$ <b>ssh user@IP</b><br clear="all">$ <b>ssh user@Nombre_Equipo</b></p>
+<p class="preformattedtext">Se está utilizando acceso remoto, de forma que físicamente se va a trabajar en la máquina clienteLinux, pero controlando la máquina servidor SistemasUbuntu. Por lo que tendremos que conectarnos con un usuario de la máquina servidor. Si nos conectamos con un usuario y password configurado en ambas máquinas, bastará para realizar la conexión con: $ <b>ssh IP</b></p>
+<h4 class="preformattedtext"><b><strong>Ejemplo de conexión</strong></b></h4>
+<p><span class="" style="background-color: #dcdcdc;"> miguel@clienteLinux:~$ <b>ssh 192.168.100.103 </b> <br clear="all"><span style="color: #ff0000;">#conectar al servidor como miguel</span> <br clear="all"><span style="color: #00b050;">………………………</span> <br clear="all"><span style="color: #00b050;">miguel@192.168.100.103's </span><span style="color: #00b050;">password</span><span style="color: #00b050;">: </span><br clear="all"><span style="color: #00b050;">……………….</span> <br clear="all">miguel@SistemasUbuntu:~$ <b>exit </b> <br clear="all"><span style="color: #ff0000;">#se observa que la propia </span><span style="color: #ff0000;">shell</span><span style="color: #ff0000;"> dice que la máquina actual es </span><span style="color: #ff0000;">SistemasUbuntu</span><span style="color: #ff0000;">. Se p</span><span style="color: #ff0000;">uede ejecutar cualquier comando</span><span style="color: #ff0000;"> como si se estuviera físicamente en </span><span style="color: #ff0000;">SistemasUbuntu</span><span style="color: #ff0000;">.</span> <br clear="all"><span style="color: #ff0000;">#Al escribir </span><span style="color: #ff0000;">exit</span><span style="color: #ff0000;">, se sale de la sesión, y se vuelve al equipo cliente. </span><br clear="all"><span style="color: #00b050;">logout</span> <br clear="all"><span style="color: #00b050;">Connection</span><span style="color: #00b050;"> </span><span style="color: #00b050;">to</span><span style="color: #00b050;"> 192.168.100.103 </span><span style="color: #00b050;">closed</span><span style="color: #00b050;">.</span><br clear="all">miguel@clienteLinux:~$ <b>ssh juan@192.168.100.103</b> <br clear="all"><span style="color: #ff0000;">#Se vuelve a realizar conexión al servidor, ahora como juan. El usuario juan existe en la máquina servidor, pero no en la </span><span style="color: #ff0000;">máquina </span><span style="color: #ff0000;">cliente.</span><br clear="all"><span style="color: #00b050;">juan@192.168.100.103's </span><span style="color: #00b050;">password</span><span style="color: #00b050;">: </span><br clear="all"><span style="color: #00b050;">…………………</span><br clear="all"><span style="color: #ff0000;">#Se pregunta quien está conectado (</span><span style="color: #ff0000;">who</span><span style="color: #ff0000;">). Devuelve el usuario miguel en la propia máquina </span><span style="color: #ff0000;">SistemasUbuntu</span><span style="color: #ff0000;"> y el usuario juan, desde la red, desde la máquina 192.168.100.104</span><br clear="all">juan@SistemasUbuntu:~$ <b>who</b> <br clear="all"><span style="color: #00b150;">miguel :0 2019-04-16 20:21 (:0)<br clear="all">juan pts/1 2019-04-17 22:52 (192.168.100.104) </span> <br clear="all">juan@SistemasUbuntu:~$ <b>exit</b>&nbsp;&nbsp;&nbsp; <span style="color: #ff0000;">#Sal</span><span style="color: #ff0000;">ir </span><span style="color: #ff0000;">de </span><span style="color: #ff0000;">ssh</span> <br clear="all"><span style="color: #00b050;">logout</span><br clear="all"><span style="color: #00b050;">Connection</span><span style="color: #00b050;"> </span><span style="color: #00b050;">to</span><span style="color: #00b050;"> 192.168.100.103 </span><span style="color: #00b050;">closed</span><span style="color: #00b050;">.</span></span></p>
+<h4>Transferir archivos con comando scp.</h4>
+<p class="preformattedtext">El servicio ssh, incorpora el comando scp para copiar ficheros de la máquina servidor a la máquina cliente, o viceversa. Dicho de otra forma, el servicio ssh incorpora con el <b>comando scp</b> un servicio ftp que además es seguro y se conoce como <b>sftp.</b></p>
+<p class="preformattedtext"><b>Observación<u> <br></u></b>El comando scp se utiliza sin necesidad de realizar una conexión previa al servidor.</p>
+<p class="preformattedtext"><b>Sintaxis</b><br clear="all">scp [-r] [origen] [destino]<br clear="all">dónde, origen o destino lo forman: [usuario@maquina:archivo]<br clear="all">La opción –r es de recursiva para enviar o recibir una carpeta completa.</p>
+<p><strong>Ejemplo para enviar:</strong><br>$ scp practica.odt juan@192.168.100.103:/home/juan/practica.odt <br>Se envía el archivo practica.odt al servidor ssh 192.168.100.103&nbsp;</p>
+<p><strong>Ejemplo para recibir</strong><br>$ scp <a href="mailto:juan@192.168.100.103:/home/juan/practica.odt"><u>juan@192.168.100.103:/home/juan/practica.odt</u></a> nombre.odt<br>Se recibe el archivo practica.odt desde el servidor ssh 192.168.100.103</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-10">
+<header class="nodeDecoration">
+<h1 id="exenode_10_5ServicioWebApache" class="nodeTitle">5.- Servicio Web: Apache.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id14-10">
+<div class="iDevice emphasis0">
+<div id="ta14_154" class="block iDevice_content">
+<h3>Instalación y configuración del servicio web Apache</h3>
+<div class="no-overflow">
+<p></p>
+<div class="level1">
+<p>En la unidad 9 se instaló Internet Información Services de Windows con su servidor web y servidor ftp.<br>En este apartado se va a explicar la configuración del servidor web Apache. Apache se puede instalar tanto en Windows como en Linux. En la tarea no se ha incluido ningún ejercicio relacionado con Apache, no por su poca importancia, sino por haber instalado ya un servicio web en Windows.</p>
+<p>Hace 20 años se creó la "Apache Software Foundation". Esta fundación la forman desarrolladores de software donde cada uno realiza sus propios proyectos de código abierto.<br>Página de Apache: <a href="http://www.apache.org/">http://www.apache.org/<br></a>Página de la fundación de software de Apache: <a href="https://es.wikipedia.org/wiki/Apache_Software_Foundation">https://es.wikipedia.org/wiki/Apache_Software_Foundation</a></p>
+<p>Para instalar Apache en GNU-Linux: # <strong>apt-get</strong><strong> </strong><strong>install</strong><strong> apache2</strong><br>Una vez instalado, ya está funcionando Apache. Para comprobarlo, ejecutar: #<strong>service</strong><strong> apache2 status</strong></p>
+<p>Ya se puede navegar y ver la página por defecto del servidor web Apache:</p>
+<ul class="lista_verificacion">
+<li>Desde el equipo servidor, escribir en el navegador: http://localhost</li>
+<li>Desde otra máquina, escribir en el navegador: <a href="http://ip_servidor/"><u>http://IP_servidor</u></a></li>
+</ul>
+<p>Apache devuelve la página por defecto index.html alojada en el directorio /var/www/html</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 200px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Pagina_por_defecto_de_Apache.png" rel="lightbox" title="Ampliar Página por defecto de Apache"><img src="./SI10 - Administración de redes GNU-Linux_files/Pagina_por_defecto_de_Apache.png" alt="Ilustración que muestra la página por defecto de Apache" title="Página por defecto de Apache" width="200" height="130"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<h4>Configuración del servidor Apache</h4>
+<p>La configuración de apache se almacena en el <strong>directorio de configuración /</strong><strong>etc</strong><strong>/apache2</strong>. <br clear="all">A continuación se ven las <strong>opciones de configuración</strong> más importantes:</p>
+<ul class="lista_verificacion">
+<li>El archivo <strong>/</strong><strong>etc</strong><strong>/apache2/apache2.conf</strong> tiene la configuración global del servidor.</li>
+<li>El archivo <strong>/</strong><strong>etc</strong><strong>/apache2/</strong><strong>ports.conf</strong>. Permite <strong>establecer los puertos de escucha</strong> de Apache, por defecto <strong>puerto 80 para http y puerto 443 para </strong><strong>https</strong><strong>.</strong><strong><br clear="all"></strong>Listen *:80<br clear="all">Listen *:443<br clear="all">El * significa que puede realizar la petición cualquier ordenador.</li>
+<li>En el mismo servidor se pueden tener varios sitios web, para ello, en la carpeta <strong>/</strong><strong>etc</strong><strong>/apache2/</strong><strong>sites-available</strong> se guarda la configuración de cada uno en un archivo. Por defecto se encuentran los sitios default y default-ssl. Cada sitio (o archivo) tiene la siguiente estructura:<br clear="all">&lt;VirtualHost *:80&gt;<br clear="all">ServerAdmin servermaster@localhost<br clear="all">Servername www.miempresa.com<br clear="all">DocumentRoot /var/www/html<br clear="all">DirectoryIndex index.html default.html<br clear="all">&lt;/VirtualHost&gt;</li>
+</ul>
+<p>Dónde el significado de estas 4 directivas es el siguiente:</p>
+<ul class="lista_verificacion">
+<li>ServerAdmin es el correo electrónico del administrador del sitio web.</li>
+<li>Servername es el nombre FQDN del sitio web. Para el dominio por defecto (archivo default) no se indica ningún nombre, por lo que la línea se deja comentada. Pero para otros dominios (por ejemplo, www.miempresa.com) sí se debe establecer.</li>
+<li>DocumentRoot. Indica la ubicación donde se encuentra las páginas web del sitio.</li>
+<li>DirectoryIndex. Indica el nombre de los ficheros que envía por defecto el servidor web. En el ejemplo, significa, que cuando en el navegador se escriba http://IP_servidor se devuelve la página /var/www/html/index.html</li>
+</ul>
+<h4>Ejemplo de creación de un nuevo sitio web</h4>
+<p>En un servidor web Apache se pueden alojar distintas páginas web o sitios web. Por defecto el servidor web publica el directorio /var/www/html para todos los dominios pero es posible personalizar de forma independiente cada dominio.</p>
+<ul class="lista_verificacion">
+<li>Para añadir el dominio www.miempresa.com que se aloje en la carpeta /portales/miempresa hay que <strong>crear el fichero /etc/apache2/sites-available/miempresa.com</strong> con el siguiente contenido:<br clear="all">&lt;virtualhost *:80&gt;<br clear="all">ServerName <a href="http://www.miempresa.com/"><u>www.miempresa.com</u></a><br clear="all">DocumentRoot /portales/miempresa<br clear="all">DirectoryIndex index.html index.htm<br clear="all">&lt;/virtualhost&gt;</li>
+<li>Activar el sitio<br clear="all"># a2ensite miempresa.com</li>
+<li>Reiniciar el servidor web<br clear="all"># service apache2 restart</li>
+</ul>
+<h4>Página de inicio del servidor https</h4>
+<p>Con el auge de los negocios en Internet se ha popularizado el uso de comunicaciones cifradas entre los clientes y el servidor Web, siendo la tecnología de encriptación más utilizada el Security Socket Layer (SSL).</p>
+<p>Por defecto viene instalado en Apache, por lo que para utilizar una página segura bajo https en Apache sólo hay que:</p>
+<ul class="lista_verificacion">
+<li>Activar el módulo ssl</li>
+<li>Activar el sitio default-ssl</li>
+<li>Reiniciar el servidor web</li>
+</ul>
+<p>Una vez reiniciado el servidor, se accede desde el navegador con la dirección https://IP_Servidor.<br>Se puede generar certificado de seguridad utilizando el comando open-ssl.</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-3-node" id="exe-node-11">
+<header class="nodeDecoration">
+<h1 id="exenode_11_51ApacheconPHP" class="nodeTitle">5.1.- Apache con PHP.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id15-11">
+<div class="iDevice emphasis0">
+<div id="ta15_154" class="block iDevice_content">
+<div class="level1" id="yui_3_17_2_1_1595952909124_287">
+<h4 id="yui_3_17_2_1_1595952909124_286">Páginas web dinámicas lado servidor con PHP</h4>
+<p>PHP es un lenguaje de programación utilizado para crear páginas web dinámicas del lado servidor. En las páginas hay scripts de php para distintos fines. Como ejemplo de utilización, suponer que se solicita usuario y contraseña al usuario del navegador web, el código php accede a la base de datos guardada en el servidor, comprobando si el usuario tiene acceso y devolviendo los datos requeridos.</p>
+<p>Para instalar php en nuestro servidor web Apache ejecutar: <br clear="all"># <b>apt install php</b></p>
+<p>En Ubuntu 18.04 se instala la versión 7.2 de php. Para comprobar que PHP se ha instalado con éxito se puede crear un fichero php y ubicarlo en el directorio raíz del servidor web.</p>
+<h5>Ejemplo: Crear script de inicio info.php</h5>
+<ul class="lista_verificacion">
+<li>Editar el fichero /var/www//html/info.php.<br clear="all"># <b>nano /var/www/html/info.php</b> <span style="color: #ff0000;"># Escribir el contenido siguiente</span><span style="color: #ff0000;"><br clear="all"></span>&lt;?php<br clear="all">echo "La información de mi servidor:&lt;p /&gt;";<br clear="all">phpinfo();<br clear="all">?&gt; <span style="color: #ff0000;">#Guardar archivo</span></li>
+<li>Ahora, en el navegador web se escribe en la barra de direcciones http://localhost/info.php. Esta página devuelve la información del servidor utilizado (instrucción phpinfo).</li>
+</ul>
+<p>Observar que ahora hemos tecleado el nombre del archivo, pues por defecto devolvería index.html (al ser el indicado en la directiva DirectoryIndex)</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 200px;"><a href="./SI10 - Administración de redes GNU-Linux_files/PHP_funcionando.png" rel="lightbox" title="Ampliar PHP funcionando"><img src="./SI10 - Administración de redes GNU-Linux_files/PHP_funcionando.png" alt="Ilustración que muestra PHP funcionando" title="PHP funcionando" width="200" height="124"></a>
+<figcaption class="figcaption"><span class="author">Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+<h4>XAMPP</h4>
+<p>XAMPP es un paquete que aglutina varios servicios y programas: el servidor web Apache, el gestor de bases de datos MySQL y los intérpretes de lenguaje de scripts PHP y Perl. De esa forma, los programadores de páginas dinámicas utilizan este software, como una opción simple para tener todos los servicios instalados en un único proceso y con una configuración sencilla.</p>
+<p>XAMPP se puede instalar tanto en GNU-Linux como en Windows.<br>Una vez instalado, hay un panel de control para iniciar o detener cada servicio (ver imagen)</p>
+<figure class="exe-figure exe-image position-center license-pd" style="width: 200px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Panel_control_apache.png" rel="lightbox" title="Ampliar Panel control Apache "><img src="./SI10 - Administración de redes GNU-Linux_files/Panel_control_apache.png" alt="Ilustración que muestra el panel de control de Apache" title="Panel control Apache " width="200" height="169"></a>
+<figcaption class="figcaption"><span class="author">Materiales FP a Distancia del MEC</span> <span class="license"><span class="sep">(</span><span>Dominio público</span><span class="sep">)</span></span></figcaption>
+</figure>
+<p>Una vez instalado e iniciado Apache, ya se puede visualizar en el navegador la página de inicio de XAMPP escribiendo en el navegador htttp://localhost.<br clear="all">Esta página de inicio está guardada en el directorio de publicación del servidor web Apache por defecto, que en el caso de Windows es C:\xampp\htdocs. Ya se puede guardar en esa carpeta cualquier página web estática (html) o página dinámica (php)</p>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper EleccionmultiplefpdIdevice em_iDevice" id="id20-11">
+<div class="iDevice emphasis_autoevaluacionfpd">
+<header class="iDevice_header" style="background-image:url(icon_autoevaluacionfpd.gif)"><h2 class="iDeviceTitle">Autoevaluación</h2></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<section class="question">
+<form name="multi-choice-form-20_141" action="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#" onsubmit="return false" class="activity-form">
+<h1 class="js-sr-av">Pregunta</h1>
+<div id="taquestion20_141" class="block question iDevice_content">
+<p>En Apache ¿en qué directorio se alojan por defecto las páginas web?</p>
+</div>
+<section class="iDevice_answers">
+<h1 class="js-sr-av">Respuestas</h1>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i20_144" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_144">Opción 1</a></label><input type="radio" name="option20_141" id="i20_144" class="exe-radio-option exe-radio-option-0-4-20_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-20_144"><div id="taans20_144" class="block iDevice_content">
+<p><code>/var/www/html</code></p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i20_2448" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2448">Opción 2</a></label><input type="radio" name="option20_141" id="i20_2448" class="exe-radio-option exe-radio-option-1-4-20_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-20_2448"><div id="taans20_2448" class="block iDevice_content">
+<p><code>/www/apache2</code></p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i20_2451" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2451">Opción 3</a></label><input type="radio" name="option20_141" id="i20_2451" class="exe-radio-option exe-radio-option-2-4-20_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-20_2451"><div id="taans20_2451" class="block iDevice_content">
+<p><code>/var/html</code></p>
+</div>
+</div>
+</section>
+<section class="iDevice_answer">
+<p class="iDevice_answer-field js-required">
+<label for="i20_2454" class="sr-av"><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2454">Opción 4</a></label><input type="radio" name="option20_141" id="i20_2454" class="exe-radio-option exe-radio-option-3-4-20_141-multi">
+</p>
+<div class="iDevice_answer-content" id="answer-20_2454"><div id="taans20_2454" class="block iDevice_content">
+<p><code>/etc/www/html</code></p>
+</div>
+</div>
+</section>
+</section>
+<section class="iDevice_feedbacks js-feedback" role="status">
+<h1 class="js-sr-av">Retroalimentación</h1>
+<section id="sa0b20_141" class="feedback js-hidden">
+<p>Opción correcta</p>
+</section>
+<section id="sa1b20_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+<section id="sa2b20_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+<section id="sa3b20_141" class="feedback js-hidden">
+<p>Incorrecto</p>
+</section>
+</section>
+</form>
+<section class="iDevice_solution feedback js-hidden">
+<h1>Solución</h1>
+<ol>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_144">Opción correcta</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa0b20_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2448">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa1b20_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2451">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa2b20_141">Retroalimentación</a>)</span></li>
+<li><a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#answer-20_2454">Incorrecto</a><span> (<a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/157438/mod_resource/content/2/SI10_Contenidos_Imprimible/index.html#sa3b20_141">Retroalimentación</a>)</span></li>
+</ol>
+</section>
+</section>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-12">
+<header class="nodeDecoration">
+<h1 id="exenode_12_6ServicioFTPvsftpd" class="nodeTitle">6.- Servicio FTP: vsftpd</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id16-12">
+<div class="iDevice emphasis0">
+<div id="ta16_154" class="block iDevice_content">
+<h3 id="yui_3_17_2_1_1595953237694_284">Configuración</h3>
+<div class="no-overflow">
+<div class="level1">El servicio ftp utiliza los puertos 20 y 21.</div>
+<div class="level1">El servicio ftp más utilizado en Linux se llama <b>vsftpd</b> (Very Secure FTP) es un servidor FTP muy pequeño y seguro.<br>
+<p>Para instalarlo: <b> #</b> <strong>apt</strong><strong> </strong><strong>install</strong><strong> </strong><strong>vsf</strong><strong>tpd</strong><br>Una vez instalado y comprobado que está funcionando, ya se puede conectar el navegador. Las conexiones se harán con los mismos clientes ftp que los vistos en la unidad 9: terminal, filezilla, navegadores web.</p>
+<p>El archivo de configuración se llama <strong>/</strong><strong>etc</strong><strong>/</strong><strong>vsftpd.conf</strong><br>En este archivo se configura los usuarios permitidos, si se permite usuario anónimo o no, como la carpeta de descarga del servidor.<br>Por defecto, no se permite el acceso al usuario anónimo. Los usuarios permitidos son los propios del sistema, y su directorio de conexión es su $HOME. Es decir, si se conecta el usuario luis al servidor ftp, el directorio donde se conecta es /home/luis.<br>Además se configura si los usuarios se quedan enjaulados en su directorio, este concepto es importante. Supongamos que el directorio de conexión ftp de un usuario es /home/luis es importante asegurarse que no va a poder salir al directorio padre con el comando <b>cd ..</b>&nbsp; <br>De hecho, por defecto los usuarios no están enjaulados. Ver captura.</p>
+<figure class="exe-figure exe-image position-center license-CC-BY-NC-SA" style="width: 200px;"><a href="./SI10 - Administración de redes GNU-Linux_files/Conexion_a_servidor_ftp_en_Linux.png" rel="lightbox" title="Ampliar Conexión a servidor ftp en Linux"><img src="./SI10 - Administración de redes GNU-Linux_files/Conexion_a_servidor_ftp_en_Linux.png" alt="Ilustración que muestra la conexión a un servidor ftp en linux" title="Conexión a servidor ftp en Linux" width="200" height="226"></a>
+<figcaption class="figcaption"><span class="author"> Miguel Ángel García Lara</span> <span class="license"><span class="sep">(</span><a href="http://creativecommons.org/licenses/?lang=es" rel="license nofollow noopener" target="_blank" title="Creative Commons BY-NC-SA">CC BY-NC-SA</a><span class="sep">)</span></span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</article>
+<article class="iDevice_wrapper ParasabermasfpdIdevice em_iDevice" id="id17-12">
+<div class="iDevice emphasis_parasabermasfpd">
+<header class="iDevice_header" style="background-image:url(icon_parasabermasfpd.png)"><h2 class="iDeviceTitle">Para saber más</h2></header>
+<div class="iDevice_inner">
+<div class="iDevice_content_wrapper">
+<div id="ta17_128" class="block iDevice_content">
+<p>Para ver más información del fichero de configuración, ver vínculo:</p>
+<p><a href="https://www.solvetic.com/tutoriales/article/5811-como-instalar-y-configurar-vsftpd-ubuntu-18/" target="_blank" title="Acceder a Cómo instalar y configurar VSFTPD Ubuntu 18" rel="noopener">Cómo instalar y configurar VSFTPD Ubuntu 18</a></p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-13">
+<header class="nodeDecoration">
+<h1 id="exenode_13_AnexoLicenciasderecursos" class="nodeTitle">Anexo.- Licencias de recursos.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id109-13">
+<div class="iDevice emphasis0">
+<div id="ta109_73" class="block iDevice_content">
+<table class="tabla" summary="Datos de licencia de todos los recursos utilizados en la unidad">
+	<caption>
+	Licencias de recursos utilizados en la Unidad de Trabajo.
+	</caption>
+	<tbody>
+		<tr>
+			<th scope="col">Recurso (1)</th>
+			<th scope="col">Datos del recurso (1)</th>
+			<th scope="col">Recurso (2)</th>
+			<th scope="col">Datos del recurso (2)</th>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Icono de un ordenador." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R1_01_anexo.png" style="width: 90px; height: 80px" title="Ordenador." width="90"></td>
+			<td>
+			<p>
+			 Autoría: rgtaylor_csc.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/17668/net-computer-by-rgtaylor_csc
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Resultado del comando ifconfig donde se muestran las interfaces de red del sistema GNU/Linux." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R2_ifconfig_anexo.png" style="width: 102px; height: 80px" title="Comando ifconfig." width="102"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del terminal ejecutando ifconfig, propiedad de Ubuntu.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Herramienta Configuración de red de X-Windows." height="76" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R3_configuracion_de_red_anexo.png" style="width: 120px; height: 76px" title="Configuración de red." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta de configuración de red de Xwindows, propiedad de Ubuntu.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Pantalla donde se indica la seguridad de la red inalámbrica a la que vamos a acceder." height="77" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R4_acceso_wifi_anexo.png" style="width: 120px; height: 77px" title="Acceso de la red inalámbrica." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: Uso Educativo no comercial.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta de configuración de red inalámbrica de Xwindows, propiedad de Ubuntu.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Mensaje que indica que se ha establecido la conexión inalámbrica correctamente." height="77" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R5_establecida_conexion_wifi_anexo.jpg" style="width: 120px; height: 77px" title="Establecida conexión inalámbrica." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del escritorio de Ubuntu, propiedad de Ubuntu.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Icono de un fichero de configuración." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R5_01_anexo.png" style="width: 80px; height: 80px" title="Fichero de configuración." width="80"></td>
+			<td>
+			<p>
+			 Autoría: Andrew Fitzsimon / Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/25528/text-page-icon-by-anonymous-25528
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Resultado de ejecutar el comando ping para comprobar la comunicación con el servidor  www.google.es." height="47" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R6_comando_ping_anexo.png" style="width: 120px; height: 47px" title="Comando ping." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del terminal mostrando el comando ping, propiedad de Ubuntu.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Captura de pantalla de las herramientas de red de x-Windows." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_herramientas_de_red_anexo.png" style="width: 92px; height: 80px" title="Herramientas de red." width="92"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta de red de Xwindows, propiedad de Ubuntu.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Icono de un cortafuegos." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_01_anexo.png" style="width: 54px; height: 80px" title="Firewall." width="54"></td>
+			<td>
+			<p>
+			 Autoría: HASH(0x89c79d4) / Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/24075/firewall-by-anonymous-24075
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Icono de un cortafuegos." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_02_anexo.png" style="width: 80px; height: 80px" title="Esquema de red." width="80"></td>
+			<td>
+			<p>
+			 Autoría: Andrew Fitzsimon / Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/25428/network-by-anonymous-25428
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Página oficial del servidor de nombres Bind (http://www.isc.org/)." height="75" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_03_anexo.png" style="width: 120px; height: 75px" title="bind." width="120"></td>
+			<td>
+			<p>
+			 Autoría: isc.org.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de www.isc.org.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Página oficial del servidor SAMBA (http://www.samba.org/)." height="72" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_05_anexo.jpg" style="width: 120px; height: 72px" title="www.samba.com." width="120"></td>
+			<td>
+			<p>
+			 Autoría: www.samba.org.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla www.samba.org.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Icono de Usuarios del sistema." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_06_anexo.png" style="width: 80px; height: 80px" title="Icono de Usuarios del sistema." width="80"></td>
+			<td>
+			<p>
+			 Autoría: warszawianka.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/35347/tango-system-users-by-warszawianka
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Icono Compartiendo una carpeta." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R7_07_anexo.png" style="width: 70px; height: 80px" title="Icono Compartiendo una carpeta." width="70"></td>
+			<td>
+			<p>
+			 Autoría: lyte.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/163717/file-server-by-lyte
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Impresora HP1320 instalada." height="73" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R8_impresoras_anexo.png" style="width: 120px; height: 73px" title="Impresoras." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta Imprimiendo propiedad de Ubuntu.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Opciones de configuración del servidor de impresión." height="66" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R9_opciones_del_servidor_anexo.png" style="width: 120px; height: 66px" title="Opciones del servidor." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta Imprimiendo propiedad de Ubuntu.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Administración de samba utilizando swat." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R10_01_administracion_de_samba_con_swat_anexo.png" style="width: 111px; height: 80px" title="Administración de samba utilizando swat." width="111"></td>
+			<td>
+			<p>
+			 Autoría: swat.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta swat propiedad de SAMBA.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Administración de samba utilizando webmin." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R10_02_administracion_de_samba_con_webmin_anexo.png" style="width: 111px; height: 80px" title="Administración de samba utilizando webmin." width="111"></td>
+			<td>
+			<p>
+			 Autoría: webmin.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta webmin, propiedad de www.webmin.org.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Configuración del servidor samba." height="44" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R11_system_config_samba_anexo.png" style="width: 120px; height: 44px" title="system-config-samba." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la herramienta Configuración del servidor de Samba propiedad de Ubuntu.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Icono de una carpeta." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R11_1_anexo.png" style="width: 80px; height: 80px" title="Icono de una carpeta." width="80"></td>
+			<td>
+			<p>
+			 Autoría: Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/109591/another-folder-icon-01-by-anonymous
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Esquema en el que se detallan los diferentes elementos del servicio NFS." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R11_02_anexo.JPG" style="width: 117px; height: 80px" title="Esquema del servicio NSF." width="117"></td>
+			<td>
+			<p>
+			 Autoría: Blog del sensei.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: Montaje sobre: http://josejuanlt.ipower.com/blogsensei/?p=763
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Página oficial openSSH (www.openssh.org)." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R12_openSSH_anexo.png" style="width: 111px; height: 80px" title="Página oficial openSSH." width="111"></td>
+			<td>
+			<p>
+			 Autoría: OpenSSH.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: www.openssh.org.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Icono de un fichero de configuración." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R5_01_anexo.png" style="width: 80px; height: 80px" title="Fichero de configuración." width="80"></td>
+			<td>
+			<p>
+			 Autoría: Andrew Fitzsimon / Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/25528/text-page-icon-by-anonymous-25528
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Conexión remota por SSH con PuTTY." height="76" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R13_conexion_remota_por_ssh_anexo.png" style="width: 120px; height: 76px" title="Conexión remota por SSH con PuTTY." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Putty.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la aplicación Putty, propiedad de Putty.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Página oficial tightVNC (http://www.tightvnc.com/)." height="70" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R13_01_anexo.png" style="width: 120px; height: 70px" title="Página oficial tightVNC." width="120"></td>
+			<td>
+			<p>
+			 Autoría: toghtVNC Software.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: http://www.tightvnc.com/
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Acceso al servidor por VNC con Vinagre." height="79" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R14_acceso_al_servidor_por_vnc_anexo.png" style="width: 120px; height: 79px" title="Acceso al servidor por VNC con Vinagre." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Vinagre.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la aplicación Vingre, propiedad de Vinagre.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Aplicación Windows tightVNC para conectarse a un servidor VNC." height="50" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R15_tightvnc_conection_anexo.png" style="width: 120px; height: 50px" title="tightVNC conection." width="120"></td>
+			<td>
+			<p>
+			 Autoría: tightVNC.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la aplicación tightVNC, propiedad de tightVNC.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Acceso al servidor VNC con  tightVNC viewer." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R16_acceso_al_servidor_vnc_anexo.png" style="width: 98px; height: 80px" title="Acceso al servidor VNC con  tightVNC viewer." width="98"></td>
+			<td>
+			<p>
+			 Autoría: Ubuntu y tightVNC.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla de la aplicación tightVNC, propiedad de tightVNC.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Página web de prueba de Apache." height="78" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R17_web_de_prueba_de_apache_anexo.png" style="width: 120px; height: 78px" title="Página web de prueba de Apache." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Firefox y Apache.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del navegador Firefox, propiedad de firefox.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Icono de un fichero de configuración." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R5_01_anexo.png" style="width: 80px; height: 80px" title="Fichero de configuración." width="80"></td>
+			<td>
+			<p>
+			 Autoría: Andrew Fitzsimon / Anonymous.
+			</p>
+			<p>
+			 Licencia: GPL.
+			</p>
+			<p>
+			 Procedencia: http://openclipart.org/detail/25528/text-page-icon-by-anonymous-25528
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Resultado de la ejecución de la página phpinfo()." height="78" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R18_phpinfo_anexo.png" style="width: 120px; height: 78px" title="Ejecución de phpinfo()." width="120"></td>
+			<td>
+			<p>
+			 Autoría: Firefox y PHP.org.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del navegador Firefox, propiedad de firefox
+			.
+			</p>
+			</td>
+			<td class="texto_centrado"><img alt="Página de inicio del servidor por https." height="80" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R19_https_anexo.png" style="width: 109px; height: 80px" title="https." width="109"></td>
+			<td>
+			<p>
+			 Autoría: Firefox.
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: Captura de pantalla del navegador Firefox, propiedad de firefox.
+			</p>
+			</td>
+		</tr>
+		<tr>
+			<td class="texto_centrado"><img alt="Página oficial vsftp (http:// vsftpd.beasts.org/." height="70" src="./SI10 - Administración de redes GNU-Linux_files/SI10_CONT_R13_01_anexo.png" style="width: 120px; height: 70px" title="Página oficial de vsftpd." width="120"></td>
+			<td>
+			<p>
+			 Autoría: vsftpd. 
+			</p>
+			<p>
+			 Licencia: GNU/GPL.
+			</p>
+			<p>
+			 Procedencia: vsftpd.beasts.org/.
+			</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+</div>
+</div>
+</article>
+</article>
+</section>
+
+
+</div>
+<script type="text/javascript" src="./SI10 - Administración de redes GNU-Linux_files/_fpd_js.js.descarga"></script>
+</body></html>
