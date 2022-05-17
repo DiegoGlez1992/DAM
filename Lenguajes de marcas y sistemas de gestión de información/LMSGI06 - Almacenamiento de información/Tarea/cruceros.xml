@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cruceros>
+   <crucero id="C01">
+		<nombre>Mediterraneo_desde_Triestre</nombre>
+		<frecuencia>cada_mes</frecuencia>
+		<precio>
+			<base>549</base>
+			<extra_camarote_exterior>125</extra_camarote_exterior>
+			<extra_camarote_con_balcon>250</extra_camarote_con_balcon>
+			<extra_suite>510</extra_suite>
+		</precio>
+		<recorrido>
+			<puerto_salida>Triestre</puerto_salida>
+			<etapa numero="1">
+				<puerto>Bari</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="2">
+				<puerto>Corfú</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="3">
+				<puerto>Atenas</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="4">
+				<puerto>Mykonos</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="5">
+				<puerto>Olimpia</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="6">
+				<puerto>Triestre</puerto>
+				<dias>1</dias>
+			</etapa>
+		</recorrido>
+    </crucero>
+	<crucero id="C02">
+		<nombre>Mediterraneo_desde_Bari</nombre>
+		<frecuencia>cada_dos_meses</frecuencia>
+		<precio>
+			<base>1039</base>
+			<extra_camarote_exterior>175</extra_camarote_exterior>
+			<extra_suite>590</extra_suite>
+		</precio>
+		<recorrido>
+			<puerto_salida>Bari</puerto_salida>
+			<etapa numero="1">
+				<puerto>Catania</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="2">
+				<puerto>La Valeta</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="3">
+				<puerto>Mykonos</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="4">
+				<puerto>Santorini</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="5">
+				<puerto>Bari</puerto>
+				<dias>1</dias>
+			</etapa>
+		</recorrido>
+    </crucero>
+	<crucero id="C03">
+		<nombre>Mediterraneo_desde_Barcelona</nombre>
+		<frecuencia>cada_mes</frecuencia>
+		<precio>
+			<base>630</base>
+			<extra_camarote_exterior>155</extra_camarote_exterior>
+			<extra_camarote_con_balcon>280</extra_camarote_con_balcon>
+			<extra_suite>425</extra_suite>
+		</precio>
+		<recorrido>
+			<puerto_salida>Barcelona</puerto_salida>
+			<etapa numero="1">
+				<puerto>Casablanca</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="2">
+				<puerto>Santa Cruz de Tenerife</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="3">
+				<puerto>Funchal</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="4">
+				<puerto>Malaga</puerto>
+				<dias>1</dias>
+			</etapa>
+		</recorrido>
+    </crucero>
+	<crucero id="C04">
+		<nombre>Mediterraneo_desde_Valencia</nombre>
+		<frecuencia>cada_dos_meses</frecuencia>
+		<precio>
+			<base>1215</base>
+			<extra_camarote_exterior>170</extra_camarote_exterior>
+			<extra_camarote_con_balcon>310</extra_camarote_con_balcon>
+			<extra_suite>530</extra_suite>
+		</precio>
+		<recorrido>
+			<puerto_salida>Valencia</puerto_salida>
+			<etapa numero="1">
+				<puerto>Casablanca</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="2">
+				<puerto>Arrecife</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="3">
+				<puerto>Fuerteventura</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="4">
+				<puerto>Santa Cruz de Tenerife</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="5">
+				<puerto>Funchal</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="6">
+				<puerto>Malaga</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="7">
+				<puerto>Genova</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="8">
+				<puerto>Marsella</puerto>
+			</etapa>
+		</recorrido>
+    </crucero>
+	<crucero id="C05">
+		<nombre>Mediterraneo_desde_Barcelona_II</nombre>
+		<frecuencia>cada_mes</frecuencia>
+		<precio>
+			<base>705</base>
+			<extra_camarote_exterior>155</extra_camarote_exterior>
+			<extra_suite>425</extra_suite>
+		</precio>
+		<recorrido>
+			<puerto_salida>Barcelona</puerto_salida>
+			<etapa numero="1">
+				<puerto>Palma de Mallorca</puerto>
+				<dias>2</dias>
+			</etapa>
+			<etapa numero="2">
+				<puerto>Almería</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="3">
+				<puerto>Malaga</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="4">
+				<puerto>Gibraltar</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="5">
+				<puerto>Portimao</puerto>
+				<dias>1</dias>
+			</etapa>
+			<etapa numero="6">
+				<puerto>Lisboa</puerto>
+				<dias>2</dias>
+			</etapa>
+		</recorrido>
+    </crucero>
+</cruceros>
