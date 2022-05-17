@@ -1,0 +1,43 @@
+<inventario>
+	<equipo idequip="eq3900080001">
+		<tipo>CPU_Torre</tipo>
+		<numserie>DL3996626F33</numserie>
+		<fechaadquisicion>
+			<dia>12</dia>
+			<mes>3</mes>
+			<year>2021</year>
+		</fechaadquisicion>
+		<ubicacion>
+			<departamento>Informática y Comunicaciones</departamento>
+			<aula>A31</aula>
+		</ubicacion>
+		<caracteristicas>
+			<fabricante>DELL</fabricante>
+			<modelo>Inspiron Small Desktop</modelo>
+			<memoria>8GB</memoria>
+			<disco>
+				<discotipo>SSD</discotipo>
+				<capacidad>512GB</capacidad>
+			</disco>
+			<procesador>Intel Core i7 - 10700F</procesador>
+		</caracteristicas>
+	</equipo>
+	<equipo idequip="eq3900080002">
+		<tipo>Impresora</tipo>
+		<numserie>HP78664543</numserie>
+		<fechaadquisicion>
+			<dia>16</dia>
+			<mes>1</mes>
+			<year>2022</year>
+		</fechaadquisicion>
+		<ubicacion>
+			<departamento>Administración y Gestión</departamento>
+			<aula>A27</aula>
+		</ubicacion>
+		<caracteristicas>
+			<fabricante>HP</fabricante>
+			<modelo>DeskJet 2721e</modelo>
+			<tipoimpresion>Tinta</tipoimpresion>
+		</caracteristicas>
+	</equipo>
+</inventario>

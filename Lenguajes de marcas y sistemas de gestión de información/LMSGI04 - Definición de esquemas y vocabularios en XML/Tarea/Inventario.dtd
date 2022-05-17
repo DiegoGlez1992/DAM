@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Elemento raiz "inventario" con uno o más equipo -->
+<!ELEMENT inventario (equipo+)>
+    <!ELEMENT equipo (tipo, numserie, fechaadquisicion, ubicacion, caracteristicas)>
+        <!-- Se describen los atributos de equipo -->
+        <!ATTLIST equipo
+              idequip ID #REQUIRED>  <!-- Atributo identificador -->
+        <!-- Se describen los elementos hijos del elemento equipo -->
+        <!ELEMENT tipo (#PCDATA)>
+        <!ELEMENT numserie (#PCDATA)>
+        <!ELEMENT fechaadquisicion (dia, mes, year)>
+            <!-- Se describen los elementos hijos del elemento fechaadquisicion -->
+            <!ELEMENT dia (#PCDATA)>
+            <!ELEMENT mes (#PCDATA)>
+            <!ELEMENT year (#PCDATA)>
+        <!ELEMENT ubicacion (departamento, aula)>
+            <!-- Se describen los elementos hijos del elemento ubicacion -->
+            <!ELEMENT departamento (#PCDATA)>
+            <!ELEMENT aula (#PCDATA)>
+        <!ELEMENT caracteristicas (fabricante, modelo, memoria?, disco?, procesador?, tipoimpresion?)>
+            <!-- Se describen los elementos hijos del elemento caracteristicas -->
+            <!ELEMENT fabricante (#PCDATA)>
+            <!ELEMENT modelo (#PCDATA)>
+            <!ELEMENT memoria (#PCDATA)>
+            <!ELEMENT disco (discotipo, capacidad)>
+                <!-- Se describen los elementos hijos del elemento disco -->
+                <!ELEMENT discotipo (#PCDATA)>
+                <!ELEMENT capacidad (#PCDATA)>
+            <!ELEMENT procesador (#PCDATA)>
+            <!ELEMENT tipoimpresion (#PCDATA)>

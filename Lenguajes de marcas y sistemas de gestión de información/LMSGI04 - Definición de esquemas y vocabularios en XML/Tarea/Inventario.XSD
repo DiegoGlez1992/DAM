@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <!-- Documentación del XSD -->
+  <xs:annotation>
+    <xs:documentation>
+      <title>Inventario informático de un centro educativo</title>
+      <date>21 de febrero de 2022</date>
+      <autor>Diego Gonzalez Garcia</autor>
+      <course>2021/2022</course>
+    </xs:documentation>
+  </xs:annotation>
+
+  <!-- Elemento raiz, inventario -->
+  <xs:element name="inventario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="equipo"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Elemento equipo -->
+  <xs:element name="equipo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tipo"/>
+        <xs:element ref="numserie"/>
+        <xs:element ref="fechaadquisicion"/>
+        <xs:element ref="ubicacion"/>
+        <xs:element ref="caracteristicas"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="attlist.equipo"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Se describen los atributos de equipo -->
+  <xs:attributeGroup name="attlist.equipo">
+    <xs:attribute name="idequip" use="required" form="unqualified">
+      <xs:simpleType>
+        <xs:restriction base="xs:ID">
+          <xs:pattern value="eq3900080[0-9]{3}"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <!-- Elemento tipo. Hijo del elemento equipo -->
+  <xs:element name="tipo">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="CPU_Torre"/>
+        <xs:enumeration value="Impresora"/>
+        <xs:enumeration value="Monitor"/>
+        <xs:enumeration value="Portatil"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <!-- Elemento numserie. Hijo del elemento equipo -->
+  <xs:element name="numserie" type="xs:string"/>
+  
+  <!-- Elemento fechaadquisicion. Hijo del elemento equipo -->
+  <xs:element name="fechaadquisicion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="dia"/>
+        <xs:element ref="mes"/>
+        <xs:element ref="year"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Elemento dia. Hijo del elemento fechaadquisicion. Hijo del elemento equipo -->
+  <xs:element name="dia">
+    <xs:simpleType>
+      <xs:restriction base="xs:positiveInteger">
+        <xs:maxInclusive value="31"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <!-- Elemento mes. Hijo del elemento fechaadquisicion. Hijo del elemento equipo -->
+  <xs:element name="mes">
+    <xs:simpleType>
+      <xs:restriction base="xs:positiveInteger">
+        <xs:maxInclusive value="12"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  
+  <!-- Elemento year. Hijo del elemento fechaadquisicion. Hijo del elemento equipo -->
+  <xs:element name="year">
+    <xs:simpleType>
+      <xs:restriction base="xs:positiveInteger">
+        <xs:minInclusive value="1996"/>
+        <xs:maxInclusive value="2100"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+
+  <!-- Elemento ubicacion. Hijo del elemento equipo -->
+  <xs:element name="ubicacion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="departamento"/>
+        <xs:element ref="aula"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <!-- Elemento departamento. Hijo del elemento ubicacion. Hijo del elemento equipo -->
+  <xs:element name="departamento" type="xs:string"/>
+  
+  <!-- Elemento aula. Hijo del elemento ubicacion. Hijo del elemento equipo -->
+  <xs:element name="aula" type="xs:string"/>
+
+  <!-- Elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="caracteristicas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="fabricante"/>
+        <xs:element ref="modelo"/>
+        <xs:element minOccurs="0" ref="memoria"/>
+        <xs:element minOccurs="0" ref="disco"/>
+        <xs:element minOccurs="0" ref="procesador"/>
+        <xs:element minOccurs="0" ref="tipoimpresion"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Elemento fabricante. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="fabricante" type="xs:string"/>
+  
+  <!-- Elemento modelo. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="modelo" type="xs:string"/>
+  
+  <!-- Elemento memoria. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="memoria" type="xs:string"/>
+  
+  <!-- Elemento disco. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="disco">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="discotipo"/>
+        <xs:element ref="capacidad"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Elemento discotipo. Hijo del elemento disco. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="discotipo" type="xs:string"/>
+  
+  <!-- Elemento capacidad. Hijo del elemento disco. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="capacidad" type="xs:string"/>
+
+  <!-- Elemento procesador. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="procesador" type="xs:string"/>
+  <!-- Elemento tipoimpresion. Hijo del elemento caracteristicas. Hijo del elemento equipo -->
+  <xs:element name="tipoimpresion" type="xs:string"/>
+</xs:schema>
