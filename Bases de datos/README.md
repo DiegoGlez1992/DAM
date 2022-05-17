@@ -17,5 +17,5 @@ Este temario y ejercicios corresponden al módulo de bases de datos de 1º, del 
 ### [BD07 - Uso de bases de datos objeto-relacionales](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/BD07%20-%20Uso%20de%20bases%20de%20datos%20objeto-relacionales)
 * Nota tarea: 
 ## Exámenes
-[### 1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/Examen%201%C2%AA%20evaluaci%C3%B3n)
+### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/Examen%201%C2%AA%20evaluaci%C3%B3n)
 ### 2ª evaluación
