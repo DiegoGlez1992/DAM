@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!-- saved from url=(0117)https://fpadistancia.educantabria.es/aula/pluginfile.php/156623/mod_resource/content/12/ED04_SolucionTarea/index.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Solución de la tarea para ED04.</title>
+<link rel="shortcut icon" href="https://fpadistancia.educantabria.es/aula/pluginfile.php/156623/mod_resource/content/12/ED04_SolucionTarea/favicon.ico" type="image/x-icon">
+<meta name="generator" content="eXeLearning 2.5 - exelearning.net">
+<link rel="stylesheet" type="text/css" href="./Solución de la tarea para ED04_files/base.css">
+<link rel="stylesheet" type="text/css" href="./Solución de la tarea para ED04_files/exe_highlighter.css">
+<link rel="stylesheet" type="text/css" href="./Solución de la tarea para ED04_files/content.css">
+<!--[if lt IE 9]><script type="text/javascript" src="exe_html5.js"></script><![endif]-->
+<script type="text/javascript" src="./Solución de la tarea para ED04_files/exe_jquery.js.descarga"></script>
+<script type="text/javascript" src="./Solución de la tarea para ED04_files/exe_highlighter.js.descarga"></script>
+<script type="text/javascript" src="./Solución de la tarea para ED04_files/common_i18n.js.descarga"></script>
+<script type="text/javascript" src="./Solución de la tarea para ED04_files/common.js.descarga"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body class="exe-single-page js travelclub-common-loaded"><script type="text/javascript">document.body.className+=" js"</script>
+<div id="content">
+<header id="header" role="banner">
+<div id="headerContent">
+<h1>Solución de la tarea para ED04.</h1>
+</div>
+</header>
+<section id="main" role="main">
+<article class="node level-1-node" id="exe-node-0">
+<header class="nodeDecoration">
+<h1 id="exenode_0_SolucindelatareaparaED04" class="nodeTitle">Solución de la tarea para ED04.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id0-0">
+<div class="iDevice emphasis0">
+<div id="ta0_73" class="block iDevice_content">
+<p>Para dar solución a la tarea, se explican a continuación los pasos que hay que realizar para resolver cada actividad.</p>
+<p style="text-align: center;"><span style="font-size: 14pt;"><strong><u>REFACTORIZACIÓN</u></strong></span></p>
+<p><strong></strong></p>
+<p><strong><span>Descarga el proyecto "Deposito" pulsando <a href="https://fpadistancia.educantabria.es/aula/pluginfile.php/156623/mod_resource/content/12/ED04_SolucionTarea/deposito.rar">aquí</a>.</span></strong></p>
+<p><strong><span>Abre&nbsp; el proyecto.</span></strong></p>
+<p>Para la resolver la primera actividad, vamos a proceder a refactorizar el proyecto&nbsp; usando las herramientas que incorpora <span lang="en">NetBeans</span>:</p>
+<p><strong>1. </strong><span style="text-decoration: underline;"><strong>Las clases deberán formar parte del paquete cuentas.</strong></span></p>
+<p><strong><span>Entras en NetBeans y cuando te pida el nombre del proyecto y ubicación:</span></strong></p>
+<p><strong><span></span></strong></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_1.png" target="_blank" title="Ampliar imagen." rel="noopener"><strong><span><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_1.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="142" title="Refactorización 1."></span></strong></a></p>
+<p><strong><span></span></strong></p>
+<p><strong><span>Desactiva "create Main Class" para que no te cree ningún paquete ni ninguna clase Principal:</span></strong></p>
+<p><strong><span></span></strong></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_2.png" target="_blank" title="Ampliar imagen." rel="noopener"><strong><span><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_2.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="142" title="Refactorización 2."></span></strong></a></p>
+<p><strong><span>Pulsas en "Finish". Una vez que estás ahí, pulsas sobre el botón derecho del ratón, donde pone "Source Packages" y eliges: new/Java package y pones el nombre de "cuentas":</span></strong></p>
+<p><strong><span></span></strong></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_3.png" target="_blank" title="Ampliar imagen." rel="noopener"><strong><span><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_3.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="173" title="Refactorización 3."></span></strong></a></p>
+<p><strong><span></span></strong></p>
+<p><strong><span>En dicho paquete pegas los dos ficheros .java que hay en el proyecto "Deposito" que te has bajado anteriormente.</span></strong></p>
+<p><strong><span>Te da un error de codificación porque tienes que poner al principio: "package cuentas";</span></strong></p>
+<p>También puedes poner los dos ficheros .java en "Source packages" y luego pulsas&nbsp;el botón derecho del ratón sobre cada fichero con extensión .java y seleccionar <i>/Refactorizar/Mover</i>. Finalmente, indicar que se quiere mover al paquete cuentas. Y el IDE te pone automáticamente:&nbsp;<strong><span>"package cuentas";</span></strong></p>
+<p></p>
+<p><strong>2. </strong><span style="text-decoration: underline;"><strong>Cambiar Nombre de la variable "miCuenta" por "cuenta1".</strong></span></p>
+<p><strong><span></span></strong></p>
+<p>Dicha variable está en la clase "Main".&nbsp;</p>
+<p>Seleccionar la variable miCuenta y pulsar el botón derecho del ratón, a continuación en el menú contextual pinchar la opción <i> /Refactor/Rename:</i></p>
+<p><i></i></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_5.png" target="_blank" title="Ampliar imagen." rel="noopener"><i><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_5.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="141" title="Refactorización 4."></i></a></p>
+<p><i></i>Te visualizará esta ventana:</p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_6.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_6.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="134" title="Refactorización 5."></a></p>
+<p></p>
+<p>Y le pones el nombre de "cuenta1".</p>
+<p><strong>3. </strong><span style="text-decoration: underline;"><strong>Introducir el método operativa_cuenta, que englobe las sentencias de la clase Main que operan con el objeto cuenta1.</strong></span></p>
+<p></p>
+<div class="elemento_centrado">Seleccionar todo el código del método main y pulsar botón derecho del ratón, en el menú contextual pulsar la opción <i>/Refactor/Introduce/metodo:</i></div>
+<div class="elemento_centrado"><i></i></div>
+<div class="elemento_centrado"><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_7.png" target="_blank" title="Ampliar imagen." rel="noopener"><i><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_7.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="141" title="Refactorización 6."></i></a></div>
+<div class="elemento_centrado"><i></i></div>
+<div class="elemento_centrado"><i>Y le ponemos el nombre: "operativa_cuenta" y&nbsp; elegimos acceso público</i></div>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_8.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_8.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="141" title="Refactorización 7."></a></p>
+<p><span style="font-size: 1.05em;">Como se aprecia en la siguiente imagen, el código seleccionado, ha sido sustituido por el nuevo método.</span></p>
+<div class="elemento_centrado">
+<div class="elemento_centrado"><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_9.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_9.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="133" title="Refactorización 8."></a></div>
+<div class="elemento_centrado"></div>
+<div class="elemento_centrado"></div>
+</div>
+<p><strong>4. </strong><span style="text-decoration: underline;"><strong>Encapsula los atributos de la clase CCuenta.</strong></span></p>
+<p></p>
+<p></p>
+<p></p>
+<p>Hay dos alternativas.<br><u>Encapsulado atributo a atributo</u>: seleccionar el atributos en el código y marcar la opción de menú <i>Refactor/Encapsulate Fields en el menú p</i>rincipal y pinchamos en las casillas correspondientes para crear el set y get. Habrá que repetir el proceso cuatro veces.</p>
+<p></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_10.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_10.png" width="250" height="194" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 9."></a></p>
+<p></p>
+<p></p>
+<p><u>Encapsulado múltiple</u>: En la ventana anterior puede seleccionar "Select all" y generaría los set y get de todos los atributos.</p>
+<div class="elemento_centrado">
+<div class="elemento_centrado"></div>
+</div>
+<p>Los cuatro campos seleccionados, pasa a disponer de métodos <code>getter</code> y <code>setter</code> para acceder a sus valores.</p>
+<div class="elemento_centrado">
+<div class="elemento_centrado"></div>
+</div>
+<p>Como se aprecia en la siguiente imagen, los campos disponen de los métodos para leer y escribir su valor.</p>
+<div class="elemento_centrado">
+<div class="elemento_centrado"><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_11.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_11.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="133" title="Refactorización 10."></a></div>
+</div>
+<p><strong>5. <u>Añadir un nuevo parámetro al método operativa_cuenta, de nombre cantidad y de tipo float</u></strong></p>
+<p>Seleccionar el nombre del método y pulsar el botón derecho del ratón <i>Refactor/change method parameters</i>.</p>
+<p></p>
+<p></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_12.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_12.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="141" title="Refactorización 11."></a></p>
+<p></p>
+<p>Te visualizará esta ventana:</p>
+<p></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_13.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_13.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="191" title="Refactorización 12."></a></p>
+<p></p>
+<p>Pulsas "Add":</p>
+<p></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_14.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_14.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="191" title="Refactorización 13."></a></p>
+<p></p>
+<p>E indicas estos datos:</p>
+<p></p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_15.png" title="Ampliar imagen."><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_15.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="191" title="Refactorización 14."></a></p>
+<p></p>
+<p>Y pulsas a "Refactor".</p>
+<p></p>
+<p>Verás como el código te lo ha cambiado de esta forma:</p>
+<p><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_16.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_16.png" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." width="250" height="133" title="Refactorización 15."></a></p>
+<p></p>
+<p style="text-align: center;"><span style="font-size: 14pt;"><strong><u>GIT</u></strong></span></p>
+<p><strong><u></u></strong></p>
+<p><strong>1. </strong><span style="text-decoration: underline;"><strong>Configurar GIT para el proyecto. Crear un repositorio público en GitHub</strong></span><br><be id="yui_3_17_2_1_1596196773391_141"></be></p>
+<p>La solución propuesta utiliza un repositorio en la máquina <b>Linux</b>.</p>
+<p>Si todavía no está instalado <b>GIT</b> desde un terminal de <b>Linux </b>con permiso de administrador:</p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li>apt-get update</li>
+</ul>
+<ul>
+<li>apt-get install git</li>
+</ul>
+</li>
+</ul>
+<p></p>
+<p>Crear un directorio donde trabajar con el repositorio. P.e. <i>/home/debian/Escritorio/deposito</i>.</p>
+<p>Asignar permisos de acceso al directorio, como administrador <b>Linux</b>, comando <i>chmod 777 /home/debian/Escritorio/deposito</i></p>
+<p><span lang="ES-TRAD"><b>Nota</b>: en un entorno real, en lugar de dar permisos de acceso completos, habría que aplicar sólo aquellos estrictamente necesarios.</span></p>
+<p>En <b>Eclipse</b>, pulsar el botón derecho del ratrón sobre el proyecto y seleccionar <i>Team/Compartir proyecto/</i>&nbsp;</p>
+<p></p>
+<p><strong><span style="font-size: 1em;">2.</span><span style="font-size: 1em;">&nbsp;</span><u>Realizar, al menos, una operación commit, comentando el resultado de la ejecución.</u></strong></p>
+<p></p>
+<p>Volcar la información del área de trabajo al repositorio local-Eclipse con la opción <i>Team/Commit</i>.</p>
+<p>Previo al commit, habrá que seleccionar los ficheros del proyecto candidatos a formar parte del repositorio (Unstaged&nbsp; =&gt;&nbsp; Staged): <i>seleccionarlos + Botón derecho + Add to Index</i>.</p>
+<p>Finalmente, introducir un mensaje y pulsar el botón <i>Commit</i>.</p>
+<p>Cada vez que se realizan modificaciones del código fuente, se generan nuevas versiones del fichero que estemos modificando, si realizamos una operación <code>commit</code>, también vamos a actualizar el repositorio (depósito).</p>
+<p><strong>3. <u>Mostrar el historial del versiones para el proyecto mediante un comando desde consola, comentar el resultado.</u></strong></p>
+<p id="yui_3_17_2_1_1596196773391_146">Desde un terminal <b>Linux</b>, posicionarnos en la ruta del repositorio <i>/home/debian/Escritorio/deposito</i>, ejecutar el comando <b>git log</b>.</p>
+<p></p>
+<p style="text-align: center;"><span lang="en" style="font-size: 14pt;"><strong><u>JAVADOC</u></strong></span></p>
+<p><strong>1. <span style="text-decoration: underline;">Inserta comentarios <span lang="en">Javadoc</span></span></strong><span style="text-decoration: underline;"><strong> en la clase CCuenta.</strong></span></p>
+<p>A nivel de clase incluir al menos las etiquetas:</p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li>@autor</li>
+</ul>
+<ul>
+<li>@version</li>
+</ul>
+<ul>
+<li>@since</li>
+</ul>
+</li>
+</ul>
+<p>En los métodos considerar las etiquetas:</p>
+<ul style="list-style-type: circle;">
+<li style="list-style-type: none;">
+<ul>
+<li>@param</li>
+</ul>
+<ul>
+<li>@return</li>
+<li>@throws</li>
+</ul>
+</li>
+</ul>
+<p></p>
+<p style="padding-left: 30px;">A continuación se muestra parte de la clase Main, con comentarios <span lang="en">Javadoc:</span></p>
+<p style="padding-left: 30px;"><span lang="en"></span></p>
+<div class="highlighted-code code-style-2 language-java" style="padding-left: 30px;">
+<div style="padding-left: 30px;">
+<pre style="padding-left: 30px;" class="  language-java"><code class="  language-java"><span class="token keyword">package</span> cuentas<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/**
+* La clase Principal, por donde empieza la ejecución del proyecto
+* @author Admin
+* @version 1.0
+* since 31/07/2020
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token function">operativa_cuenta</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/**
+* 
+* @param cantidad No lo usamos para nada. Se creó este parámetro para ver como añadir un parámetro con el fin de repasar la refactorización
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">operativa_cuenta</span><span class="token punctuation">(</span><span class="token keyword">float</span> cantidad<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+CCuenta miCuenta<span class="token punctuation">;</span>
+<span class="token keyword">double</span> saldoActual<span class="token punctuation">;</span>
+
+miCuenta <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">CCuenta</span><span class="token punctuation">(</span><span class="token string">"Antonio López"</span><span class="token punctuation">,</span><span class="token string">"1000-2365-85-1230456789"</span><span class="token punctuation">,</span><span class="token number">2500</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+saldoActual <span class="token operator">=</span> miCuenta<span class="token punctuation">.</span><span class="token function">estado</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"El saldo actual es"</span><span class="token operator">+</span> saldoActual <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+miCuenta<span class="token punctuation">.</span><span class="token function">retirar</span><span class="token punctuation">(</span><span class="token number">2300</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Fallo al retirar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Ingreso en cuenta"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+miCuenta<span class="token punctuation">.</span><span class="token function">ingresar</span><span class="token punctuation">(</span><span class="token number">695</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Fallo al ingresar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</div>
+</div>
+<p>A continuación se muestra parte de la clase CCuenta, con comentarios <span lang="en">Javadoc:</span></p>
+<div class="highlighted-code code-style-2 language-java">
+<div>
+<pre class="  language-java"><code class="  language-java"><span class="token keyword">package</span> cuentas<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CCuenta</span> <span class="token punctuation">{</span>
+
+
+<span class="token keyword">private</span> String nombre<span class="token punctuation">;</span>
+<span class="token keyword">private</span> String cuenta<span class="token punctuation">;</span>
+<span class="token keyword">private</span> <span class="token keyword">double</span> saldo<span class="token punctuation">;</span>
+<span class="token keyword">private</span> <span class="token keyword">double</span> tipoInterés<span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token function">CCuenta</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token function">CCuenta</span><span class="token punctuation">(</span>String nom<span class="token punctuation">,</span> String cue<span class="token punctuation">,</span> <span class="token keyword">double</span> sal<span class="token punctuation">,</span> <span class="token keyword">double</span> tipo<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+nombre <span class="token operator">=</span>nom<span class="token punctuation">;</span>
+cuenta<span class="token operator">=</span>cue<span class="token punctuation">;</span>
+saldo<span class="token operator">=</span>sal<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">estado</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+<span class="token keyword">return</span> saldo<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/**
+* 
+* @param cantidad Es el dinero a ingresar en la cuenta
+* @throws Exception Lanza este error si la cantida recibida es negativa
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">ingresar</span><span class="token punctuation">(</span><span class="token keyword">double</span> cantidad<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>cantidad<span class="token operator">&lt;</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span><span class="token punctuation">(</span><span class="token string">"No se puede ingresar una cantidad negativa"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+saldo <span class="token operator">=</span> saldo <span class="token operator">+</span> cantidad<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/**
+* 
+* @param cantidad Es el dinero a quitar de la cuenta
+* @throws Exception Lanza este error si la cantidad a retirar es negativa o es superios al dinero que hay en la cuenta
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">retirar</span><span class="token punctuation">(</span><span class="token keyword">double</span> cantidad<span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception
+<span class="token punctuation">{</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>cantidad <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span> <span class="token punctuation">(</span><span class="token string">"No se puede retirar una cantidad negativa"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">estado</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">&lt;</span> cantidad<span class="token punctuation">)</span>
+<span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span> <span class="token punctuation">(</span><span class="token string">"No se hay suficiente saldo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+saldo <span class="token operator">=</span> saldo <span class="token operator">-</span> cantidad<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @return the cuenta
+*/</span>
+<span class="token keyword">public</span> String <span class="token function">getCuenta</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">return</span> cuenta<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @return the nombre
+*/</span>
+<span class="token keyword">public</span> String <span class="token function">getNombre</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">return</span> nombre<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @return the saldo
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">double</span> <span class="token function">getSaldo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">return</span> saldo<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @return the tipoInterés
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">double</span> getTipoInteré<span class="token function">s</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">return</span> tipoInterés<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @param cuenta the cuenta to set
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setCuenta</span><span class="token punctuation">(</span>String cuenta<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>cuenta <span class="token operator">=</span> cuenta<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @param nombre the nombre to set
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setNombre</span><span class="token punctuation">(</span>String nombre<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>nombre <span class="token operator">=</span> nombre<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @param saldo the saldo to set
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">setSaldo</span><span class="token punctuation">(</span><span class="token keyword">double</span> saldo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>saldo <span class="token operator">=</span> saldo<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+* @param tipoInterés the tipoInterés to set
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> setTipoInteré<span class="token function">s</span><span class="token punctuation">(</span><span class="token keyword">double</span> tipoInterés<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>tipoInterés <span class="token operator">=</span> tipoInterés<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+</div>
+</div>
+<p><br><br></p>
+<p><strong>2. </strong><span style="text-decoration: underline;"><strong>Generar documentación JavaDoc para todo el proyecto y comprueba que abarca todos los métodos y atributos de la clase CCuenta.</strong></span></p>
+<p>Si hemos documentado el código en estilo <span lang="en">Javadoc</span>, podemos generar la documentación. Para ello, sobre el nombre del proyecto, pulsamos el botón derecho del ratón y se visualiza un menú. Elige la opción: "Generate Javadoc".</p>
+<p>Si se ha documentado bien el código, deben de generar los documentos <span lang="en">Javadoc</span>. En nuestro caso deberían ser como se muestra a continuación.</p>
+<div style="width: 100%;"><br><a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_18.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_18.png" width="400" height="213" alt="Captura del pantalla de NetBeans, que muestra los documentos Javadoc que se han generado." title="Javadoc 1."></a>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_17.png" target="_blank" title="Ampliar imagen." rel="noopener"><img src="./Solución de la tarea para ED04_files/DAM_ED04_SolucionTarea_17.png" width="400" height="213" alt="Captura del pantalla de NetBeans, que muestra los documentos Javadoc que se han generado." title="Javadoc 2."></a></div>
+<div style="clear: both;"></div>
+</div>
+</div>
+</article>
+</article>
+<article class="node level-2-node" id="exe-node-1">
+<header class="nodeDecoration">
+<h1 id="exenode_1_AnexoLicenciasderecursos" class="nodeTitle">Anexo.- Licencias de recursos.</h1>
+</header>
+<article class="iDevice_wrapper FreeTextfpdIdevice" id="id1-1">
+<div class="iDevice emphasis0">
+<div id="ta1_73" class="block iDevice_content">
+<table class="tabla" summary="Datos de licencia de todos los recursos utilizados en la unidad"><caption>Licencias de recursos utilizados en la Unidad de Trabajo.</caption>
+<tbody>
+<tr>
+<th scope="col">Recurso (1)</th>
+<th scope="col">Datos del recurso (1)</th>
+<th scope="col">Recurso (2)</th>
+<th scope="col">Datos del recurso (2)</th>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img0.png" width="103" height="59" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 1."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img1.png" width="103" height="59" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 2."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img2.png" width="103" height="72" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 3."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img3.png" width="103" height="58" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 4."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img4.png" width="103" height="55" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 5."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img5.png" width="103" height="58" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 6."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img6.png" width="103" height="58" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 7."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img7.png" width="103" height="55" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 8."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img8.png" width="103" height="80" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 9."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img9.png" width="103" height="55" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 10."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img10.png" width="103" height="58" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 11."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img11.png" width="103" height="79" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 12."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img12.png" width="103" height="79" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 13."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img13.png" width="103" height="79" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 14."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img14.png" width="103" height="55" alt="Captura del pantalla de NetBeans, con los pasos que hay que realizar para hacer la refactorización de la tarea." title="Refactorización 15."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img15.png" width="103" height="55" alt="Captura del pantalla de NetBeans, que muestra los documentos Javadoc que se han generado." title="Javadoc 1."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+</tr>
+<tr>
+<td class="texto_centrado"><img src="./Solución de la tarea para ED04_files/img16.png" width="103" height="55" alt="Captura del pantalla de NetBeans, que muestra los documentos Javadoc que se han generado." title="Javadoc 2."></td>
+<td>
+<p>Autoría: Oracle Corporation.</p>
+<p>Licencia: Copyright cita.</p>
+<p>Procedencia: Captura de pantalla de Netbeans.</p>
+</td>
+<td class="texto_centrado"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</article>
+</article>
+</section>
+
+
+</div>
+<script type="text/javascript" src="./Solución de la tarea para ED04_files/_fpd_js.js.descarga"></script>
+</body></html>
