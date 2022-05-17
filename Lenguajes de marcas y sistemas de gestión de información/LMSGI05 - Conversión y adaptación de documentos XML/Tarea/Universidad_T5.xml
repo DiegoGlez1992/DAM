@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="Universidad_T5.xsl"?>
+<Universidad>
+  <grados>
+    <grado id_c="c01">
+      <nombre>Ingeniería Informática</nombre>
+      <plan>2003</plan>
+      <creditos>250</creditos>
+      <centro>Facultad de Ciencias</centro>
+    </grado>
+    <grado id_c="c02">
+      <nombre>Grado en Económicas</nombre>
+      <plan>2001</plan>
+      <creditos>275</creditos>
+      <centro>Facultad de Ciencias Sociales</centro>
+    </grado>
+    <grado id_c="c03">
+      <nombre>Ingeniería Industrial</nombre>
+      <plan>2001</plan>
+      <creditos>280</creditos>
+      <centro>Escuela de Ingeniería</centro>
+    </grado>
+    <grado id_c="c04">
+      <nombre>Ingeniería Quimica</nombre>
+      <plan>2003</plan>
+      <creditos>175</creditos>
+      <centro>Facultad de Ciencias</centro>
+    </grado>
+    <grado id_c="c05">
+      <nombre>Biología</nombre>
+      <plan>2001</plan>
+      <creditos>175</creditos>
+      <centro>Facultad de Ciencias</centro>
+    </grado>
+    <grado id_c="c06">
+      <nombre>Grado en Historia</nombre>
+      <plan>1980</plan>
+      <creditos>475</creditos>
+      <centro>Facultad de Humanidades</centro>
+    </grado>
+    <grado id_c="c06">
+      <nombre>Grado en Geología</nombre>
+      <plan>1990</plan>
+      <creditos>400</creditos>
+      <centro>Facultad de Ciencias</centro>
+    </grado>
+  </grados>
+  <!-- ASIGNATURAS -->
+  <asignaturas>
+    <asignatura id_a="a01" titulacion="c01">
+      <nombre>Ofimática</nombre>
+      <creditos_teoricos>3</creditos_teoricos>
+      <creditos_practicos>1.5</creditos_practicos>
+      <trimestre>1</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a02" titulacion="c01">
+      <nombre>Ingeniería del Software</nombre>
+      <creditos_teoricos>6</creditos_teoricos>
+      <creditos_practicos>1.5</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a03" titulacion="c02">
+      <nombre>Administración de Empresas</nombre>
+      <creditos_teoricos/>
+      <creditos_practicos>1.5</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>No</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a04" titulacion="c02">
+      <nombre>Derecho Internacional</nombre>
+      <creditos_teoricos>4</creditos_teoricos>
+      <creditos_practicos>5</creditos_practicos>
+      <trimestre>1</trimestre>
+      <caracteristicas>
+        <tipo>Opcional</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a05" titulacion="c04">
+      <nombre>Laboratorio multidisciplinar</nombre>
+      <creditos_teoricos>1.5</creditos_teoricos>
+      <creditos_practicos>1.5</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a06" titulacion="c03">
+      <nombre>Didáctica</nombre>
+      <creditos_teoricos>4</creditos_teoricos>
+      <creditos_practicos>3</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Opcional</tipo>
+        <practicas>No</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a07" titulacion="c05">
+      <nombre>Tecnología de los Alimentos</nombre>
+      <creditos_teoricos>4</creditos_teoricos>
+      <creditos_practicos>1</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>No</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a08" titulacion="c01">
+      <nombre>Bases de Datos</nombre>
+      <creditos_teoricos/>
+      <creditos_practicos>5.5</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Troncal</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+    <asignatura id_a="a09" titulacion="c06">
+      <nombre>Historia del Pensamiento</nombre>
+      <creditos_teoricos>6</creditos_teoricos>
+      <creditos_practicos>0</creditos_practicos>
+      <trimestre>2</trimestre>
+      <caracteristicas>
+        <tipo>Opcional</tipo>
+        <practicas>Si</practicas>
+      </caracteristicas>
+    </asignatura>
+  </asignaturas>
+</Universidad>

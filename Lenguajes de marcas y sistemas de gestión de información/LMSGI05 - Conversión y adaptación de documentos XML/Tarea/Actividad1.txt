@@ -1,0 +1,20 @@
+a) Nombre de los grados con plan anterior al 2002.
+//grado[plan<2002]/nombre/text()
+
+b) Nombre y plan de los grados de la Facultad de Ciencias.
+//grado[centro="Facultad de Ciencias"]/nombre | //grado[centro="Facultad de Ciencias"]/plan
+
+c) Créditos teóricos totales de las asignaturas cuya titulación es “c01”.
+sum(//asignaturas/asignatura[@titulacion='c01']/creditos_teoricos/text())
+
+d) Asignaturas del Grado en Informática.
+//asignaturas/asignatura[@titulacion=//grado[nombre="Ingeniería Informática"]/@id_c]/nombre/text()
+
+e) Nombre de los grados con alguna asignatura que no tiene prácticas.
+//grado[@id_c=//asignaturas/asignatura[caracteristicas/practicas="No"]/@titulacion]/nombre/text()
+
+f) Nombre del grado de la asignatura de Bases de Datos.
+//grado[@id_c=//asignaturas/asignatura[nombre="Bases de Datos"]/@titulacion]/nombre/text()
+
+g) Nombre de los centros que tienen asignaturas opcionales en el 2º trimestre y cuyos créditos superen los 250.
+//grado[@id_c=//asignaturas/asignatura[trimestre=2 and caracteristicas/tipo="Opcional"]/@titulacion and creditos>250]/centro/text()

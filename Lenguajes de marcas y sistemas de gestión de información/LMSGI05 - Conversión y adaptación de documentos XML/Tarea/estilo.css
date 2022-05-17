@@ -1,0 +1,42 @@
+body,
+html{
+    font-family: Verdana;
+    background: #ff9050;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#contenedor {
+	margin: 25;
+	padding: 10px;
+	background: white;
+}
+
+h1, h2 {
+	color: #ff9950;
+}
+
+h2 {
+    text-align: center;
+}
+
+table {
+	width: 100%;
+	background-color: #fcc59d;
+    border: 2px;
+    border-style: solid;
+    border-color: #ff9050;
+    margin: 0 auto;
+    padding: 5px;
+	margin-bottom: 10px;
+}
+
+td{
+    border: 2px;
+    text-align: center;
+    border-style: solid;
+    border-color: #ff9050;
+    padding: 10px 30px 10px 30px;
+}
