@@ -11,11 +11,10 @@ Este temario y ejercicios corresponden al módulo de Lenguajes de marcas y siste
 ### [LMSGI04 - Definición de esquemas y vocabularios en xml](https://github.com/DiegoGlez1992/DAM/tree/main/Lenguajes%20de%20marcas%20y%20sistemas%20de%20gesti%C3%B3n%20de%20informaci%C3%B3n/LMSGI04%20-%20Definici%C3%B3n%20de%20esquemas%20y%20vocabularios%20en%20XML)
 * Nota tarea: 9.90
 ### [LMSGI05 - Conversión y adaptación de documentos XML](https://github.com/DiegoGlez1992/DAM/tree/main/Lenguajes%20de%20marcas%20y%20sistemas%20de%20gesti%C3%B3n%20de%20informaci%C3%B3n/LMSGI05%20-%20Conversi%C3%B3n%20y%20adaptaci%C3%B3n%20de%20documentos%20XML)
-* Nota tarea: 
+* Nota tarea: 10.00
 ### [LMSGI06 - Almacenamiento de información](https://github.com/DiegoGlez1992/DAM/tree/main/Lenguajes%20de%20marcas%20y%20sistemas%20de%20gesti%C3%B3n%20de%20informaci%C3%B3n/LMSGI06%20-%20Almacenamiento%20de%20informaci%C3%B3n)
-* Nota tarea: 
+* Nota tarea: 10.00
 ### [LMSGI07 - Sistemas de gestión empresarial](https://github.com/DiegoGlez1992/DAM/tree/main/Lenguajes%20de%20marcas%20y%20sistemas%20de%20gesti%C3%B3n%20de%20informaci%C3%B3n/LMSGI07%20-%20Sistemas%20de%20gesti%C3%B3n%20empresarial)
-* Nota tarea: 
 ## Exámenes
 ### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Lenguajes%20de%20marcas%20y%20sistemas%20de%20gesti%C3%B3n%20de%20informaci%C3%B3n/Examen%201%C2%AA%20evaluaci%C3%B3n)
 ### 2ª evaluación
