@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actores>
+	<actor CodAct="A1" sexo="hombre">
+		<nombre>Guy</nombre>
+		<apellidos>
+			<apellido1>Edward</apellido1>
+			<apellido2>Pearce</apellido2>
+		</apellidos>
+		<nacionalidad>australiano</nacionalidad>
+		<fechaNac>
+			<dia>05</dia>
+			<mes>10</mes>
+			<anio>1967</anio>
+		</fechaNac>
+		<altura>1.78</altura>
+		<especialidad>suspense</especialidad>
+	</actor>
+	<actor CodAct="A2" sexo="mujer">
+		<nombre>Carrie-Anne</nombre>
+		<apellidos>
+			<apellido1>Moss</apellido1>
+		</apellidos>
+		<nacionalidad>canadiense</nacionalidad>
+		<fechaNac>
+			<dia>21</dia>
+			<mes>08</mes>
+			<anio>1967</anio>
+		</fechaNac>
+		<altura>1.73</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A3" sexo="hombre">
+		<nombre>Joe</nombre>
+		<apellidos>
+			<apellido1>Pantoliano</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>12</dia>
+			<mes>09</mes>
+			<anio>1951</anio>
+		</fechaNac>
+		<altura>1.76</altura>
+		<especialidad>suspense</especialidad>
+	</actor>
+	<actor CodAct="A4" sexo="hombre">
+		<nombre>Samuel L.</nombre>
+		<apellidos>
+			<apellido1>Jackson</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense y gabones</nacionalidad>
+		<fechaNac>
+			<dia>21</dia>
+			<mes>12</mes>
+			<anio>1948</anio>
+		</fechaNac>
+		<altura>1.89</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A5" sexo="hombre">
+		<nombre apodo="Driver">Kurt</nombre>
+		<apellidos>
+			<apellido1>Russell</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>17</dia>
+			<mes>03</mes>
+			<anio>1951</anio>
+		</fechaNac>
+		<altura>1.76</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A6" sexo="hombre">
+		<nombre>Walton</nombre>
+		<apellidos>
+			<apellido1>Goggins</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>10</dia>
+			<mes>11</mes>
+			<anio>1971</anio>
+		</fechaNac>
+		<altura>1.73</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A7" sexo="hombre">
+		<nombre apodo="High Tim">Tim</nombre>
+		<apellidos>
+			<apellido1>Roth</apellido1>
+		</apellidos>
+		<nacionalidad>britanico</nacionalidad>
+		<fechaNac>
+			<dia>14</dia>
+			<mes>05</mes>
+			<anio>1961</anio>
+		</fechaNac>
+		<altura>1.70</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A8" sexo="hombre">
+		<nombre>Thomas</nombre>
+		<apellidos>
+			<apellido1>Brodie-Sangster</apellido1>
+		</apellidos>
+		<nacionalidad>britanico</nacionalidad>
+		<fechaNac>
+			<dia>16</dia>
+			<mes>05</mes>
+			<anio>1990</anio>
+		</fechaNac>
+		<altura>1.79</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A9" sexo="hombre">
+		<nombre>Dylan</nombre>
+		<apellidos>
+			<apellido1>O'Brien</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>26</dia>
+			<mes>08</mes>
+			<anio>1991</anio>
+		</fechaNac>
+		<altura>1.77</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A10" sexo="mujer">
+		<nombre apodo="Key">Kaya</nombre>
+		<apellidos>
+			<apellido1>Scodelario</apellido1>
+		</apellidos>
+		<nacionalidad>britanica</nacionalidad>
+		<fechaNac>
+			<dia>13</dia>
+			<mes>03</mes>
+			<anio>1992</anio>
+		</fechaNac>
+		<altura>1.68</altura>
+		<especialidad>suspense</especialidad>
+	</actor>
+	<actor CodAct="A11" sexo="hombre">
+		<nombre>John</nombre>
+		<apellidos>
+			<apellido1>Travolta</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>18</dia>
+			<mes>02</mes>
+			<anio>1954</anio>
+		</fechaNac>
+		<altura>1.88</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A12" sexo="mujer">
+		<nombre>Uma</nombre>
+		<apellidos>
+			<apellido1>Thurman</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>29</dia>
+			<mes>04</mes>
+			<anio>1970</anio>
+		</fechaNac>
+		<altura>1.83</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A13" sexo="hombre">
+		<nombre>Bruce</nombre>
+		<apellidos>
+			<apellido1>Willis</apellido1>
+		</apellidos>
+		<nacionalidad>estadounidense</nacionalidad>
+		<fechaNac>
+			<dia>19</dia>
+			<mes>03</mes>
+			<anio>1955</anio>
+		</fechaNac>
+		<altura>1.83</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+	<actor CodAct="A14" sexo="hombre">
+		<nombre>Alberto</nombre>
+		<apellidos>
+			<apellido1>Redondo</apellido1>
+			<apellido2>Jiménez</apellido2>
+		</apellidos>
+		<nacionalidad>espanol</nacionalidad>
+		<fechaNac>
+			<dia>11</dia>
+			<mes>12</mes>
+			<anio>1994</anio>
+		</fechaNac>
+		<altura>1.87</altura>
+		<especialidad>accion</especialidad>
+	</actor>
+    </actores>

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cine>
+    <peliculas>
+        <pelicula codPeli="CP_A001" titulo="Memento">
+            <descripcion>El protagonista pierde la memoria y para acordarse de las cosas se tatúa sus vivencias.</descripcion>
+            <fecha_estreno>
+                <dia>19</dia>
+                <mes>01</mes>
+                <anio>2001</anio>
+            </fecha_estreno>
+            <generos>
+                <genero>Suspense</genero>
+				<genero>Misterio</genero>
+            </generos>
+            <duracion>113</duracion>
+            <elenco>
+                <actor_principal>A1</actor_principal>
+                <actor>A2</actor>
+                <actor>A3</actor>
+            </elenco>
+            <personajes>
+                <personaje>Leonard Shelby</personaje>
+                <personaje>Teddy</personaje>
+                <personaje>Natalie</personaje>
+                <personaje>Sammy Jankis</personaje>
+            </personajes>
+            <director id_dir="CEN" />
+            <productora id_prod="P1" />
+            <clasificacion>13</clasificacion>
+            <dinero>
+                <presupuesto>9000000</presupuesto>
+                <recaudacion>39723096</recaudacion>
+            </dinero>
+        </pelicula>
+        <pelicula codPeli="CP_B002" titulo="Los odiosos ocho">
+            <descripcion>
+                John Ruth va a viajar a Red Rock para llevar a Domergue a la justicia para
+                ser ahorcada y cobrar su recompensa, a lo largo del trayecto se irá encontrando con diferentes
+                personas. Uno de los personajes empieza a sospechar de que algo extraño está pasando en el refugio en el que 
+                se quedan los viajeros para pasar la tormenta que hay.
+            </descripcion>
+            <fecha_estreno>
+                <dia>15</dia>
+                <mes>1</mes>
+                <anio>2016</anio>
+            </fecha_estreno>
+            <generos>
+                <genero>Viejo oeste</genero>
+                <genero>Misterio</genero>
+            </generos>
+            <duracion>167</duracion>
+            <elenco>
+                <actor_principal>A5</actor_principal>
+                <actor>A4</actor>
+                <actor>A6</actor>
+                <actor>A7</actor>
+            </elenco>
+            <personajes>
+                <personaje>Major Marquis Warren</personaje>
+                <personaje>John "The Hangman" Ruth</personaje>
+                <personaje>Oswaldo Mobray</personaje>
+                <personaje>Chris Mannix</personaje>
+            </personajes>
+            <director id_dir="QJT" />
+            <productora id_prod="P2" />
+            <clasificacion>18</clasificacion>
+            <dinero>
+                <presupuesto>44000000</presupuesto>
+                <recaudacion>155760117</recaudacion>
+            </dinero>
+        </pelicula>
+        <pelicula codPeli="CP_C324" titulo="El corredor del laberinto">
+            <descripcion>
+                La película sigue la historia de Thomas, un adolescente cuya memoria fue borrada 
+                y que ha sido encerrado junto a otros chicos de su edad en un laberinto plagado de monstruos
+                y su objetivo es encontrar la salida.
+            </descripcion>
+            <fecha_estreno>
+                <dia>19</dia>
+                <mes>09</mes>
+                <anio>2014</anio>
+            </fecha_estreno>
+            <generos>
+                <genero>Ciencia ficción</genero>
+                <genero>Suspense</genero>
+                <genero>Acción</genero>
+				        <genero>Misterio</genero>
+            </generos>
+            <duracion>113</duracion>
+            <elenco>
+                <actor_principal>>A8</actor_principal>
+                <actor>A9</actor>
+                <actor>A10</actor>
+            </elenco>
+            <personajes>
+                <personaje>Thomas</personaje>
+                <personaje>Newt</personaje>
+                <personaje>Teresa</personaje>
+            </personajes>
+            <director id_dir="WBA" />
+            <productora id_prod="P3" />
+            <clasificacion>12</clasificacion>
+            <dinero>
+                <presupuesto>34000000</presupuesto>
+                <recaudacion>348319861</recaudacion>
+            </dinero>
+        </pelicula>
+        <pelicula codPeli="CP_A213" titulo="Pulp Fiction">
+            <descripcion>
+                Jules y Vincent, dos asesinos a sueldo con no demasiadas luces,
+                trabajan para el gángster Marsellus Wallace. Vincent le confiesa 
+                a Jules que Marsellus le ha pedido que cuide de Mia, su atractiva mujer.
+                Jules le recomienda prudencia porque es muy peligroso sobrepasarse con la novia del jefe.
+                Cuando llega la hora de trabajar, ambos deben ponerse "manos a la obra".
+                Su misión: recuperar un misterioso maletín. 
+            </descripcion>
+            <fecha_estreno>
+                <dia>13</dia>
+                <mes>01</mes>
+                <anio>1995</anio>
+            </fecha_estreno>
+            <generos>
+                <genero>Cine policiaco</genero>
+				<genero>Suspense</genero>
+            </generos>
+            <duracion>154</duracion>
+            <elenco>
+                <actor_principal>A4</actor_principal>
+                <actor>A11</actor>
+                <actor>A12</actor>
+                <actor>A13</actor>
+            </elenco>
+            <personajes>
+                <personaje>Vincent Vega</personaje>
+                <personaje>Jules Winnfield</personaje>
+                <personaje>Mia Wallace</personaje>
+                <personaje>Butch Coolidge</personaje>
+            </personajes>
+            <director id_dir="QJT" />
+            <productora id_prod="P4" />
+            <clasificacion>12</clasificacion>
+            <dinero>
+                <presupuesto>8000000</presupuesto>
+                <recaudacion>213928762</recaudacion>
+            </dinero>
+        </pelicula>
+        <pelicula codPeli="CP_C453" titulo="Jagger Royale">
+            <descripcion>
+                Todos los personajes míticos de los vídeos del popular youtuber
+                Míster Jägger se enfrentarán en un despiadado combate a muerte. 
+                Sólo puede quedar uno.
+            </descripcion>
+            <fecha_estreno>
+                <dia>12</dia>
+                <mes>07</mes>
+                <anio>2017</anio>
+            </fecha_estreno>
+            <generos>
+                <genero>Mediometraje</genero>
+                <genero>Comedia absurda</genero>
+            </generos>
+            <duracion>58</duracion>
+            <elenco>
+                <actor_principal>A14</actor_principal>actor_principal>
+            </elenco>
+            <personajes>
+                <personaje>El rey gusano</personaje>
+                <personaje>Veganomon</personaje>
+                <personaje>Jagger fibonacci</personaje>
+                <personaje>Jagger Geodude</personaje>
+            </personajes>
+            <director id_dir="ARJ" />
+            <productora id_prod="P2" />
+            <clasificacion>18</clasificacion>
+            <dinero>
+                <presupuesto>2000</presupuesto>
+                <recaudacion>5000</recaudacion>
+            </dinero>
+        </pelicula>
+    </peliculas>
+
+    <actores>
+        <actor CodAct="A1" sexo="hombre">
+            <nombre>Guy</nombre>
+            <apellidos>
+                <apellido1>Edward</apellido1>
+                <apellido2>Pearce</apellido2>
+            </apellidos>
+            <nacionalidad>australiano</nacionalidad>
+            <fechaNac>
+                <dia>05</dia>
+                <mes>10</mes>
+                <anio>1967</anio>
+            </fechaNac>
+            <altura>1.78</altura>
+            <especialidad>suspense</especialidad>
+        </actor>
+        <actor CodAct="A2" sexo="mujer">
+            <nombre>Carrie-Anne</nombre>
+            <apellidos>
+                <apellido1>Moss</apellido1>
+            </apellidos>
+            <nacionalidad>canadiense</nacionalidad>
+            <fechaNac>
+                <dia>21</dia>
+                <mes>08</mes>
+                <anio>1967</anio>
+            </fechaNac>
+            <altura>1.73</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A3" sexo="hombre">
+            <nombre>Joe</nombre>
+            <apellidos>
+                <apellido1>Pantoliano</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>12</dia>
+                <mes>09</mes>
+                <anio>1951</anio>
+            </fechaNac>
+            <altura>1.76</altura>
+            <especialidad>suspense</especialidad>
+        </actor>
+        <actor CodAct="A4" sexo="hombre">
+            <nombre>Samuel L.</nombre>
+            <apellidos>
+                <apellido1>Jackson</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense y gabones</nacionalidad>
+            <fechaNac>
+                <dia>21</dia>
+                <mes>12</mes>
+                <anio>1948</anio>
+            </fechaNac>
+            <altura>1.89</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A5" sexo="hombre">
+            <nombre apodo="Driver">Kurt</nombre>
+            <apellidos>
+                <apellido1>Russell</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>17</dia>
+                <mes>03</mes>
+                <anio>1951</anio>
+            </fechaNac>
+            <altura>1.76</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A6" sexo="hombre">
+            <nombre>Walton</nombre>
+            <apellidos>
+                <apellido1>Goggins</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>10</dia>
+                <mes>11</mes>
+                <anio>1971</anio>
+            </fechaNac>
+            <altura>1.73</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A7" sexo="hombre">
+            <nombre apodo="High Tim">Tim</nombre>
+            <apellidos>
+                <apellido1>Roth</apellido1>
+            </apellidos>
+            <nacionalidad>britanico</nacionalidad>
+            <fechaNac>
+                <dia>14</dia>
+                <mes>05</mes>
+                <anio>1961</anio>
+            </fechaNac>
+            <altura>1.70</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A8" sexo="hombre">
+            <nombre>Thomas</nombre>
+            <apellidos>
+                <apellido1>Brodie-Sangster</apellido1>
+            </apellidos>
+            <nacionalidad>britanico</nacionalidad>
+            <fechaNac>
+                <dia>16</dia>
+                <mes>05</mes>
+                <anio>1990</anio>
+            </fechaNac>
+            <altura>1.79</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A9" sexo="hombre">
+            <nombre>Dylan</nombre>
+            <apellidos>
+                <apellido1>O'Brien</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>26</dia>
+                <mes>08</mes>
+                <anio>1991</anio>
+            </fechaNac>
+            <altura>1.77</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A10" sexo="mujer">
+            <nombre apodo="Key">Kaya</nombre>
+            <apellidos>
+                <apellido1>Scodelario</apellido1>
+            </apellidos>
+            <nacionalidad>britanica</nacionalidad>
+            <fechaNac>
+                <dia>13</dia>
+                <mes>03</mes>
+                <anio>1992</anio>
+            </fechaNac>
+            <altura>1.68</altura>
+            <especialidad>suspense</especialidad>
+        </actor>
+        <actor CodAct="A11" sexo="hombre">
+            <nombre>John</nombre>
+            <apellidos>
+                <apellido1>Travolta</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>18</dia>
+                <mes>02</mes>
+                <anio>1954</anio>
+            </fechaNac>
+            <altura>1.88</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A12" sexo="mujer">
+            <nombre>Uma</nombre>
+            <apellidos>
+                <apellido1>Thurman</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>29</dia>
+                <mes>04</mes>
+                <anio>1970</anio>
+            </fechaNac>
+            <altura>1.83</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A13" sexo="hombre">
+            <nombre>Bruce</nombre>
+            <apellidos>
+                <apellido1>Willis</apellido1>
+            </apellidos>
+            <nacionalidad>estadounidense</nacionalidad>
+            <fechaNac>
+                <dia>19</dia>
+                <mes>03</mes>
+                <anio>1955</anio>
+            </fechaNac>
+            <altura>1.83</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+        <actor CodAct="A14" sexo="hombre">
+            <nombre>Alberto</nombre>
+            <apellidos>
+                <apellido1>Redondo</apellido1>
+                <apellido2>Jiménez</apellido2>
+            </apellidos>
+            <nacionalidad>espanol</nacionalidad>
+            <fechaNac>
+                <dia>11</dia>
+                <mes>12</mes>
+                <anio>1994</anio>
+            </fechaNac>
+            <altura>1.87</altura>
+            <especialidad>accion</especialidad>
+        </actor>
+    </actores>
+</cine>

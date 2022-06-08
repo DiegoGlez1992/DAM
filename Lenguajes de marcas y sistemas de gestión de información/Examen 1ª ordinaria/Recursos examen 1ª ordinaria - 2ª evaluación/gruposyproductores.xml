@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<gruposyproductores>
+	<grupos>
+	  <grupo nombre="Queen" genero="Rock">
+		<integrantes>
+		  <integrante>
+			<nombre>Freddie</nombre>
+			<apellidos>Mercury</apellidos>
+			<fechaNacimiento>1946-09-05</fechaNacimiento>
+			<fechaDefuncion>1991-11-24</fechaDefuncion>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Brian</nombre>
+			<apellidos>May</apellidos>
+			<fechaNacimiento>1947-07-19</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Roger</nombre>
+			<apellidos>Taylor</apellidos>
+			<fechaNacimiento>1949-07-26</fechaNacimiento>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>John Richard</nombre>
+			<apellidos>Deacon</apellidos>
+			<fechaNacimiento>1951-08-19</fechaNacimiento>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-03" pro="PR-03">
+			<nombre>Queen</nombre>
+			<fechaLanzamiento>1973-07-13</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-04" pro="PR-03">
+			<nombre>Queen 2</nombre>
+			<fechaLanzamiento>1974-03-08</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-04" pro="PR-03">
+			<nombre>Sheer Heart Attack</nombre>
+			<fechaLanzamiento>1974-11-08</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-06" pro="PR-03">
+			<nombre>A Night at the Opera</nombre>
+			<fechaLanzamiento>1975-11-21</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-01" pro="PR-03">
+			<nombre>A Day at the Races</nombre>
+			<fechaLanzamiento>1976-12-10</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="ABBA" genero="Pop">
+		<integrantes>
+		  <integrante>
+			<nombre>Agnetha</nombre>
+			<apellidos>Faltskog</apellidos>
+			<fechaNacimiento>1950-05-05</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Bjorn</nombre>
+			<apellidos>Ulvaeus</apellidos>
+			<fechaNacimiento>1945-05-25</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Benny</nombre>
+			<apellidos>Andersson</apellidos>
+			<fechaNacimiento>1946-12-16</fechaNacimiento>
+			<instrumento>Acordeon</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Anni-Frid</nombre>
+			<apellidos>Lyngstad</apellidos>
+			<fechaNacimiento>1945-11-15</fechaNacimiento>
+			<instrumento>Piano</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-04" pro="PR-05">
+			<nombre>Ring Ring</nombre>
+			<fechaLanzamiento>1973-03-26</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-04" pro="PR-05">
+			<nombre>Waterloo</nombre>
+			<fechaLanzamiento>1973-09-24</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-04" pro="PR-05">
+			<nombre>ABBA</nombre>
+			<fechaLanzamiento>1975-05-21</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-04" pro="PR-02">
+			<nombre>Arrival</nombre>
+			<fechaLanzamiento>1976-10-11</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="Led Zeppelin" genero="Hard Rock">
+		<integrantes>
+		  <integrante>
+			<nombre>Robert</nombre>
+			<apellidos>Plant</apellidos>
+			<fechaNacimiento>1948-08-20</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Jimmy</nombre>
+			<apellidos>Page</apellidos>
+			<fechaNacimiento>1944-01-09</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>John Paul</nombre>
+			<apellidos>Jones</apellidos>
+			<fechaNacimiento>1946-01-03</fechaNacimiento>
+			<instrumento>Bajo</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>John</nombre>
+			<apellidos>Bonham</apellidos>
+			<fechaNacimiento>1948-06-31</fechaNacimiento>
+			<fechaDefuncion>1980-09-25</fechaDefuncion>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-03" pro="PR-04">
+			<nombre>Led Zeppelin</nombre>
+			<fechaLanzamiento>1969-01-12</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-04" pro="PR-03">
+			<nombre>Led Zeppelin II</nombre>
+			<fechaLanzamiento>1969-10-22</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-05" pro="PR-02">
+			<nombre>Led Zeppelin III</nombre>
+			<fechaLanzamiento>1970-10-05</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-06" pro="PR-01">
+			<nombre>Led Zeppelin IV</nombre>
+			<fechaLanzamiento>1971-11-08</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="The Rolling Stones" genero="Rock">
+		<integrantes>
+		  <integrante>
+			<nombre>Mick</nombre>
+			<apellidos>Jagger</apellidos>
+			<fechaNacimiento>1943-07-26</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Brian</nombre>
+			<apellidos>Jones</apellidos>
+			<fechaNacimiento>1942-02-28</fechaNacimiento>
+			<fechaDefuncion>1969-07-03</fechaDefuncion>
+			<instrumento>Guitarrista</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Keith</nombre>
+			<apellidos>Richards</apellidos>
+			<fechaNacimiento>1943-12-18</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Bill</nombre>
+			<apellidos>Wyman</apellidos>
+			<fechaNacimiento>1936-10-24</fechaNacimiento>
+			<instrumento>Bajo</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Charlie</nombre>
+			<apellidos>Watts</apellidos>
+			<fechaNacimiento>1941-06-02</fechaNacimiento>
+			<fechaDefuncion>2021-08-24</fechaDefuncion>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-04" pro="PR-07">
+			<nombre>The Rolling Stones</nombre>
+			<fechaLanzamiento>1964-05-16</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-06" pro="PR-07">
+			<nombre>12x5</nombre>
+			<fechaLanzamiento>1964-10-17</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-06" pro="PR-03">
+			<nombre>The Rolling Stones No. 2</nombre>
+			<fechaLanzamiento>1965-01-15</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-05" pro="PR-03">
+			<nombre>The Rolling Stones, Now!</nombre>
+			<fechaLanzamiento>1965-02-13</fechaLanzamiento>
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="Black Eyed Peas" genero="Hip Hop">
+		<integrantes>
+		  <integrante>
+			<nombre>William</nombre>
+			<apellidos>James Adams Jr</apellidos>
+			<fechaNacimiento>1975-03-15</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Allan</nombre>
+			<apellidos>Pineda Lindo</apellidos>
+			<fechaNacimiento>1974-11-28</fechaNacimiento>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Jaime</nombre>
+			<apellidos>Luis Gomez</apellidos>
+			<fechaNacimiento>1975-07-14</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Fergie</nombre>
+			<apellidos>Duhamel</apellidos>
+			<fechaNacimiento>1975-03-27</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-01" pro="PR-04">
+			<nombre>Behind the Front</nombre>
+			<fechaLanzamiento>1998-06-30</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-01" pro="PR-07">
+			<nombre>Bridging the Gap</nombre>
+			<fechaLanzamiento>2000-09-26</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-05" pro="PR-07">
+			<nombre>Elephunk</nombre>
+			<fechaLanzamiento>2003-06-24</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-05" pro="PR-07">
+			<nombre>Monkey Business</nombre>
+			<fechaLanzamiento>2005-06-07</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="Red Hot Chili Peppers" genero="Funk Rock">
+		<integrantes>
+		  <integrante>
+			<nombre>Anthony </nombre>
+			<apellidos>Kiedis</apellidos>
+			<fechaNacimiento>1962-11-01</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Michael</nombre>
+			<apellidos>Peter Balzary</apellidos>
+			<fechaNacimiento>1962-10-16</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Chad</nombre>
+			<apellidos>Gaylord Smith</apellidos>
+			<fechaNacimiento>1961-10-25</fechaNacimiento>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>John</nombre>
+			<apellidos>Anthony Frusciante</apellidos>
+			<fechaNacimiento>1970-03-05</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-07" pro="PR-05">
+			<nombre>The Red Hot Chili Peppers</nombre>
+			<fechaLanzamiento>1984-08-10</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-07" pro="PR-01">
+			<nombre>Freaky Styley</nombre>
+			<fechaLanzamiento>1985-08-16</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-07" pro="PR-01">
+			<nombre>The Uplift Mofo Party Plan</nombre>
+			<fechaLanzamiento>1987-09-29</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-07" pro="PR-03">
+			<nombre>Mother's Milk</nombre>
+			<fechaLanzamiento>1989-08-16</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		</discos>
+	  </grupo>
+	  <grupo nombre="Chic" genero="Disco">
+		<integrantes>
+		  <integrante>
+			<nombre>Nile </nombre>
+			<apellidos>Rodgers</apellidos>
+			<fechaNacimiento>1952-09-19</fechaNacimiento>
+			<instrumento>Guitarra</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Bernard</nombre>
+			<apellidos>Edwards</apellidos>
+			<fechaNacimiento>1952-10-31</fechaNacimiento>
+			<fechaDefuncion>1996-04-18</fechaDefuncion>
+			<instrumento>Bajo</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Tony</nombre>
+			<apellidos>Thompson</apellidos>
+			<fechaNacimiento>1954-11-15</fechaNacimiento>
+			<fechaDefuncion>2003-11-12</fechaDefuncion>
+			<instrumento>Bateria</instrumento>
+		  </integrante>
+		  <integrante>
+			<nombre>Norma</nombre>
+			<apellidos>Jean Wright</apellidos>
+			<fechaNacimiento>1956-07-15</fechaNacimiento>
+			<instrumento>Cantante</instrumento>
+		  </integrante>
+		</integrantes>
+		<discos>
+		  <disco dis="DI-03" pro="PR-02">
+			<nombre>Chic</nombre>
+			<fechaLanzamiento>1977-11-22</fechaLanzamiento>
+		  </disco>
+		  <disco dis="DI-03" pro="PR-02">
+			<nombre>C'est Chic</nombre>
+			<fechaLanzamiento>1978-08-11</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-02" pro="PR-06">
+			<nombre>Risque</nombre>
+			<fechaLanzamiento>1979-07-30</fechaLanzamiento>
+			<discoPlatino />
+		  </disco>
+		  <disco dis="DI-02" pro="PR-06">
+			<nombre>Real People</nombre>
+			<fechaLanzamiento>1980-06-30</fechaLanzamiento>
+		  </disco>
+		</discos>
+	  </grupo>
+	</grupos>
+	<productores>
+	  <productor id="PR-01">
+		<nombre>Roy </nombre>
+		<apellidos>Thomas Baker</apellidos>
+	  </productor>
+	  <productor id="PR-02">
+		<nombre>William</nombre>
+		<apellidos>James Adams Jr</apellidos>
+	  </productor>
+	  <productor id="PR-03">
+		<nombre>Benny</nombre>
+		<apellidos>Anderson</apellidos>
+	  </productor>
+	  <productor id="PR-04">
+		<nombre>Rick</nombre>
+		<apellidos>Rubin</apellidos>
+	  </productor>
+	  <productor id="PR-05">
+		<nombre>Jimmy</nombre>
+		<apellidos>Page</apellidos>
+	  </productor>
+	  <productor id="PR-6">
+		<nombre>Andrew</nombre>
+		<apellidos>Loog Oldham</apellidos>
+	  </productor>
+	  <productor id="PR-07">
+		<nombre>Nile</nombre>
+		<apellidos>Rodgers</apellidos>
+	  </productor>
+	</productores>
+</gruposyproductores>

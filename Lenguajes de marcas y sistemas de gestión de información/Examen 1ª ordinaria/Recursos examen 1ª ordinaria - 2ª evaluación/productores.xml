@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<productores>
+  <productor id="PR-01">
+    <nombre>Roy </nombre>
+    <apellidos>Thomas Baker</apellidos>
+  </productor>
+  <productor id="PR-02">
+    <nombre>William</nombre>
+    <apellidos>James Adams Jr</apellidos>
+  </productor>
+  <productor id="PR-03">
+    <nombre>Benny</nombre>
+    <apellidos>Anderson</apellidos>
+  </productor>
+  <productor id="PR-04">
+    <nombre>Rick</nombre>
+    <apellidos>Rubin</apellidos>
+  </productor>
+  <productor id="PR-05">
+    <nombre>Jimmy</nombre>
+    <apellidos>Page</apellidos>
+  </productor>
+  <productor id="PR-6">
+    <nombre>Andrew</nombre>
+    <apellidos>Loog Oldham</apellidos>
+  </productor>
+  <productor id="PR-07">
+    <nombre>Nile</nombre>
+    <apellidos>Rodgers</apellidos>
+  </productor>
+</productores>
