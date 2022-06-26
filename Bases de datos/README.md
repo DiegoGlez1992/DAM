@@ -18,4 +18,5 @@ Este temario y ejercicios corresponden al módulo de bases de datos de 1º, del 
 * Nota tarea: 10.00
 ## Exámenes
 ### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/Examen%201%C2%AA%20evaluaci%C3%B3n)
-### 2ª evaluación
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/Examen%202%C2%AA%20evaluaci%C3%B3n)
+### [Ordinaria 1](https://github.com/DiegoGlez1992/DAM/tree/main/Bases%20de%20datos/Examen%201%C2%AA%20ordinaria)
