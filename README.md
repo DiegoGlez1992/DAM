@@ -10,3 +10,9 @@ Este temario y ejercicios corresponden al I.E.S. Augusto González de Linares de
 * [Sistemas Informáticos](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos)
 
 ### Segundo Curso (DAM2)
+* Acceso a Datos
+* Desarrollo de Interfaces
+* Empresa e Iniciativa Emprendedora
+* Programación Multimedia y Dispositivos Móviles
+* Programación de Servicios y Procesos
+* Sistemas de Gestión Empresarial
