@@ -27,4 +27,5 @@ Este temario y ejercicios corresponden al módulo de programación de 1º, del C
 ### [RPROG - Reto 2022](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n/PROG-Reto)
 ## Exámenes
 ### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n/Examen%201%C2%AA%20evaluaci%C3%B3n)
-### 2ª evaluación
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n/Examen%202%C2%AA%20evaluaci%C3%B3n)
+### [Ordinaria 1](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n/Examen%201%C2%AA%20ordinaria)
