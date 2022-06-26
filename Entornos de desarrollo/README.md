@@ -16,4 +16,5 @@ Este temario y ejercicios corresponden al módulo de entornos de desarrollo de 1
 * Nota tarea: 6.00
 ## Exámenes
 ### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Entornos%20de%20desarrollo/Examen%201%C2%AA%20evaluaci%C3%B3n)
-### 2ª evaluación
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Entornos%20de%20desarrollo/Examen%202%C2%AA%20evaluaci%C3%B3n)
+### [Ordinaria 1](https://github.com/DiegoGlez1992/DAM/tree/main/Entornos%20de%20desarrollo/Examen%201%C2%AA%20ordinaria)
