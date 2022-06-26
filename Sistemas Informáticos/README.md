@@ -21,7 +21,8 @@ Este temario y ejercicios corresponden al módulo de sistemas informáticos de 1
 ### [SI09 - Administración de redes Windows]([url](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos/SI09%20-%20Administraci%C3%B3n%20de%20redes%20Windows))
 * Nota tarea: 10.00
 ### [SI10 - Administración de redes GNU-Linux]([url](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos/SI10%20-%20Administraci%C3%B3n%20de%20redes%20GNU-Linux))
-* Nota tarea: 
+* Nota tarea: 10.00
 ## Exámenes
 ### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos/Examen%201%C2%AA%20evaluaci%C3%B3n)
-### 2ª evaluación
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos/Examen%202%C2%AA%20evaluaci%C3%B3n)
+### [Ordinaria 1](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos/Examen%201%C2%AA%20ordinaria)
