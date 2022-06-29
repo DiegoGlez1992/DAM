@@ -20,4 +20,3 @@ Este temario y ejercicios corresponden al módulo de formación y orientación l
 * Nota tarea: 
 ### [FOL02 - Los equipos de trabajo y la gestión del conflicto](https://github.com/DiegoGlez1992/DAM/tree/main/Formaci%C3%B3n%20y%20orientaci%C3%B3n%20laboral/FOL02%20-%20Los%20equipos%20de%20trabajo%20y%20la%20gesti%C3%B3n%20del%20conflicto)
 * Nota tarea: 
-.
