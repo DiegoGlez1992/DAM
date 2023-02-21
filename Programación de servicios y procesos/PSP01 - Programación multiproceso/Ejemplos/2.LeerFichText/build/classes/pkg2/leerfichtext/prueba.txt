@@ -1,0 +1,4 @@
+hola este es un ejemplo de lectura
+de un fichero
+Se puede leer perfectamente.
+Adios.

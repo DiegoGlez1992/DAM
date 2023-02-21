@@ -1,0 +1,1 @@
+java -jar GeneraNumeros.jar | java -jar LecturaNumeros.jar

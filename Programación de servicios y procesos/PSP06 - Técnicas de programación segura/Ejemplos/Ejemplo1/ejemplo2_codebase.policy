@@ -1,0 +1,3 @@
+grant codeBase "file:/D:/prueba/*"{	
+	permission java.io.FilePermission "D:/prueba/*", "read, write";	
+};

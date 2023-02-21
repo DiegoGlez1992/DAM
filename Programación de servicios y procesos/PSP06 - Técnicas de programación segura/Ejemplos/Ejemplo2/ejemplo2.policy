@@ -1,0 +1,3 @@
+grant codeBase "file:/D:/OneDrive/Documentos/PSP/PSP06_Tecnicas_Programacion_Segura/\Ejemplos/Ejemplo1_fich/*"{	
+	permission java.io.FilePermission "D:\\prueba\\ejemplo2\\*", "read, write";	
+};
