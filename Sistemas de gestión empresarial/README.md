@@ -1,20 +1,16 @@
-# Programación multimedia y dispositivos móviles (PMDM)
-Este temario y ejercicios corresponden al módulo de programación multimedia y dispositivos móviles de 2º, del C.F.G.S. Aplicaciones Multiplataforma del I.E.S. Augusto González de Linares de Santander, Cantabria, de la promoción 2021/2023 en modalidad a distancia.
+# Sistemas de gestión empresarial (SGE)
+Este temario y ejercicios corresponden al módulo de sistemas de gestión empresarial de 2º, del C.F.G.S. Aplicaciones Multiplataforma del I.E.S. Augusto González de Linares de Santander, Cantabria, de la promoción 2021/2023 en modalidad a distancia.
 ## 1ª Evaluación
-### [PMDM01 - Programación de videojuegos 2D](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM01%20-%20Programaci%C3%B3n%20de%20videojuegos%202D)
+### [SGE01 - Identificación de sistemas ERP-CRM](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE01%20-%20Identificaci%C3%B3n%20de%20sistemas%20ERP-CRM)
 * Nota tarea: 
-### [PMDM02 - Programación de videojuegos 3D](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM02%20-%20Programaci%C3%B3n%20de%20videojuegos%203D)
-* Nota tarea: 
-### [PMDM03 - Tecnologías para aplicaciones en dispositivos móviles](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM03%20-%20Tecnolog%C3%ADas%20para%20aplicaciones%20en%20dispositivos%20m%C3%B3viles)
-* Nota tarea: 
-### [PMDM04 - Programación de aplicaciones para dispositivos móviles](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM04%20-%20Programaci%C3%B3n%20de%20aplicaciones%20para%20dispositivos%20m%C3%B3viles)
+### [SGE02 - Instalación y configuración de sistemas ERP-CRM](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE02%20-%20Instalaci%C3%B3n%20y%20configuraci%C3%B3n%20de%20sistemas%20ERP-CRM)
 * Nota tarea: 
 ## 2ª Evaluación
-### [PMDM05 - Programación Avanzada en Android](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM05%20-%20Programaci%C3%B3n%20Avanzada%20en%20Android)
+### [SGE03 - Organización, consulta y tratamiento de la información](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE03%20-%20Organizaci%C3%B3n%2C%20consulta%20y%20tratamiento%20de%20la%20informaci%C3%B3n)
 * Nota tarea: 
-### [PMDM06 - Programación multimedia](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM06%20-%20Programaci%C3%B3n%20multimedia)
+### [SGE04 - Implantación de sistemas ERP-CRM](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE04%20-%20Implantaci%C3%B3n%20de%20sistemas%20ERP-CRM)
 * Nota tarea: 
-### [PMDM07 - Comunicaciones](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM07%20-%20Comunicaciones)
+### [SGE05 - Desarrollo de componentes](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE05%20-%20Desarrollo%20de%20componentes)
 * Nota tarea: 
 ## Exámenes
 ### [1ª evaluación]()
