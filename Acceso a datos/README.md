@@ -1,4 +1,4 @@
-# Bases de datos (BD)
+# Acceso a datos (AD)
 Este temario y ejercicios corresponden al módulo de acceso a datos de 2º, del C.F.G.S. Aplicaciones Multiplataforma del I.E.S. Augusto González de Linares de Santander, Cantabria, de la promoción 2021/2023 en modalidad a distancia.
 ## 1ª Evaluación
 ### [AD01 - Introducción al acceso a datos](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos/AD01%20-%20Introducci%C3%B3n%20al%20acceso%20a%20datos)
