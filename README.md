@@ -10,9 +10,9 @@ Este temario y ejercicios corresponden al I.E.S. Augusto González de Linares de
 * [Sistemas Informáticos](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20Inform%C3%A1ticos)
 
 ### Segundo Curso (DAM2)
-* Acceso a Datos
-* Desarrollo de Interfaces
-* Empresa e Iniciativa Emprendedora
-* Programación Multimedia y Dispositivos Móviles
-* Programación de Servicios y Procesos
-* Sistemas de Gestión Empresarial
+* [Acceso a Datos](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos)
+* [Desarrollo de Interfaces](https://github.com/DiegoGlez1992/DAM/tree/main/Desarrollo%20de%20interfaces)
+* [Empresa e Iniciativa Emprendedora](https://github.com/DiegoGlez1992/DAM/tree/main/Empresa%20e%20iniciativa%20emprendedora)
+* [Programación de Servicios y Procesos](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20de%20servicios%20y%20procesos)
+* [Programación Multimedia y Dispositivos Móviles](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles)
+* [Sistemas de Gestión Empresarial](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial)
