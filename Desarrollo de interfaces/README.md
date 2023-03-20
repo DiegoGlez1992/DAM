@@ -19,6 +19,3 @@ Este temario y ejercicios corresponden al módulo de desarrollo de interfaces de
 ### [DI08 - Realización de pruebas](https://github.com/DiegoGlez1992/DAM/tree/main/Desarrollo%20de%20interfaces/DI08%20-%20Realizaci%C3%B3n%20de%20pruebas)
 * Nota tarea: 10.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
