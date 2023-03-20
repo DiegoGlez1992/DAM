@@ -19,6 +19,3 @@ Este temario y ejercicios corresponden al módulo de empresa e iniciativa empren
 ### [EIE08 - La gestión de la empresa](https://github.com/DiegoGlez1992/DAM/tree/main/Empresa%20e%20iniciativa%20emprendedora/EIE08%20-%20La%20gesti%C3%B3n%20de%20la%20empresa)
 * Nota tarea: 5.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
