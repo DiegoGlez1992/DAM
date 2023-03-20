@@ -17,6 +17,4 @@ Este temario y ejercicios corresponden al módulo de programación multimedia y 
 ### [PMDM07 - Comunicaciones](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/PMDM07%20-%20Comunicaciones)
 * Nota tarea: 10.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
+### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20multimedia%20y%20dospositivos%20m%C3%B3viles/Examen%201%C2%AA%20evaluaci%C3%B3n)
