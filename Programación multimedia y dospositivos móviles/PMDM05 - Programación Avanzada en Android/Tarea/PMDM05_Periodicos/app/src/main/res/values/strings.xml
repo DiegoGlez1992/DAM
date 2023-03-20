@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Periodicos</string>
+    <string name="ImgDescription">Imagen de periódicos</string>
+    <string name="agregar">Agregar</string>
+    <string name="pol_tica">Política</string>
+    <string name="deportes">Deportes</string>
+    <string name="generalista">Generalista</string>
+    <string name="nombre">Nombre :</string>
+    <string name="nombre_contacto">Nombre Contacto</string>
+    <string name="nombre_periodico">Nombre Periodico</string>
+    <string name="tematica">Tematica</string>
+    <string name="borrar">Borrar</string>
+    <string name="a_adir_medio">Añadir Medio</string>
+    <string name="ver_contactos">Ver Contactos</string>
+</resources>

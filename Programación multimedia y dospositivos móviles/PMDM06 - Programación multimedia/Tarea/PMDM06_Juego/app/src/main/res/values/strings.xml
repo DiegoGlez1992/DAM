@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PMDM06_Juego</string>
+    <string name="titulo">Memory Game</string>
+    <string name="boton_jugar">JUGAR</string>
+    <string name="titulo_record">Record</string>
+    <string name="record">-</string>
+</resources>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imb00"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="0" />
+
+            <ImageButton
+                android:id="@+id/imb01"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:id="@+id/imb02"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imb10"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="0" />
+
+            <ImageButton
+                android:id="@+id/imb11"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:id="@+id/imb12"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imb20"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="0" />
+
+            <ImageButton
+                android:id="@+id/imb21"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:id="@+id/imb22"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/imb30"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="0" />
+
+            <ImageButton
+                android:id="@+id/imb31"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="1" />
+
+            <ImageButton
+                android:id="@+id/imb32"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_column="2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/lbRecord"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:text="Record"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbIntentos"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:text="Intentos"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbAciertos"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:text="Aciertos"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/txtRecord"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/txtIntentos"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/txtAciertos"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="25sp" />
+        </TableRow>
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

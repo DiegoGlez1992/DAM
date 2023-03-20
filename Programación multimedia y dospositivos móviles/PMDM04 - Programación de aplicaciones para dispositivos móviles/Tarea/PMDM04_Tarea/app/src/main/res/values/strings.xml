@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PMDM04_Tarea - Diego González García</string>
+    <string name="sinopsis">The Blacklist es una serie de televisión estadounidense de género dramático creada por Jon Bokenkamp y protagonizada por James Spader, Megan Boone, Diego Klattenhoff y Ryan Eggold. Fue estrenada el 23 de septiembre de 2013 por la cadena NBC. En Hispanoamérica, la serie fue estrenada el 25 de septiembre de 2013 por Canal Sony. En febrero de 2022, la serie fue renovada para una décima temporada, que se estrenará el 26 de febrero de 2023.</string>
+    <string name="descripcion_cabecera">Personajes de la serie</string>
+    <string name="numTemporadas">9</string>
+    <string name="ultEmision">27 de mayo de 2022</string>
+    <string name="temporadas">Temporadas</string>
+    <string name="ultima_emision">Última emisión</string>
+    <string name="vista">Vista</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="estrella">Botón de estrella</string>
+
+</resources>
