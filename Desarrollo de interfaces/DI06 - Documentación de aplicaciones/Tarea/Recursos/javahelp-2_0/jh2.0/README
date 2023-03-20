@@ -1,0 +1,208 @@
+                   README: JavaHelp 2.0 Release
+                   ----------------------------
+                          September 2003
+
+Contents:
+
+* Change to API for Accessing Frames
+* File Separators on Win32 Platform 
+* Target Audience
+* Changes Since the 1.1.3 Release
+* Contents of the Release
+* How to Get Started
+* Redistributable Files
+* How to Reach Us
+* Limitations and Bugs
+* Copyright
+
+---------------------------------------------------------------------
+
+CHANGE TO API FOR ACCESSING FRAMES
+
+In previous versions of JavaHelp, you could access the frame
+in whichJavaHelp is displayed directly if you extended the 
+DefaultHelpBroker. After extending DefaultHelpBroker, you 
+were able access the protected JFrame frame field. 
+ 
+In JavaHelp 2, the frame field is no longer accessible. In
+applications that use JavaHelp 2, you have to rewrite code 
+that does this kind of frame access. Use the following methods:
+
+   WindowPresentation DefaultHelpBroker.getWindowPresentation(); 
+   Window WindowPresentation.getHelpWindow();
+
+You will still be able to access the frame with the following method
+calls:
+
+   WindowPresentation pres = hb.getWindowPresentation(); 
+   Window win = pres.getHelpWindow();
+
+
+FILE SEPARATORS FOR WIN32 PLATFORMS
+
+All files in the JavaHelp system are specified as URLs.  The
+separator between elements (files) in a hierarchy should be "/".
+In some cases "\" works on the Win32 platforms; however when the
+files that contain these references are added to JAR files or moved
+to different platforms, these references no longer work.
+
+TARGET AUDIENCE
+
+JavaHelp software is intended for help authors, information
+architects, and software developers who need a framework for
+delivering online help and documentation. 
+
+CHANGES SINCE THE 1.1.3 RELEASE
+
+Changes since the 1.1.3 release are described in the "Release
+Information" chapter of the JavaHelp System User's Guide.  You can
+view the JavaHelp System User's Guide as a JavaHelp helpset by 
+executing the UserGuide.jar file in the demos\bin folder as
+described under CONTENTS OF THE RELEASE.
+
+CONTENTS OF THE RELEASE
+
+The contents of the release are described in the "Release Information"
+Information" chapter of the JavaHelp System User's Guide.  You can
+view the JavaHelp System User's Guide as a JavaHelp helpset by 
+executing the UserGuide.jar file in the demos\bin folder.
+
+To execute the jar file, open a command window and change your 
+directory to the demos\bin folder, then enter the following command 
+at the command line:
+
+   java -jar UserGuide.jar
+
+The JavaHelp System User's Guide is also included in PDF format in 
+doc\jhug\jhug.pdf and can be read and printed by using the Adobe
+Acrobat Reader program available at: 
+http://www.adobe.com/products/acrobat/readstep2.html
+
+
+GETTING STARTED
+
+You install JavaHelp software by extracting the zip file. While most 
+installations will not require any additional installation tasks, 
+some installations might require that the environment variable JAVAHELP_HOME
+be defined so that jhindexer and jhsearch will work correctly. You will
+know that you need to set JAVAHELP_HOME if, after installation, you see 
+an error from jhindexer or jhsearch indicating that the environment 
+variable needs to be set.
+
+
+RESDISTRIBUTABLE FILES
+
+The following files are redistributable. Distribution of these files is 
+governed by the Terms and Conditions of the JavaHelp Binary Code License.
+
+javahelp/lib/jh.jar       - The standard library that includes everything 
+                            needed to use the help viewer and the standard 
+                            navigator types (TOC, index, full-text search).
+ 
+javahelp/lib/jhall.jar    - A subset of jh.jar that does not include support
+                            for the full-text search engine. This subset 
+                            might be useful for simple help systems that 
+                            do not require a full-text search database or 
+                            for help systems whose size is important.
+
+javahelp/lib/jhbasic.jar  - Includes all the JavaHelp system classes, 
+                            including tools to create a search database. 
+
+javahelp/lib/jhsearch.jar - The default full-text search engine used in the 
+                            JavaHelp system.
+
+
+HOW TO REACH US
+
+* Mailing List
+
+  We maintain a mailing list for regular information about JavaHelp
+  updates and events.  To subscribe, send mail to:
+
+	listserv@javasoft.com.
+
+  In the body of the message type
+
+	SUBSCRIBE JAVAHELP-INFO
+
+* Feedback
+
+  Comments and questions about how the JavaHelp system software 
+  works are welcome. Please review the FAQ at our home page, and if
+  your question is not covered, send email by using the following 
+  web page: 
+
+	http://java.sun.com/docs/forms/javahelp-sendusmail.html 
+
+  If you have comments on the JavaHelp specification, instead of 
+  the web page above, please send comments to: 
+
+	jsr-97-comments@jcp.org
+
+  Your email message will be read. However, due to the large volume of
+  emails, we might not able to respond personally.
+
+* Discussion group (JAVAHELP-INTEREST)
+
+  Sun maintains a mailing list as a JavaHelp community resource where 
+  interested parties can post and exchange information and inquiries 
+  about the JavaHelp system in a public forum.  Subscribers to this list 
+  can receive inquiries either as they are posted or in regular digest 
+  versions.
+
+  To subscribe, send mail to: 
+
+     listserv@javasoft.com
+
+  In the body of the message type:
+
+     SUBSCRIBE JAVAHELP-INTEREST
+
+  To view archives, manage your subscription, or to
+  unsubscribe:
+
+     http://archives.java.sun.com/archives/javahelp-interest.html 
+
+* Web Site
+
+  Other information can be obtained at our web site:
+
+     http://java.sun.com/products/javahelp
+
+
+We hope to hear from you!
+
+
+---------------------------------------------------------------------
+
+LIMITATIONS AND BUGS
+
+Limitations and bugs are described in the "Release Information"
+Information" chapter of the JavaHelp System User's Guide.  You can
+view the JavaHelp System User's Guide as a JavaHelp helpset by 
+executing the UserGuide.jar file in the demos\bin folder, as 
+described previously under CONTENTS OF THE RELEASE.
+
+---------------------------------------------------------------------
+
+COPYRIGHT
+
+Copyright 2003 Sun Microsystems, Inc. All rights reserved. Use is
+subject to license terms. Sun, Sun Microsystems, the Sun Logo,
+Solaris, Java, the Java Coffee Cup Logo, JDK, Java Foundation Classes
+(J.F.C.), Java Plug-in and JavaHelp are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other
+countries.
+
+DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED
+CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED
+WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR
+NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH
+DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
+
+RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by the U.S.
+Government is subject to restrictions as set forth in subparagraph
+(c)(1)(ii) of the Rights in Technical Data and Computer Software
+Clause at DFARS 252.227-7013 (Oct. 1988) and FAR 52.227-19 (c) (June
+1987).
+

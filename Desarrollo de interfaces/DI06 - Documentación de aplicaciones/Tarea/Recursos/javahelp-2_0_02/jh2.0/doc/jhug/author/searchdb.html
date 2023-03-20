@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Creating the Full-Text Search Database</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Creating the Full-Text Search Database</h2>
+<p>
+When a user initiates a full-text search, the JavaHelp
+system full-text search engine searches a special
+search database to find matches quickly.  You use the
+<code>jhindexer</code> command to create the search
+database for your help topics. 
+<p>
+The search database created by the <code>jhindexer</code>
+command consists of six files located in a folder named
+<code>JavaHelpSearch</code>.  As described in <a
+href="setup.html">Setting Up a JavaHelp System</a>, the
+search database folder is usually located in the same
+folder as the rest of the help metadata files.
+</p>
+<h3>Example</h3>
+<p>
+The following example describes how to use the
+<code>jhindexer</code> command in its simplest form.  For
+details about other features of the <code>jhindexer</code>
+command, see <a href="jhindexer.html">The
+<code>jhindexer</code> Command</a>.
+
+</p><p>
+The example assumes that your help information is
+arranged in the following hierarchy:</p>
+<p align=center>
+<img src="../images/search_before.gif" width="375" height="250">
+</p>
+<p>
+<img src="../../images/hg_proc.gif" width="18" height="13"><b>To create a
+full-text search database:</b>
+<ol>
+  <li>Make the <code>...\help</code> folder the current folder 
+  <li>Specify the top-level folders as arguments to the <a href="jhindexer.html"><code>jhindexer</code></a> 
+    command, as follows: 
+    <pre>jhindexer topic1 topic2 topic3</pre>
+    <table width="95%">
+      <tr valign="top"> 
+        <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+        <td width="98%">The <code>jhindexer</code> command is located in the <code>javahelp\bin</code> 
+          folder of the JavaHelp system release. 
+      
+    </table>
+    
+</ol>
+The <code>jhindexer</code> command recursively descends the help hierarchy, indexing 
+all the files it encounters. When finished, <code>jhindexer</code> places the search 
+database files in a folder named <code>JavaHelpSearch</code> in the current folder: 
+<p align="center">
+
+<img src="../images/search_after.gif" width="379" height="348">
+</p>
+<p>
+<img src="../../images/hg_proc.gif" width="18" height="13"><b>To verify the validity
+of a full-text search database:</b>
+<ol>
+<li>Make the <code>...\help</code> folder the current folder
+<li>Specify the <code>JavaHelpSearch</code> folder as the argument to the <a href="jhsearch.html"><code>jhsearch</code></a> command:
+
+<pre>    <b>jhsearch JavaHelpSearch</b></pre>
+</ol>
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="jhindexer.html">The <code>jhindexer</code> Command</a>
+<dd><a href="jhsearch.html">The <code>jhsearch</code> Command</a>
+<dd><a href="../locale/loc_search.html">Localizing the Full-Text Search Database</a>
+<dd><a href="search.html">Full-Text Search</a>
+</dl>
+<p>
+</body>
+</html>

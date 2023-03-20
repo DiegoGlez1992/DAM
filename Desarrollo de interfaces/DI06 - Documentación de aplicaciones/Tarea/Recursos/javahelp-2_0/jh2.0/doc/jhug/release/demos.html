@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Demonstration Programs</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Demonstration Programs</h2>
+<p> This release includes a number of demo programs (including source code) and 
+  examples. These programs demonstrate JavaHelp system functionality and provide 
+  code examples that illustrate how you can implement these features in your JavaHelp 
+  systems. Many of these demonstration programs use the <a
+href="helpsets.html">sample helpsets</a>.
+<table border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#ide">IDE demo</a></td>
+    <td> A mockup of an Integrated Development Environment application. The application 
+      includes a complete, functional help system. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#object">Object demo</a> </td>
+    <td> A demonstration of how the <code>&lt;OBJECT&gt;</code> tag can be used 
+      to embed Java components directly into HTML topic pages. The JavaHelp system 
+      includes two components, a popup window and a secondary window. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#apiviewer">API viewer</a> </td>
+    <td> A specialized help viewer that includes a navigator that displays JavaHelp 
+      system API documentation. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#merge">Merge demo</a></td>
+    <td> A small application that demonstrates the dynamic merging of helpset 
+      information. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#newmerge">Newmerge demo</a></td>
+    <td> An application and a set of help files that demonstrate new features 
+      for merging of helpset information, including SorteMerge merging for indexes 
+      and glossaries and UniteAppendMerge merging for TOCs.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#browser">Browser demo</a> </td>
+    <td> A demonstration of the JavaHelp viewer running in an applet on a web 
+      browser. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#search">Search example</a> </td>
+    <td> Source file that describes a simple, alternate implementation of a full-text 
+      search engine. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="demos.html#locale">Localized Helpsets</a> </td>
+    <td> Localized demonstration helpsets (English, German, Japanese. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> Demo source files </td>
+    <td> Source files for all of the demos can be found in: 
+      <pre>    <i>JavaHelp_Home</i>/demos/src</pre>
+    </td>
+  </tr>
+</table>
+
+<table width="99%" border="0" cellspacing="2" cellpadding="5">
+  <tr valign="top"> 
+    <td><img src="../../images/hg_note.gif" width="18" height="13"></td>
+    <td> In addition to the locations described below, most of the demo programs 
+      are available by executing the JAR files. Depending on your operating system, 
+      you might execute a JAR file from the command line or by double-clicking 
+      the file's icon in the Windows Explorer. For instance, if your JAR files 
+      are set to execute with the Java runtime program <code>java.exe</code> on 
+      a Windows operating system, you can double click the jar file in the Explorer 
+      to run it.<br>
+      <br>
+      The demo programs' jar files are located in the <code>demos/bin</code> folder.</td>
+  </tr>
+</table>
+<h3><a name="ide">IDE Demo</a></h3>
+<p> The IDE Demo is a mockup of an IDE (Integrated Development Environment) application 
+  that contains a complete, fully-featured help system. </p>
+<p> The IDE demo demonstrates the following functionality: 
+<table border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td>Standard navigators </td>
+    <td> TOC, keyword index, and full-text search navigators. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Synchronization </td>
+    <td> The TOC display is synchronized with the content pane. The topic displayed 
+      in the content pane is always highlighted in the TOC. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Content pane </td>
+    <td> Help topics displayed in the content pane contain images, hyperlinks, 
+      and other 3.2 HTML tags. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Lightweight Java components </td>
+    <td> The top-level topic "Building Projects" uses the JHSecondaryViewer lightweight 
+      component to implement a <i>popup window</i>, and a <i>secondary window</i>. 
+      In this topic, click on the blue term "project" to see the popup window 
+      and click on the button at the end of the first paragraph to see the secondary 
+      window. These components are also demonstrated and described in the <a
+href="demos.html#object">Object demo</a>. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Presentation settings</td>
+    <td> The IDE demo has code in its helpset file (<code>IdeHelp.hs</code>) that 
+      sets up two presentation windows. It also has entries in its TOC file (<code>IdeHelpTOC.xml</code>) 
+      and its index file (<code>IdeHelpIndex.xml</code>) that specify the type 
+      of window (the presentation) in which to display the help topic. (For example, 
+      see the TOC entry &quot;Beans In JDE - in SecondaryWindow&quot;.) For more 
+      information on presentations, see the presentation feature in <a href="../author/helpset.html#presentationtag">Helpset 
+      File</a> and in <a href="../dev/csh.html#presentation">Implementing Context-Sensitive 
+      Help</a>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Context Sensitive Help </td>
+    <td> The JavaHelp system supports three types of context-sensitive help:<br>
+      <!-- Begin Nested table -->
+      <table border=0 cellpadding=10>
+        <tr valign="top"> 
+          <td nowrap>Window-Level Help </td>
+          <td> Place the cursor in different areas of the application and press 
+            the F1 key. This activates the help viewer and displays help that 
+            describes the GUI object that currently has focus. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap>Field-Level Help </td>
+          <td> Click the <img align="bottom" src="../images/csh_button_small.gif" width="22" height="21"> 
+            button, then move the field-level cursor <img align="bottom" src="../images/helpItem16.gif" width="16" height="20"> 
+            over an object in the GUI and click select. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap>Help Button </td>
+          <td> Choose Edit &gt; Find. Click on the Help button in the dialog box 
+            to display a topic about the dialog box. </td>
+        </tr>
+      </table>
+      <!-- End Nested table -->
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Custom Navigator </td>
+    <td> Choose Help &gt; Java API Reference to activate the help viewer and load 
+      a helpset that includes the customized <code>ClassViewer</code> navigator. 
+      The <code>ClassViewer</code> is an example of a navigator that is customized 
+      to assist in navigating through <code>javadoc</code>-generated API documentation. 
+      The behavior of the <code>ClassViewer</code> is described at <a href="demos.html#apiviewer">API 
+      Viewer</a>. It is a fully functional navigator with its own specialized 
+      format. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Embedded Help </td>
+    <td> Choose Window &gt; Class Inspector to activate the custom <code>ClassViewer</code> 
+      navigator described above and embed it in the application. Note that as 
+      you navigate, the corresponding topic is displayed in the lower pane of 
+      the application. </td>
+  </tr>
+</table>
+
+<p><img src="../../images/hg_proc.gif" width="18" height="13">To run the IDE demo, 
+  enter the following command at the command line: </p>
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java -jar</code> <i>JavaHelp_Home</i><code>/demos/bin/idedemo.jar</code> 
+<p>After the demo starts, choose Help &gt; Demo JDE - Help to activate the help 
+  viewer. </p>
+<h3><a name="object">Object Demo</a></h3>
+  <p> Lightweight Java components can be added to HTML topic pages using the <code>&lt;OBJECT&gt;</code> 
+    tag. The JavaHelp system includes popup and secondary windows implemented 
+    using the JHSecondaryViewer component. The object demo shows how popup and 
+    secondary windows work. 
+  <p> <img src="../../images/hg_proc.gif" width="18" height="13">To run the Object 
+    demo, enter the following command at the command line
+  
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java -jar</code> <i>JavaHelp_Home</i><code>/demos/bin/object.jar</code> 
+<h3><a name="apiviewer">API Viewer</a></h3>
+  
+<p> The JavaHelp release includes an <i>API Viewer</i>. This simple application 
+  is similar to the helpset viewer, except that the <code>CLASSPATH</code> includes 
+  a special ClassViewer navigator. The API Viewer presents <code>javadoc</code>-generated 
+  information derived from the JavaHelp source files. 
+<p> The TOC in the API Viewer (the ClassViewer navigator) includes a top pane 
+    and a bottom pane. The top pane displays a list of the classes, interfaces, 
+    and exceptions that comprise the JavaHelp system. The bottom pane displays 
+    a hierarchy of components of a selected class, interface, or exception. Select 
+    a class in the top pane to view its constituent components in the bottom pane. 
+    Choose a component in the bottom pane to view it in the content viewer. </p>
+  <p> The data used by the ClassViewer Navigator is generated using a <i>doclet</i> 
+    (doclets are a feature of the Java<sup><font size="1">TM</font></sup> 2 SDK). 
+    The API doclet is not included in this release of the JavaHelp system. 
+  <p> <img src="../../images/hg_proc.gif" width="18" height="13">To run the API 
+    Viewer demo, enter the following command at the command line: 
+  
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java -jar </code> <i>JavaHelp_Home</i><code>/demos/bin/apiviewer.jar</code> 
+<h3><a name="merge">Merge Demo</a></h3>
+  <p> Demonstrates JavaHelp system helpset merging capabilities. For details, 
+    see the online help available from the Help menu in the <code>merge</code> demo 
+    program. 
+  <p> <img src="../../images/hg_proc.gif" width="18" height="13">To run the Merge 
+    demo, enter the following command at the command line:
+  
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java -jar</code> <i>JavaHelp_Home</i><code>/demos/bin/merge.jar</code> 
+<h3><a name="merge">Newmerge Demo</a></h3>
+<p> Demonstrates JavaHelp system helpset merging capabilities. For details, see 
+  the online help available from the Help menu in the <code>newmerge</code> demo program. 
+<p> <img src="../../images/hg_proc.gif" width="18" height="13">To run the Newmerge 
+  demo, enter the following command at the command line: 
+<p><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java -jar</code> <i>JavaHelp_Home</i><code>/demos/bin/newmerge.jar</code> 
+<h3><a name="browser">Browser Demo</a></h3>
+  
+<p> Demonstrates how the JavaHelp system can be used with applet-based applications 
+  running in web browsers. You can run demonstration by using either Netscape 
+  Navigator or Internet Explorer. The demo creates an applet button on an HTML 
+  page. When you click the button, the JavaHelp viewer displays the Holiday helpset. 
+  This demo requires some setup. You can find instructions for the demo in the 
+  file <code>demos/browser/demo_instructions</code>. </p>
+     
+  <h3><a name="search">Search Example</a></h3>
+  
+<p> The file <code>demos/src/sunw/demo/searchdemo/ClientSearch.java</code> shows how 
+  to extend the <code>HelpSearch</code> class to implement an alternate search engine. 
+</p>  
+<h3><a name="locale">Localized Helpsets</a></h3>
+  
+<p> Localized demonstration helpsets (English, German, Japanese) for the IDE demo 
+  are included in the <code>demos/hsjar</code> folder. Be sure to choose the appropriate 
+  font in the JavaHelp viewer's Set Fonts dialog box (choose Options &gt; Set 
+  Font).
+<table width="95%" border="0" cellspacing="1" cellpadding="2">
+  <tr valign="top"> 
+    <td width="2%" nowrap><img src="../../images/hg_note.gif" width="18" height="13">&nbsp;</td>
+    <td width="98%"> You must have installed the appropriate Unicode fonts to 
+      be able to view the Japanese helpset. 
+      <p>Also, you use a different command to run helpsets. The command is:</p>
+      <p><code> &nbsp;&nbsp;&nbsp;java -jar hsviewer.jar [-helpset <i>hs_name</i>] 
+        </code> <br>
+        <br>
+      </p>
+      For example (on a Windows system):<br>
+      <pre>   C:\> java -jar c:\JavaHelp\demos\bin\hsviewer.jar<br>             -helpset c:\JavaHelp\demos\hs\newmerge\MergeHelp.hs</pre>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

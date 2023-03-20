@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Presentation and Deployment</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2><b>Deploying and Presenting JavaHelp Helpsets</b></h2>
+<p> The JavaHelp system is designed to be deployed in a number of different types 
+  of applications and in a variety of different network environments. The following 
+  scenarios illustrate some of the different ways that the JavaHelp system can 
+  be used to present and deploy information. 
+<h3>Standalone Application</h3>
+<p> A standalone Java application runs independently of a web browser. In this 
+  scenario the Java application runs locally and accesses help data installed 
+  on the same machine. 
+<p align="center">
+<img alt="Stand Alone App" src="../../images/standalone_scenario.gif" width="426" height="327">
+</p>
+<p>
+The application:
+<ol>
+  <li>Requests the creation of a <code>JavaHelp</code> instance.</li>
+  <li>Loads the help data in that instance.</li>
+  <li>Presents the requested help topic.</li>
+</ol>
+
+<h3>Network Application</h3>
+<p> The JavaHelp system enables an application to transparently load help data 
+  from networks (intranet and Internet). When the help data is accessed across 
+  a network, the scenario is essentially the same as in the standalone scenario 
+  - the location of the data is transparent to the application. </p>
+  <p align="center"><img alt="Network App" src="../../images/stand_net_scenario.gif" width="426" height="327"> 
+</p>
+<p>
+The application:
+<ol>
+<li>Requests the creation of a <code>JavaHelp</code> instance</li>
+<li>Loads the help data from the network</li>
+<li>Presents the requested help topic</li>
+</ol>
+
+<h3>Embedded Help</h3>
+<p>
+Both navigational and content information can be embedded
+directly in application windows.  Embedding is accomplished by
+adding the JFC components that implement JavaHelp system
+components directly into the application frame.
+<p align="center">
+<img alt="Embedded2" src="../../images/embedded_scenario.gif" width="426" height="326">
+</p>
+<p>
+In this illustration, the content viewer is embedded along
+the bottom of the application window, and the navigation
+viewer is embedded in a different portion of the window.
+<p>
+The application can directly control the contents of the
+content viewer by programmatic means. Likewise, JavaHelp
+system navigators can be used to control information
+displays other than the JavaHelp system content viewer.
+
+<h3>Component Help</h3>
+<p>
+Many modern applications are composed of a collection of
+interacting components.  Examples range from large
+applications like Netscape Navigator<sup><font
+size="-2">TM</font></sup> (with plugins), to applications
+where JavaBeans components are connected together using
+JavaScript<sup><font size="-2">TM</font></sup> or Visual
+Basic<sup><font size="-2">TM</font></sup>.  
+<p>
+In the case of
+JavaBeans, each component can be shipped with its own help
+data.  The following illustrates such a case.
+<p align="center">
+<img alt="Component Help" src="../../images/beans_scenario.gif" width="426" height="327">
+</p>
+<p>
+In this case, the help information from the red JavaBean (Bean1)
+and from the green JavaBean (Bean2) is merged in the help viewer
+table of contents.  The merge operation can be performed by
+the developer ahead of time, or completed when the
+application or JavaBeans component is installed by the user.
+<p> In version 1 of the JavaHelp software, merging is accomplished by appending 
+  TOC and index information and searching merged full-text search databases. 
+<h3>Help Server</h3>
+<p>
+In some environments, it is useful to separate the process
+that presents the help information from the application. For
+example:
+<ul type="circle">
+<li>Applications that are written in a language other
+than the Java language (for example, C, C++, Visual Basic)
+can use the JavaHelp system to display online help 
+when deployed on diverse computing platforms.
+<li>A suite of applications might be
+installed together or separately.  In this case
+the help server can be used to display help for the
+entire suite, rather than each of the constituent
+applications providing their own help system.
+</ul>
+<p>
+In the following scenario, applications not written in the
+Java language make requests to a JavaHelp system process
+(help server) through an RPC mechanism (the RPC might be
+wrapped in a library and be invisible to the application
+developer).
+<p align="center">
+<img alt="Help Server" src="../../images/server_scenario.gif" width="428" height="327">
+</p>
+
+<h3>Browser-Based Applications (Applets)</h3>
+<p>
+Applications that run in browsers have a number of
+unique deployment issues that the JavaHelp system
+addresses.  The following three scenarios illustrate
+how the JavaHelp system can be used in three of the
+most common cases. 
+In the following scenarios
+an applet or some other triggering entity on an HTML page
+requests the JavaHelp system to display help information.
+
+<h4>Applet(1)</h4>
+<p> In the first scenario, the browser contains a customized implementation of 
+  the JavaHelp system and an appropriate version of the JRE (Java Runtime Environment). 
+  This JRE might have been delivered with the browser, or it might have been downloaded 
+  by the client into the <code>CLASSPATH</code>. The implementation can use the 
+  JavaHelp system content pane, or it can use the HTML viewer that is part of 
+  the web browser. 
+<p align="center">
+<img alt="Web Pages1" src="../../images/applet_scenario.gif" width="426" height="327">
+</p>
+<p>
+<ol>
+<li>The HTML page that contains the applet tag is loaded
+into the browser.
+</li><li>The applet is downloaded from the server and executed.
+</li><li>The user requests help.
+</li><li>The applet forwards the request to the JavaHelp
+system.
+</li><li>Help data is downloaded from the server and displayed
+in the JavaHelp system viewer (or browser window).
+</li>
+</ol> 
+
+<h4>Applet(2)</h4>
+<p> In the second scenario, the JavaHelp system classes are downloaded along with 
+  the applet. Because the JavaHelp system is an optional package of the Java release, 
+  it is possible that a fully compliant Java<sup><font size="1">TM</font></sup> 
+  2 SDK browser might not have the the JavaHelp system classes in its <code>CLASSPATH</code>. 
+  In this case the JavaHelp system classes must be downloaded from the server. 
+  Since the JavaHelp system is quite small, this approach is often practical. 
+  Browsers might provide additional means for installing extensions downloaded 
+  through this mechanism. 
+<p align="center">
+<img alt="Web Pages2" src="../../images/download_scenario.gif" width="427" height="327">
+</p>
+
+<ol>
+<li>The HTML page that contains the applet tag is loaded
+into the browser.
+<li>The applet is downloaded from the server and executed.
+</li><li>JavaHelp system classes are downloaded from the server.
+</li><li>The user requests help.
+</li><li>The applet forwards the request to the JavaHelp
+system.
+</li><li>Help data is downloaded from the server and displayed
+in the JavaHelp system viewer (or browser window).
+</li>
+</ol> 
+
+<h4>Applet(3)</h4>
+<p>
+The third scenario describes the case in which the
+applet is downloaded to a browser environment that has
+neither the appropriate JRE nor the Javahelp system installed.
+<p>
+In this case, the Java<sup><font size="-2">TM</font></sup>
+Plug-in can be used to download the required JRE and the
+JavaHelp system standard extension classes.  The Java
+Plug-in allows developers to specify a specific JRE on the
+HTML page that is required to run their applet.  If the
+correct JRE is not present on the user's system, the Java
+Plug-in software downloads the correct JRE and installs it
+on the user's system.  The new JRE is subsequently
+available to any applet that requires it.  Because the
+JavaHelp system is a standard extension to the Java
+platform, the JavaHelp system classes can be downloaded
+along with the JRE.
+<p align="center">
+<img alt="Web Pages2" src="../../images/activator_scenario.gif" width="425" height="327">
+</p>
+
+<ol>
+  <li>The HTML page that contains the applet tag is loaded into the browser </li>
+  <li>The Java Plug-in is downloaded. It prompts user to download appropriate 
+    JRE and JavaHelp system classes. </li>
+  <li>JRE and JavaHelp system classes are downloaded from the server. </li>
+  <li>Java Plug-in starts the JRE. </li>
+  <li>The applet is downloaded from the server and executed. </li>
+  <li>The user requests help. </li>
+  <li>The applet forwards the request to the JavaHelp system. </li>
+  <li>Help data is downloaded from the server and displayed in the JavaHelp system 
+    viewer (or browser window). </li>
+</ol>
+<h2>Server-based JavaHelp Helpsets</h2>
+<p> By combining the JavaHelp software API with new JavaHelp JSP tag libraries, 
+  web developers are now able to provide help for server-based applications that 
+  provide HTML pages to a browser. The diagram below illustrates the architecture. 
+<p align="center"><img src="../images/serverarch.gif" width="454" height="203">.</p>
+<p align="left">A browser initiates a JSP request. Examples of a JSP request are 
+  displaying the help content in the helpset, the navigators, or the data for 
+  a given navigator. Typically, the JSP request contains JavaBeans<sup>TM</sup> 
+  components as well as JSP tag extensions. The Java<sup>TM</sup> server turns 
+  the request into a Java Servlet. The servlet access the appropriate information 
+  from the helpset by using the classes in the JavaHelp library (<code>jh.jar</code>) 
+  and the JavaHelp tag library (<code>jhtags.jar</code>) and returns HTML and possibly 
+  JavaScript or dynamic HTML (DHTML) to the browser.</p>
+<p>&nbsp;</p>
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>Next Overview Topic:</b> 
+<a href="search.html">Full-text Search</a>
+<p>
+<!-- Return to <A HREF="../jhugTOC.html">table of contents</A> -->
+<p>
+</body>
+</html>

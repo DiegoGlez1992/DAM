@@ -1,0 +1,589 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Server Based JavaHelp</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Server-Based JavaHelp Helpsets</h2>
+<p> Server-based applications have the same need for online help as client based 
+  applications, but they require that the helpset runs in a web browser, as the applications 
+  do, and that it be accessed from a server. Version 1.0 of the JavaHelp software API provided a 
+  foundation for developing online help for server-based applications. However, 
+  the specification did not define standards for a JavaHelp bean or for a Java 
+  Server Pages<sup>TM</sup> (JSP) tag library to access helpset data. Version 2 of the JavaHelp 
+  software does define these standards and provides a tag library for server-based applications. 
+<h3>Java Server Pages</h3>
+<p>JSP enables web developers to develop dynamic web pages. JSP uses XML-like 
+  tags to encapsulate the logic that generates web content. JSP pages separate 
+  the page logic from its design and display, which prevents the overlapping of 
+  roles between web designers and programmers. Designers design the web pages 
+  and programmers add the logic and code to them. </p>
+<p>For more information and tutorials on JavaServer Pages technology, see <a href="http://java.sun.com/products/jsp/docs.html">http://java.sun.com/products/jsp/docs.html</a>.</p>
+<h3>Server-Based JavaHelp Architecture</h3>
+<p>By combining the JavaHelp software API with new JavaHelp JSP tag libraries, 
+  web developers are now able to provide help for server-based applications. The 
+  diagram below illustrates the architecture.</p>
+<p align="center"><img src="../images/serverarch.gif" width="454" height="203">.</p>
+<p align="left">A browser initiates a JSP request. Examples of a JSP request are 
+  displaying the help content in the helpset, the navigators, or the data for 
+  a given navigator. Typically, the JSP request contains JavaBeans<sup>TM</sup> 
+  components as well as JSP tag extensions. The Java<sup>TM</sup> 
+  server turns the request into a Java Servlet. The servlet access the appropriate 
+  information from the helpset by using the classes in the JavaHelp library (<code>jh.jar</code>) 
+  and the JavaHelp tag library (<code>jhtags.jar</code>) and returns HTML and possibly 
+  JavaScript or dynamic HTML (DHTML) to the browser.</p>
+<h3 align="left">JavaHelp Server Components</h3>
+<p align="left">Access to helpset data on a server is accomplished through a combination 
+  of JavaBeans components specific to the JavaHelp system and JSP tag extensions. 
+  This section defines the standard JavaHelp JavaBeans and JSP tag extensions 
+  and scripting variables.</p>
+<h4 align="left"><a name="ServletHelpBroker">JavaHelp Server Bean</a></h4>
+<p align="left"><code>ServletHelpBroker</code> is the JavaBean component that stores 
+  help state information, such as the helpset in use, the current ID, the current 
+  navigator and other pieces of help information. While it implements the <code>javax.help.HelpBroker</code> 
+  interface, some of the methods are either not implemented or throw <code>UnsupportedOperationExceptions</code> 
+  if called. The <code>javax.help.HelpBroker</code> methods that are not implemented 
+  in this component are listed below:</p>
+<p align="left">&nbsp;</p>
+<table border="1"  cellspacing="0" cellpadding="5">
+  <tr valign="top"> 
+    <th> 
+      <div align="left">Method</div>
+    </th>
+    <th> 
+      <div align="left">Result</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td><code>initPresentation()</code></td>
+    <td>No Operation</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>setDisplayed(boolean)</code></td>
+    <td>Ignored</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>boolean isDisplayed()</code></td>
+    <td>Always returns true</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>enableHelpKey(<br>
+      &nbsp;&nbsp; Component,<br>
+      &nbsp;&nbsp;&nbsp;String id, HelpSet)</code></td>
+    <td>No Operation</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>enableHelp(<br>
+      &nbsp;&nbsp; Component|MenuItem,<br>
+      &nbsp;&nbsp;&nbsp;String id, HelpSet)</code></td>
+    <td>No Operation</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>enableHelpOnButton(<br>
+      &nbsp;&nbsp;Component| MenuItem,<br>
+      &nbsp;&nbsp;String id, HelpSet)</code></td>
+    <td>No Operation</td>
+  </tr>
+</table>
+<p align="left">&nbsp;</p>
+<p align="left">One new method is added to <code>ServletHelpBroker</code>:</p>
+<table border="1" cellspacing="0" cellpadding="5">
+  <tr valign="top"> 
+    <th height="29"> 
+      <div align="left">Method</div>
+    </th>
+    <th height="29"> 
+      <div align="left">Result</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td><code>NavigatorView getCurrentNavigatorView()</code> </td>
+    <td>Returns the current navigator as a <code>NavigatorView</code>.</td>
+  </tr>
+</table>
+
+<h4 >Using <tt>ServletHelpBroker</tt></h4>
+<p> The <code>ServletHelpBroker</code> is used in the JSP request with 
+  a session scope. With this scope, the help broker remains in existence for the 
+  duration of a session. The following code defines the help broker:</p>
+<p ><code>&lt;jsp:useBean id=&quot;helpBroker&quot; class=&quot;ServletHelpBroker&quot; 
+  scope=&quot;session&quot; /&gt;</code></p>
+<p >The <code>ServletHelpBroker</code> methods can be called in two ways:</p>
+<ul type="circle">
+  <li>In tag libraries: 
+    <p><code>&lt;jh:validate helpBroker=&quot;&lt;%= helpBroker %&gt;&quot; /&gt;</code></p>
+  </li><br><br>
+  <li>Directly in the JSP: 
+    <p><code>&lt;FRAME SRC=<br>
+      &quot;&lt;jsp:getProperty name=&quot;helpBroker&quot; property=&quot;currentURL&quot; 
+      /&gt;&quot; <br>
+      NAME=&quot;contentsFrame&quot; SCROLLING=&quot;AUTO&quot;&gt;</code></p>
+  </li>
+</ul>
+<h3><a name="taglib">JavaHelp JSP Tag Extensions</a></h3>
+<p>While you could retrieve all the helpset information required for displaying 
+  online help or documentation by using JavaBeans components and JSP scriptlets, 
+  you can instead avoid the appearance of programming and use a standard set of 
+  tag extensions in the JavaHelp tag library to invoke application functionality. 
+  The JavaHelp tag library is a common set of building blocks that perform the 
+  following functions:</p>
+<ul type="circle">
+  <li>Concealing the complexity of access to helpset data</li>
+  <li>Introducing new scripting variables into a page</li>
+  <li>Handling iterations without the need for scriptlets</li>
+</ul>
+<p> The JavaHelp JSP tags are defined below:</p>
+<table border="1"  cellspacing="0" cellpadding="5" width="95%">
+  <tr valign="top"> 
+    <th width="10%"> 
+      <div align="left"><font size="-1">Tag</font></div>
+    </th>
+    <th width="10%"> 
+      <div align="left"><font size="-1">Tag&nbsp;Class<br>
+        TEI&nbsp;Class</font></div>
+    </th>
+    <th width="35%"> 
+      <div align="left"><font size="-1">Description</font></div>
+    </th>
+    <th width="45%"> 
+      <div align="left"><font size="-1">Attributes</font></div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td width="10%"><code><font size="-1">validate</font></code></td>
+    <td width="10%"><code><font size="-1">ValidateTag</font></code></td>
+    <td width="35%"><font size="-1">Validates a <code>HelpBroker</code> with various 
+      parameters. Enables easy setup of a help broker with a new helpset. Also 
+      enables merging of helpsets and setting the current ID.</font></td>
+    <td width="45%"> 
+      <dl> 
+        <dt><font size="-1"><code>helpbroker</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>HelpBroker</code> object </font></dd>
+        <dt><font size="-1"><code>setInvalidURL</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">String representing the URL for <code>InvalidHelpSet</code> 
+          message.</font></dd>
+        <dt><font size="-1"><code>helpSetName</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">String representing the URL for <code>the helpset 
+          name.</code></font></dd>
+        <dt><font size="-1"><code>currentID</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">String id of desired currentID.</font></dd>
+        <dt><font size="-1"><code>merge</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">Boolean value. If true then merge helpset into current 
+          helpset if one exists. Otherwise do not merge helpset.</font></dd>
+      </dl>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="10%"><code><font size="-1">navigators</font></code></td>
+    <td width="10%"><font size="-1">NavigatorsTag<br>
+      NavigatorsTEI </font></td>
+    <td width="35%"><font size="-1">Returns <code>NavigatorView</code> information 
+      for a given <code>HelpBroker</code>.</font></td>
+    <td width="45%"> 
+      <dl> 
+        <dt><font size="-1"><code>helpbroker</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>HelpBroker</code> object </font></dd>
+        <dt><font size="-1"><code>currentNav</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">String name of the current navigator<code>.</code></font></dd>
+      </dl>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="10%"><code><font size="-1">tocItem</font></code></td>
+    <td width="10%"><code><font size="-1">TOCItemTag<br>
+      TOCItemTEI </font></code></td>
+    <td width="35%"><font size="-1">Provided with a <code>TOCView</code>, returns 
+      <code>TOCItem</code> information.</font></td>
+    <td width="45%"> 
+      <dl> 
+        <dt><font size="-1"><code>tocView</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>TOCView</code> object</font></dd>
+        <dt><font size="-1"><code>helpbroker</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>HelpBroker</code> object </font></dd>
+        <dt><font size="-1"><code>baseID</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">Determined by expression. String text for the base 
+          identification of the <code>TOCItem</code>.</font></dd>
+      </dl>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="10%"><code><font size="-1">indexItem</font></code></td>
+    <td width="10%"><font size="-1"><code>IndexItemTag<br>
+      IndexItemTEI</code> </font></td>
+    <td width="35%"><font size="-1">Provided with an <code>IndexView</code>, returns 
+      <code>IndexItem</code> information.</font></td>
+    <td width="45%"> 
+      <dl> 
+        <dt><font size="-1"><code>IndexView</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1">Determined by expression. <code>IndexView</code> object.</font></dd>
+        <dt><font size="-1"><code>helpbroker</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>HelpBroker</code> object </font></dd>
+        <dt><font size="-1"><code>baseID</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">Determined by expression. String text for the base 
+          identification of the <code>IndexItem</code>.</font></dd>
+      </dl>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="10%"><code><font size="-1">searchItem</font></code></td>
+    <td width="10%"><font size="-1"><code>SearchItemTag<br>
+      SearchItemTEI</code> </font></td>
+    <td width="35%"><font size="-1">Provided with a <code>SearchView</code>, returns 
+      <code>SearchItem</code> information.</font></td>
+    <td width="45%"> 
+      <dl> 
+        <dt><font size="-1"><code>SearchView</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1">Determined by expression. <code>SearchView</code> 
+          object.</font></dd>
+        <dt><font size="-1"><code>helpbroker</code> </font>
+        <dd><font size="-1"><i>required</i></font></dd>
+        <dd><font size="-1"><code>HelpBroker</code> object </font></dd>
+        <dt><font size="-1"><code>baseID</code> </font>
+        <dd><font size="-1"><i>not required</i></font></dd>
+        <dd><font size="-1">Determined by expression. String text for the base 
+          identification of the <code>SearchItem</code>.</font></dd>
+      </dl>
+    </td>
+  </tr>
+</table>
+<p>Unless otherwise specified, all attribute values are determined by expression. 
+  Also, with the exception of the <code>validate</code> tag, the body of all tags 
+  are JSP.</p>
+<h4>Using the <code>validate</code> Tag</h4>
+<p>The <code>validate</code> tag is designed to be used once in a JSP, as shown below:</p>
+<p><code>&lt;jh:validate helpBroker=&quot;&lt;%= helpBroker %&gt;&quot; /&gt;</code></p>
+<p>The preceding code verifies that a valid <code>HelpBroker</code> exists and then 
+  loads the helpset that has been defined either in the <code>validate</code> tag 
+  with the <code>helpSetName</code> attribute or as an <code>HTTP POST</code> request.</p>
+<h3>Navigator Scripting Variables</h3>
+<p>The <code>navigator</code>, <code>tocItem</code>, <code>indexItem</code>, and <code>searchItem</code> 
+  tag extensions introduce a predefined set of scripting variables into a page. 
+  These variables enable the calling JSP to control the presentation without having 
+  to perform processing to determine the content. Unless otherwise specified, 
+  each scripting variable creates a new variable, and the scope is set to <code>NESTED</code>. 
+  <code>NESTED</code> variables are available to the calling JSP only within the body 
+  of the defining tag.</p>
+<h4>Navigator Variables</h4>
+<p>The navigator variables are defined in the table below.</p>
+
+<table border="1"  cellspacing="0" cellpadding="5">
+  <tr> 
+    <th width="63"> 
+      <div align="left">Variable</div>
+    </th>
+    <th width="37"> 
+      <div align="left">Data&nbsp;Type</div>
+    </th>
+    <th width="3"> 
+      <div align="left">Description</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td ><code>classname</code></td>
+    <td ><code>java.lang.String</code></td>
+    <td >Name of the <code>NavigatorView</code> class.</td>
+  </tr>
+  <tr valign="top"> 
+    <td ><code>name</code></td>
+    <td ><code>java.lang.String</code></td>
+    <td >Name of the view as defined in the helpset.</td>
+  </tr>
+  <tr valign="top"> 
+    <td ><code>tip</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>Tooltip text for the view.</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="63"><code>iconURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td width="3">URL for the icon if set with the <code>imageID</code> attribute 
+      in the helpset.</td>
+  </tr>
+</table>
+<h4>Using the Navigator Variables</h4>
+<p>The <code>navigator</code> tag is used to return information about the current 
+  navigator. In the illustration below the <code>navigator</code> tag is used to determine 
+  the navigators that are used in the helpset and sets an HTML <code>&lt;img&gt;</code> 
+  tag based on the navigator name.</p>
+<pre><code>&lt;jh:navigators helpBroker=&quot;&lt;%= helpBroker %&gt;&quot; &gt;
+   &lt;A HREF=&quot;navigator.jsp?nav=&lt;%= name %&gt;&quot;&gt;
+   &lt;IMG src=&quot;&lt;%= iconURL!=&quot;&quot;? 
+        iconURL : &quot;images/&quot; + className +&quot;.gif&quot; %&gt;&quot; 
+        Alt=&quot;&lt;%= tip %&gt;&quot;
+        BORDER=0&gt;&lt;/A&gt;
+&lt;/jh:navigators&gt;</code></pre>
+
+<h4><tt>tocItem</tt> Variables</h4>
+<p>The tocItem variables are defined in the table below.</p>
+<table border="1"  cellspacing="0" cellpadding="5">
+  <tr valign="top"> 
+    <th> 
+      <div align="left">Variable</div>
+    </th>
+    <th> 
+      <div align="left">Data&nbsp;Type</div>
+    </th>
+    <th> 
+      <div align="left">Description</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td><code>name</code></td>
+    <td><code>java.lang.String</code></td>
+    <td><code>tocItem</code> text as defined in the <code>name</code> attribute.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>target</code></td>
+    <td><code>java.lang.String</code></td>
+    <td><code>tocItem</code> target as defined in the <code>target</code> attribute.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>parent</code></td>
+    <td><code>java.lang.String</code></td>
+    <td> Hex value identifying the parent node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>parentID</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>String identifying the parent node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>node</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>Hex value identifying this node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>nodeID</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>String identifying this node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>iconURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>URL for the icon if set with the <code>imageID</code> attribute in the 
+      <code>tocItem</code>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>contentURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>URL for the content represented by this item.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>isCurrentNav</code></td>
+    <td><code>java.lang.Boolean</code></td>
+    <td>True if current navigator, false if not.</td>
+  </tr>
+</table>
+
+<h4>Using <tt>tocItem</tt> </h4>
+<p>The <code>tocItem</code> tag returns information about the TOC items defined in 
+  a <code>TOCView</code>. In the sample code below, the <code>TOCView</code> returns <code>tocItem</code> 
+  scripting variables that are added to the JavaScript tag <code>tocTree.addTreeNode</code>.</p>
+<pre>tocTree = new Tree(&quot;tocTree&quot;, 22, &quot;ccccff&quot;, true, false);
+&lt;% TOCView curNav = (TOCView)helpBroker.getCurrentNavigatorView(); %&gt;
+&lt;jh:tocItem helpBroker=&quot;&lt;%= helpBroker %&gt;&quot; tocView=&quot;&lt;%= curNav %&gt;&quot; &gt;
+   tocTree.addTreeNode(&quot;&lt;%= parentID %&gt;&quot;,
+                       &quot;&lt;%= nodeID %&gt;&quot;,
+                       &quot;&lt;%= iconURL!=&quot;&quot;?iconURL:&quot;null&quot; %&gt;&quot;,
+                       &quot;&lt;%= name %&gt;&quot;,&quot;&lt;%= helpID %&gt;&quot;,
+                       &quot;&lt;%= contentURL!=&quot;&quot;?contentURL:&quot;null&quot; %&gt;&quot;,
+                       &quot;&lt;%= expansionType%&gt;&quot; );&nbsp;&nbsp;&nbsp;
+&lt;/jh:tocItem&gt;
+tocTree.drawTree();
+tocTree.refreshTree();
+  &lt;% 
+  ID id = helpBroker.getCurrentID();
+  if (id != null) {
+  %&gt; 
+     tocTree.selectFromHelpID(&quot;&lt;%= id.id%&gt;&quot;);
+  &lt;%
+     }
+  %&gt;</pre>
+<h4><tt>indexItem</tt> Variables</h4>
+<p> The <code>indexItem</code> variables are defined in the table below.</p>
+<table border="1"  cellspacing="0" cellpadding="5">
+  <tr valign="top"> 
+    <th> 
+      <div align="left">Variable</div>
+    </th>
+    <th> 
+      <div align="left">Data&nbsp;Type</div>
+    </th>
+    <th> 
+      <div align="left">Description</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td><code>name</code></td>
+    <td><code>java.lang.String</code></td>
+    <td><code>indexItem</code> text as defined in the <code>name</code> attribute.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>target</code></td>
+    <td><code>java.lang.String</code></td>
+    <td><code>indexItem</code> target as defined in the <code>target</code> attribute.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>parent</code></td>
+    <td><code>java.lang.String</code></td>
+    <td> Hex value identifying the parent node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>parentID</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>String identifying the parent node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>node</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>Hex value identifying this node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>nodeID</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>String identifying this node.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>iconURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>URL for the icon if set with the <code>imageID</code> attribute in the 
+      <code>indexItem</code>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>contentURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>URL for the content represented by this item.</td>
+  </tr>
+</table>
+
+<h4>Using <tt>indexItem</tt></h4>
+<p>The <code>indexItem</code> tag returns information about the index item defined 
+  in an <code>IndexView</code>. In the sample code below, the <code>IndexView</code> 
+  returns <code>indexItem</code> scripting variables that are added to the JavaScript 
+  tag <code>addNode</code>.</p>
+<pre>indexTree = new Tree(&quot;indexTree&quot;, 22, &quot;ccccff&quot;, false, true);
+&lt;% IndexView curNav = (IndexView)helpBroker.getCurrentNavigatorView(); %&gt;
+&lt;jh:indexItem indexView=&quot;&lt;%= curNav %&gt;&quot; helpBroker=&quot;&lt;%= helpBroker %&gt;&quot; &gt;
+    indexTree.addTreeNode(&quot;&lt;%= parentID %&gt;&quot;, 
+                          &quot;&lt;%= nodeID %&gt;&quot;, &quot;null&quot;, 
+                          &quot;&lt;%= name %&gt;&quot;,&quot;&lt;%= helpID %&gt;&quot;,
+                          &quot;&lt;%= contentURL!=&quot;&quot;?contentURL:&quot;null&quot; %&gt;&quot;, 
+                          &quot;&lt;%= expansionType%&gt;&quot;);
+&lt;/jh:indexItem&gt;
+indexTree.drawTree();
+indexTree.refreshTree();
+&lt;%
+  ID id = helpBroker.getCurrentID();
+  if (id != null) {
+  %&gt; 
+     indexTree.selectFromHelpID(&quot;&lt;%= id.id%&gt;&quot;);
+  &lt;%
+     }
+  %&gt;</pre>
+<h4> <tt>searchItem</tt> Variables</h4>
+<p>The <code>SearchItem</code> variables are defined in the table below.</p>
+<table border="1"  cellspacing="0" cellpadding="5">
+  <tr valign="top"> 
+    <th> 
+      <div align="left">Variable</div>
+    </th>
+    <th> 
+      <div align="left">Data&nbsp;Type</div>
+    </th>
+    <th> 
+      <div align="left">Description</div>
+    </th>
+  </tr>
+  <tr valign="top"> 
+    <td><code>name</code></td>
+    <td><code>java.lang.String</code></td>
+    <td> Unique name of the <code>searchItem</code>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>helpID</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>String ID associated with this <code>searchItem</code>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>confidence</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>The quality of the hits as returned by the search engine.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>hits</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>Number of hits.</td>
+  </tr>
+  <tr valign="top"> 
+    <td> <code>contentURL</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>URL for the content represented by this item.</td>
+  </tr>
+  <tr valign="top"> 
+    <td><code>hitBoundries</code></td>
+    <td><code>java.lang.String</code></td>
+    <td>A list of boundaries. Returns in the format of {begin, end},...</td>
+  </tr>
+</table>
+
+<h4> Using <tt>searchItem</tt> </h4>
+<p>The <code>searchItem</code> tag returns information about the search items defined 
+  in a <code>SearchView</code>. In the sample code below, the <code>SearchView </code>returns 
+  <code>searchItem</code> scripting variables that are added to the JavaScript tag 
+  <code>addNode</code>.</p>
+<pre>searchList = new SearchList(&quot;searchList&quot;, 22, &quot;ccccff&quot;);
+&lt;jh:searchTOCItem searchView=&quot;&lt;%= curNav %&gt;&quot;
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;helpBroker=&quot;&lt;%=    helpBroker %&gt;&quot; 
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query=&quot;&lt;%= query %&gt;&quot; &gt;
+   searchList.addNode(&quot;&lt;%= name %&gt;&quot;,
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &quot;&lt;%= confidence %&gt;&quot;,
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &quot;&lt;%= hits %&gt;&quot;,
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &quot;&lt;%= helpID %&gt;&quot;,
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &quot;&lt;%= contentURL %&gt;&quot; );
+&lt;/jh:searchTOCItem&gt;
+searchList.drawList();
+searchList.refreshList();
+searchList.select(0);
+  </pre>
+<p>
+<img src="../../images/hg_see.gif"><b>See also:</b>
+<dl>
+<dd><a href="../author/csh.html">Context-Sensitive Help</a>
+<dd>
+<dd><a href="dev.html">Programming with the JavaHelp System</a>
+<dd><a href="basics.html">Adding the JavaHelp System to Applications</a>
+<dd><a href="embed.html">Embedding JavaHelp Components</a>
+</dl>
+<p>
+</body>
+</html>

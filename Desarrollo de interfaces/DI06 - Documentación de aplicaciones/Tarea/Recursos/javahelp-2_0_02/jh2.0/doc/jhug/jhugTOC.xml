@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC 
+  "-//Sun Microsystems Inc.//DTD 
+  JavaHelp TOC Version 1.0//EN"
+  "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem text="JavaHelp System User's Guide" image="openbook">
+
+   <tocitem text="Preface" image="topic" target="top"/>
+
+   <tocitem text="Release Information" image="chapter" target="rel.release">
+       <tocitem text="New Features in this Release" image="topic" target="rel.changes"/>
+       <tocitem text="Contents of the Release" image="topic" target="rel.contents"/>
+       <tocitem text="Requirements" image="topic" target="rel.requirements"/>
+       <tocitem text="Demonstration Programs" image="topic" target="rel.demos"/>
+       <tocitem text="Sample Helpsets" image="topic" target="rel.helpsets"/>
+       <tocitem text="Libraries and Tools" image="topic" target="rel.libraries"/>
+       <tocitem text="Limitations and Bugs" image="topic" target="rel.limitations"/>
+       <tocitem text="List of Files in the Release" image="topic" target="rel.file_list"/>
+   </tocitem>
+
+   <tocitem text="JavaHelp System Overview" image="chapter" target="over.overview">
+       <tocitem text="Introduction" image="topic" target="over.intro"/>
+       <tocitem text="JavaHelp System Features" image="topic" target="over.features"/>
+       <tocitem text="Scenarios" image="chapter" target="over.scenarios">
+          <tocitem text="Invocation Mechanisms" image="topic" target="over.invocation"/>
+          <tocitem text="Presentation and Deployment" image="topic" target="over.deploy"/>
+          <tocitem text="Full-text Search" image="topic" target="over.search"/>
+       </tocitem>
+       <tocitem text="JavaHelp System JComponents" image="topic" target="over.jcomp"/>
+   </tocitem>
+
+   <tocitem text="Authoring Help Information" image="chapter" target="auth.author">
+       <tocitem text="Viewing Helpsets" image="topic" target="auth.viewing"/>
+       <tocitem text="Accessibility and JavaHelp Viewer Shortcut Keys" image="topic" target="auth.accessibility"/>
+       <tocitem text="Setting Up a JavaHelp System" image="topic" target="auth.setup"/>
+       <tocitem text="Helpset File" image="topic" target="auth.helpset"/>
+       <tocitem text="Map File" image="topic" target="auth.map"/>
+       <tocitem text="JAR Files" image="topic" target="auth.jar"/>
+       <tocitem text="Table of Contents File" image="topic" target="auth.toc"/>
+       <tocitem text="Index File" image="topic" target="auth.index"/>
+       <tocitem text="Glossary File" image="topic" target="auth.glossary"/>
+       <tocitem text="Favorites File" image="topic" target="auth.favorites"/>
+       <tocitem text="Context-Sensitive Help" image="topic" target="auth.csh"/>
+       <tocitem text="Full-text Search" image="chapter" target="auth.search">
+          <tocitem text="Creating the Full-text Searc" image="topic" target="auth.searchdb"/>
+          <tocitem text="The jhindexer Command" image="topic" target="auth.jhindexer"/>
+          <tocitem text="The jhsearch Command" image="topic" target="auth.jhsearch"/>
+       </tocitem>
+       <tocitem text="Using Popup and Secondary Windows" image="chapter" target="auth.popup">
+          <tocitem text="The JHSecondaryViewer Component" image="topic" target="auth.pop_obj"/>
+       </tocitem>
+       <tocitem text="Merging Helpsets" image="topic" target="auth.merge"/>
+   </tocitem>
+
+   <tocitem text="Programming with JavaHelp System" image="chapter" target="dev.dev">
+       <tocitem text="Adding JavaHelp to Applications" image="topic" target="dev.basics"/>
+       <tocitem text="Implementing Context-Sensitive Help" image="topic" target="dev.csh"/>
+       <tocitem text="Merging Helpsets Dynamically" image="topic" target="dev.merge"/>
+       <tocitem text="Embedding JavaHelp Components" image="topic" target="dev.embed"/>
+       <tocitem text="Creating Lightweight Java Components" image="topic" target="dev.lwcomp"/>
+       <tocitem text="Server Based JavaHelp" image="topic" target="dev.serverhelp"/>
+   </tocitem>
+
+   <tocitem text="Localizing Help Information" image="chapter" target="loc.loc">
+      <tocitem text="Localizing Help Presentation" image="topic" target="loc.pres"/>
+      <tocitem text="Localizing Helpsets" image="topic" target="loc.helpset"/>
+      <tocitem text="Localizing XML Data" image="topic" target="loc.xml"/>
+      <tocitem text="Localizing HTML Data" image="topic" target="loc.html"/>
+      <tocitem text="Localization and Fonts" image="topic" target="loc.font"/>
+      <tocitem text="Localizing the Full-Text Search Database" image="topic" target="loc.search"/>
+   </tocitem>
+
+   
+</tocitem>
+</toc>

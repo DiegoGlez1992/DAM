@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2002 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Localizing HTML Data</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Localizing HTML Data</h2>
+<p>
+The HTML data contained in topic files can be localized as
+specified in the HTML 4.0 specification
+(<code>http://w3c.org/TR/REC-html40/</code>).  Both the
+character encoding and the language can be set.
+
+
+<h3><a name="HTML_char">Character Encoding</a></h3>
+<p>
+Character encoding is an unambiguous mapping of the members of a character set (letters, ideographs, digits, symbols, or control
+functions) to specific numeric code values.
+Character encoding can be set for HTML files in the following
+ways (listed in order of precedence):
+<ul type="circle">
+<li><a href="#http_char">HTTP protocol</a>
+<li>HTML <a href="#meta_char"><code>&lt;META&gt;</code> declaration</a>
+<li>HTML <code>charset</code> attribute on an external source (not recognized
+by the JavaHelp system)
+</ul>
+<p><img src="../../images/hg_note.gif" width="18" height="13">
+Only one encoding can be specified for any file.
+
+
+
+<h4><a name="http_char">HTTP Protocol</a></h4>
+<p>
+If the HTML file is provided by a server via the HTTP
+protocol, the server can specify the character set using
+the <code>charset</code> parameter in the HTTP <code>Content-Type</code>
+field.
+
+
+<h4><a name="meta_char"><tt>&lt;META&gt;</tt> Declaration</a></h4>
+<p> The HTML <code>&lt;META&gt;</code> declaration can be used to specify the character 
+  encoding. Encoding is specified using the <code>charset</code> parameter, as follows: 
+<pre>&lt;META HTTP-EQUIV="Content-Type" CONTENT="text/html;<b>charset=x-euc-jp</b>"&gt;</pre>
+
+
+<h3>Specifying a Language</h3>
+<p>
+The language can be set in HTML files in the following ways
+(listed in order of precedence):
+<ul type="circle">
+<li>The <a href="#htmllang"><code>lang</code> attribute</a>
+<li><a href="#inherit_html">Inheritance</a> from the
+closest element (tag)
+<li>The <a href="#htmlmeta"><code>&lt;META&gt;</code> declaration</a>
+<li>The  <a href="#http_htmllang">HTTP protocol</a>
+<code>Content-Language</code> header
+<li>The default locale of the helpset
+<li>The default locale of the application
+</ul>
+
+
+<h4><a name="htmllang">The HTML <tt>lang</tt> Attribute</a></h4>
+<p>
+The <code>lang</code> attribute specifies the language of a
+specific element (tag>. It can be applied to every HTML
+element except the following: &lt;<code>APPLET&gt;</code>, <code>&lt;BASE&gt;</code>,
+<code>&lt;BASEFONT&gt;</code>, <code>&lt;BR&gt;</code>,
+<code>&lt;FRAME&gt;</code>, <code>&lt;FRAMESET&gt;</code>,
+<code>&lt;HR&gt;</code>, <code>&lt;IFRAME&gt;</code>,
+<code>&lt;PARAM&gt;</code>, and <code>&lt;SCRIPT&gt;</code>.  
+<p>
+The following is an example of the <code>lang</code> attribute
+being used with the <code>&lt;P&gt;</code> tag:
+<p>
+<pre>    &lt;P lang="en-US"&gt;</pre>
+<p>
+<a name="inherit_html">
+Any elements (tags) nested within a tag automatically
+inherit the parent tag's language.</a>
+<p> The syntax of the lang attribute is:<br>
+  <br>
+<table width=98% border=0 cellpadding=5>
+  <tr valign="top"> 
+    <td width="10%" nowrap><i>lang</i> </td>
+    <td width="90%"> = language-code </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>language-code</i> </td>
+    <td width="90%"> = primarycode ('-' subcode) </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>primarycode</i> </td>
+    <td width="90%"> = ISO639 | IonaCode | UserCode </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>ISO639</i> </td>
+    <td width="90%"> = 2 alpha characters </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>IonaCode</i> </td>
+    <td width="90%"> = (i | I) '-' (alpha characters) </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>UserCode</i> </td>
+    <td width="90%"> = (x | X) '-' (alpha characters) </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=10% nowrap><i>subcode</i> </td>
+    <td width="90%"> = (alpha characters) </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>
+For more information about the <code>lang</code> attribute,
+please refer to the HTML 4.0 specification at the World Wide
+Web Consortium web site (<code>http://w3c.org/TR/REC-html40/</code>).
+</p>
+
+<h4><a name="htmlmeta"><tt>&lt;META&gt;</tt> Declaration</a></h4>
+<p>
+The HTML <code>&lt;META&gt;</code> declaration can be used to specify the
+file's language.  Language is specified using the <code>Content-Language</code>
+parameter:
+<pre>&lt;META http-equiv=<b>"Content-Language" content="en-US"</b>&gt;</pre>
+
+
+<h4><a name="http_htmllang">HTTP Protocol</a></h4>
+<p>
+If the HTML file is provided by a server via the HTTP
+protocol, the server can specify the language for that file
+using the HTTP <code>Content-Language</code> header (for example,
+<code>Content-Language:en-US</code>).  
+
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="loc.html">Localizing Help Information</a>
+<dd><a href="loc_pres.html">Localizing Help Presentation</a>
+<dd><a href="loc_helpset.html">Localizing Helpsets</a>
+<dd><a href="loc_xml.html">Localizing XML Data</a>
+<dd><a href="loc_font.html">Localization and Fonts</a>
+<dd><a href="loc_search.html">Localizing the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

@@ -1,0 +1,246 @@
+/*
+ * @(#)default.css	1.37 98/10/17
+ *
+ * Copyright 1997, 1998 by Sun Microsystems, Inc.,
+ * 901 San Antonio Road, Palo Alto, California, 94303, U.S.A.
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information
+ * of Sun Microsystems, Inc. ("Confidential Information").  You
+ * shall not disclose such Confidential Information and shall use
+ * it only in accordance with the terms of the license agreement
+ * you entered into with Sun.
+ */
+
+body  {font-size: 14pt;
+       font-family: SansSerif;
+       margin-left: 0;
+       margin-right: 0;
+       color: black}
+
+p   {font-size: medium;
+     font-weight: normal;
+     margin-top: 15}
+
+h1  {font-size: x-large;
+     font-weight: bold;
+     margin-top: 10;
+     margin-bottom: 10}
+
+h2 {font-size: large;
+    font-weight: bold;
+    margin-top: 10;
+    margin-bottom: 10}
+
+h3 {font-size: medium;
+    font-weight: bold;
+    margin-top: 10;
+    margin-bottom: 10}
+
+h4 {font-size: small;
+    font-weight: bold;
+    margin-top: 10;
+    margin-bottom: 10}
+
+h5 {font-size: x-small;
+    font-weight: bold;
+    margin-top: 10;
+    margin-bottom: 10}
+
+h6 {font-size: xx-small;
+    font-weight: bold;
+    margin-top: 10;
+    margin-bottom: 10}
+
+li p {margin-top: 0;
+    margin-bottom: 0}
+
+menu li p {margin-top: 0;
+    margin-bottom: 0}
+
+menu li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+menu {margin-left: 40;
+    margin-top: 10;
+    margin-bottom: 10}
+
+dir li p {margin-top: 0;
+    margin-bottom: 0}
+
+dir li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+dir {margin-left: 40;
+    margin-top: 10;
+    margin-bottom: 10}
+
+dd p {margin-left: 40;
+    margin-top: 0;
+    margin-bottom: 0}
+
+dt {margin-top: 0;
+    margin-bottom: 0}
+
+dl {margin-left: 10;
+    margin-top: 10;
+    margin-bottom: 10}
+
+ol li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+ol {
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-left: 50;
+    list-style-type: decimal
+}
+
+ol li p {margin-top: 0;
+    margin-bottom:0}
+
+ul li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+ul {margin-top: 10;
+    margin-bottom: 10;
+    margin-left: 50;
+    list-style-type: disc;
+    -bullet-gap: 10}
+
+ul li ul li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+ul li ul {list-style-type: circle;
+    margin-left: 25}
+
+ul li ul li ul li {margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0}
+
+ul li ul li ul {list-style-type: square;
+    margin-left: 25}
+
+ul li menu {list-style-type: circle;
+    margin-left: 25}
+
+ul li p {margin-top: 0;
+    margin-bottom:0}
+
+a {color: blue;
+   text-decoration: underline}
+
+big {font-size: x-large}
+
+small {font-size: x-small}
+
+samp {font-size: small;
+      font-family: Monospaced}
+
+cite {font-style: italic}
+
+code {font-size: small;
+      font-family: Monospaced}
+
+dfn {font-style: italic}
+
+em {font-style: italic}
+
+i  {font-style: italic}
+
+b  {font-weight: bold}
+
+kbd {font-size: small;
+     font-family: Monospaced}
+
+s {text-decoration: line-through}
+
+strike {text-decoration: line-through}
+
+strong {font-weight: bold}
+
+sub {vertical-align: sub}
+
+sup {vertical-align: sup}
+
+tt {font-family: Monospaced}
+
+u {text-decoration: underline}
+
+var {font-weight: bold;
+     font-style: italic}
+
+table {
+	border-color: Gray;
+	border-style: outset;
+	margin-top: 5;
+       	margin-bottom: 5;
+       	margin-left: 5;
+	margin-right: 5
+}
+
+td {
+	border-color: Gray;
+	border-style: inset;
+	padding-left: 1;
+	padding-right: 1;
+	padding-top: 1;
+	padding-bottom: 1
+}
+
+th {
+	border-color: Gray;
+	border-style: inset;
+	padding-left: 1;
+	padding-right: 1;
+	padding-top: 1;
+	padding-bottom: 1
+}
+
+td p {
+	margin-top: 0;   
+	padding-top: 2;
+	padding-bottom: 2;
+	padding-left: 2;
+	padding-right: 2
+}
+
+th p { 
+	margin-top: 0;   
+	font-weight: bold;
+	padding-top: 2;
+	padding-bottom: 2;
+	padding-left: 2;
+	padding-right: 2
+}
+
+address {
+	color: blue;
+	font-style: italic
+}
+
+blockquote {
+	margin-top: 5;
+	margin-bottom: 5;
+	margin-left: 35;
+	margin-right: 35
+}
+
+center {text-align: center}
+
+pre {margin-top: 5;
+     margin-bottom: 5;
+     font-family: Monospaced}
+
+pre p {margin-top: 0}

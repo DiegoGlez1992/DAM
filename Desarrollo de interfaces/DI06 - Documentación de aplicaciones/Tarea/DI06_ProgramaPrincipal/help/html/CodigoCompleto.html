@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Codigo completo de ejemplo</title>
+</head>
+
+<body>
+    <h1 align="center">Código completo del componente RelojDigital</h1>
+    <code>
+        /*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license<br>
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Beans/Bean.java to edit this template
+ */<br>
+package misControles;<br>
+
+import java.awt.event.ActionEvent;<br>
+import java.awt.event.ActionListener;<br>
+import java.io.Serializable;<br>
+import java.text.SimpleDateFormat;<br>
+import java.util.Calendar;<br>
+import java.util.EventListener;<br>
+import java.util.EventObject;<br>
+import javax.swing.JLabel;<br>
+import javax.swing.JOptionPane;<br>
+import javax.swing.Timer;<br>
+
+/**
+ * <strong>Reloj digital.</strong><br>
+ * Componente java que crea un reloj digital al que se puede configurar las siguientes propiedades:<br>
+ * <ul>
+ * <li>Formato de hora (12h / 24h)</li>
+ * <li>Alarma (On / Off)</li>
+ * <li>Hora de la alarma</li>
+ * <li>Minuto de la alarma</li>
+ * <li>Mensaje a mostrar cuando salta la alarma</li>
+ * </ul>
+ *
+ * @author Diego González García
+ */<br>
+public class RelojDigital extends JLabel implements ActionListener, Serializable {<br>
+
+    private boolean formato24h;<br>
+    private boolean alarmaOn;<br>
+    private int alarmaHora;<br>
+    private int alarmaMinuto;<br>
+    private String alarmaMensaje;<br>
+
+    private final Timer timer;<br>
+    private Calendar horaActual;<br>
+    private final SimpleDateFormat formato24 = new SimpleDateFormat("HH:mm:ss");      //Formato para 24h<br>
+    private final SimpleDateFormat formato12 = new SimpleDateFormat("hh:mm:ss a");    //Formato para 12h<br>
+    private AlarmaSuenaListener alarmaSuena;<br>
+
+    /**<br>
+     * Get the value of alarmaMensaje<br>
+     *<br>
+     * @return the value of alarmaMensaje<br>
+     */<br>
+    public String getAlarmaMensaje() {<br>
+        return alarmaMensaje;<br>
+    }<br>
+
+    /**<br>
+     * Set the value of alarmaMensaje<br>
+     *<br>
+     * @param alarmaMensaje new value of alarmaMensaje<br>
+     */<br>
+    public void setAlarmaMensaje(String alarmaMensaje) {<br>
+        this.alarmaMensaje = alarmaMensaje;<br>
+    }<br>
+
+    /**<br>
+     * Get the value of alarmaMinuto<br>
+     *<br>
+     * @return the value of alarmaMinuto<br>
+     */<br>
+    public int getAlarmaMinuto() {<br>
+        return alarmaMinuto;<br>
+    }<br>
+
+    /**<br>
+     * Set the value of alarmaMinuto<br>
+     *<br>
+     * @param alarmaMinuto new value of alarmaMinuto<br>
+     */<br>
+    public void setAlarmaMinuto(int alarmaMinuto) {<br>
+        this.alarmaMinuto = alarmaMinuto;<br>
+    }<br>
+
+    /**<br>
+     * Get the value of alarmaHora<br>
+     *<br>
+     * @return the value of alarmaHora<br>
+     */<br>
+    public int getAlarmaHora() {<br>
+        return alarmaHora;<br>
+    }<br>
+
+    /**<br>
+     * Set the value of alarmaHora<br>
+     *<br>
+     * @param alarmaHora new value of alarmaHora<br>
+     */<br>
+    public void setAlarmaHora(int alarmaHora) {<br>
+        this.alarmaHora = alarmaHora;<br>
+    }<br>
+
+    /**<br>
+     * Get the value of alarmaOn<br>
+     *<br>
+     * @return the value of alarmaOn<br>
+     */<br>
+    public boolean isAlarmaOn() {<br>
+        return alarmaOn;<br>
+    }<br>
+
+    /**<br>
+     * Set the value of alarmaOn<br>
+     *<br>
+     * @param alarmaOn new value of alarmaOn<br>
+     */<br>
+    public void setAlarmaOn(boolean alarmaOn) {<br>
+        this.alarmaOn = alarmaOn;<br>
+    }<br>
+
+    /**<br>
+     * Get the value of formato24h<br>
+     *<br>
+     * @return the value of formato24h<br>
+     */<br>
+    public boolean isFormato24h() {<br>
+        return formato24h;<br>
+    }<br>
+
+    /**<br>
+     * Set the value of formato24h<br>
+     *<br>
+     * @param formato24h new value of formato24h<br>
+     */<br>
+    public void setFormato24h(boolean formato24h) {<br>
+        this.formato24h = formato24h;<br>
+    }<br>
+
+    /**<br>
+     * Constructor of RelojDigital<br>
+     */<br>
+    public RelojDigital() {<br>
+        timer = new Timer(1000, this);<br>
+        setActivo(true);    //Activa el temporizador<br>
+    }<br>
+
+    /**<br>
+     * Evento que se ejecuta cada vez que "salta" el temporizador<br>
+     *<br>
+     * @param e<br>
+     */<br>
+    @Override<br>
+    public void actionPerformed(ActionEvent e) {<br>
+        horaActual = Calendar.getInstance();    //Tomamos la hora actual<br>
+        if (formato24h) {   //Si el formato definido es 24h<br>
+            setText(formato24.format(Calendar.getInstance().getTime()));    //Mostramos hora actual con formato 24h<br>
+        } else {<br>
+            setText(formato12.format(Calendar.getInstance().getTime()));    //Mostramos hora actual con formato 12h<br>
+        }<br>
+        if (alarmaOn) { //Si la alarma está activada<br>
+            if (formato24h) {   //Si el formato definido es 24h, comprovamos si es tiempo de alarma en formato 24h<br>
+                if (horaActual.get(Calendar.HOUR_OF_DAY) == alarmaHora<br>
+                        && horaActual.get(Calendar.MINUTE) == alarmaMinuto<br>
+                        && horaActual.get(Calendar.SECOND) == 0) {<br>
+                    JOptionPane.showMessageDialog(null, alarmaMensaje, "Alarma", JOptionPane.INFORMATION_MESSAGE);  //Mostramos el mensaje configurado<br>
+                    //alarmaSuena.capturarAlarmaSuena(new AlarmaSuenaEvent(this));<br>
+                }<br>
+            } else {    //Si el formato definido es 12h, comprovamos si es tiempo de alarma en formato 12h<br>
+                if (horaActual.get(Calendar.HOUR) == alarmaHora<br>
+                        && horaActual.get(Calendar.MINUTE) == alarmaMinuto<br>
+                        && horaActual.get(Calendar.SECOND) == 0) {<br>
+                    JOptionPane.showMessageDialog(null, alarmaMensaje, "Alarma", JOptionPane.INFORMATION_MESSAGE);  //Mostramos el mensaje configurado<br>
+                    //alarmaSuena.capturarAlarmaSuena(new AlarmaSuenaEvent(this));<br>
+                }<br>
+            }<br>
+        }<br>
+    }<br>
+
+    /**<br>
+     * Código necesario para gestionar si nuestro temporizador, objeto Timer,<br>
+     * está funcionando o no.<br>
+     *<br>
+     * @param valor True/False<br>
+     */<br>
+    public final void setActivo(boolean valor) {<br>
+        if (valor == true) {<br>
+            timer.start();<br>
+        } else {<br>
+            timer.stop();<br>
+        }<br>
+    }<br>
+
+    /**<br>
+     * Código necesario para que nos devuelva si nuestro temporizador, objeto<br>
+     * Timer, está funcionando o no.<br>
+     *<br>
+     * @return True/False<br>
+     */<br>
+    public boolean getActivo() {<br>
+        return timer.isRunning();<br>
+    }<br>
+
+    /**<br>
+     * Añade oyentes<br>
+     *<br>
+     * @param alarmaSuena<br>
+     */<br>
+    public void addAlarmaSuenaListener(AlarmaSuenaListener alarmaSuena) {<br>
+        this.alarmaSuena = alarmaSuena;<br>
+    }<br>
+
+    /**<br>
+     * Elimina oyentes<br>
+     *<br>
+     * @param alarmaSuena<br>
+     */<br>
+    public void removeAlarmaSuenaListener(AlarmaSuenaListener alarmaSuena) {<br>
+        this.alarmaSuena = null;<br>
+    }<br>
+
+    /**<br>
+     * Clase para implementar los eventos.<br>
+     */<br>
+    public class AlarmaSuenaEvent extends EventObject {<br>
+        <br>
+        public AlarmaSuenaEvent(Object source) {<br>
+            super(source);<br>
+        }<br>
+    }<br>
+
+    /**<br>
+     * Interfaz que define los métodos a usar cuando se genere el evento.<br>
+     */<br>
+    public interface AlarmaSuenaListener extends EventListener {<br>
+        <br>
+        public void capturarAlarmaSuena(AlarmaSuenaEvent ev);<br>
+    }<br>
+    <br>
+}<br>
+    </code>
+</body>
+
+</html>

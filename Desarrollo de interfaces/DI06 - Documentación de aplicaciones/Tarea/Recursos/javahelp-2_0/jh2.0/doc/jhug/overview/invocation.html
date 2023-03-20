@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Invocation Mechanisms</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Invocation Mechanisms</h2>
+<p>
+Users invoke online help from within applications in a
+number of ways.  This section describes invocation
+methods available through the JavaHelp system.
+
+<h3>Menus and Buttons</h3>
+<p>
+Online help is often invoked when a user chooses an item from a Help menu or clicks on a Help button in an application GUI.
+<p>
+The JavaHelp system provides a simple interface by which an
+application requests that a topic ID be displayed.  The
+JavaHelp system then associates the topic ID with the
+appropriate URL and displays it.  IDs are mapped to URLs in
+a JavaHelp system metadata file called the <i>map
+file</i>.
+<p>
+For example, when coding a file chooser dialog box, a
+developer requests that the topic ID <code>fc_help</code>
+be displayed when the Help button at the bottom of the
+dialog box is clicked.  In the map file the ID
+<code>fc_help</code> is defined to be a file named
+<code>FileChooser.html</code> using the following XML syntax:
+<pre>&lt;mapID target="fc_help" url="html/help/FileChooser.html" /&gt;</pre>
+<p>
+Separating the specification of file names (or URLs)
+from the program code provides content authors the freedom
+to control the information that is associated with the
+topic ID.
+<p>
+
+<h3>Tooltips</h3>
+<p>
+A <i>tooltip</i> is a brief message presented to
+the user when the cursor remains over a button for an
+interval longer than a given threshold.
+<p>
+Although tooltip information could be included in the
+JavaHelp system data, it will usually be delivered as part
+of the application and will be co-located with the code.
+Tooltip functionality is provided as a component in Swing.
+<p>
+
+<h3>Context-Sensitive Help</h3>
+<p> The JavaHelp system provides the ability to invoke online help that describes 
+  graphical components in an application GUI. The user makes gestures that activate 
+  context-sensitive help and then specifies the component in question. The ID 
+  associated with the component is displayed. 
+<h3>Viewer Initiated Help</h3>
+<p>You can display help topics from a TOC or index navigator or from the content 
+  pane of the main window. By default, an index entry and a TOC entry display 
+  help in the main window's content viewer. You can also define an entry that 
+  displays help in a popup or a secondary window. In the content pane, you can 
+  define an &lt;object&gt; tag that displays help in a separate popup or secondary 
+  window. If you use a standard HTML link in the content pane, the linked help 
+  topic replaces the current one in the content pane.</p>
+<h3>System Initiated Context-Sensitive Help</h3>
+<p>The following invocation would display system-initiated help in a main window.</p>
+<pre>mainHelpBroker.setCurrentID(helpID); </pre>
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>Next Overview Topic:</b> 
+<a href="deploy.html">Presentation and Deployment</a>
+<p>
+<!-- Return to <A HREF="../jhugTOC.html">table of contents</A> -->
+<p>
+</body>
+</html>

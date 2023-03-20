@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Limitations and Bugs</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Limitations and Bugs</h2>
+<p>This release of JavaHelp has the following limitations and bugs.</p>
+<h3><a name="htmlviewer">HTML Viewer</a></h3>
+<p> The JavaHelp HTML viewer is based on the Swing JEditorPane component. HTML 
+  rendering can differ depending on which version of Swing your application uses. 
+  Differences between versions are noted below. 
+<h4>Images Distorted</h4>
+<p>
+Occasionally, images are distorted (stretched).
+Redisplaying the page corrects the problem.
+<p> You can sometimes avoid this problem by explicitly specifying "height" and 
+  "width" attributes with the <code>&lt;img&gt;</code> tag. For example, 
+<p><code>&nbsp;&nbsp;&nbsp;&lt;img src=&quot;../../images/hg_note.gif&quot; width=&quot;18&quot; 
+  height=&quot;13&quot;&gt;</code>
+<h4><a name="classpathlimitations">Classpath Limitations</a></h4>
+<p> Due to Java security protocols, it is not possible to reference images and 
+  files from your topics that are outside the <code>CLASSPATH</code> of your application 
+  (or <code>hsviewer</code>). </p>
+<p>For example, you start <code>hsviewer</code> with the following command: </p>
+<p><code> &nbsp;&nbsp;&nbsp;java -jar c:\JavaHelp\demos\bin\hsviewer.jar -helpset 
+  C:\my_app\help\myhelpset.hs </code></p>
+<p> The <code>hsviewer</code> application sets the <code>CLASSPATH</code> to be:</p>
+<p><code> &nbsp;&nbsp;&nbsp;C:\my_app\help </code></p>
+<p>You cannot reference files above the <code>C:\my_app\help</code> folder. For example, 
+  in the following code an image in <code>C:\my_app\images</code> referenced as follows 
+  cannot be displayed:
+<p>
+<code>
+&nbsp;&nbsp;&nbsp;&lt;IMG SRC="../../images/foo.gif"&gt;
+</code></p>
+<p> You can work around this problem by using the <code>-classpath</code> parameter 
+  of <code>hsviewer.jar</code>. The parameter allows you to specify a <code>CLASSPATH</code> 
+  separately from the helpset file, enabling you to set the <code>CLASSPATH</code> 
+  to include the folder that contains the image and specify the helpset file relative 
+  to that folder. For example, you could enter the following command (all on one 
+  line) at the command line:</p>
+<pre>    java -jar c:\JavaHelp\demos\bin\hsviewer.jar -helpset C:\my_app\help\myhelpset.hs 
+    -classpath C:\my_app</pre>
+<h4>Duplicate Lines Displayed (J2SE 1.2.2) </h4>
+<p> If a TOC, or index entry points to an anchor target specified at or near the 
+  top of the page (in the first scroll zone), the viewer can position the lines 
+  incorrectly, resulting in lines' being displayed twice. 
+<h4>Anchor Targets</h4>
+<p>There are two problems with anchors:</p>
+<ul type="circle">
+  <li>On J2SE 1.2.2 systems only, if the TOC or index is used to access a topic 
+    file that contains anchor targets in the first scroll zone in the viewer, 
+    text will be duplicated in the display. </li>
+  <li> Named anchors cause a space to be added at the beginning of the object 
+    that follows them. 
+</ul>
+
+<p> The best way to work around this problem is to nest the text of the target 
+  within the anchor tag. For example: </p>
+<p><code> &nbsp;&nbsp;&lt;H2&gt;&lt;a name="widgets"&gt;Working With Widgets&lt;/a&gt;&lt;/H2&gt; 
+  </code></p>
+<h4>Cascading Style Sheets</h4>
+<p> Tag names in styles and style sheets <i>must</i> be specified with lowercase 
+  letters or they will be ignored. 
+<h4><tt>&lt;sup&gt;</tt> and <tt>&lt;sub&gt;</tt> Tags (J2SE 1.2.2) </h4>
+<p> The <code>&lt;sup&gt;</code> <code>&lt;sub&gt;</code> tags are ignored on J2SE 1.2.2 
+  systems. 
+<h4>The Width Attribute of the <tt>&lt;td&gt;</tt> Tag</h4>
+<p> The width attribute of the &lt;td&gt; tag is ignored in J2SE 1.2. That version 
+  of the viewer assigns its own width to table columns. 
+<p> On J2SE 1.2.2, the width attribute works when specified in absolute pixels 
+  (px). The use of percentages (%) is not supported in that version of J2SE. 
+<h4>Named Anchors in Ordered and Unordered Lists</h4>
+<p> If the first item after a list tag (<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, 
+  or <code>&lt;dl&gt;</code>) is a named anchor (<code>&lt;a name&gt;</code>), the list 
+  shown in the following example is rendered incorrectly: 
+<pre>&lt;ul&gt;
+  &lt;a name="17539"&gt; &lt;/a&gt;
+  &lt;li&gt;Transmitter reports
+  &lt;a name="17540"&gt; &lt;/a&gt;
+  &lt;li&gt;Channel reports
+&lt;/ul&gt;</pre>
+The following list is rendered correctly: 
+<pre>&lt;ul&gt;
+  &lt;li&gt;&lt;a name="17539"&gt;Transmitter reports&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a name="17540"&gt;Channel reports&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+
+<h4>TABS in <tt>&lt;pre&gt;</tt> Tag not Recognized</h4>
+<p> TABS used in text enclosed in <code>&lt;pre&gt;</code> tags are not recognized. 
+  Space characters are recognized correctly. 
+<h4>Viewer Cannot Load Image Files Directly</h4>
+<p> The help viewer aborts if you attempt to load a graphic file (*.gif, *.jpg) 
+  directly. You must include the images in an HTML file by using the <code>&lt;img&gt;</code> 
+  tag. 
+<h4>Page Setup Settings not Preserved (Printing)</h4>
+<p>
+Changes made to the default settings in the Page Setup dialog
+box are not preserved between activations.  The default settings
+are always set upon activation.
+
+<h3>Full-text Search</h3>
+<p>The text search feature, implemented by running <code>jhindexer</code> on your helpset, has the following limitations and bugs.</p>
+<h4>Parsing of Asian Languages</h4>
+<p>
+The J2SE word-break iterator that the JavaHelp search
+indexer and search navigator use to parse Asian (Japanese,
+Chinese, Korean, Thai) languages uses a heuristic that is
+not well suited to searching.  As a result, topic files are
+not parsed into words that users are likely to enter into
+the Find input field.  
+<p> However, because the parser works on the same model used to highlight words 
+  when the user double-clicks in the content pane, as a workaround (albeit an 
+  inconvenient one), the Asian language user can conduct a full-text search as 
+  follows: 
+<ol>
+  <li>Double-click a word in the content pane.
+  <li>Copy and paste the word into the search navigator Find field.
+  <li>Press Return.
+</ol>
+
+<h4>Match Limit</h4>
+<p>
+To enhance full-text search performance, the
+search navigator  reports the 100 most relevant matches.
+For example, in the <code>idedemo</code> program, if you search for the
+word "build", you see that different forms of the
+word (builder, built, builds) are not highlighted because
+the 100 match limit was met with the exact match "build". 
+This limit should not be a problem with more complex, multi-word, natural
+language queries.
+
+
+<h4>jhindexer Does Not Parse <tt>"."</tt> Correctly</h4>
+<p> The <code>jhindexer</code> does not treat the <code>"."</code> character correctly. 
+  As as result, a search for <code>"javax.help"</code> in the <code>apiviewer</code> 
+  returns no matches.</p>
+<h3>Context Sensitive Help</h3>
+<!-- 
+<h4>Field-Level Help Button</h4>
+<p>
+In the idedemo, if the field-level help button is clicked before the help
+viewer has been accessed (for example, Help &gt; Demo JDE Help), a
+NullPointerException occurs. -->
+<h4>F1 Help (Solaris OpenWindows) </h4>
+<p>
+On Solaris OpenWindows manager the F1 key does not get help
+on the the component with focus.
+</p>
+
+<h3>Other Bugs</h3>
+<h4>Copy/Paste on Solaris</h4>
+<p>
+On Solaris systems, follow these steps to copy and paste text from the help viewer:
+<ol>
+  <li>Highlight text in the viewer.
+  <li>Type Control-C to copy the text. 
+  <li>With focus in the target Solaris window, press the Paste key. 
+</ol>
+
+<h4><tt>jar:</tt> Protocol</h4>
+<p> Due to a bug, the Java<sup><font size="1">TM</font></sup> 2 SDK <code>jar:</code> 
+  protocol does not permit relative references to JAR files. Instead, they must 
+  be fully qualified. For example, the following code works correctly: 
+<p><code>&nbsp;&nbsp;&nbsp;jar:file://c:/my_app/help.jar!map.jhm</code> 
+<p>There is no way to make that reference relative from the location of a helpset 
+  file. For that reason, you must include the helpset and map files in the JAR 
+  file with the rest of the helpset. 
+<h4>Index Navigator</h4>
+<p>
+If an index entry contains more that two hierarchical levels,
+a "turner" mechanism (like the one used in the TOC) is
+added to the second +<i>n</i> levels.
+
+<h4>Popup Window Accessibility</h4>
+<p> JavaHelp popup windows are not as accessible as they should be due to a bug 
+  in the underlying AWT classes that prevents the popups from obtaining focus. 
+  Popup windows can be dismissed by pressing the F10 key - the Esc key does not 
+  work because the window cannot obtain focus. In addition, this same bug prevents 
+  scrollbars in popup windows from being accessible from the keyboard; therefore, 
+  it is important to set the size of popups to enable all the information to be 
+  displayed in a single scroll zone. 
+<h4>Fonts and Localization</h4>
+<p> There are limitations in this release on the ability to display fonts in the 
+  help viewer content pane. Due to a bug in the J2SE, the only character encoding 
+  that can be displayed in the HTML content pane is the system default. Different 
+  locales that use that encoding are rendered correctly. `
+</body>
+</html>

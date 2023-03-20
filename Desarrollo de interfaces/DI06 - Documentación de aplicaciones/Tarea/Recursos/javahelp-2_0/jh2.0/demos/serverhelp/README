@@ -1,0 +1,87 @@
+
+JavaHelp 2.0 Server-Based JavaHelp Demo
+---------------------------------------
+
+This demo shows the Server-Based Help feature of JavaHelp 2. It requires
+two open source products developed by the Apache Software Foundation:
+
+- Tomcat 4.0 or greater, available for download at:
+
+     http://jakarta.apache.org/tomcat/
+
+- Apache Ant, available for download at:
+
+     http://ant.apache.org/
+
+
+To build the demo:
+
+1. Install Ant and Tomcat on your system. 
+
+2. Open a command window or terminal window if you are not
+   already working on the command line.
+
+3. Change to the server demo directory:
+ 
+      <jh2_install_dir>/jh2.0/demos/serverhelp
+
+4. Execute a command with the following format:
+
+      ant -Dcatalina.home=<jakarta_tomcat_home> all deploy
+
+   In your command, replace <jakarta_tomcat_home> with the installed 
+   home directory of Tomcat. For example, if Tomcat is installed 
+   on a Windows machine in C:\Program Files\Tomcat_41, and the Ant 
+   installation is in your PATH, the following command should work:
+
+      ant -Dcatalina.home="C:\Program Files\Tomcat_41" all deploy
+   
+   Note: The ant software is case sensistive. Be sure to enter the
+   directory names exactly as you see them in the file system, 
+   because ant will create new directories with different case if
+   the names do not match exactly, even on a Windows system.
+
+
+To run the demo:
+
+1. Start the Tomcat server. (If you just installed the server, it 
+   might already be running.)
+
+   For example, on a Windows system, choose 
+   Start > Programs > Apache Tomcat 4.1 > Start Tomcat.
+
+   Note: On a Windows NT, 2000, or XP system, your user account must
+   have administrative privileges.
+
+2. Open a browser and enter a URL with the following format:
+
+      http://<yoursystemname>:8080/JavaHelpDemo
+
+   In your URL, replace <yoursystemname> with the name of your  
+   computer or the name of the computer running Tomcat. For example,  
+   if Tomcat is running on your local computer, the following URL
+   should work:
+
+      http://localhost:8080/JavaHelpDemo
+
+
+Troubleshooting
+
+If the URL does not work, see the Tomcat readme file for some
+troubleshooting information. Here are some common problems:
+
+- You are behind a firewall and your browser is using a proxy
+  server. Turn this setting off and then try the URL again.
+
+- The 8080 port is already being used. The Tomcat readme file 
+  describes how to set a different port in Tomcat's server.xml file.
+
+- If you successfully compiled the demo in ant, and, when you try to
+  run the demo in a browser, you get a message from the Tomcat server 
+  saying that it cannot find JavaHelpDemo, it is possible that the 
+  <jakarta_tomcat_home> path use with the ant command had a misspelling 
+  in it. If a directory name is misspelled, ant creates a new 
+  directory by that name and puts JavaHelpDemo there instead of 
+  storing it in the Tomcat path. You can copy the JavaHelpDemo file 
+  from that directory to the <jakarta_tomcat_home>/webapps directory, 
+  and then the demo should run.

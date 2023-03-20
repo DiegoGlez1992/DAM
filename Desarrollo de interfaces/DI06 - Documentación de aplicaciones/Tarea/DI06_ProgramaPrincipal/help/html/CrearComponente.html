@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crear un componente</title>
+</head>
+
+<body>
+    <h1 align="center">Creación del componente.</h1>
+    <h2 align="center">Paso número 1</h2>
+    <p>Comenzamos creando un proyecto NetBeans nuevo de tipo Java Application. Nos aseguramos de desmarcar las opciones
+        Crear clase principal y Configurar como proyecto principal y ponemos de nombre al proyecto RElojDigital, por
+        ejemplo. Le podemos añadir un paquete con el nombre misControles.</p>
+    <p>Una vez creado el proyecto, le añadimos un archivo nuevo de tipo Componente JavaBeans (si no lo encuentras en la
+        lista que sale en el menú contextual, haz clic en la opción Otros... para acceder al resto de tipos de
+        archivos). Puedes llamar a la clase RelojDigital y se ubicará en el paquete misControles.</p>
+    <h2 align="center">Paso número 2</h2>
+    <p>Para que una clase se pueda considerar un componente debe implementar la interfaz Serializable y, además, tener
+        un constructor sin argumentos que vimos eran requisitos para la creación de componentes.</p>
+    <p>El objetivo de este componente es disponer de una etiqueta con un comportamiento específico. Puesto que ya
+        tenemos un control con parte de la funcionalidad que nos interesa, como un método para pintar el texto con el
+        formato adecuado ya implementado, nos serviremos de él heredando nuestra clase de JLabel, quedando la signatura
+        de la clase así: <br><b><i>public class RelojDigital extends JLabel implements Serializable</i></b></p>
+    <p>Obviamente, tendremos que importar el paquete javax.swing.JLabel.</p>
+    <p>El proyecto cuenta con una propiedad de ejemplo que puedes eliminar (su declaración y los métodos get y set de la
+        propiedad), así como un gestor de escuchadores de cambio de propiedades que no necesitaremos, quedando el
+        siguiente código para empezar:
+        <br><b><i>public class RelojDigital extends JLabel implements Serializable {<br>
+                &nbsp&nbsp&nbsp private PropertyChangeSupport propertySupport;<br>
+                &nbsp&nbsp&nbsp public RelojDigital() {<br>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp propertySupport = new PropertyChangeSupport(this);<br>
+                &nbsp&nbsp&nbsp}<br>
+                }</i></b>
+    </p>
+    <p> A continuación procedemos a crear las propiedades necesarias para nuestro proyecto, alarmaMensaje, alarmaMinuto,
+        alarmaHora, alarmaOn y formato24h. Por cada propiedad que definamos tenemos que agregar los
+        métodos <b>get y set</b>.</p>
+    <p> NetBeans proporciona una ayuda especial para realizar esta tarea. Con el cursor posicionado dentro de la clase
+        (puedes reservar una zona para el código de propiedades) haz clic con el botón secundario y selecciona la opción
+        "Insertar Código..."", en la lista que te saldrá elige "Agregar propiedad". Se desplegará el siguiente cuadro de
+        diálogo en el que puedes escribir el nombre de la propiedad y su tipo, e insertar los métodos get y set de
+        manera automática.</p>
+    <h2 align="center">Paso número 3</h2>
+    <p> Una vez creado nuestro componente, el siguiente paso es asociar a las propiedades definidas un editor de
+        propiedades. La forma más fácil es creando un objeto de tipo BeanInfo.</p>
+    <p> Para ello, seleccionamos la clase RelojDigital, en el panel de proyectos, y seleccionamos la opción Editor
+        BeanInfo. Al seleccionarlo, nos preguntará si queremos crear un BeanInfo nuevo, responderemos que sí y veremos
+        cómo en el panel de ficheros del proyecto nos aparece una nueva clase con el mismo nombre de la cual partimos
+        más el texto BeanInfo. Es decir, nos habrá creado la clase RelojDigitalBeanInfo.java</p>
+    <p> En la parte de la derecha, podemos ver que nos aparece el código fuente de la clase y el Diseñador. Accederemos
+        al diseñador y podremos ver la información del nuevo JavaBean creado, podemos ver sus propiedades, métodos, etc.
+    </p>
+    <p> Una vez creado el JavaBean, seleccionamos nuestro proyecto, accedemos al menú contextual y seleccionamos la
+        opción Limpiar y Construir. A partir de este momento ya estamos en disposición de poder utilizar nuestro
+        componente.</p>
+</body>
+
+</html>

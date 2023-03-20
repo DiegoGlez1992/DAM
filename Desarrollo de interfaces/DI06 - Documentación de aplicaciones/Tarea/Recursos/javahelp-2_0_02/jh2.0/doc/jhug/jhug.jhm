@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+	<mapID target="toplevelfolder" url="images/toplevel.gif" />
+	<mapID target="chapter" url="images/chapTopic.gif" />
+	<mapID target="topic" url="images/topic.gif" />
+	<mapID target="tocspacer1" url="images/tocspacer1.gif" />
+	<mapID target="openbook" url="images/openbook.gif" />
+
+	<mapID target="top" url="jhug.html" />
+      <mapID target="top.touch" url="jhug.html#touch" />
+	<mapID target="rel.release" url="release/release.html" />
+	<mapID target="rel.install" url="release/install.html" />
+	<mapID target="rel.contents" url="release/contents.html" />
+	<mapID target="rel.requirements" url="release/requirements.html" />
+	<mapID target="rel.changes" url="release/changes.html" />
+	<mapID target="rel.demos" url="release/demos.html" />
+	<mapID target="rel.helpsets" url="release/helpsets.html" />
+	<mapID target="rel.libraries" url="release/libraries.html" />
+	<mapID target="rel.limitations" url="release/limitations.html" />
+	<mapID target="rel.file_list" url="release/file_list.html" />
+	
+	<mapID target="over.jcomp" url="overview/jcomp.html" />
+	<mapID target="over.deploy" url="overview/deploy.html" />
+	<mapID target="over.features" url="overview/features.html" />
+	<mapID target="over.internals" url="overview/internals.html" />
+	<mapID target="over.intro" url="overview/intro.html" />
+	<mapID target="over.invocation" url="overview/invocation.html" />
+	<mapID target="over.overview" url="overview/overview.html" />
+	<mapID target="over.scenarios" url="overview/scenarios.html" />
+	<mapID target="over.search" url="overview/search.html" />
+
+
+	<mapID target="loc.loc" url="locale/loc.html" />
+	<mapID target="loc.font" url="locale/loc_font.html" />
+	<mapID target="loc.helpset" url="locale/loc_helpset.html" />
+	<mapID target="loc.html" url="locale/loc_html.html" />
+	<mapID target="loc.pres" url="locale/loc_pres.html" />
+	<mapID target="loc.search" url="locale/loc_search.html" />
+	<mapID target="loc.xml" url="locale/loc_xml.html" />
+
+	<mapID target="auth.author" url="author/author.html" />
+	<mapID target="auth.helpset" url="author/helpset.html" />
+	<mapID target="auth.index" url="author/index.html" />
+	<mapID target="auth.glossary" url="author/glossary.html" />
+	<mapID target="auth.favorites" url="author/favorites.html" />
+	<mapID target="auth.jar" url="author/jar.html" />
+	<mapID target="auth.jar_protocol" url="author/jar_protocol.html" />
+	<mapID target="auth.map" url="author/map.html" />
+	<mapID target="auth.search" url="author/search.html" />
+	<mapID target="auth.searchdb" url="author/searchdb.html" />
+	<mapID target="auth.jhindexer" url="author/jhindexer.html" />
+	<mapID target="auth.jhsearch" url="author/jhsearch.html" />
+	<mapID target="auth.setup" url="author/setup.html" />
+	<mapID target="auth.toc" url="author/toc.html" />
+	<mapID target="auth.viewing" url="author/viewing.html" />
+	<mapID target="auth.popup" url="author/popup.html" />
+	<mapID target="auth.csh" url="author/csh.html" />
+	<mapID target="auth.merge" url="author/merge.html" />
+	<mapID target="auth.accessibility" url="author/accessibility.html" />
+
+	<mapID target="dev.dev" url="dev/dev.html" />
+	<mapID target="dev.basics" url="dev/basics.html" />
+	<mapID target="dev.lwcomp" url="dev/lwcomp.html" />
+	<mapID target="dev.embed" url="dev/embed.html" />
+	<mapID target="dev.csh" url="dev/csh.html" />
+      <mapID target="dev.serverhelp" url="dev/serverhlp.html" />
+      <mapID target="dev.merge" url="dev/dynamicmerge.html" />
+
+	<mapID target="test" url="author/test.html" />
+
+<!-- Index IDs -->
+
+	<mapID target="rel.lim.html" url="release/limitations.html#htmlviewer" />
+	<mapID target="auth.helpset.toolbar" url="author/helpset.html#toolbar" />
+	<mapID target="auth.helpset.presentation" url="author/helpset.html#presentationtag" />
+	<mapID target="auth.setup.separators" url="author/setup.html#separators" />
+	<mapID target="auth.setup.packaging" url="author/setup.html#packaging" />
+	<mapID target="auth.setup.hs_data" url="author/setup.html#hs_data" />
+	<mapID target="auth.setup.jar" url="author/setup.html#jar" />
+	<mapID target="auth.setup.map_jar" url="author/setup.html#map_jar" />
+	<mapID target="auth.csh.window-level" url="author/csh.html#window-level" />
+	<mapID target="auth.csh.field-level" url="author/csh.html#field-level" />
+	<mapID target="auth.csh.menu" url="author/csh.html#menu" />
+	<mapID target="auth.csh.button" url="author/csh.html#button" />
+	<mapID target="auth.jhindexer.config" url="author/jhindexer.html#config" />
+	<mapID target="auth.jhindexer.stopwords" url="author/jhindexer.html#stopwords" />
+	<mapID target="auth.viewing.classpath" url="author/viewing.html#classpath" />
+	<mapID target="dev.basics.HelpBroker" url="dev/basics.html#HelpBroker" />
+	<mapID target="dev.basics.classloader" url="dev/basics.html#classloader" />
+	<mapID target="dev.csh.enableHelpKey" url="dev/csh.html#enableHelpKey" />
+	<mapID target="dev.csh.HelpBroker" url="dev/csh.html#HelpBroker" />
+	<mapID target="dev.csh.presentation" url="dev/csh.html#presentation" />
+	<mapID target="rel.demos.object" url="release/demos.html#object" />
+	<mapID target="merge.merge.empty_master" url="merge/merge.html#empty_master" />
+	<mapID target="rel.changes.modal" url="release/changes.html#modal" />
+ 	<mapID target="rel.changes.multiprint" url="release/changes.html#multipgprnt" />
+ 	<mapID target="rel.limitations.classpathlimitations" url="release/limitations.html#classpathlimitations" />
+      <mapID target="dev.serverhelp.ServletHelpBroker" url="dev/serverhelp.html#ServletHelpBroker" />
+      <mapID target="dev.serverhelp.taglib" url="dev/serverhelp.html#taglib" />
+
+</map>

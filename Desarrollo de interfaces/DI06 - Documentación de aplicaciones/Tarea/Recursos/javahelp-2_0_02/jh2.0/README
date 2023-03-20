@@ -1,0 +1,451 @@
+                   README: JavaHelp 2.0_02 Release
+                   -------------------------------
+                            October 2004
+Contents:
+
+* Bug Fixes in this Release
+* Bug Fixes in the 2.0 Release
+* Change to API for Accessing Frames
+* File Separators on Win32 Platform 
+* Target Audience
+* Changes Since the 1.1.3 Release
+* Contents of the Release
+* How to Get Started
+* Redistributable Files
+* How to Reach Us
+* Limitations and Bugs
+* Copyright
+---------------------------------------------------------------------
+BUG FIXES IN THIS RELEASE
+
+- Bug 4984867 - Confusing documemtation issue on packaging the helpset with
+  the helpset or mapfile outside the Jar file removed.
+
+- Bug 4944565 - Duplicate images on Windows. Updated the names of the images 
+  for consistency on Windows platforms. Provided support for images in the
+  UIManager Table.
+
+- Added missing nonavigator.jsp to the server demo.
+
+- Added support for Polish locale.
+
+- Bug 5044936 - HelpSet.getCombinedMap was not recursive through subhelpsets.
+
+- Bug 5057152 - Null Pointer Exception was thrown when mergeing Helpsets
+  when there was no name.
+
+- Bug 5056158 - The default presentation was not used when the HelpBroker
+  was created. Added a JHelp.setHelpSetPresentation(HelpSet.Presentation)
+  method and updated the demos to use the default presentation.
+
+- Bug 5107221 - Intial startup was slow. The data for navigators was being
+  loaded in the event thread. They are now loaded in a lower priority thread
+  resulting in a faster startup time.
+
+- Bug 4949896 - Errors in Czech and Slovak Constants corrected.
+
+- Bug 4942062 - Fixed IllegalArgumentException: argument is null when
+  adding a favorite node after restarting an application thas has some
+  favorites recorded in the user's favorites file.
+
+- Bug 6175340 - JavaHelp could be displayed on multiheaded machines.
+
+
+BUG FIXES IN THE 2.0_01 RELEASE
+
+- Bug 4923782 - SortMerge was not handling a dataless master navigator
+  (a master navigator with no elements) correctly. The symptom was that
+  the navigator being merged had nothing in it after the sort merge. This
+  bug has been fixed. Now, when a sort merge is performed, a subhelpset
+  navigator can populate a master navigator with data. One effect of this
+  fix is that a subhelpset can add new master elements, and merges of
+  subsequent subhelpsets with matching elements will then have those
+  elements merged into these new master elements as though the new
+  elements were originally part of the master helpset.
+
+- Bug 4924174 - WindowPresentation.setSize not working on dialogs. The
+  symptom was that calling HelpBroker.setSize had no effect on the size
+  of the help window. Now setting the size of the presentation works in
+  all cases.
+
+- Bug 4927588 - Search on statically merged helpsets was working only for
+  the master helpset. Now search works for all helpsets statically merged
+  into a helpset.
+
+- Bug 4932737 - FavoritesAction in ApiDemo throws null pointer exception.
+  The NPE was thrown because the BasicFavoritesNavigator class stored the
+  last HelpEventModel, which in some cases didn't exist. This class has
+  been changed to use the currentID and currentURL from the HelpModel
+  instead. 
+
+  There was an additional request in this bug report to add a Favorites
+  button to IdeDemo. IdeDemo doesn't require a Favorites button because
+  the user can add a Favorites item by right-clicking the mouse inside
+  the Favorites navigator.
+
+- Bug 4932740 - JavaHelp System User's Guide incorrectly states that 
+  a Favorites button is automatically added to the toolbar of the help 
+  viewer when you define a Favorites section in the helpset file. This
+  statement was partially correct: a Favorites button is automatically
+  added to the  default help viewer. However, if you define your own
+  presentations in the helpset file, you must add a help action for the
+  favorites button to the toolbar section. See the updated JUHG section 
+  "Favorites Navigator and File" for more information.
+
+- Bug 4933236 - Presentation toolbar and navigators ignored in
+  SecondaryWindows. This bug has been fixed. Secondary windows defined as
+  presentations in the helpset file now can display navigators and
+  a toolbar. As described in the "Helpset File" section of the "JavaHelp
+  User's Guide", if you want only the topic pane to display for a secondary
+  window (no navigators), you must use the displayviews="false" attribute
+  when you define the presentation because the navigators display by 
+  default. To get a toolbar to display, you must define one with the
+  <toolbar> tag.
+
+- Bug 4933497 - Can't print from Favorites navigator. This bug has been
+  fixed. You can now print any selected items in the Favorites navigator.
+
+- Bug 4933965 - The Windows print dialog allows printing of up to 9999
+  blank pages on successive prints of JavaHelp topics. This bug has
+  been fixed.
+
+- Bug 4934582 - Selecting a TOC item that has an alternate presentation
+  defined in the helpset file causes JavaHelp to hang. This bug has been
+  fixed.
+
+- Bug 4934908 - Can't add a favorites from search if SearchItem URL
+  isn't in map file. The fix was to properly identify the help set name
+  and URL if a matching ID wasn't found in the helpset file.
+
+- Bug 4936341 - When adding a favorite item the deep copy of a 
+  FavoritesNode causes a null value to be created for a child, 
+  which in turns causes an IllegalArgumentException to be thrown. Fixed
+  in this release - it's now possible to add a an item to the Favorites
+  navigator without causing exceptions.
+
+
+BUG FIXES IN THE 2.0 RELEASE
+
+- Bugs 4148736 and 4884507 - No control over TOC and index nodes' initial
+  state - would like to be able to display these navigators with nodes
+  expanded or collapsed. Version 2.0 makes it possible to specify in the
+  TOC and index files whether or not nodes initially display in an
+  expanded or collapsed state. Additionally new collapseID() and
+  expandID() methods have been added to JHelpTOCNavigator and
+  JHelpIndexNavigator.
+
+- Bug 4182971 - <homeID> topic should be highlighted in TOC. The home topic
+  is now highlighted in the TOC or index when the help set first opens.
+
+- Bug 4228385 - InstallAnywhere fails with Solaris Group JVM (Java 2).
+  We are no longer using InstallAnywhere to install JavaHelp.
+
+- Bug 4228425 - InstallAnywhere license and info panes sometimes blank
+  (Solaris CDE). We are no longer using InstallAnywhere to install JavaHelp.
+
+- Bug 4235715 - Can't get context sensitive help ID for content of component.
+  The problem reported was a 2D editing component that was the bulk of a
+  user interface. Users wanted to have context sensitive help for the
+  elements within the 2D editing component. There was no way to get the
+  MouseEvent of the user's click from CSH.trackCSEvents. 
+
+  The solution was to create a new set of methods in the CSH class and a new
+  interface named CSH.Manager. There is an explanation in the JavaHelp
+  System User's Guide (section 5.3.4 "Dynamic Map ID Assignment") of how to
+  use the CSH methods and CSH.Manager to assign help IDs dynamically.
+
+- Bug 4295269 - Content pane does not load document the first time the help
+  set is viewed. The content viewer was not being properly initialized to
+  the current ID on creation of the viewer. This bug has been fixed.
+
+- Bug 4276012 - Search highlighting off in some cases. Search highlighting
+  is now correctly synchronized with the help viewer.
+
+- Bug 4375554 - Internal style sheets throw off search highlighting. Search
+  highlighting is now correctly synchronized.
+
+- Bug 4459055 - Indexer can't index more than 500 documents on Solaris.
+  This bug was fixed by calling in.close() in Index.java when done with
+  an InputStream.
+
+- Bug 4463539 - HelpModel.setCurrentURL doesn't work when currentURL is null.
+  This method was passing a null URL. It now works correctly.
+
+- Bug 4478631 - When running in ja locale, the tooltips for 'page setup',
+  'Contents', 'Index' and 'Search' are shown in English. These tooltips now
+  display in Japanese if the locale is ja.
+
+- Bug 4484945 - TOC and Index not highlighting topic if reference (anchor)
+  is clicked in ContentViewer. The TOC and Index navigators track the topics
+  in the content pane of the help viewer. They do so by highlighting the
+  corresponding entry in the navigator when the user opens a topic that is in
+  the helpset. More precisely, they track map IDs of topics. Prior to this
+  fix, if the link went to an anchor that did not have a map ID defined for
+  it, the tracking didn't work. Now the tracking does work: It finds the map
+  ID of the main file.
+
+- Bug 4486379 - HelpViewer window's size gets reset whenever it is invoked
+  to show help. The fix was to add a setSize method to MainWindow. This
+  method determines first if the dialog or frame exists and then passes their
+  values back in getSize rather than the default sizes. If the dialog or
+  frame doesn't exist the defaults are returned.
+
+- Bug 4635290 - Errors in search engines in help sets can cause VM to
+  abruptly exit. The fix was to remove the call to System.exit. The original 
+  problem was caused by the user's incorrectly specifying the search engine
+  in the helpset file. Thus, even with this fix, search won't work if the
+  search engine isn't specified correctly, but now the error doesn't cause
+  the JVM to exit.
+
+- Bug 4680140 - xml:lang tag doesn't parse locale strings correctly. The
+  problem was that the parser couldn't handle the "-" character. Now it does.
+
+- Bug 4690618 - SecondaryViewer memory leaks and out of memory errors.
+  Secondary windows were complete rewritten in version 2.0 and now do not
+  exhibit any memory leaks.
+
+- Bug 4696361 - Print dialog does not come up when using JavaHelp with JDK
+  1.4. Fixed in version 2.0.
+
+- Bug 4736708 - Search results display truncates some results in JavaHelp
+  1.1.3. This bug was fixed in version 2.0.
+
+- Bug 4747558 - JavaHelp User's Guide PDF version doesn't have images. Using
+  a different PDF generator has enabled images to be produced for the PDF
+  version of the user's guide.
+
+- Bug 4768427 - Printing from JavaHelp causes a freeze. The freeze was
+  happening with very small help topics. It has been fixed.
+
+- Bug 4788532 - BasicSearchCellRenderer throws a NullPointerException when
+  the title member is null, and the help viewer fails to load and paint.
+  The fix was to not make the call if the title is null. 
+
+- Bug 4789016 - JavaHelp is not threadsafe on a multiprocessor machine. The
+  problem was caused by incorrect usage of Thread.stop() in the search engine.
+  The fix was to completely rewrite the code in the search engine.
+
+- Bug 4845876 - French translation error: JavaHelp is translating the tooltip
+  tip.pageSetup as 'Lise en page', but the translation should be 
+  'Mise en page'. This translation error was fixed.
+
+- Bug 4859304 - DefaultHelpBroker.setHelpSet doesn't work as expected. The
+  reported problem was with two help sets called programmatically as follows:
+
+  a) Create a DefaultHelpBroker by calling its default constructor.
+  b) Assign the helpset using DefaultHelpBroker.setHelpSet().
+
+  In JavaHelp 1.1.3:
+  - Calling DefaultHelpBroker.setHelpSet(a), worked as expected.
+  - Calling DefaultHelpBroker.setHelpSet(b), did display b's TOC, but the
+    content pane was still using the page from helpset a.
+
+  In JavaHelp 2.0, calling DefaultHelpBroker.setHelpSet(b) had no effect
+  at all. It still displayed a's TOC.
+
+  The V2.0 bug was fixed. If you want the content pane to change when you
+  switch back and forth between helpsets, either you must set the currentID,
+  or you need to have a homeID set for the helpset to which you switch.
+  Either technique will correctly display a page from the current helpset. 
+
+- Bug 4890962 - The first time context sensitive help is activated, it shows
+  the home page, rather than the page associated with the helpID.
+  Specifically, after calling CSH.DisplayHelpAfterTracking, the first time
+  the actionPerformed method was called, the help window displayed the home
+  page rather than the context-sensitive topic in the content pane. This bug
+  was fixed, and now the context-sensitive page displays as expected.
+
+- Bug 4910723 - DefaultHelpBroker.setSize(Dimension) and setLocation(Point)
+  don't work. The helpset could not be resized or moved with these two
+  methods. These methods are now working.
+
+- Bug 4910769 - After starting the application, the first time that
+  setHelpID() was called the JavaHelp browser opened but always showed the
+  default topic defined for the helpset. After the first time the call
+  worked properly. This bug was fixed, and the first call to setHelpID()
+  now displays the topic associated with the helpID.
+
+
+CHANGE TO API FOR ACCESSING FRAMES
+
+In previous versions of JavaHelp, you could access the frame
+in whichJavaHelp is displayed directly if you extended the 
+DefaultHelpBroker. After extending DefaultHelpBroker, you 
+were able access the protected JFrame frame field. 
+ 
+In JavaHelp 2, the frame field is no longer accessible. In
+applications that use JavaHelp 2, you have to rewrite code 
+that does this kind of frame access. Use the following methods:
+
+   WindowPresentation DefaultHelpBroker.getWindowPresentation(); 
+   Window WindowPresentation.getHelpWindow();
+
+You will still be able to access the frame with the following method
+calls:
+
+   WindowPresentation pres = hb.getWindowPresentation(); 
+   Window win = pres.getHelpWindow();
+
+FILE SEPARATORS FOR WIN32 PLATFORMS
+
+All files in the JavaHelp system are specified as URLs.  The
+separator between elements (files) in a hierarchy should be "/".
+In some cases "\" works on the Win32 platforms; however when the
+files that contain these references are added to JAR files or moved
+to different platforms, these references no longer work.
+TARGET AUDIENCE
+
+JavaHelp software is intended for help authors, information
+architects, and software developers who need a framework for
+delivering online help and documentation. 
+
+CHANGES SINCE THE 1.1.3 RELEASE
+
+Changes since the 1.1.3 release are described in the "Release
+Information" chapter of the JavaHelp System User's Guide.  You can
+view the JavaHelp System User's Guide as a JavaHelp helpset by
+executing the UserGuide.jar file in the demos\bin folder as
+described under CONTENTS OF THE RELEASE.
+
+
+CONTENTS OF THE RELEASE
+
+The contents of the release are described in the "Release Information"
+chapter of the JavaHelp System User's Guide.  You can view the JavaHelp
+System User's Guide either as a PDF file or as a JavaHelp helpset 
+by executing the UserGuide.jar file in the demos\bin folder.
+
+To execute the jar file, open a command window and change your
+directory to the demos\bin folder, then enter the following command
+at the command line:
+
+   java -jar UserGuide.jar
+
+The JavaHelp System User's Guide is also included in PDF format in
+doc\jhug\jhug.pdf and can be read and printed by using the Adobe
+Acrobat Reader program available at:
+http://www.adobe.com/products/acrobat/readstep2.html
+
+
+GETTING STARTED
+
+You install JavaHelp software by extracting the zip file. While most
+installations will not require any additional installation tasks,
+some installations might require that the environment variable JAVAHELP_HOME
+be defined so that jhindexer and jhsearch will work correctly. You will
+know that you need to set JAVAHELP_HOME if, after installation, you see
+an error from jhindexer or jhsearch indicating that the environment
+variable needs to be set.
+
+REDISTRIBUTABLE FILES
+The following files are redistributable. Distribution of these files is
+governed by the Terms and Conditions of the JavaHelp Binary Code License.
+
+javahelp/lib/jh.jar       - The standard library that includes everything 
+                            needed to use the help viewer and the standard 
+                            navigator types (TOC, index, full-text search).
+
+javahelp/lib/jhall.jar    - Includes all the JavaHelp system classes, 
+                            including tools to create a search database.
+
+javahelp/lib/jhbasic.jar  - A subset of jhall.jar that does not include
+                            support for the full-text search engine. This
+                            subset might be useful for simple help systems
+                            that do not require a full-text search database
+                            or for help systems whose size is important.
+
+javahelp/lib/jhsearch.jar - The default full-text search engine used in the 
+                            JavaHelp system.
+
+HOW TO REACH US
+
+* Mailing List
+
+  We maintain a mailing list for regular information about JavaHelp
+  updates and events.  To subscribe, send mail to:
+
+	listserv@javasoft.com.
+
+  In the body of the message type
+
+	SUBSCRIBE JAVAHELP-INFO
+
+* Feedback
+
+  Comments and questions about how the JavaHelp system software
+  works are welcome. Please review the FAQ at our home page, and if
+  your question is not covered, send email by using the following 
+  web page:
+
+	http://java.sun.com/docs/forms/javahelp-sendusmail.html
+
+  If you have comments on the JavaHelp specification, instead of using
+  the web page above, please send comments to:
+
+	jsr-97-comments@jcp.org
+
+  Your email message will be read. However, due to the large volume of
+  emails, we might not able to respond personally.
+
+* Discussion group (JAVAHELP-INTEREST)
+
+  Sun maintains a mailing list as a JavaHelp community resource where
+  interested parties can post and exchange information and inquiries
+  about the JavaHelp system in a public forum.  Subscribers to this list
+  can receive inquiries either as they are posted or in regular digest
+  versions.
+
+  To subscribe, send mail to:
+
+     listserv@javasoft.com
+
+  In the body of the message type:
+
+     SUBSCRIBE JAVAHELP-INTEREST
+
+  To view archives, manage your subscription, or to
+  unsubscribe:
+
+     http://archives.java.sun.com/archives/javahelp-interest.html
+
+* Web Site
+
+  Other information can be obtained at our web site:
+
+     http://java.sun.com/products/javahelp
+
+  We hope to hear from you!
+
+---------------------------------------------------------------------
+
+LIMITATIONS AND BUGS
+
+Limitations and bugs are described in the "Release Information"
+chapter of the JavaHelp System User's Guide.  You can view the JavaHelp
+System User's Guide as a JavaHelp helpset by executing the UserGuide.jar
+file in the demos\bin folder, as described previously under CONTENTS
+OF THE RELEASE.
+
+---------------------------------------------------------------------
+
+COPYRIGHT
+
+Copyright 2003 Sun Microsystems, Inc. All rights reserved. Use is
+subject to license terms. Sun, Sun Microsystems, the Sun Logo,
+Solaris, Java, the Java Coffee Cup Logo, JDK, Java Foundation Classes
+(J.F.C.), Java Plug-in and JavaHelp are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other
+countries.
+
+DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED
+CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED
+WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR
+NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH
+DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
+
+RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by the U.S.
+Government is subject to restrictions as set forth in subparagraph
+(c)(1)(ii) of the Rights in Technical Data and Computer Software
+Clause at DFARS 252.227-7013 (Oct. 1988) and FAR 52.227-19 (c) (June
+1987).
+

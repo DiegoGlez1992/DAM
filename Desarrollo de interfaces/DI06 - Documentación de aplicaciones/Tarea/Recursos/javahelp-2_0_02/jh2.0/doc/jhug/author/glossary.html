@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Glossary Navigator and File</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Glossary Navigator and File</h2>
+<p> The glossary file describes for the glossary navigator the content and layout 
+  of the glossary. The format of a glossary file is the same as that of an index 
+  file. The glossary file format, as with the index file format, is based on the 
+  World Wide Web Consortium Extended Markup Language (XML). </p>
+<p>&nbsp;</p>
+<p>The following XML code shows a sample definition of a glossary navigator in 
+  the helpset file:</p>
+<pre>   &lt;view xml:lang=&quot;en&quot; mergetype=&quot;<code>javax.help.SortMerge</code>&quot;&gt;
+      &lt;name&gt;glossary&lt;/name&gt;
+      &lt;label&gt;Glossary&lt;/label&gt;
+      &lt;type&gt;javax.help.GlossaryView&lt;/type&gt;
+      &lt;data&gt;glossary.xml&lt;/data&gt;
+  &lt;/view&gt;
+</pre>
+<p>&nbsp;</p>
+<p>The following XML code shows a small example of a glossary file: </p>
+
+<pre>&lt;?xml version='1.0' encoding='ISO-8859-1'  ?&gt;
+   &lt;!DOCTYPE index
+     PUBLIC 
+     "-//Sun Microsystems Inc.//DTD 
+      JavaHelp Index Version 2.0//EN"
+     &quot;http://java.sun.com/products/javahelp/index_2_0.dtd"&gt;
+
+   &lt;index version="2.0"&gt;
+      &lt;indexitem text=&quot;applet&quot; target=&quot;applet_def&quot;/&gt;<br>      &lt;indexitem text=&quot;application&quot; target=&quot;application_def&quot;/&gt;<br>      &lt;indexitem text=&quot;application server&quot; 
+                 target=&quot;appServer_def&quot;/&gt;<br>      &lt;indexitem text=&quot;AWT&quot; target=&quot;awt_def&quot;/&gt;<br>      &lt;indexitem text=&quot;beans&quot; target=&quot;bean_def&quot;/&gt;<br>   &lt;/index&gt;</pre>
+<p>&nbsp; 
+<h4>The Glossary Tags</h4>
+<p>
+The following table describes the glossary tags:
+
+<table width=98% border=0 cellpadding=5>
+  <tr valign="top"> 
+    <td width=100 nowrap><code>&lt;index&gt;</code> </td>
+    <td> Defines the glossary. It can contains <code>&lt;indexitem&gt;</code> tags and 
+      the following optional attributes. <br>
+      <table width=100% border=0 cellpadding=5>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td> Language for the glossary. Use the standard locale-country-variant 
+            format.<br>
+			<dl>
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>  
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>version=&quot;1.0&quot;|&quot;2.0&quot;</code></td>
+          <td> Version of JavaHelp software.</td>
+        </tr>
+      </table>
+      . </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap><code>&lt;indexitem&gt;</code> </td>
+    <td> 
+      Defines a glossary entry. Nesting <i>entry1</i> within <i>entry2</i> defines 
+        <i>entry2</i> to be hierarchically contained within <i>entry1</i>. Uses 
+        the following attributes: 
+        <!-- Begin Nested table -->
+        <!-- End Nested table -->
+      <br>
+      <table width="100%" border="0" cellpadding="5">
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td> Language for the glossary item. Use the standard locale-country-variant 
+            format.
+<dl>
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>  
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>text=</code>&quot;<i>string</i>&quot; </td>
+          <td> Specifies the text that displays in the glossary. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>target=</code>&quot;<i>string</i>&quot; 
+          </td>
+          <td> Specifies the map ID of the topic that displays when the entry 
+            is chosen by the user. IDs are defined (associated with a URL) in 
+            the <a href="map.html">map file</a>. </td>
+        </tr>
+        <tr valign="top"> 
+          <td width="10%" nowrap><code>mergetype</code>=&quot;<i>class&quot;</i></td>
+          <td width="80%"> (<i>optional</i>) Specifies the path to a valid merge 
+            class for the glossary. The default merge class for a glossary is 
+            <code>javax.help.AppendMerge</code>. 
+            <dl> <dt>The merge classes are:</dt>
+              <dd><code>javax.help.UniteAppendMerge</code></dd>
+              <dd><code>javax.help.SortMerge</code></dd>
+              <dd><code>javax.help.AppendMerge</code></dd>
+              <dd><code>javax.help.NoMerge</code></dd>
+             </dl>
+            <p>For more information, see <a href="merge.html">Merging Helpsets</a>.</p>
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td> <code>expand=&quot;true|false&quot;</code></td>
+          <td> (<i>optional</i>) Specifies whether to expand the glossary item 
+            and its subitems when the glossary initially opens. The default setting 
+            is <code>&quot;none&quot;</code>, a setting that expands only the top level 
+            items.</td>
+        </tr>
+        <tr valign="top"> 
+          <td width=60> <code>presentationtype</code> </td>
+          <td> (<i>optional</i>) Specifies the type of window in which the topic 
+            will be displayed (defined in the <code>&lt;presentation&gt;</code> section 
+            of the <code>.hs</code> file). For more information, see the presentation 
+            feature in <a href="helpset.html#presentationtag">Helpset File</a>.</td>
+        </tr>
+        <tr valign="top"> 
+          <td> <code>presentationname</code></td>
+          <td> (<i>optional</i>) Specifies the name of the window in which the 
+            topic will be displayed. </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+  <dd><a href="helpset.html">The Helpset File</a> 
+  <dd><a href="map.html">Map File</a>
+<dd><a href="jar.html">JAR Files</a>
+<dd><a href="toc.html">Table of Contents File</a>
+<dd><a href="index.html">Index File</a>
+<dd><a href="favorites.html">Favorites File</a>
+<dd><a href="search.html">Creating the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/*
+ * jhexamples.css      10/29/2002
+ *
+ * Copyright 2002 Sun Microsystems, Inc. All rights reserved.
+ * Use is subject to license terms.
+ *
+ */
+
+body  {font-size: small;
+	font-family: SansSerif, Arial, Helvetica, sans-serif;
+	margin-left: 10;
+	margin-right: 5;
+	color: Black;
+	background-color: White}
+
+p  {font-size: small;
+     margin-top: 5;
+     margin-bottom: 5}
+
+
+h2 { font-size: large;
+     font-weight: bold;
+     margin-top: 20;
+     margin-bottom: 10}
+
+h3 { font-size: medium;
+     font-weight: bold;
+     margin-top: 10;
+     margin-bottom: 5}
+
+h4 { font-size: small;
+     font-weight: bold;
+     margin-top: 10;
+     margin-bottom: 5}
+
+ol {margin-top: 5;
+     margin-bottom: 0;
+     margin-left: 30}
+
+li {margin-top: 0;
+    margin-bottom: 5}
+        
+li p{margin-top: 5;
+        margin-bottom: 0}
+
+ul {margin-top: 5;
+    margin-bottom: 0;
+    margin-left: 30}
+        
+table {border-style: none;
+       border-color: silver;
+       margin-top: 5;
+       margin-bottom: 5}
+
+td {border-style: none;
+    border-color: silver;
+    padding-left: 1;
+    padding-right: 1;
+    padding-top: 1;
+    padding-bottom: 1}
+
+th {border-style: none;
+    border-color: silver;
+    padding-left: 1;
+    padding-right: 1;
+    padding-top: 1;
+    padding-bottom: 1}
+
+small {font-size: x-small}
+

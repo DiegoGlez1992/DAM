@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2002 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Localizing the Help Presentation</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Localizing the Help Presentation</h2>
+<p>
+The JavaHelp system viewer generally inherits the locale
+from the application.  For information about how
+applications are internationalized, see the
+internationalization section of <i>The Java Tutorial</i>
+at:
+<pre>http://java.sun.com/docs/books/tutorial/i18n/index.html</pre>
+
+<p>
+The culturally dependent data (for example, messages and
+labels) for the presentation components is contained in the
+property file named <code>javahelp.properties</code> in the
+<code>javax.help.resources</code> package.
+<p>
+If the locale of the help viewer is different from the
+locale of the application, the locale of the HelpBroker can
+be set using the <code>HelpBroker.setLocale()</code> method.
+Setting the locale of the HelpBroker sets the locale for
+all subordinate components.  If you do not use the
+HelpBroker, set the locale of the JHelp* components
+directly using their <code>setLocal()</code> methods.
+
+
+<h3><a name="data_input">Data Input in the Viewer</a></h3>
+<p>
+There are two places in the JavaHelp system GUI where
+culturally dependent input is required: Index Find and
+Search Query.
+<p>
+In both cases, platform-specific input methods are used. Once
+text is entered in the Index Find or Search Query text
+boxes, additional locale-based processing is activated
+(usually by pressing the Enter key).
+<p>
+In the Index Find case, the input text is searched for
+within the index entries using locale-based comparisons.
+The locale used in Index Find is the locale of the Index
+navigator - usually the locale of the application, unless
+overridden using the
+<code>JHelpIndexNavigator.setLocale()</code> method.
+<p>
+In the Search Query case, the input text and the locale of
+the Search navigator are passed to a <code>HelpSearch</code>
+class. The <code>HelpSearch</code> class tokenizes the query
+text into words using the locale-specific tokenizer.  The
+locale used in Search Query is the locale of the Search
+navigator - usually the locale of the application, unless
+overridden using the <code>HelpBroker.setLocale</code> or
+<code>JHelpSearchNavigator.setLocale</code> methods.
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="loc.html">Localizing Help Information</a>
+<dd><a href="loc_helpset.html">Localizing Helpsets</a>
+<dd><a href="loc_xml.html">Localizing XML Data</a>
+<dd><a href="loc_html.html">Localizing HTML Data</a>
+<dd><a href="loc_font.html">Localization and Fonts</a>
+<dd><a href="loc_search.html">Localizing the Full-Text Search Database</a>
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

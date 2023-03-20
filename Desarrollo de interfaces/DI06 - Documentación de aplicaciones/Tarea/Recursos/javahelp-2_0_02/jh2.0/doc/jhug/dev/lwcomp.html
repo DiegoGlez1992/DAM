@@ -1,0 +1,214 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Creating Lightweight Java Components</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Creating Lightweight Java Components</h2>
+<p>
+This topic describes how you can create <a
+href="lwcomp.html#lwcomp">lightweight Java components</a> and
+add them to HTML topics using the HTML
+<code>&lt;OBJECT&gt;</code> tag.  The last section in this
+topic contains references to supplemental information about
+lightweight components and the HTML <code>&lt;OBJECT&gt;</code>
+tag.
+<p> <img src="../../images/hg_note.gif" width="18" height="13"> References to 
+  supplemental information are included at the end of this topic. 
+<h3>Lightweight Components for HTML Topics</h3>
+<p> Components intended for HTML topic pages are very similar to generic lightweight 
+  components. Components that do not require information about the View, or have 
+  parameters that can be set, can be used without modification. 
+<h4>View Information</h4>
+<p> Lightweight components that require information about the <code>View</code> 
+  must implement <code>javax/javahelp/impl/ViewAwareComponent</code>. These components 
+  implement the method <code>setViewData()</code>. The component can determine 
+  information from the <code>View</code> about the environment in which it is 
+  executing. For example, in the code snippet below the <code>Document</code> 
+  object is derived from the <code>View</code>: 
+<pre>    private View myView;
+    static private URL base;
+
+    public void setViewData(View v) {
+        myView = v;
+        Document d = myView.getDocument();
+        // System.err.println("myDocument is: "+d);
+
+        base = ((HTMLDocument) d).getBase();
+        // System.err.println(" base is: "+base);
+
+    }</pre>
+For more information about the <code>Document</code> interface see the following 
+Swing API: 
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;http://java.sun.com/j2se/1.4.1/docs/api/javax/swing/text/Document.html</pre>
+Text formatting information can be derived from the <code>View</code> by querying 
+its attribute set. Use the method <code>getAttributes</code> as shown below: 
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;AttributeSet as = v.getAttributes();</pre>
+Format attributes can be used by the component when the <code>AttributeSet</code> 
+is passed as a parameter to a <code>StyleConstants</code> method. There are methods 
+that can be used to determine a number of attributes, including the font family, 
+font size, font weight, font style, underlining, background color, and foreground 
+color. For example, to determine the default background color of an object, you 
+can do the following: 
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;Color color=StyleContants.getBackground(as)</pre>
+For a full list of formatting attributes and corresponding methods see: 
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;http://java.sun.com/j2se/1.4.1/docs/api/javax/swing/text/StyleConstants.html</pre>
+<h4>Using Parameters</h4>
+<p>
+If your component takes parameters, you should follow these
+two additional steps:
+<ol>
+  <li>Add accessor methods for each parameter that can be set.
+  <li>Create a <code>BeanInfo</code> class that corresponds to the lightweight 
+    component class. 
+</ol>
+<img src="../../images/hg_note.gif" width="18" height="13">&nbsp;The component 
+must accept parameter elements in any order. 
+<h4>Accessor Methods</h4>
+<p> Add accessor methods that enable the component to access the parameters through 
+  the Java reflection mechanism. In the following example, the <code>AButton</code> 
+  class has implemented accessor methods for the parameter "data" in the methods 
+  <code>getData</code> and <code>setData</code>: 
+<pre>    private String data = "";
+
+    public void setData(String s) {
+	data = s;
+    }
+
+    public String getData() {
+	return data;
+    }</pre>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    </td>
+    <td width="98%">Even if the internal representation is not a <code>String</code>, 
+      both the returned value for the getter method and the parameter in the setter 
+      method must be a <code>String</code>. </td>
+  </tr>
+</table>
+<h4>BeanInfo Class</h4>
+<p> Create a <code>BeanInfo</code> class that provides explicit information about 
+  the lightweight component. The only method used by the <code>ContentViewer</code> 
+  from the <code>BeanInfo</code> classes is <code>getPropertyDescriptors</code>. 
+  In the complete example below, <code>JHSecondaryViewerBeanInfo</code> defines 
+  the property data accessible through the <code>getData()</code> and <code>setData()</code> 
+  methods in <code>JHSecondaryViewer</code>: <br>
+<pre>public class JHSecondaryViewerBeanInfo extends SimpleBeanInfo {
+
+   public JHSecondaryViewerBeanInfo() {
+   }
+    
+   public PropertyDescriptor[] getPropertyDescriptors() {
+      PropertyDescriptor back[] = new PropertyDescriptor[15];
+      try {
+         back[0] = new PropertyDescriptor("content", JHSecondaryViewer.class);
+         back[1] = new PropertyDescriptor("id", JHSecondaryViewer.class);
+         back[2] = new PropertyDescriptor("viewerName", JHSecondaryViewer.class);
+         back[3] = new PropertyDescriptor("viewerActivator", JHSecondaryViewer.class);
+         back[4] = new PropertyDescriptor("viewerStyle", JHSecondaryViewer.class);
+         back[5] = new PropertyDescriptor("viewerLocation", JHSecondaryViewer.class);
+         back[6] = new PropertyDescriptor("viewerSize", JHSecondaryViewer.class);
+         back[7] = new PropertyDescriptor("iconByName", JHSecondaryViewer.class);
+         back[8] = new PropertyDescriptor("iconByID", JHSecondaryViewer.class);
+         back[9] = new PropertyDescriptor("text", JHSecondaryViewer.class);
+         back[10] = new PropertyDescriptor("textFontFamily", JHSecondaryViewer.class);
+         back[11] = new PropertyDescriptor("textFontSize", JHSecondaryViewer.class);
+         back[12] = new PropertyDescriptor("textFontWeight", JHSecondaryViewer.class);
+         back[13] = new PropertyDescriptor("textFontStyle", JHSecondaryViewer.class);
+         back[14] = new PropertyDescriptor("textColor", JHSecondaryViewer.class);
+         return back;
+      } catch (Exception ex) {
+	 return null;
+      }
+   }
+   }</pre>
+
+
+<h4>Parameter Names</h4>
+<p> When naming parameters, be sure to avoid names reserved in the HTML 4.0 specification 
+  for use as <code>&lt;OBJECT&gt;</code> tag attributes. For a complete list of 
+  <code>&lt;OBJECT&gt; </code>attributes see the HTML 4.0 specification: 
+<pre>    http://w3c.org/TR/REC-html40/</pre>
+
+<h3>Using the <code>&lt;OBJECT&gt;</code> Tag</h3>
+<p> You add lightweight components to JavaHelp topics by means of the <code>&lt;OBJECT&gt;</code> 
+  tag and its <code>classid</code> attribute. The help viewer only recognizes 
+  <code>classid</code> values prefixed with the "<code>java:</code>" tag. All 
+  other <code>classid</code> tags are ignored. The following example creates an 
+  <code>ALabel</code> within the HTML topic: 
+<pre>    &lt;OBJECT CLASSID="java:sunw.demo.object.ALabel"&lt;/OBJECT&gt;</pre>
+You can use standard <code>&lt;OBJECT&gt;</code> tag attributes (see the HTML 
+4.0 specification for more details), but to be recognized the lightweight component 
+must have getter and setter methods for those attributes. A getter or setter 
+method must operate on a <code>String</code>. For example, in the following example 
+width and height for the <code>ALabel</code> are set if there are <code>getWidth</code>/<code>setWidth</code> 
+and <code>getHeight</code>/<code>setHeight</code> methods in <code>ALabel</code>: 
+<pre>    &lt;OBJECT 
+        CLASSID="java:sunw.demo.object.ALabel" 
+        width="400" height="500"&gt;
+    &lt;/OBJECT&gt;</pre>
+
+<p> Parameters are passed to lightweight components by using the <code>&lt;param&gt;</code> 
+  tag. A parameter is only recognized if the component has getter and setter 
+  methods for that parameter. A getter or setter method must operate on a 
+  <code>String</code>. In the example below, the help viewer passes a number of 
+  parameters and their values to a the <code>JHSecondaryViewer</code> component: 
+  <br>
+<pre>    &lt;OBJECT classid="java:com.sun.java.help.impl.JHSecondaryViewer"&gt;
+        &lt;param name="content" value="../topicB/glossary_def.html"&gt;
+        &lt;param name="viewerActivator" value="javax.help.LinkLabel"&gt;
+        &lt;param name="viewerStyle" value="javax.help.Popup"&gt;
+        &lt;param name="viewerSize" value="300,400"&gt;
+        &lt;param name="text" value="Click here"&gt;
+        &lt;param name="textFontFamily" value="SansSerif"&gt;
+        &lt;param name="textFontSize" value="x-large"&gt;
+        &lt;param name="textFontWeight" value="plain"&gt;
+        &lt;param name="textFontStyle" value="italic"&gt;
+        &lt;param name="textColor" value="red"&gt;
+    &lt;/OBJECT&gt;</pre>
+
+<h3>Supplemental Information</h3>
+<p> The following information supplements the information in this topic. 
+<p>
+<b>Lightweight Java Components</b>
+<a name="lwcomp"></a>
+<p>
+For general information about lightweight Java components see:
+<pre><a href="http://java.sun.com/j2se/1.4.1/docs/guide/awt/demos/lightweight/index.html">http://java.sun.com/j2se/1.4.1/docs/guide/awt/demos/lightweight/index.html</a></pre>
+<b>JavaHelp Components</b> 
+<p>
+As a reference, the sources to the lightweight components
+that implement JavaHelp system popups and secondary windows
+(<code>JHSecondaryViewer.java</code> and
+<code>JHSecondaryViewerBeanInfo.java</code>) can be found in
+<code>src.jar</code> at:
+<pre>com\sun\java\javahelp\impl</pre>
+For a description of how the <code>&lt;OBJECT&gt;</code> tag is used to implement 
+popups and secondary windows, see <a href="popup.html">Using Popup and Secondary 
+Windows</a>. 
+<p>
+<b>HTML 4.0 Specification</b>
+<p>
+You can find a detailed description of the
+<code>&lt;OBJECT&gt;</code> tag as part of the HTML 4.0
+specification:
+<pre><a href="http://w3c.org/TR/REC-html40/">http://w3c.org/TR/REC-html40/</a></pre>
+</body>
+</html>

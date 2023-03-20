@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>JavaHelp Libraries and Tools</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>The JavaHelp Libraries and Tools</h2>
+<p> The JavaHelp libraries and tools are located in the <code>javahelp</code> folder 
+  of the release. All classes work with the Java 2 Platform, Standard Edition 
+  (J2SE) and use Swing 1.2 or later (included in the J2SE). 
+<h3>Libraries</h3>
+<p> The JavaHelp classes are distributed in the following four JAR files located 
+  in the <code>javahelp\lib</code> folder:</p>
+<table border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td nowrap> <code>jh.jar</code>&nbsp; </td>
+    <td> The standard library, which includes everything needed to use the standard 
+      navigator types (TOC, index, full-text search). </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <code>jhbasic.jar</code> </td>
+    <td> A subset of <code>jh.jar</code> that does not include support for the 
+      full-text search engine. This subset might be useful for very simple help 
+      systems that do not require a full-text search database or for help systems 
+      in which size is critical. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <code>jhall.jar</code> </td>
+    <td> Contains all the JavaHelp system classes, including the tools required 
+      to create a search database. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <code>jsearch.jar</code> </td>
+    <td> Contains the default full-text search engine used in the JavaHelp system. 
+    </td>
+  </tr>
+</table>
+<h3>Tools</h3>
+<p> The JavaHelp tools are used to view helpsets and to build and query the full-text 
+  search database. These tools are located in the <code>javahelp\bin</code> folder. 
+</p>
+<table border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td nowrap> <a href="../author/jhindexer.html">jhindexer</a>&nbsp; </td>
+    <td> Command-line program that creates the full-text search database used 
+      by the JavaHelp system full-text search navigator to locate matches. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap> <a href="../author/jhsearch.html">jhsearch</a> </td>
+    <td> Command-line program that queries the JavaHelp system full-text search 
+      database that is created with the <code>jhindexer</code> command. You can 
+      use <code>jhsearch</code> to test a search database without invoking the 
+      help viewer.</td>
+  </tr>
+</table>
+</body>
+</html>
+
+

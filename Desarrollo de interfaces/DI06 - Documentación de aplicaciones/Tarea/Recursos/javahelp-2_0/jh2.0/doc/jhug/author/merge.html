@@ -1,0 +1,581 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Merging Helpsets</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Merging Helpsets</h2>
+<p>
+The JavaHelp system provides a mechanism for merging multiple <a
+href="helpset.html">helpsets</a> into a single helpset.  You  use the merge
+functionality to merge a helpset's  views (TOC, index,  glossary, favorites, and full text search)
+  into those of an existing helpset, known as the <i>master</i> helpset.
+<p>
+An example of  this functionality is
+ a suite of applications, each with its own helpset. Each time  the customer  installs a new 
+application that is part of  the suite, its help
+information is merged with the help information in the
+currently installed applications in the suite.
+<p>Merging of helpsets can be done statically, by specifying helpsets in the XML 
+  code of a master helpset's helpset (<code>.hs</code>) file, or dynamically, 
+  by writing code in a Java program that uses the JavaHelp software API. The type 
+  of merge your software performs depends on the structure of your applications. 
+  For example: 
+<ul type="circle">
+<li> If you know which helpsets could be available, as you would in a suite of applications, you might prefer to perform a static merge, which merges specific, named helpsets if they are installed.<br>
+<br>
+ </li>
+<li>If you do not know which helpsets might be available, as might be the case with a developer platform that could have any number of modules or plugins, you might prefer to do a dynamic merge.</li>
+</ul>
+<p>When a helpset is merged, there are four types of merges that can be performed 
+  for each view: SortMerge, UniteAppendMerge, AppendMerge, and NoMerge. Each type 
+  of view has its own default merge type. The help author can override a view's 
+  default merge type in the helpset (<code>.hs</code>) file by setting a view's 
+  <code>mergetype</code> property. (For example, see the TOC and Index views defined 
+  in the example under <a href="helpset.html#helpsetexample">Helpset File Format</a>.) 
+  The help writer can also set a specific merge type for an element of a TOC, 
+  an index, or a glossary. (For example, see the sample TOC in <a href="toc.html">Table 
+  of Contents File</a>.) 
+<p>For more information on dynamic merging of helpsets, see the Developer topic   <a href="../dev/dynamicmerge.html">Merging Helpsets Dynamically</a>.
+<p>The rest of this section covers various aspects of setting up  helpsets for merging, which can be done by a help author without the need for Java programming.
+<h3>The Master Helpset</h3>
+<p>When merging helpsets, there must be an initial helpset into which all other helpsets are merged. This initial helpset is called the <i>master</i> helpset. This helpset can simply be the first one installed, or it can be a specially designed dataless master helpset. All other helpsets are merged into the master helpset. 
+<p>The master helpset controls which views can be merged. For example, if the master helpset does not have a Glossary view, but a helpset being merged does have such a view, the Glossary view is not displayed in the merged helpset.
+<p>The master helpset can be an actual, functioning helpset or it can be empty 
+  (<i>dataless</i>). A dataless master helpset defines a set of views that do 
+  not contain data (there is no <code>&lt;data&gt;</code> tag specified for the 
+  views). The dataless master helpset serves as a container into which subhelpsets 
+  can be merged. You might use a dataless master to ensure that a set of views 
+  is shown in the merged helpset. 
+<p>For example, the following code  defines a dataless master helpset for a suite of applications. The helpset does a static merge: it declares a series of subhelpsets and  the JavaHelp system merges those helpsets if they are installed on the user's system.
+<pre>&lt;?xml version='1.0' encoding='ISO-8859-1' ?&gt;
+   &lt;!DOCTYPE helpset
+     PUBLIC 
+     "-//Sun Microsystems Inc.//DTD 
+      JavaHelp HelpSet Version 2.0//EN"
+      &quot;http://java.sun.com/products/javahelp/helpset_2_0.dtd"&gt;
+
+   &lt;helpset version="2.0"&gt;
+      &lt;!-- title --&gt; 
+      &lt;title&gt;JavaHelp System User's Guide&lt;/title&gt;
+
+      &lt;!-- views --&gt; 
+      &lt;view&gt;
+         &lt;name&gt;TOC&lt;/name&gt;
+         &lt;label&gt;Table Of Contents&lt;/label&gt;
+         &lt;type&gt;javax.help.TOCView&lt;/type&gt;
+      &lt;/view&gt;
+ 
+      &lt;view&gt;
+         &lt;name&gt;Index&lt;/name&gt;
+         &lt;label&gt;Index&lt;/label&gt;
+         &lt;type&gt;javax.help.IndexView&lt;/type&gt;
+      &lt;/view&gt;
+ 
+      &lt;view&gt;
+         &lt;name&gt;Search&lt;/name&gt;
+         &lt;label&gt;Search&lt;/label&gt;
+         &lt;type&gt;javax.help.SearchView&lt;/type&gt;
+      &lt;/view&gt;
+
+      <b>&lt;subhelpset location="app1.hs" /&gt;
+      &lt;subhelpset location="app2.hs" /&gt;
+      &lt;subhelpset location="app3.hs" /&gt;
+      &lt;subhelpset location="app4.hs" /&gt;</b>
+
+   &lt;/helpset&gt;</pre>
+<h3>Understanding Merge Types
+</h3>
+<p>The JavaHelp system provides four merge types that control how helpsets are 
+  merged: <code>javax.help.UniteAppendMerge</code>, <code>javax.help.</code><code>SortMerge</code>, 
+  <code>javax.help.AppendMerge</code>, and <code>javax.help.NoMerge</code>. Each 
+  view of a helpset (TOC, index, search, glossary, and favorites) has a default 
+  merge type that can be overridden by the help author in the helpset's Helpset 
+  (<code>.hs</code>) file by setting the <code>mergetype</code> attribute for 
+  that view, as described later in <a href="#usingmergetypes">Using Merge Types</a>. 
+  (As also described in that section, it is possible to set a merge type for an 
+  element of a view, such as an index entry.) </p>
+<p>When a helpset is merged into a master helpset, each view is merged according to the merge type that has been set for it.</p>
+<h4><b><code>javax.help.UniteAppendMerge</code></b></h4>
+<p>This merge type preserves the hierarchy of the master view by merging matching 
+  elements at the same level into one element, and then merging and sorting any 
+  sub-elements of the matching elements. Any remaining elements are appended to 
+  the end of the view. This type of merging works well for TOC views. </p>
+<p>Merged elements can be united into a single element only if they are identical. 
+  For example, if there is a folder in the master TOC that has a target (a link 
+  to a help topic) and a folder in a helpset being merged that has the same name 
+  but a different target, these two folders will appear separately in the merged 
+  TOC, with the helpset in parentheses after the folder name. If you want the 
+  folders to merge into a single element, they must match exactly (have the same 
+  targets or no targets at all).</p>
+<!-- Saved in case behavior changes
+<p>Merged elements can be united into a single element only if they are identical, 
+  with one exception: if a folder in the master TOC has a target and a folder 
+  with the same name in a subhelpset TOC has no target, the subhelpset folder 
+  is united with the master TOC folder. However, if there is a folder in the master 
+  TOC that has a target (a link to a help topic) and a folder in a helpset being 
+  merged that has the same name but a different target, these two folders will 
+  appear separately in the merged TOC with the helpset in parentheses after the 
+  folder name. If you want the folders to merge into a single element, either 
+  they must match exactly (have the same targets or no targets at all) or the 
+  subhelpset folders must not have targets. </p>
+  -->
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top"> 
+    <td ><img src="../../../doc/images/hg_note.gif" alt="note"></td>
+    <td > UniteAppendMerge is slower than SortMerge and is much slower than AppendMerge. 
+      If you do UniteAppend merges with the TOCs of multiple helpsets, you might 
+      want to test the merge speed of helpsets that have large TOCs to ensure 
+      that the speed is adequate for your users.</td>
+  </tr>
+</table>
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top"> 
+    <td ><img src="../../../doc/images/hg_note.gif" alt="note"></td>
+    <td > UniteAppendMerge cannot detect if a navigator (for example, a TOC) that 
+      is being merged has entries in it that duplicate each other. If you do not 
+      want duplicate entries in the merged TOC, you must ensure that the TOC for 
+      each helpset is constructed properly and has no entries that duplicate each 
+      other. (An example of duplicated entries is a TOC that lists the same entry 
+      in more than one place for organizational purposes).</td>
+  </tr>
+</table>
+<p>In the following example from the New Merge sample helpset, there is a master 
+  TOC with place holders for specific topics in the TOCs of the helpsets that 
+  the help writer expected to be merged. The master helpset is dataless. Its purpose 
+  is to ensure that the views of the subhelpsets appear in a particular order. 
+  The unmerged TOCs look like this:</p>
+<table border="1" cellspacing="0" cellpadding="5">
+  <tr valign="top">
+    <td width="106"><b>Master TOC</b></td>
+    <td width="159"><b>Vertebrates TOC</b></td>
+    <td width="153"><b>Invertebrates TOC</b></td>
+</tr>
+<tr valign="top">
+    <td width="106">Animal Categories<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Vertebrates<br>
+&nbsp;&nbsp;&nbsp;
+Invertebrates</td>
+    <td nowrap width="159">Animal Categories<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Vertebrates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amphibians<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reptiles<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Birds<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mammals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marsupials<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Primates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rodents<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cetaceans<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Animals Like Seals<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;Pictures <code><i>[Sort&nbsp;merge]</i></code><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bat<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bears<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Black Bear<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grizzly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Koala<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bird<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crocodile<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dolphin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elephant<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Frog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Giraffe<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kangaroo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Leopard<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lizard<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monkey<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orca<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shark<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snake<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wolves<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arctic Wolf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Timber Wolf</td>
+    <td nowrap width="153">Animal Categories<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invertebrates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protozoa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Echnioderms<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annilids<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mollusks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arthropods<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crustaceans<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arachnids<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insects
+<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;Pictures <code><i>[Sort&nbsp;merge]</i></code><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Butterfly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clam
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crab
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dragon<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sea Star<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spider<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponge<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Worms</td>
+</tr>
+</table>
+<p>By applying the UniteAppendMerge rules to the the TOCs being merged, the JavaHelp 
+  system produces a merged helpset with the following characteristics:</p>
+<ul type="circle">
+  <li>The Vertebrates and Invertebrates TOC items appear in the same order as 
+    in the master TOC.</li>
+  <li>There is a new Pictures TOC item that is appended after the Invertebrates 
+    TOC item. </li>
+  <li>The invertebrate and vertebrate sub-elements of the Pictures TOC element 
+    are sorted canonically. (The Pictures subnode is defined to use Sort and not 
+    UniteAppendMerge, which is why all the picture subitems are sorted in the merged 
+    TOC below.)</li>
+</ul>
+<p>The following table shows the entire merged helpset:</p>
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top">
+<td><b>Merged TOC</b></td>
+</tr>
+<tr valign="top">
+<td>Animal Categories<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Vertebrates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Amphibians<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Reptiles<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Birds<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mammals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marsupials<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Primates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rodents<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cetaceans<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Animals Like Seals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invertebrates<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protozoa<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Echnioderms<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Annilids<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mollusks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arthropods<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crustaceans<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arachnids<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insects
+<br>
+Pictures<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bat<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bears<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Black Bear<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grizzly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Koala<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bird<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Butterfly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clam
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crab
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Crocodile<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dragon<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dolphin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Elephant<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fish<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Frog<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Giraffe<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kangaroo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Leopard<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lizard<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Monkey<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orca<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sea Star<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shark<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Snake<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spider<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponge<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wolves<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arctic Wolf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Timber Wolf<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Worms<br>
+
+</td>
+</tr>
+</table>
+<h4><b><code>javax.help.</code></b><code>SortMerge</code></h4>
+<p>View data is collated at each level of the view according to the helpset's 
+  locale collation rules. (The view is sorted canonically.) If there is an entry 
+  in the current master or merged helpset that has the same name and ID as an 
+  entry being merged, the merged entry is ignored (the two entries become one 
+  entry in the merged view). If the names are the same, the helpset title is added 
+  in parentheses to the end of the entry. </p>
+<p>This merge type is the default type for the Search view. This type of merge 
+  is useful when you have information that is collated, such the elements of an 
+  Index or Glossary view. It is not useful when you have information that is in 
+  hierarchical form, such as a TOC. To use this merge type for the Index and Glossary 
+  views, you must override the default type of those views. The previous example 
+  does a SortMerge for the Pictures subitems.</p>
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top"> 
+    <td ><img src="../../../doc/images/hg_note.gif" alt="note"></td>
+    <td > SortMerge is slower than AppendMerge, but faster than UniteAppendMerge. 
+      If you do sort merges with the indexes of multiple helpsets, you might want 
+      to test the merge speed of helpsets that have large indexes to ensure that 
+      the speed is adequate for your users.</td>
+  </tr>
+</table>
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top"> 
+    <td ><img src="../../../doc/images/hg_note.gif" alt="note"></td>
+    <td > SortMerge cannot detect if a navigator (for example, an index) that 
+      is being merged has entries in it that duplicate each other. If you do not 
+      want duplicate entries in the merged index, you must ensure that the index 
+      for each helpset is constructed properly and has no entries that duplicate 
+      each other. (An example of duplicate entries is an index with multiple &quot;space&quot; 
+      entries added for vertical spacing.)</td>
+  </tr>
+</table>
+<p>In the example below, the Edit, File, and Help Menu entries have the same text, 
+  but point to different IDs. When the JavaHelp system merges the two, it distinguishes 
+  them by adding by the helpset titles <code>(Java Workshop)</code>and <code>(Java 
+  Studio)</code>. 
+<table border="1" cellspacing="0" cellpadding="5">
+  <tr valign="top">
+    <td><b>Java Workshop Index</b></td>
+    <td><b>Java Studio Index</b></td>
+    <td nowrap><b>Merged Index</b></td>
+</tr>
+<tr valign="top">
+    <td nowrap>Menus<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Build Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Debug Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;File Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Help Menu<br>
+Toolbars<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit/Debug Toolbar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Main Toolbar<br>
+</td>
+    <td nowrap> Developer Resources<br>
+Examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;List of Additional Examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Step-by-step Example<br>
+Menus<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;File Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Help Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;View Menu<br>
+Toolbars<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Composition Toolbar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Main Toolbar<br>
+</td>
+    <td nowrap>Developer Resources<br>
+Examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;List of Additional Examples<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Step-by-step Example<br>
+Menus<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Build Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Debug Menu<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit Menu (Java Workshop)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit Menu (Java Studio)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;File Menu (Java Workshop)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;File Menu (Java Studio)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Help Menu (Java Workshop)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Help Menu (Java Studio)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;View Menu<br>
+Toolbars<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Composition Toolbar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Edit/Debug Toolbar<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Main Toolbar (Java Workshop)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Main Toolbar (Java Studio)<br>
+</td>
+</tr>
+</table>
+<h4><b><code>javax.help.AppendMerge</code></b></h4>
+<p>This merge type appends the new view data (data in the view being merged) to the end of the existing view data. No attempt is made to merge identical entries or sort the results.</p>
+<p>This type of merge was the only one available in version 1 of the JavaHelp 
+  software for the TOC and Index views. To maintain compatibility with this earlier 
+  version of JavaHelp software, this merge type is the default for these two views. 
+  It is also the default merge type for the Glossary view. If you want the resulting 
+  merged Index and Glossary views to be sorted canonically, you must set the <code>mergetype</code> 
+  attribute for these views to <code>javax.help.SortMerge</code> in the Helpset 
+  file.</p>
+<h4><b><code>javax.help.NoMerge</code></b></h4>
+<p>No merging is performed: the view does not appear in the merged helpset. This merge type applies to an entire view, not to elements of a view. It is the default merge type for the Favorites view because that view is user-dependent and is stored in a single file in the user's directory.</p>
+<h3><a name="usingmergetypes">Using Merge Types</a></h3>
+<p>As described in the previous section, the JavaHelp system provides four merge 
+  types that control how helpsets are merged: UniteAppendMerge, SortMerge, AppendMerge, 
+  and NoMerge. Each view of a helpset (TOC, index, search, glossary, and favorites) 
+  has a default merge type.</p>
+<p>The default merge types for each type of view are:</p>
+<ul type="circle">
+  <li><b>TOC</b>.<code> javax.help.AppendMerge</code></li>
+  <li><b>Index</b>. <code>javax.help.AppendMerge</code></li>
+  <li><b>Search</b>. <code>javax.help.SortMerge</code></li>
+  <li><b>Glossary</b>. <code>javax.help.AppendMerge</code></li>
+  <li><b>Favorites</b>. <code>javax.help.NoMerge</code></li>
+</ul>
+<p>You can override these merge types for an entire view in the Helpset file, or you can specify a merge type for an element of a view, such as an index entry.</p>
+<h4>Specifying Merge Types in the Helpset File</h4>
+<p>You can override the default merge type for each view in a helpset. For example, 
+  you can merge the TOC views by using UniteAppendMerge and the Index views by 
+  using SortMerge. To override a view's merge type, you set the <code>mergetype</code> 
+  attribute for that view in the view's Helpset (Hs) file.</p>
+<p>When a helpset is merged into a master helpset, each view is merged according to its default merge type or the merge type that you have set for it.</p>
+<p>For example, a merge type that works well with indexes is SortMerge. The following 
+  code shows how to specify this merge type for an index:</p>
+<pre>&lt;view mergetype=&quot;<code>javax.help.SortMerge</code>&quot;&gt;
+      &lt;name&gt;Index&lt;/name&gt;
+      &lt;label&gt;Index&lt;/label&gt;
+      &lt;type&gt;javax.help.IndexView&lt;/type&gt;
+      &lt;data&gt;AnimalsIndex.xml&lt;/data&gt;
+   &lt;/view&gt;</pre>
+<h4>Specifying Merge Types in the View Files</h4>
+<p>You can override the view's merge type for each element of a TOC or Index view. 
+  Unless overridden again, the merge type definition applies to any subitems of 
+  the entry.</p>
+<ul type="circle">
+  <li>In a TOC, the <code>&lt;tocitem&gt;</code> tag supports the <code>mergetype</code> 
+    attribute. 
+    <p>In the following example, the <code>Release</code> <code>Information</code> 
+      entry and its three subitems all have the <code>javax.help.SortMerge</code> 
+      merge type: </p>
+    <p><code>&lt;tocitem text=&quot;Release Information&quot; mergetype=&quot;javax.help.SortMerge&quot;&gt;</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;image=&quot;chapter&quot; target=&quot;rel.release&quot;&gt;<br>
+      &nbsp;&nbsp;&lt;tocitem text=&quot;Contents of the Release&quot; <br>
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;image=&quot;topic&quot; target=&quot;rel.contents&quot;/&gt;<br>
+      &nbsp;&nbsp;&lt;tocitem text=&quot;Requirements&quot; <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; image=&quot;topic&quot; target=&quot;rel.requirements&quot;/&gt;<br>
+      &nbsp;&nbsp;&lt;tocitem text=&quot;Changes Since the 1.0 Release&quot; <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image=&quot;topic&quot; target=&quot;rel.changes&quot;/&gt;<br>
+      &lt;/tocitem&gt;<br>
+      <br>
+      </code></p>
+  </li>
+  <li>In an index, the <code>&lt;indexitem&gt;</code> tag supports the <code>mergetype</code> 
+    attribute. 
+    <p>In the following example, the <code>context</code> <code>sensitive</code> 
+      <code>help</code> entry and its three subitems all have the <code>javax.help.UniteAppendMerge</code> 
+      merge type: </p>
+    <p><code>&lt;indexitem text=&quot;context sensitive help&quot; &lt;br&gt;</code><br>
+      <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mergetype=&quot;javax.help.UniteAppendMerge&quot;&gt;<br>
+      &nbsp;&nbsp;&lt;indexitem text=&quot;window-level help&quot; <br>
+      &nbsp;&nbsp;&nbsp;&nbsp; target=&quot;auth.csh.window-level&quot; /&gt;<br>
+      &nbsp;&nbsp;&lt;indexitem text=&quot;field-level help&quot;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; target=&quot;auth.csh.field-level&quot; /&gt;<br>
+      &nbsp;&nbsp;&lt;indexitem text=&quot;menu help&quot; <br>
+      &nbsp;&nbsp;&nbsp;&nbsp; target=&quot;auth.csh.menu&quot; /&gt;<br>
+      &lt;/indexitem&gt;</code><br>
+    </p>
+  </li>
+</ul>
+<h3><a name="staticmerge">Merging  Helpsets Statically</a></h3>
+<p>You can specify which help sets to merge in two ways:
+<ul type="circle">
+  <li><b>Dynamically</b>. You can write Java code that searches for helpsets and 
+    uses the JavaHelp software APIs to merge any that finds. Since this is a programming 
+    task and not something a help author is expected to do, this technique is 
+    described separately in the Developer topic <a href="../dev/dynamicmerge.html">Merging 
+    Helpsets Dynamically</a>. </li>
+<li><b>Statically</b>. You can add a <code>&lt;subhelpset&gt;</code> tag to the master helpset file to explicitly add helpsets. If the IDE does not  find a specified subhelpset, it ignores the tag. 
+</li>
+</ul>
+<p>To merge helpsets statically, add
+<code>&lt;subhelpset&gt;</code> tags to a master helpset file to
+specify other helpsets that you want to merge with the
+original helpset.  The merge operation is performed
+whenever the containing helpset is instantiated.
+
+<p> In the following simple example, <code>HelpSet2</code> is merged with <code>HelpSet1</code> 
+  to produce the unified TOC display shown below the code sample: 
+<pre><b>-HelpSet1.hs-</b>
+   &lt;?xml version='1.0' encoding='ISO-8859-1' ?&gt;
+   &lt;!DOCTYPE helpset
+     PUBLIC 
+     "-//Sun Microsystems Inc.//DTD 
+      JavaHelp HelpSet Version 2.0//EN"
+     &quot;http://java.sun.com/products/javahelp/helpset_2_0.dtd"&gt;
+   &lt;helpset version="2.0"&gt;
+      &lt;title&gt;HelpSet 1&lt;/title&gt;
+      &lt;maps&gt;
+        &lt;homeID&gt;hs1_file&lt;/homeID&gt;
+        &lt;mapref location="hs1.jhm" /&gt;
+      &lt;/maps&gt;
+      &lt;view mergetype=&quot;javax.help.UniteAppendMerge&quot;&gt;
+         &lt;name&gt;TOC&lt;/name&gt;
+         &lt;label&gt;Table Of Contents&lt;/label&gt;
+         &lt;type&gt;javax.help.TOCView&lt;/type&gt;
+         &lt;data&gt;hs1TOC.xml&lt;/data&gt;
+      &lt;/view&gt;
+     <b>&lt;subhelpset location="HelpSet2.hs" /&gt;</b>
+   &lt;/helpset&gt;</pre> 
+
+<pre><b>-HelpSet2.hs-</b>
+   &lt;?xml version='1.0' encoding='ISO-8859-1' ?&gt;
+   &lt;!DOCTYPE helpset
+     PUBLIC 
+     "-//Sun Microsystems Inc.//DTD 
+      JavaHelp HelpSet Version 2.0//EN"
+     "http://java.sun.com/products/javahelp/helpset_2_0.dtd"&gt;
+   &lt;helpset version="2.0"&gt;
+      &lt;title&gt;HelpSet 2&lt;/title&gt;
+      &lt;maps&gt;
+        &lt;homeID&gt;hs2_file&lt;/homeID&gt;
+        &lt;mapref location="hs2.jhm" /&gt;
+      &lt;/maps&gt;
+      &lt;view mergetype=&quot;javax.help.UniteAppendMerge&quot;&gt;
+         &lt;name&gt;TOC&lt;/name&gt;
+         &lt;label&gt;Table Of Contents&lt;/label&gt;
+         &lt;type&gt;javax.help.TOCView&lt;/type&gt;
+         &lt;data&gt;hs2TOC.xml&lt;/data&gt;
+      &lt;/view&gt;
+   &lt;/helpset&gt;</pre>
+ 
+
+<div align="left">
+<b>Unified TOC Display</b><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/mergedTOC.gif" width="176" height="198">
+<br>
+<br>
+</div>
+<table border="0" cellspacing="1" cellpadding="5">
+  <tr valign="top">
+    <td height="202"><img src="../../../doc/images/hg_note.gif" width="18" height="13"></td>
+    <td> A static merge has the following special features: 
+      <ul style="margin-top:0">
+<li>The helpset that contains the <code>&lt;subhelpset&gt;</code>
+tag is considered to be the <i>master</i> helpset. All
+helpsets are merged with  the master helpset.
+</li>
+        <li> When helpsets are merged, only views with the same name (<code>&lt;name&gt;</code> 
+          tag) as a view in the master helpset file are merged. Note that in the 
+          example above, both views are named "TOC". Any views in the subhelpsets 
+          that do not match the views in the master helpset are not displayed. 
+        </li>
+<li>
+Multiple <code>&lt;subhelpset&gt;</code> tags can be 
+included in a helpset file. Helpsets are appended in
+the order in which they occur in the helpset file. If a
+helpset specified in a <code>&lt;subhelpset&gt;</code> tag
+is not found, it is ignored and no error is issued.
+</li>
+<li>
+The <code>&lt;subhelpset&gt;</code> <code>location</code>
+attribute takes a URL as its argument.
+</li>
+</ul>
+</td>
+</tr>
+</table>
+<p>&nbsp;
+</body>
+</html>

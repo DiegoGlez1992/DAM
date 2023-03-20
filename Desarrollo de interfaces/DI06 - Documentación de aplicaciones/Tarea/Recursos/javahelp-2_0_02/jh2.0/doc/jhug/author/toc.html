@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Table of Contents File</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Table of Contents File</h2>
+<p> The table of contents (TOC) file describes for the TOC navigator the content 
+  and layout of the TOC. The format of the TOC file is based on the World Wide 
+  Web Consortium (W3C) Extended Markup Language (XML). Following is a very small 
+  example of a TOC file: </p>
+<pre class="code">&lt;?xml version='1.0' encoding='ISO-8859-1' ?&gt;
+&lt;!DOCTYPE toc
+  PUBLIC 
+  "-//Sun Microsystems Inc.//DTD 
+   JavaHelp TOC Version 2.0//EN"
+  "http://java.sun.com/products/javahelp/toc_2_0.dtd"&gt;
+&lt;toc version="2.0"&gt;
+  &lt;tocitem image="toplevelfolder" 
+           text="Java Development Environment"&gt;
+     &lt;tocitem target="jde.intro"&gt;Introduction to JDE Online Help /&gt;
+     &lt;tocitem text="IDE Tutorial" target="tut.starttoc"&gt;
+        &lt;tocitem text="Introducing JDE" target="tut.intro" /&gt;
+        &lt;tocitem text="Tutorial One" target="tut.quickstart" / &gt;
+        &lt;tocitem text="Tutorial Two" target="tut.edit" /&gt;
+        &lt;tocitem text="Tutorial Three" target="tut.errors" /&gt;
+     &lt;/tocitem&gt;
+     &lt;tocitem text="Beans in JDE" target="bean.jbeanstory" /&gt;
+     &lt;tocitem text="Tips on Using Beans Effectively" 
+              target="bean.beantips" 
+              mergetype=&quot;<code>javax.help.SortMerge</code>&quot; 
+              presentationtype=&quot;javax.help.SecondaryWindow 
+              presentationname=&quot;mainsw&quot; /&gt;
+  &lt;/tocitem&gt;
+&lt;/toc&gt; </pre>
+<p>
+This example produces the following TOC display:
+<p align="center">
+<img src="../images/toc.gif" width="215" height="236">
+</p>
+
+<h4>The TOC Tags</h4>
+<p> The following table describes the TOC tags: <br>
+  <br>
+<table border="1" cellpadding="5" cellspacing="0">
+  <tr valign="top">
+    <td width=75><code>&lt;toc&gt;</code> </td>
+    <td width="617"> Defines the TOC. This tag contains <code>&lt;tocitem&gt;</code> 
+      tags and the following optional attributes.<br>
+      <br>
+      <table border=0 cellpadding=5 cellspacing="0">
+        <tr valign="top"> 
+          <td width=60 height="99"> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td height="99"> Language for the TOC. Use the standard locale-country-variant 
+            format.<br>
+            <dl> 
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>
+        </tr>
+        <tr valign="top"> 
+          <td> <code>version=&quot;1.0&quot;|&quot;2.0&quot;</code></td>
+          <td> Version of JavaHelp software.</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <a name="tocglobalimage"><code>categoryclosedimage</code></a> </td>
+          
+<td> (<i>optional</i>) Specifies the image displayed to the left of 
+            a closed TOC folder. A  TOC folder is any  entry in the TOC that has subnodes. The argument to this attribute is an ID defined (associated 
+            with a GIF or JPEG image) in the <a href="map.html">map file</a>. 
+            If this attribute is not specified, the default  folder image 
+            is displayed. <br>
+            <br>
+            You can override this setting for any single TOC folder by setting 
+            the folder's <code>image</code> attribute (see <code>&lt;tocitem&gt;</code> 
+            below). </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>categoryopenimage</code> </td>
+          
+<td> (<i>optional</i>) Specifies the image displayed to the left of 
+            an open TOC folder. A  TOC folder is any entry in the TOC   that has subnodes.  The argument to this attribute is an ID defined (associated 
+            with a GIF or JPEG image) in the <a href="map.html">map file</a>. 
+            If this attribute is not specified, the default  folder image 
+            is displayed. <br>
+            <br>
+            You can override this setting for any single TOC folder by setting 
+            the folder's <code></code><code>image</code> attribute (see <code>&lt;tocitem&gt;</code> 
+            below). </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>topicimage</code> </td>
+          
+<td> (<i>optional</i>) Specifies the image displayed to the left of 
+            a TOC topic. A TOC topic is an entry in the TOC  that has no subnodes and links to a help topic. 
+            The argument to this attribute is an ID defined (associated with a 
+            GIF or JPEG image) in the <a href="map.html">map file</a>. If this 
+            attribute is not specified, the default topic image is displayed. 
+            <br>
+            <br>
+            You can override this setting for any single TOC topic by setting 
+            the topic's <code>image</code> attribute (see <code>&lt;tocitem&gt;</code> 
+            below). </td>
+        </tr>
+      </table>
+    </td>
+</tr>
+
+<tr valign="top">
+    <td width="75"><code>&lt;tocitem&gt;</code> </td>
+    <td width="617"> Defines a TOC entry. Nesting <i>entry1</i> in <i>entry2</i> 
+      defines <i>entry2</i> to be hierarchically contained within <i>entry1</i>. 
+      Uses the following attributes: 
+      <!-- Begin Nested table -->
+      <table width=100% border=0 cellpadding=5 cellspacing="0">
+        <tr valign="top"> 
+          <td nowrap> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td> Language for the TOC item. Use the standard locale-country-variant 
+            format.<br>
+<dl>
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>         </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>text</code> </td>
+          <td> Specifies the text that displays in the TOC. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>target</code> </td>
+          <td> (<i>optional</i>) Specifies the ID to display when the entry is 
+            chosen by the user. IDs are defined (associated with a URL) in the 
+            <a href="map.html">map file</a>. If this attribute is not used, the 
+            entry does not link to a topic</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>image</code> </td>
+          <td> (<i>optional</i>) Specifies the image displayed to the left of 
+            a TOC item. The argument to this attribute is an ID defined (associated 
+            with a GIF or JPEG image) in the <a href="map.html">map file</a>. 
+            If this attribute is not specified, the default open folder, closed 
+            folder, or topic image is displayed. <br>
+            <br>
+            This image overrides the global image, if any, specified for the <code>&lt;toc&gt;</code> 
+            tag's <code>categoryclosedimage</code>, <code>categoryopenimage</code>, 
+            or <code>topicimage</code> attributes (see <code>&lt;toc&gt;</code> 
+            above).</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap><code>mergetype</code>=&quot;<i>class&quot;</i></td>
+          <td> (<i>optional</i>) Path to a valid merge class for the view. The 
+            default merge class for a TOC is <code>javax.help.AppendMerge</code>. 
+            <dl>
+              <dt>The merge classes are:</dt>
+              <dd><code>javax.help.UniteAppendMerge</code></dd>
+              <dd><code>javax.help.SortMerge</code></dd>
+              <dd><code>javax.help.AppendMerge</code></dd>
+              <dd><code>javax.help.NoMerge</code></dd></dl>
+            <p>For more information, see <a href="merge.html">Merging Helpsets</a>.</p>
+          </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>expand=&quot;true|false&quot;</code></td>
+          <td> (<i>optional</i>) Specifies whether to expand the TOC item and 
+            its subitems when the TOC initially opens. The default setting is 
+            <code>&quot;none&quot;</code>, a setting that expands only the top 
+            level items.</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>presentationtype</code> </td>
+          <td> (<i>optional</i>) Specifies the type of window in which the topic 
+            will be displayed (defined in the <code>&lt;presentation&gt;</code> section 
+            of the <code>.hs</code> file). For more information, see the presentation 
+            feature in <a href="helpset.html#presentationtag">Helpset File</a>.</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap> <code>presentationname</code></td>
+          <td> (<i>optional</i>) Specifies the name of the window in which the 
+            topic will be displayed. </td>
+        </tr>
+      </table>
+<!-- End Nested table -->
+</td>
+</tr>
+
+</table>
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+  <dd><a href="helpset.html">The Helpset File</a> 
+  <dd><a href="jar.html">JAR Files</a>
+<dd><a href="map.html">Map File</a>
+<dd><a href="index.html">Index File</a>
+<dd><a href="glossary.html">Glossary File</a>
+<dd><a href="favorites.html">Favorites File</a>
+<dd><a href="search.html">Creating the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

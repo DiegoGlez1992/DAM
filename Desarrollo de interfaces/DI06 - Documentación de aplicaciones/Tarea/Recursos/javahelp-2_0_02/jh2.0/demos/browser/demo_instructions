@@ -1,0 +1,59 @@
+			DEMO INSTRUCTIONS
+
+This is a demonstration of the JavaHelp viewer running in a web
+browser using the Java Plug-in with JDK1.1.6 or later (does not
+work with JDK1.2).
+
+JavaHelp does not run correctly in web browsers and the
+appletviewer due to a limitation in Swing 1.1 Beta3.  This
+limitation will be corrected by Swing1.1FCS. In the
+meantime, a description of how to work around this issue
+will be posted to the JavaHelp website.
+
+You can download JRE/JDK 1.1.7 from
+http://java.sun.com/products/jdk.  It's best to install the JRE
+before you proceed with the rest of these instructions.
+
+These instructions assume that the demos\browser folder is
+your current folder.
+
+1. In order to reduce download size the Holidays HelpSet used
+   in the demo is not included the browser folder. To include the
+   HelpSet files in browser folder use the jar command:
+	  
+	(Win32)   jar -xvf ..\hsjar\holidays.jar 	
+
+	(Solaris) jar -xvf ../hsjar/holidays.jar 
+
+2. Copy jh.jar to the browser folder with following command:
+
+	(Win32)   copy ..\..\javahelp\lib\jh.jar .
+
+	(Solaris) cp ../../javahelp/lib/jh.jar .
+
+3. Copy the version of Swing included in the JavaHelp release to the
+   lib folder of the JRE or JDK.  You must use THIS version of
+   Swing for the demo to work. :
+
+	(Win32)   copy ..\..\swing\swingall.jar {JRE}\lib
+
+	(Solaris) cp ../../swing/swingall.jar {JRE}/lib
+
+   NOTE: Be sure that this is the same JRE/JDK to which the Java
+         Plug-in points (see step 6 below).
+
+4. Load the demo page:
+
+	PluginDemo.html
+
+   into either Netscape Navigator 4 or Internet Explorer 4.
+
+5. If you do not have the Java Plug-in installed on your system,
+   you will be prompted to do so and led through the automated
+   process of installing it.  Note that you may have to use the
+   Advanced tab on the Plug-in ControlPanel to set the correct path
+   to your JRE.
+
+6. When the page is loaded, press the Help button to start the
+   JavaHelp viewer.
+

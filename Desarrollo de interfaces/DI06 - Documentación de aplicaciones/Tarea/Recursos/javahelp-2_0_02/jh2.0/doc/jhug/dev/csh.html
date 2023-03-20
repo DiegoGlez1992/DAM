@@ -1,0 +1,759 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Implementing Context-Sensitive Help</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Implementing Context-Sensitive Help</h2>
+<p>
+The JavaHelp system provides classes and methods that help
+you implement <a href="../author/csh.html">context-sensitive help</a>
+in your applications.  The following sections:
+<ul type="circle">
+  <li>Summarize the context-sensitive help system 
+  <li>Describe the basic elements of the system 
+  <li>Describe how to implement context-sensitive help 
+  <li>Describe the APIs that support dynamic ID assignment 
+</ul>
+
+<h3>Summary</h3>
+<p>
+The following table summarizes the context-sensitive
+help system.
+<p>
+
+<table border width=99% cellpadding=5>
+  <tr>
+    <th width=15%><font size="-1"><i>CSH Type</i></font></th>
+    <th width=20%><font size="-1"><i>Activation Mechanism</i></font></th>
+    <th width=20%><font size="-1"><i>Object for Which Help Is Provided</i></font></th>
+    <th width="45%"><font size="-1"><i>Implementation Steps</i></font></th>
+</tr>
+
+  <tr valign="top"> 
+    <td width=15%> <font size="-1"> <a href="../author/csh.html#window-level">Window-Level</a> 
+      </font> </td>
+    <td width=20%> <font size="-1"> Press F1 (or Help) key. </font> </td>
+    <td width=20%> <font size="-1"> Window with focus </font> </td>
+    <td width="45%"> <font size="-1"> 
+      <ul type="circle">
+        <li>Set helpIDs for components 
+        <li>Capture F1 key press 
+        <li>Get window that has focus 
+        <li>Get helpID for window 
+        <li>Display help (optionally in a specific <a href="#presentation"><i>presentation</i></a>) 
+      </ul>
+</font>
+</td>
+</tr>
+
+  <tr valign="top"> 
+    <td width=15%> <font size="-1"> <a href="../author/csh.html#field-level">Field-Level</a> 
+      </font> </td>
+    <td width=20%> 
+      <ol>
+        <font size="-1"> <li>Activate field-level help.</li></font>
+        <font size="-1"><li>Navigate with mouse or keyboard.</li></font>
+        <font size="-1"><li>Select object.</li></font>
+      </ol>
+    </td>
+    <td width=20%> <font size="-1"> Selected object </font> </td>
+    <td width="45%"> <font size="-1"> 
+      <ul type="circle">
+        <li>Set helpIDs for components 
+        <li>Activate field-level help (button or menu item) 
+        <li>Track context-sensitive events 
+        <li>Get helpID for selected object 
+        <li>Display help (optionally in a specific <a href="#presentation"><i>presentation</i></a>) 
+      </ul>
+	  </font>
+      </td>
+</tr>
+
+  <tr valign="top"> 
+    <td width=15%> <font size="-1"> <a href="../author/csh.html#button">Help Button</a> 
+      <br>
+<a href="../author/csh.html#menu">Menu Item</a>
+</font>
+</td>
+    <td width=20%> <font size="-1"> Click button or choose menu item. </font> 
+    </td>
+    <td width=20%> <font size="-1"> Topic associated with button or menu item 
+      </font> </td>
+    <td width="45%"> <font size="-1"> 
+      <ul type="circle">
+        <li>Create button or menu object 
+        <li>Set helpID on object 
+        <li>Get helpID on object 
+        <li>Display help
+      </ul> </font></td>
+</tr>
+
+  <tr valign="top"> 
+    <td width=15%> <font size="-1"> <a href="../author/csh.html#system">System 
+      Initiated</a> </font> </td>
+    <td width=20%> <font size="-1"> Internal, varies. </font> </td>
+    <td width=20%> <font size="-1"> Internal, varies </font> </td>
+    <td width="45%"> <font size="-1"> 
+      <ul type="circle">
+        <li> Display help (optionally in a specific <a href="#presentation"><i>presentation</i></a>) </li>
+</ul>
+</font>
+</td>
+</tr>
+
+</table>
+<p></p>
+
+<h3>Basic Elements</h3>
+<p>
+This section describes the low-level elements used in
+implementing context-sensitive help.  
+</p> 
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td width="98%">If you use the "convenience" methods in the <a
+href="#HelpBroker"><code>HelpBroker</code></a> object to implement context-sensitive 
+      help, these low-level elements are managed for you. 
+  </table>
+<p>
+The basic steps for implementing context-sensitive help
+are:
+<ol>
+<li>Set and get <code>Component</code> help properties
+for GUI objects
+<li>Track context-sensitive events
+</ol>
+
+<h4>Setting and Getting Component Help Properties</h4>
+<p> To provide context-sensitive help for GUI Components and menu items, you must 
+  associate a help ID with that <code>Component</code> or menu item. To make that 
+  association, you set the <code>helpID</code> property and (if you use multiple helpsets) 
+  the <code>HelpSet</code> for the <code>Component</code> or <code>MenuItem</code> The JavaHelp 
+  system <code>CSH</code> class provides the following convenient methods for setting 
+  and getting the <code>helpID</code> for <code>Component</code>s and <code>MenuItem</code>s:</p> 
+
+<br><br><h4><font size="-1">setHelpIDString Component</font></h4>
+<pre> public static void setHelpIDString(Component comp, String helpID);</pre>
+<p> Sets the <code>helpID</code> for a component. <br>
+  <br><h4><font size="-1">getHelpIDString Component</font></h4>
+<pre> public static String getHelpIDString(Component comp);</pre>
+<p> Returns the <code>helpID</code> for a component. <br>
+  <br><h4><font size="-1">setHelpSet Component</font></h4>
+<pre> public static void setHelpSet(Component comp, HelpSet hs);</pre>
+<p> Sets the <code>HelpSet</code> for a component. <br>
+  <br>
+<h4><font size="-1">getHelpSet Component</font></h4>
+<pre> public static HelpSet getHelpSet(Component comp);</pre> 
+<p> Returns the <code>HelpSet</code> of a component. <br>
+  <br><h4> <font size="-1">setHelpIDString MenuItem</font></h4>
+<pre> public static void setHelpIDString(MenuItem comp, 
+                                    String helpID);</pre> 
+<p> Sets the <code>helpID</code> for a menu item. <br>
+  <br><h4> <font size="-1">getHelpIDString MenuItem</font></h4>
+<pre> public static String getHelpIDString(MenuItem comp);</pre> 
+<p> Returns the <code>helpID</code> for a menu item. <br>
+  <br><h4> <font size="-1">setHelpSet MenuItem</font></h4>
+<pre> public static void setHelpSet(MenuItem comp, HelpSet hs);</pre> 
+<p> Sets the helpset for a menu item. 
+<br><br><h4> <font size="-1">getHelpSet MenuItem</font></h4>
+<pre> public static HelpSet getHelpSet(MenuItem comp);</pre> 
+<p>
+Returns the helpset of a menu item.</p>
+
+<h4>Tracking Context-Sensitive Events</h4>
+<p> The context-sensitive help class provides the <code>CSH.trackCSEvents</code> 
+  method, which you can use to easily track context-sensitive events. This method 
+  traps all non-navigational events until an object is selected. It returns the 
+  selected object. Following is the declaration for the method:
+<pre> public static Component CSH.trackCSEvents()</pre>
+
+<h3>Implementing Context-Sensitive Help</h3>
+<p> The sections that follow describe how to use the JavaHelp system to implement 
+  various forms of context-sensitive help. <a name="HelpBroker"></a> 
+<br><br>
+<h4>The <tt>HelpBroker</tt></h4>
+<p> The JavaHelp system defines a <code>HelpBroker</code> interface that provides 
+  convenience methods that greatly simplify the job of implementing context-sensitive 
+  help. <code>HelpBroker</code> methods hide much of the underlying implementation 
+  details. In exchange, using the <code>HelpBroker</code> limits the flexibility of 
+  your implementation. For example, if you use the <code>DefaultHelpBroker</code>, 
+  you must display help information in the standard help viewer. </p>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td width="98%">You can implement context-sensitive help without using the 
+      <code>HelpBroker</code>, or you can use the <code>HelpBroker</code> for some tasks 
+      and not for others. For example, if your implementation requires something 
+      not provided in the <code>HelpBroker</code>, such as displaying context-sensitive 
+      help in a different viewer, you must use the basic classes (<code>CSH</code>, 
+      <code>JHelp</code>) directly. For information about those classes, use the JavaHelp 
+      system <code>apiviewer</code> command. 
+  </table>
+
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td width="98%"><a name="presentation">With</a> some of these methods, you 
+      can specify the <i>presentation type</i>, the type of window in which the 
+      help topics is displayed. The examples show generic names for popup windows 
+      and secondary windows that will always work. However, it is possible that 
+      specific <a href="../author/helpset.html#presentationtag">presentation definitions</a> 
+      have been provided in the helpset file by the help author. Since the help 
+      author can define attributes of presentations, including their size, their 
+      position, and the number and type of panes, if presentations are defined 
+      in the helpset file, you might want to use their names in help calls.
+  
+</table>
+<p>A <code>HelpBroker</code>'s convenience methods enable: 
+<ul type="circle">
+<li>Window-level help for a dialog box
+<li>Help buttons for dialog boxes
+<li>Buttons and menu items that activate field-level help
+</ul>
+The following illustration shows how the HelpBroker and its
+context-sensitive methods (<code>hb.*</code>) are used with
+other JavaHelp system components:
+<p align="center">
+<img src="../images/csh_methods.gif">
+</p>
+<h4><a name="hb_additional"><tt>HelpBroker</tt> Context-Sensitive Methods</a></h4>
+<p> A <code>HelpBroker</code> provides the following context-sensitive methods: <br>
+  <br><h4><font size="-1">setHelpSet</font></h4>
+<pre> public void setHelpSet(HelpSet hs);</pre>
+<p> Sets the <code>HelpSet</code> for the current <code>HelpBroker</code> (there can be 
+  only one <code>HelpSet</code> per <code>HelpBroker</code>). If you use this method to 
+  change helpsets, the displays in the corresponding <code>JHelp</code> component 
+  and <code>JHelpNavigator</code> are changed. <br>
+  <br><h4><font size="-1">getHelpSet</font></h4>
+<pre> public HelpSet getHelpSet();</pre>
+<p> Gets the current <code>HelpSet</code> for the <code>HelpBroker</code>. <br>
+  <br><h4><font size="-1">setCurrentID</font></h4>
+<pre> public void setCurrentID(Map.ID id) throws BadIDException;</pre>
+<p> Sets the current ID that is to be displayed in the help viewer. If <code>hs</code> 
+  is null, the <code>HelpBroker</code>'s current <code>HelpSet</code> is used. If <code>hs</code> 
+  is different from the current <code>HelpSet</code> (and not contained in the current 
+  <code>HelpSet</code>), the <code>setHelpSet</code> method is executed. <br>
+  <br><h4><font size="-1">setCurrentURL</font></h4>
+<pre> public void setCurrentURL(URL url, HelpSet hs) throws BadIDException;</pre>
+<p> Displays the specified URL in the help viewer. If <code>hs</code> is null, the 
+  <code>HelpBroker</code>'s current <code>HelpSet</code> is used. If <code>hs</code> is different 
+  from the current <code>HelpSet</code> (and not contained in the current <code>HelpSet</code>), 
+  the <code>setHelpSet</code> method is executed. <br>
+  <br>
+<h4><font size="-1"><a name="enableHelpKey">enableHelpKey</a></font></h4>
+<pre>public void enableHelpKey(Component comp, String id, HelpSet hs, 
+                          String presentationType, String presentationName);</pre> 
+<p> Enables the Help key on a Component (the F1 key on Windows machines). This 
+  method works best when the component is the <code>rootPane</code> of a <code>JFrame</code> 
+  in Swing-based applications, or a <code>java.awt.Window</code> (or subclass 
+  thereof) in AWT-based applications. This method sets the default <code>helpID</code> 
+  and <code>HelpSet</code> for the <code>Component</code> and registers keyboard 
+  actions to trap the "Help" keypress. If the object with the current focus has 
+  a <code>helpID</code>, the <code>helpID</code> is displayed when the Help key 
+  is pressed; otherwise, the default <code>helpID</code> is displayed. You can 
+  optionally specify the type of help window in which a help topic is displayed. 
+<p>For example, the following code specifies that the help presentation is a secondary 
+  window named <code>mainSW</code>: 
+<pre> JTextArea newText = new JTextArea();
+
+ hb.enableHelp(newText, "debug.overview", hs);
+ . . .
+ rootpane = frame.getRootPane();
+ mainHelpBroker.enableHelpKey(rootpane,
+                              &quot;top&quot;,
+                              null,
+                              &quot;javax.help.SecondaryWindow&quot;,
+                              &quot;mainSW&quot;);</pre>
+
+<h4><font size="-1">enableHelp Component</font></h4>
+<pre>public void enableHelp(Component comp, String id, HelpSet hs);</pre>
+<p>
+Enables help activation for a help component (for example,
+a Help button). This method:
+<ul type="circle">
+  <li>Registers the <code>helpID</code> and <code>HelpSet</code> on <code>comp</code> 
+  <li>Sets the <code>HelpBroker</code>'s <code>HelpActionListener</code> on <code>comp</code> 
+</ul>
+<h4><font size="-1">enableHelp MenuItem</font></h4>
+
+<pre>public void enableHelp(MenuItem comp, String id, HelpSet hs)</pre>
+<p> Enables help activation for a <code>MenuItem</code>. This method: 
+<ul type="circle">
+  <li>Registers the <code>helpID</code> and <code>HelpSet</code> on <code>comp</code> 
+  <li>Sets the <code>HelpBroker</code>'s <code>HelpActionListener</code> on <code>comp</code> 
+</ul>
+<h4><font size="-1">enableHelpOnButton Component</font></h4>
+<pre>  public void enableHelpOnButton(
+                 Component comp, String id, HelpSet hs,
+                 String presentationType,
+                 String presentationName); </pre>
+<p>Enables help for a <code>Component</code>. This method sets the <code>helpID</code> 
+  and <code>HelpSet</code> for the <code>Component</code> and adds an <code>actionListener</code>. 
+  When an action is performed it displays the <code>Component</code>'s <code>helpID</code> 
+  and <code>HelpSet</code> in the default viewer. If the <code>Component</code> is not 
+  a <code>javax.swing.AbstractButton</code> or a <code>java.awt.Button</code>, an <code>IllegalArgumentException</code> 
+  is thrown. You can optionally specify the type of help window in which a help 
+  topic is displayed. </p>
+<p>For example, the following code specifies that the help presentation is a secondary 
+  window named <code>mainSW</code>: </p>
+<pre> JButton helpButton = new JButton(&quot;Help&quot;,
+                                  &quot;javax.help.SecondaryWindow&quot;,
+                                  &quot;mainSW&quot;);
+
+ mainHelpBroker.enableHelpOnButton(helpButton,
+                                   &quot;browse.strings&quot;,
+                                   null,
+                                   &quot;javax.help.SecondaryWindow&quot;,
+                                   &quot;mainSW&quot;);</pre>
+<p><br>
+  <br>
+</p>
+<h4><font size="-1">enableHelpOnButton MenuItem</font></h4>
+<pre> public void enableHelpOnButton(MenuItem comp, String id, HelpSet hs,
+                                String presentationType, 
+                                String presentationName);</pre>
+<p>Enables help for a <code>MenuItem</code>. This method sets the <code>helpID</code> 
+  and <code>HelpSet</code> for the <code>Component</code> and adds an <code>actionListener</code>. 
+  When an action is performed it displays the <code>helpID</code> and <code>HelpSet</code> 
+  in the default viewer. You can optionally specify the type of help window in 
+  which a help topic is displayed.</p>
+<h4><a name="cshinnerclasses"><code>CSH</code> Inner Classes</a></h4>
+<p>The <code>CSH</code> class contains three inner classes that provide support for 
+  context-sensitive help. </p>
+<br>
+<h4> <code><font size="-1">CSH.DisplayHelpAfterTracking</font></code></h4>
+<pre> CSH.DisplayHelpAfterTracking(HelpSet hs,
+                             String presentationType,
+                             String presentationName)</pre>
+<p>This class defines an <code>ActionListener</code> that displays help for a selected 
+  object after tracking context-sensitive events. Its constructor takes a <code>HelpBroker</code> 
+  object. You can optionally specify the type of help window in which the help 
+  topic is displayed. For example, you could display help for a toolbar button 
+  in a popup window as follows: </p>
+<pre> JToolBar toolbar=new JToolBar();
+ . . .
+ helpbutton= addButton(toolbar, "images/help.gif", "help");
+ helpbutton.addActionListener(
+   new CSH.DisplayHelpAfterTracking (mainHS,
+                                     "javax.help.Popup",
+                                     null));
+</pre>
+<h4> <code><font size="-1">CSH.DisplayHelpFromFocus</font></code></h4>
+<pre> CSH.DisplayHelpFromFocus(HelpSet hs,
+                          String presentationType,
+                          String presentationName)</pre>
+<p>An <code>ActionListener</code> that displays the help of the object that currently 
+  has focus. This method is used to enable a <code>HelpKey</code> action listening 
+  for components other than the <code>RootPane</code> or window. This listener determines 
+  if the object with the current focus has a <code>helpID</code>, and if it does the 
+  helpID is displayed. If the object does not have a <code>helpID</code>, the <code>helpID</code> 
+  on the action's source is displayed (if one exists). You can optionally specify 
+  the type of help window in which the help topic is displayed. </p><br>
+<h4> <code><font size="-1">CSH.DisplayHelpFromSource</font></code> </h4>
+<pre> CSH.DisplayHelpFromSource(HelpSet hs,
+                           String presentationType,
+                          &nbsp;String presentationName) </pre>
+<p></p>
+<p>An actionListener that gets the <code>helpID</code> for the action source and displays 
+  the helpID in the help viewer. Its constructor takes a HelpBroker object. You 
+  can optionally specify the type of help window in which the help topic is displayed. 
+</p>
+<h4><a name="window-level">Window-Level Help</a></h4>
+
+<p> Start your <a href="../author/csh.html#window-level">window-level help</a> 
+  implementation by setting the helpID and (if you use multiple helpsets) the 
+  <code>HelpSet</code> for each component for which you want help. If you do not 
+  set help for a given component, <code>CSH.getHelpID()</code> recursively searches 
+  through the component's ancestors until it finds the first ancestor with a helpID, 
+  or until it reaches the last ancestor. For example: 
+<pre>                       <b>:</b>
+	JTextArea newText = new JTextArea();
+	hb.enableHelp(newText, "debug.overview", hs);
+	                   <b>:</b>	</pre>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+	</td>
+    <td width="98%">After you set the helpID and helpset for all components, 
+      use the HelpBroker <code>enableHelpKey()</code> method to enable the F1 key 
+      for the frame's RootPane. The <code>hb.getHelpKeyActionListener()</code> method 
+      enables the F1 key on <code>ActionListener</code> objects other than root panes. 
+      For example, the following code displays the help in the default viewer: 
+      <pre>                   <b>:</b>
+    rootpane = frame.getRootPane();
+    mainHelpBroker.enableHelpKey(rootpane, "top", null);
+                   <b>:</b>	</pre>
+      <p><a name="window-level-pres">If</a> you want to display help in a popup window, 
+        substitute the following line of code:</p>
+      <pre>    mainHelpBroker.enableHelpKey(rootpane, "top", null,
+                                 "javax.help.Popup", null); </pre>
+	  <p>If you want to display help in a secondary window named <code>mainSW</code>, 
+        substitute the following line of code:</p>
+      <pre>    mainHelpBroker.enableHelpKey(rootpane, "top", null,
+                                 "javax.help.SecondaryWindow",
+                                 &quot;mainSW&quot;); </pre>
+</td></tr>   
+</table>
+<h4><a name="field-level">Field-Level Help</a></h4>
+<p>
+Start your <a href="../author/csh.html#field-level">field-level help</a> implementation by setting the
+helpID and (if you use multiple helpsets) helpset for each component for which
+you want help. If you do not set help for a given component,
+<code>CSH.getHelpID()</code> recursively searches through the
+component's ancestors until it finds the first ancestor
+with a helpID, or until it reaches the last ancestor.
+<p>
+After you set the helpID and helpset for all components, create
+a field-level help button or menu item. Set an
+ActionListener on the button or menu item with a HelpBroker
+object using <code>getOnItemActionActionListener</code>. For example:
+<pre>JToolBar toolbar=new JToolBar();
+CSH.setHelpID(toolbar,"toolbar.main");
+               <b>:</b>
+helpbutton= addButton(toolbar, "images/help.gif", "help");
+helpbutton.addActionListener(
+        new CSH.DisplayHelpAfterTracking(mainHelpBroker));</pre>
+<p><a name="field-level-pres">The</a> following invocation would display the field-level help in a popup window: 
+<pre>JToolBar toolbar=new JToolBar();
+CSH.setHelpID(toolbar,"toolbar.main");
+               <b>:</b>
+helpbutton= addButton(toolbar, "images/help.gif", "help");
+helpbutton.addActionListener(
+        new CSH.DisplayHelpAfterTracking(mainHelpBroker,
+                                         &quot;javax.help.Popup&quot;,
+                                         null));</pre>
+<p>The following invocation would display the field-level help in a secondary 
+  window: 
+<pre>JToolBar toolbar=new JToolBar();
+CSH.setHelpID(toolbar,"toolbar.main");
+               <b>:</b>
+helpbutton= addButton(toolbar, "images/help.gif", "help");
+helpbutton.addActionListener(
+        new CSH.DisplayHelpAfterTracking(mainHelpBroker,
+                                         &quot;javax.help.SecondaryWindow&quot;,
+                                         &quot;mainSW&quot;));</pre>
+
+<h4><a name="menubutton">Help Menu and Help Button Help</a> </h4>
+<p>
+To implement <a href="../author/csh.html#menu">Help menu</a> or <a href="../author/csh.html#button">Help button</a> help:
+<ol>
+  <li>Create a menu item or button.
+    
+  <li>Set the <code>helpID</code> and (if you use multiple helpsets) the helpset on 
+    the object. 
+  <li>Enable help on the object with the <code>HelpBroker</code>. 
+</ol>
+The <code>CSH</code> class provides the <code>CSH.DisplayHelpFromSource</code> class to 
+enable help on objects with types other than <code>AbstractButton</code>, <code>Button</code>, 
+or <code>MenuItem</code>. For example: 
+<pre>JButton helpButton = new JButton("Help");
+mainHelpBroker.enableHelpOnButton(helpButton, "browse.strings", null);</pre>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td width="98%"><code>HelpBroker.enableHelpOnButton</code> uses <code>CSH.DisplayHelpFromSource</code> 
+      and also sets the appropriate ID on the <code>Button</code> and the <code>ActionListener</code> 
+      on the <code>Button</code>. If this example used <code>CSH.DisplayHelpFromSource</code> 
+      instead, it would have to set the ID and ActionListener explicitly. Using 
+      <code>HelpBroker</code> in this example simplifies the code.
+  
+</table>
+<p>&nbsp;</p>
+<h4><a name="system">System Initiated Help</a></h4>
+<p> All the other help activations discussed in this section result from the user's 
+  clicking a button, pressing a key, or selecting an item in the navigator or 
+  content viewer. With system initiated help, the action is not initiated by the 
+  user, but rather by the application, which recognizes that the user is need 
+  of help and automatically calls the help system. For example, the user might 
+  have repeatedly tried an operation that failed every time or canceled a task 
+  midway through an operation.
+<p>Although system initiated help is rarely implemented with the help viewer, 
+  it is simple to do so. When help is presented internally within an application, 
+  pass a valid helpID to a HelpBroker object. For example: 
+<pre>	                   :
+	try {
+	    mainHelpBroker.setCurrentID(helpID);
+	} catch (Exception ee) {
+	    System.err.println("trouble with visiting id; "+ee);
+	}
+	                   <b>:</b></pre>
+<p><a name="system-level-pres">If</a> you wanted the help to display in a popup window, you 
+  could use the following code instead: 
+<pre>	                   <b>:</b>
+	try {
+             Popup popup = (Popup)Popup.getPresentation(mainHS,null);
+             popup.setInvoker (component);
+             popup.setCurrentID (helpID);
+             popup.setDisplayed(true);
+	} catch (Exception ee) {
+	    System.err.println("trouble with visiting id; "+ee);
+	}
+	                   <b>:</b></pre>
+<p>If you wanted the help to display in a secondary window, you could use the 
+  following code: 
+<pre>	                   <b>:</b> 
+        try { 
+           mainHelpBroker.showID(helpID,
+                                 &quot;javax.help.SecondaryWindow&quot;,
+                                 &quot;main&quot;);
+        } catch (Exception ee) { 
+          System.err.println("trouble with visiting id; "+ee); } 
+        }
+                       <b>:</b></pre>
+<h4><a name="SampleCode">Sample Code</a></h4>
+<p>
+The following example shows the code required for the
+different types of context-sensitive help using a default helpset:
+</p>
+
+<pre>                          <b>:</b>
+   try {
+	    ClassLoader cl = ApiDemo.class.getClassLoader();
+	    URL url = HelpSet.findHelpSet(cl, helpsetName);
+	    mainHS = new HelpSet(cl, url);
+	} catch (Exception ee) {
+	    System.out.println ("Help Set "+helpsetName+" not found");
+	    return;
+	} catch (ExceptionInInitializerError ex) {
+	    System.err.println("initialization error:");
+	    ex.getException().printStackTrace();
+	}
+	mainHB = mainHS.createHelpBroker();
+                           <b>:</b>
+	// Enable window-level help on RootPane
+	rootpane = frame.getRootPane();
+	mainHB.enableHelpKey(rootpane, "top", null);
+                           <b>:</b>
+	// Enable field-level help on various components
+	JToolBar toolbar=new JToolBar();
+	CSH.setHelpIDString(toolbar,"toolbar.main");
+                           <b>:</b>
+	//Enable Menu/Button help on Help menu item
+	helpbutton= addButton(toolbar, "images/help.gif", "help");
+	mainHelpBroker.enableHelpButton(helpbutton, "browser.strings", null);
+
+	sourceIFrame = new JInternalFrame("Source", true, true, true, true);
+	CSH.setHelpIDString(sourceIFrame, "edit.editsource");
+
+	JTextArea newtext=new JTextArea();
+	CSH.setHelpIDString(newtext, "build.build");
+
+	newtext = new JTextArea();
+	CSH.setHelpIDString(newtext, "debug.overview");
+
+	newtext = new JTextArea();
+	CSH.setHelpIDString(newtext, "browse.strings");
+                           <b>:</b>
+	// System Level help somewhere within the code
+	try {
+	    mainHelpBroker.setCurrentID(helpID);
+	} catch (Exception ee) {
+	    System.err.println("trouble with visiting id; "+ee);
+	}
+                           <b>:</b></pre>
+<h3><a name="dynamicid">Dynamic Map ID Assignment</a></h3>
+<p>For certain objects, such as a <code>JTable</code>, having a single map ID per 
+  object is not sufficient. A technique is needed to determine programmatically 
+  the map ID based on cursor position, selection, or some other mechanism inherent 
+  to the object. For example a <code>Canvas</code> object might determine the map 
+  ID based on the object currently selected on the canvas or, alternatively, from 
+  the mouse cursor position.</p>
+<p>The following APIs in the <code>CSH</code> class support dynamic ID assignment:</p>
+<table border="0" cellpadding="5">
+  <tr valign="top"> 
+    <th nowrap width="10%">Name</th>
+    <th>Description</th>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>addManager(CSH.Manager)</code></td>
+    <td>Registers the specified manager to handle dynamic context-sensitive help.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>addManager(index,CSH.Manager)</code></td>
+    <td>Registers the specified manager to handle dynamic context-sensitive help 
+      at the specified position in the list of managers.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>getManager(index)</code></td>
+    <td>Returns the manager at the specified position in list of managers.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>getManagerCount()</code></td>
+    <td>Returns the number of managers registered.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>getManagers()</code></td>
+    <td>Returns array of managers registered.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>removeAllManagers()</code></td>
+    <td>Remove all the dynamic context-sensitive help managers.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>removeManager(CSH.Manager)</code></td>
+    <td>Remove the specified manager from the list of managers.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>removeManager(index)</code></td>
+    <td> Remove the manager at the specified position in the list of managers.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Additionally the following interface has been defined in <code>CSH.Manager</code>:</p>
+<table border="0" cellpadding="5">
+  <tr valign="top"> 
+    <th nowrap width="1`0%">Name</th>
+    <th>Description</th>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="1`0%"><code>getHelpSet(Object,&nbsp;AWTEvent)</code></td>
+    <td>Returns the <code>String</code> representing the <code>mapID</code> of the object 
+      based on the <code>AWTEvent</code>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="1`0%"><code>getHelpIDString(Object,&nbsp;AWTEvent)</code></td>
+    <td>Returns the <code>HelpSet</code> of the object based on the <code>AWTEvent</code>.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>Instances of <code>CSH.Manager</code> work as filters. <code>CSH.getHelpIDString(comp)</code> 
+  and <code>CSH.getHelpSet(comp)</code> must call each registered <code>CSH.Manager</code>'s 
+  <code>getHelpIDString</code> or <code>getHelpSet</code> methods. If the <code>CSH.Manager</code> 
+  does not handle the component, it returns <code>null</code>. If no <code>CSH.Manager</code> 
+  provides a <code>HelpSet</code> or <code>HelpIDString</code> for the component, 
+  the <code>CSH</code> methods use the statically defined <code>HelpSet</code> 
+  and <code>HelpIDString</code> described in <a href="#statichelpID">Using Statically 
+  Defined Help IDs</a>. As with the statically defined <code>HelpSet</code> and 
+  <code>HelpIDString</code>, a failure in a request for a <code>HelpSet</code> 
+  and a <code>HelpIDString</code> is propagated to the component's parent.</p>
+<h4>Example: Dynamic Map ID Assignment</h4>
+<p>The following example shows how to use a component with a dynamically assigned 
+  <code>HelpSet</code> or a dynamically generated <code>HelpIDString</code>:</p>
+<pre>   class MyCSHManager implements CSH.Manager {
+      HelpSet hs;
+      JEditorPane editor;
+      MyCSHManager(JEditorPane editor, HelpSet hs) {
+         this.editor = editor;
+         this.hs = hs;
+      }
+      public HelpSet getHelpSet(Object comp) {
+         if (comp == editor) {
+            return hs;
+         }
+         return null;
+      }
+      public String getHelpIDString(Object comp) {
+         if (comp == editor) {
+            return getHelpIDFromCaretPostion(editor);
+         }
+         return null;
+      }
+   }
+</pre>
+<p> You add the <code>CSH.Manager</code> to the <code>CSH</code> list of managers 
+  as follows:</p>
+<p><code>&nbsp;&nbsp;&nbsp;CSH.AddCSHManager(new MyCSHManager(editor, hs)); </code> 
+</p>
+<h3><a name="statichelpID">Using Statically Defined Help IDs</a></h3>
+<p>Context-sensitive help in the JavaHelp system is organized around the notion 
+  of the ID-URL map referred by the <code>&lt;map&gt;</code> section of a helpset 
+  file. The key concept is that of the <code>Map.ID</code>, which is comprised of 
+  a <code>String-HelpSet</code> instance pair. The <code>String</code> is intended to 
+  be unique in the local map of the helpset. This is very important when considering 
+  helpset merging; otherwise, IDs would be required to be unique over all helpsets 
+  that might ever be merged.</p>
+<p>There are three tasks involved in assigning context-sensitive help to an application:</p>
+<ol>
+  <li> Defining the appropriate <code>String</code> ID-URL map</li>
+  <li>Assigning an ID to each desired visual object</li>
+  <li>Enabling a user action to activate the help</li>
+</ol>
+<h4>Defining the ID-URL Map</h4>
+<p>The <code>Map</code> interface provides a means for associating IDs (<code>HelpSet.string</code>) 
+  with URLs. One such map is constructed from one or more map files that provide 
+  a simpler <code>String</code> <code>ID</code> to URL mapping, with the <code>HelpSet</code> 
+  being given either explicitly or implicitly.</p>
+<p>The JavaHelp system has two classes that implement the Map interface: <code>FlatMap</code> 
+  and <code>TryMap</code>. A <code>FlatMap</code> does not support nesting of 
+  other maps into it, while a <code>TryMap</code> does. A <code>FlatMap</code> 
+  is a simple implementation while <code>TryMap</code> should support inverse 
+  lookups (for example, <code>getIDFromURL</code>) more efficiently. The implementation 
+  of <code>TryMap</code> in version 1.0 of the JavaHelp system is not particularly 
+  efficient.</p>
+<p> Both <code>FlatMap</code> and <code>TryMap</code> have public constructors. The constructor 
+  for <code>FlatMap</code> takes two arguments: </p>
+<ul type="circle">
+  <li> A URL to a property file providing a list of <code>String</code> and URL pairs</li>
+  <li>A <code>HelpSet</code></li>
+</ul>
+<p>The <code>HelpSet</code> is used together with each <code>String</code>-URL pair to 
+  create the actual <code>Map.ID</code> objects that comprise the <code>FlatMap</code>. 
+  The constructor for <code>TryMap</code> has no arguments. Its <code>Map</code> is created 
+  empty, and other <code>Map</code>s are added or removed from it.</p>
+<p>The Map interface can also be implemented by some custom class. One such class 
+  could, for example, be used to programmatically generate the map.</p>
+<h4>Assigning an ID to Each Visual Object</h4>
+<p> The next step is to assign to each desired GUI object an ID that will lead 
+  to the desired help topic. There are two mechanisms that can be involved: </p>
+<ul type="circle">
+  <li>An explicit ID, either a plain <code>String</code> or a <code>Map.ID</code>, 
+    is assigned to the GUI object. 
+    <p>The two basic methods used to assign IDs are <code>setHelpIDString(Component, 
+      String)</code> and <code>setHelpSet(Component, String)</code>. If both are 
+      applied to a <code>Component</code>, then a <code>Map.ID</code> is assigned 
+      to that Component. If only <code>setHelpIDString()</code> is applied, then 
+      the <code>HelpSet</code> instance is obtained implicitly, as explained below 
+      in the next list item. A method overload is also provided for <code>MenuItem</code> 
+      objects.</p>
+    <p>These methods take a <code>Component</code> as an argument. The implementation 
+      can vary depending on whether the argument is a <code>JComponent</code> 
+      or a plain AWT <code>Component</code>.<br>
+      <br>
+    </p>
+  </li>
+  <li>A rule is used to infer the <code>Map.ID</code> for a GUI object based on 
+    the object's container hierarchy. 
+    <p>The methods <code>getHelpIDString(Component)</code> and <code>getHelpSet(Component)</code> 
+      recursively traverse up the container hierarchy of the component trying 
+      to locate a <code>Component</code> that has been assigned a <code>String</code> 
+      ID. When found, the methods return the appropriate value. As before there 
+      is also an overloaded method for MenuItem.</p>
+  </li>
+</ul>
+<h4>Enabling a Help Action</h4>
+<p>The final step is to enable an action to trigger the presentation of the help 
+  data. <code>CSH</code> currently provides several <code>ActionListener</code> classes 
+  that can be used, described above under <a href="#cshinnerclasses"><code>CSH</code> 
+  Inner Classes</a>. In addition, <code>HelpBroker</code> also provides some convenience 
+  methods that interact with these <code>ActionListener</code>s, as described above 
+  under <a href="#hb_additional">HelpBroker Context-Sensitive Methods</a>.</p>
+<p>Since these methods are from a specific <code>HelpBroker</code>, if a <code>HelpSet</code> 
+  is not associated with the GUI object, the <code>HelpSet</code> of the <code>HelpBroker</code> 
+  is used automatically.</p>
+<p><img src="../../images/hg_see.gif"><b>See also:</b> 
+<dl>
+  <dd><a href="dev.html">Programming with the JavaHelp System</a> 
+  <dd><a href="basics.html">Adding the JavaHelp System to Applications</a> 
+  <dd><a href="embed.html">Embedding JavaHelp Components</a> 
+</dl>
+<p>
+</body>
+</html>

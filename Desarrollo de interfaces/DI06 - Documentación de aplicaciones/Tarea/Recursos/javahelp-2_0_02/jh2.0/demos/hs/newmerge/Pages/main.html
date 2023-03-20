@@ -1,0 +1,75 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   
+<link rel="stylesheet" href="../jhexamples.css" type="text/css">
+   
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Using the Merge Demo</title>
+<!--
+ *         Copyright (C) 2003  Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *
+ *    Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+</head>
+<body bgcolor="#FFFFFF">
+
+<h1>
+Using the Merge Demo</h1>
+<p>This merge demo is included to demonstrate the merge capabilities of  JavaHelp.
+</p>
+<h2>
+How Merging Works</h2>
+When helpsets are merged there is allways a <i>master </i>helpset into
+which other helpsets are merged. Constituent helpsets can be dynamically
+removed from the merged helpset, even while the merged helpset is displayed.
+<p>In addition, a helpset file can use the <tt>&lt;subhelpset></tt> tag
+to statically include helpsets. This behavior has same result as if you had added the
+subhelpset to the enclosing helpset, except that if the subhelpsetfile
+does not exist, it is ignored.
+&nbsp;
+<h2>
+The Demo Program</h2>
+This demo enables you to add helpsets to the <i>master </i>helpset<i>,</i>
+remove constituent helpsets from the merged helpset, and display <i>master</i>
+and <i>slave </i>views. The View command shows <i>master </i>and <i>slave </i>navigators, enabling you to see each helpset as it existed before the merge. The views are updated each time you merge or delete  a helpset.
+<p><img src="hg_proc.gif" >Running the merge demo
+<ul>
+<li>
+When you run the merge demo without parameters, <tt> Animals.hs</tt> is used as the <i>master </i>helpset.</li>
+<li>
+To merge a helpset, choose <a href="../../../../java/jh1.1/demos/hs/merge/master/add.html">Add</a>&nbsp;
+from the helpset menu,  and then choose the helpset that you want to merge into the <i>master
+</i>helpset</li>
+<li>
+To see the helpsets as they existed before the merge, choose <a href="../../../../java/jh1.1/demos/hs/merge/master/view.html">View</a>
+to show the  <i>master </i>and <i>slave</i> views.</li>
+<li>
+To remove last  helpset merged, choose&nbsp;
+Helpset &gt; Remove.</li>
+</ul>
+<h3>Notes:
+</h3>
+<ul>
+<li>
+The View command can display the master and slave view only  if at least one helpset has been merged.</li>
+<li>
+You can define the  master helpset by setting its <tt>.hs</tt> file as the first command-line argument
+of the merge demo application startup command.</li>
+<li>
+The source file for this demo is at the following location:</li>
+<pre>&nbsp;&nbsp;&nbsp;&nbsp;demos\src\sunw\demo\merge\Merge.java</pre>
+</ul>
+</body>
+</html>

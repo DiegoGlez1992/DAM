@@ -1,0 +1,302 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+* Copyright © 2003 Sun Microsystems, Inc. All rights reserved.
+* Use is subject to license terms.
+-->
+<html>
+<head>
+<link rel="StyleSheet" href="../jhug.css" type="text/css">
+<title>Accessibility and JavaHelp Viewer Shortcut Keys</title>
+</head>
+<body>
+<h2>Accessibility and JavaHelp Viewer Shortcut Keys</h2>
+<p>The JavaHelp<sup><small>TM</small></sup> system tri-pane viewer is designed 
+  to be accessible. Most features in the help viewer are accessible from the keyboard. 
+</p>
+<p> The first time you open the help viewer, the focus should be on the default 
+  entry in the TOC navigator. Sometimes you cannot tell where the focus is because 
+  of a bug that can occur when the Back button is unselected. If you cannot tell 
+  where the focus is, use the following procedure to establish focus again:</p>
+<ol>
+  <li>Press Ctrl-F1 to display alternate text for a toolbar button. This action 
+    works only if the current focus is on a toolbar button.</li>
+  <li>If no alternate text displays, press F6 to see if the focus moves to an 
+    item in the current navigator.</li>
+  <li>If the focus does not move to the navigator, press F6 once more (because 
+    focus might have moved to the Content pane). Focus should now be in the Navigation 
+    pane. </li>
+  <li>With focus in the Navigation pane, if you want to be absolutely sure where 
+    you are, you can repeatedly press Shift-Tab followed by Ctrl-F1 until alternate 
+    text displays for a toolbar button.</li>
+</ol>
+<h3>Traversing the Viewer</h3>
+<p>If the focus is in the toolbar buttons and you press the Tab key to traverse 
+  through the viewer, the traversal order is as follows:</p>
+<ol>
+  <li>The toolbar buttons from left to right</li>
+  <li>The currently open tab in the Navigation (left)  pane</li>
+  <li>The contents of that navigator
+    <p>Behavior in the navigator varies depending on whether or not the navigator 
+      has a Search field. It will take up to four more presses of the Tab key 
+      to move to the Content pane. Pressing F6 instead will move focus directly 
+      to the Content (right) pane.</p>
+  </li>
+  <li>The topic in the Content (right) pane</li>
+</ol>
+<p>When focus is in the Content pane, pressing the Tab key has no effect. The 
+  Tab key does not wrap from the Content pane back to the toolbar. You can traverse 
+  backwards from the Content pane by pressing F6 to move to the Navigation pane, 
+  and then pressing Shift-Tab repeatedly.</p>
+<h3>Traversing and Using the Toolbar Buttons</h3>
+<p>You can move the focus between the toolbar buttons by pressing either the Left 
+  Arrow and Right Arrow keys or the Tab and Shift-Tab keys. If you want to stay 
+  in the toolbar and move from button to button, the Arrow keys are the best choice. 
+  If you want to be able to move focus out of the toolbar, use the Tab and Shift-Tab 
+  keys.</p>
+<p>When a button has focus, you can perform two actions:</p>
+<ul>
+  <li>Pressing Spacebar activates the button (for example, activating the Print 
+    button prints the currently selected topic or topics).</li>
+  <li>Pressing Ctrl-F1 displays the button's alternate text.</li>
+</ul>
+<h3>Traversing and Using the Navigators</h3>
+<p>The Navigation pane has a tabbed interface. If focus is on the last toolbar 
+  button, pressing the Tab key takes you to the currently selected Navigator tab. 
+  At that point, you can either press the Tab key to enter the navigator or press 
+  Right Arrow or Left Arrow to select a different navigator. The behavior of the 
+  focus depends on the type of navigator, as follows:</p>
+<h4>TOC, Favorites, and Glossary Navigators</h4> 
+    <ul>
+      <li>If you use an Arrow key to move to the navigator from another Navigator 
+        tab, the focus moves automatically to an entry in the navigator.</li>
+      <li>If you use a Tab key to move to the navigator (for example, from a toolbar 
+        button), the focus remains on the Navigator tab. If you press the Tab 
+        key, the focus moves to an entry in the navigator.</li>
+      <li>In the navigator list, if you want to move to the Content pane, using 
+        the F6 key produces the most predictable results. The Tab key has varying 
+        results depending on whether or not there are scrollbars. Pressing the 
+        Tab key once changes focus to the vertical scrollbar if there is one. 
+        Pressing the Tab key again changes focus to the horizontal scrollbar if 
+        there is one. Pressing Tab again changes focus to the Content (right) 
+        pane. If you want to move to the Content pane, pressing the F6 key produces 
+        the most predictable results.</li>
+      <li>In any Navigator list the following keys move focus from item to item 
+        and change the corresponding topic in the Content (right) pane: 
+        <ul>
+          <li>The Up Arrow and Down Arrow keys move the focus from item to item 
+            in the navigator. </li>
+          <li>The Page Up and Page Down keys move the focus through the navigator 
+            a page at a time.</li>
+          <li>The Home and End keys move the focus to the beginning and end of 
+            the list.</li>
+          <li>The Right Arrow key opens a folder and the Left Arrow key closes 
+            a folder.</li>
+          <li>Ctrl-Right Arrow scrolls left and Ctrl-Left Arrow scrolls right.</li>
+          <li>F8 selects the splitter bar between the Navigator pane and the Content 
+            pane. With the splitter bar selected, you can move it right and left 
+            with the Right Arrow and Left Arrow keys.</li>
+        </ul>
+      </li>
+      <li>The F6 key changes focus to the Content pane.</li>
+    </ul>
+
+ <h4>Index and Search Navigators</h4> 
+ <p>These navigators have a text field for 
+    the search entry at the top of the navigator content pane, so they behave 
+    differently from the other navigators. </p>
+    <ul>
+      <li>If you use an Arrow key to move to the navigator from another Navigator 
+        tab, the focus moves immediately to the Search field. </li>
+      <li>If you use a Tab key to move to the navigator (for example, from a toolbar 
+        button), the focus remains on the Navigator tab. If you press the Tab 
+        key again, the focus moves to the Search field. </li>
+      <li>In the Search field, if you press the Tab key, the focus moves to the 
+        navigator list.</li>
+      <li>In the navigator list, if you want to move the focus to the Content 
+        pane, using the F6 key produces the most predictable results. The Tab 
+        key has varying results depending on whether or not there are scrollbars. 
+        Pressing the Tab key once changes the focus to the vertical scrollbar 
+        if there is one. Pressing the Tab key again changes the focus to the horizontal 
+        scrollbar if there is one. Pressing Tab again changes the focus to the 
+        Content (right) pane.</li>
+      <li>In any Navigator list the following keys move the focus from item to 
+        item and change the corresponding topic in the Content (right) pane: 
+        <ul>
+          <li>The Up Arrow and Down Arrow keys move the focus from item to item 
+            in the navigator. </li>
+          <li>The Page Up and Page Down keys move the focus through the navigator 
+            a page at a time.</li>
+          <li>The Home and End keys move the focus to the beginning and end of 
+            the list.</li>
+          <li>The Right Arrow key opens a folder and the Left Arrow key closes 
+            a folder.</li>
+          <li>Ctrl-Right Arrow scrolls left and Ctrl-Left Arrow scrolls right.</li>
+          <li>F8 selects the splitter bar between the Navigator pane and the Content 
+            pane. With the splitter bar selected, you can move it right and left 
+            with the Right Arrow and Left Arrow keys.</li>
+        </ul>
+      </li>
+      <li>The F6 key changes the focus to the Content pane.</li>
+    </ul>
+ 
+<h3>Traversing and Using the Content Pane</h3>
+<p>The Content pane, on the right side of the viewer, displays the current help 
+  topic. You can get to this pane by navigating to the Navigation (left)  pane and 
+  pressing F6. When you are in the Content pane, you can use the following keys 
+  to move around and perform actions:</p>
+<ul>
+  <li>Right Arrow and Left Arrow move the focus left or right one letter at a 
+    time. You cannot see the focus change.</li>
+  <li>Ctrl-Right Arrow and Ctrl-Left Arrow move the focus left or right one word 
+    at a time. You cannot see the focus change.</li>
+  <li> Up Arrow and Down Arrow move the focus up and down one line at a time. 
+    You cannot see the focus change. </li>
+  <li> Page Up and Page Down move the the topic up and down a page at a time.</li>
+  <li>Ctrl-Home and Ctrl-End move focus to the beginning and end of the topic.</li>
+  <li>Ctrl-T selects the next link. Ctrl-Shift-T selects the previous link.</li>
+  <li>Shift-Spacebar activates the selected link and goes to the linked topic.</li>
+  <li>F8 selects the splitter bar between the Navigator pane and the Content pane. 
+    With the splitter bar selected, you can move it right and left with the Right 
+    Arrow and Left Arrow keys. </li>
+  <li> F6 changes the focus to the Navigation (left) pane.</li>
+</ul>
+<h3>Shortcut Key Table</h3>
+<p>The following table lists the keystrokes you can use to navigate through the 
+  help viewer. </p>
+<table border="1" cellpadding="5" cellspacing="0" summary="JavaHelp keyboard shortcuts">
+  <tr valign="top" align="left"> 
+    <th align="left" scope="col">Keys</th>
+    <th align="left" scope="col">Action</th>
+  </tr>
+  <tr valign="top"> 
+    <td>Tab</td>
+    <td>Shifts focus to the next component. Does not work if the current focus 
+      is the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Shift-Tab</td>
+    <td>Shifts focus to the previous component. Does not work if the current focus 
+      is the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td> Up Arrow</td>
+    <td> Selects the previous item in a Navigator list. 
+      <br>
+<br>
+Moves the focus to the previous line in a topic in the Content pane. 
+      <br><br>
+      Moves the splitter bar left. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td> Down Arrow</td>
+    <td> Selects the next item in a Navigator list.<br>
+<br> Moves the focus to the next line in a topic in the Content pane.<br>
+<br>
+Moves the splitter bar right. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td> Left Arrow </td>
+    <td> Shifts focus to the previous tab or the previous button. 
+     <br>
+<br>
+ Closes a folder in a Navigator list.
+<br>
+<br>
+Moves one character to the left in a topic in the Content pane.
+<br>
+<br>
+ Moves the splitter bar left. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td> Right Arrow</td>
+    <td> Shifts focus to the next tab or the next button. 
+   <br>
+<br>
+ Opens a folder in a Navigator list.
+<br>
+<br>
+Moves one character to the right in a topic in the Content pane.
+<br>
+<br>
+Moves the splitter bar right. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-Left Arrow</td>
+    <td>Scrolls to the left in a Navigator list or in the Content pane.
+      <br>
+<br>
+Moves one word to the left in a topic in the Content pane.
+   
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-Right Arrow</td>
+    <td>Scrolls to the right in a Navigator list or in the Content pane.
+     <br>
+<br>
+Moves one word to the right in a topic in the Content pane.
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td>Home</td>
+    <td>Selects the first item in a Navigator list.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>End</td>
+    <td>Selects the last item in a Navigator list.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-Home</td>
+    <td>Selects the first line in a topic in the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-End</td>
+    <td>Selects the last line in a topic in the Content pane</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Page Up</td>
+    <td>Scrolls up one page.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Page Down </td>
+    <td>Scrolls down one page.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-T</td>
+    <td>Shifts focus to the next link in a topic in the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-Shift-T</td>
+    <td>Shifts focus to the previous link in a topic in the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-Spacebar</td>
+    <td>Follows a link in a topic in the Content pane.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Spacebar</td>
+    <td>Activates the toolbar button that has focus.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>Ctrl-F1</td>
+    <td>Displays alternate text for a toolbar button.</td>
+  </tr>
+  <tr valign="top"> 
+    <td>F6</td>
+    <td>Shifts focus between the Navigation (left)  pane and the Content (right) 
+      pane. </td>
+  </tr>
+  <tr valign="top"> 
+    <td>F8</td>
+    <td>Selects the splitter bar if focus is in the Content pane or the Navigation 
+      pane. </td>
+  </tr>
+</table>
+
+</body>
+</html>
+

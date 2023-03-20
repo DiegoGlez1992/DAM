@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="88dec980-0f5d-4b15-877c-3f8803588adb">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Mega\\DAM2\\Desarrollo de interfaces\\DI05 - Informes\\Tarea\\DI05_Tarea4\\src\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+	c.id_cliente,
+	c.nombre,
+	c.direccion,
+	c.ciudad,
+	p.id_pedido,
+	p.fecha_pedido,
+	sum(d.precio*d.unidades) AS importe
+FROM
+	clientes c INNER JOIN pedidos p ON c.id_cliente = p.id_cliente
+	LEFT OUTER JOIN detalle_pedidos d ON p.id_pedido = d.id_pedido
+GROUP BY
+	id_pedido
+ORDER BY
+	c.nombre]]>
+	</queryString>
+	<field name="id_cliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ciudad" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_pedido" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_pedido" class="java.time.LocalDateTime">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<group name="id_cliente">
+		<groupExpression><![CDATA[$F{id_cliente}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="53" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="53" uuid="e1fa065d-bd50-4079-a360-f8800a86bbe5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="25" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[FACTURAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="193" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="36" width="555" height="75" backcolor="#CCCCCC" uuid="cc100504-09be-4ced-b209-7b7384d3e41f"/>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="0" width="139" height="28" uuid="0ce7832c-a61e-44ca-9edd-200e42184bec"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CLIENTE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="292" y="69" width="263" height="42" uuid="da1d254d-e554-4e66-8bf0-03fc7420890e"/>
+				<textElement verticalAlignment="Top">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="36" width="555" height="23" uuid="d1f930f0-40d1-45f9-ac89-7a97466b5413"/>
+				<textElement verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="69" width="292" height="42" uuid="06dc656f-aeb7-4dc0-83dd-84a7c3f9c8d2"/>
+				<textElement verticalAlignment="Top">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<subreport>
+					<reportElement x="0" y="131" width="555" height="62" uuid="7b51805e-2883-4f2e-9d22-8142667569fb"/>
+					<subreportParameter name="id_Cliente">
+						<subreportParameterExpression><![CDATA[$F{id_cliente}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "\\DI05_Tarea4\\Informe_Secundario_Facturas.jasper"]]></subreportExpression>
+				</subreport>
+			</elementGroup>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

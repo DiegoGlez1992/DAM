@@ -1,0 +1,213 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>JAR Files</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>JAR Files</h2>
+<p>
+This topic describes how JAR files are used in the
+JavaHelp system.
+<ul type="circle">
+<li><a href="#usingjar">Using JAR files</a></li>
+<li><a href="#jarcommand">The <code>jar</code> command</a></li>
+<li><a href="#creatingjar">Creating JAR files</a></li>
+<li><a href="#listingjar">Listing JAR files</a></li>
+<li><a href="#extractingjar">Extracting files from JAR files</a></li>
+<li><a href="#jarprotocol">The JAR protocol</a></li>
+</ul>
+
+
+<h3><a name="usingjar">Using JAR Files</a></h3>
+
+<p>
+After you create your help information, you will usually
+encapsulate it into a single file and compress it for
+delivery to your users.  The JavaHelp system uses the JAR
+(Java ARchive) format for encapsulation and compression.
+The JAR file format is based on the popular ZIP file
+format.  The JavaHelp system automatically extracts
+information from the JAR file when it is required.
+</p>
+<p>
+Until support is available from GUI-base help authoring
+tools, the <code>jar</code> command (located in the J2SE
+<p> bin
+folder) must be used from a command-line prompt
+to create, read, and extract data from JAR files.
+
+<h3>Sample Help Hierarchy</h3>
+<p>
+The following sections refer to this
+sample help hierarchy:
+<p>
+
+<img align="center" src="../images/jar_filesystem.gif" width="378" height="344">
+</p>
+
+
+<h3><a name="jarcommand">The <tt>jar</tt> Command</a></h3>
+<p>
+The <code>jar</code> command syntax is:
+</p>
+<font size="-1">
+<pre>    jar [ctxvfm] [jar-file] [manifest-file] files ...
+    Option flags are:
+        c  create new archive
+        t  list table of contents for archive
+        x  extract named (or all) files from archive
+        v  generate verbose output on standard error
+        f  specify JAR file name
+        m  include manifest information from specified 
+	   manifest file</pre>
+</font> For more detailed information about the <code>jar</code> command or format, 
+please refer to <code>http://java.sun.com/beans/jar.html</code>. 
+<p> <img src="../../images/hg_note.gif" width="18" height="13"> The <code>jar</code> 
+  command is located in the <code>bin</code> directory of the J2SE. <br>
+  <a name="creatingjar"></a> 
+<h3>Creating JAR Files</h3>
+<p>
+To create a JAR file from your help files, make the top
+level help folder the current folder. The <code>jar</code>
+command descends recursively through the different
+directories and copies all of the files to the JAR file.
+<p> Use the following steps to create a JAR file named <code>my_help.jar</code> from 
+  the hierarchy example above: </p>
+
+<ol>
+<li><code>C:\&gt; <b>cd ...\help</b></code> (where "..." is the path above the <code>\help</code> folder)</li>
+<li><code>C:...\help&gt; <b>jar -cvf my_help.jar *</b></code>
+</ol>
+
+The <code>jar -cvf</code> command copies all the files in the
+<code>\help</code> folder and in all folders hierarchically
+beneath it into a JAR file named <code>my_help.jar</code>.
+As the command creates the JAR file, it reports its progress
+with output like the following:
+<font size="-1">
+<pre>    adding: my_helpset.hs (in=5757) (out=2216) (deflated 61%)</pre>
+</font>
+
+This indicates that the file <code>my_helpset.hs</code> was
+added to the JAR file and compressed 61% (from 5272 bytes to 
+2150 bytes).
+<p>
+When you create a JAR file, the <code>jar</code> command
+automatically creates a manifest file for you.  The
+manifest file consists of a list of files present within
+the archive itself.
+
+
+
+<h3><a name="listingjar">Listing JAR Files</a></h3>
+<p>
+Use the <code>t</code> option to list the
+files included in a JAR file:
+
+<pre>C:\> <b>jar -tvf my_help.jar</b>
+  5272 Fri Apr 03 14:48:04 PST 1998 META-INF/MANIFEST.MF
+  5757 Fri Apr 03 12:21:04 PST 1998 my_helpset.hs
+  1345 Wed Feb 18 14:40:16 PST 1998 my_map.jhm
+  1478 Wed Feb 18 14:40:16 PST 1998 my_toc.xml
+  4678 Thu Mar 12 07:28:54 PST 1998 my_index.xml
+  2345 Thu Mar 12 07:28:32 PST 1998 JavaHelpSearch/DOCS
+  3456 Thu Mar 19 11:26:56 PST 1998 JavaHelpSearch/DOCS.TAB
+  1457 Fri Mar 13 13:30:06 PST 1998 JavaHelpSearch/OFFSETS
+  1465 Thu Mar 19 11:26:56 PST 1998 JavaHelpSearch/POSITIONS
+  1234 Thu Mar 19 11:26:56 PST 1998 JavaHelpSearch/SCHEMA
+  3214 Thu Mar 19 11:26:56 PST 1998 JavaHelpSearch/TMAP
+  3113 Thu Mar 12 07:28:36 PST 1998 topics/topic1/subtopicA/topic.html
+   230 Thu Mar 19 11:26:56 PST 1998 topics/topic1/subtopicB/topic.html
+  1661 Wed Feb 18 14:40:46 PST 1998 topics/topic2/subtopicA/topic.html
+  3181 Wed Feb 18 14:40:46 PST 1998 topics/topic2/subtopicB/topic.html
+  1667 Thu Mar 19 11:26:56 PST 1998 topics/topic3/subtopicA/topic.html
+  9072 Thu Mar 12 07:28:36 PST 1998 topics/topic3/subtopicB/topic.html
+  3673 Thu Mar 19 11:26:56 PST 1998 topics/topic3/subtopicC/topic.html
+   551 Fri Mar 13 13:30:12 PST 1998 topics/topic3/subtopicD/topic.html</pre>
+
+
+<h3><a name="extractingjar">Extracting Files from JAR Files</a></h3>
+<p>
+Use the <code>x</code> option to extract files from the JAR
+file:
+</p>
+<pre>C:\> <b>jar -xvf my_help.jar</b>
+ extracted: META-INF/MANIFEST.MF
+ extracted: my_helpset.hs
+ extracted: my_map.jhm
+ extracted: my_toc.xml
+ extracted: my_index.xml
+ extracted: JavaHelpSearch/DOCS
+ extracted: JavaHelpSearch/DOCS.TAB
+ extracted: JavaHelpSearch/OFFSETS
+ extracted: JavaHelpSearch/POSITIONS
+ extracted: JavaHelpSearch/SCHEMA
+ extracted: JavaHelpSearch/TMAP
+ extracted: topics/topic1/subtopicA/topic.html
+ extracted: topics/topic1/subtopicB/topic.html
+ extracted: topics/topic2/subtopicA/topic.html
+ extracted: topics/topic2/subtopicB/topic.html
+ extracted: topics/topic3/subtopicA/topic.html
+ extracted: topics/topic3/subtopicB/topic.html
+ extracted: topics/topic3/subtopicC/topic.html
+ extracted: topics/topic3/subtopicD/topic.html</pre>
+<p>Note that it is not necessary to extract files from the JAR file to use them 
+  with the JavaHelp system. The JavaHelp system reads files directly from the 
+  JAR file as they are required. </p>
+<h3><a name="jarprotocol">The <tt>JAR:</tt> Protocol</a> </h3>
+<p>
+The Java<sup><font size="1">TM</font></sup> 2 SDK implements a protocol for referring explicitly to files
+within JAR files. The syntax of the <code>jar:</code> protocol is:
+</p>
+<pre>    jar:&lt;url&gt;!/{entry}</pre>
+
+The <code>jar:</code> protocol can be used to refer to entries
+within JAR files, the entire JAR file, or a directory as base
+URLs (JAR directory).
+ 
+
+<p>Examples:
+  
+<p>
+An entry within a JAR file:
+<pre>jar:http://www.foo.com/bar/baz.jar!/COM/foo/Quux.class </pre>
+<p>A JAR file:
+<pre>jar:file://www.foo.com/bar/baz.jar!/</pre>
+<p>A JAR directory:
+<pre>jar:file://www.foo.com/bar/baz.jar!/COM/foo/</pre>
+<p> <img src="../../images/hg_note.gif" width="18" height="13"> &nbsp; "<code>!/</code>" 
+  is called the <i>separator</i>. </p>
+<p>
+For more information, refer to the Java<sup><font size="1">TM</font></sup> 2 SDK documentation.
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="helpset.html">The Helpset File</a>
+<dd><a href="map.html">Map File</a>
+<dd><a href="toc.html">Table of Contents File</a>
+<dd><a href="index.html">Index File</a>
+<dd><a href="search.html">Creating the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+
+<p>
+</body>
+</html>

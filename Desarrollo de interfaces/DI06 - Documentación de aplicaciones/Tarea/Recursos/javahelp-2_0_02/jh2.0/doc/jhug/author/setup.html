@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Setting Up a JavaHelp System</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Setting Up Your JavaHelp Project</h2>
+<p> There are two primary things to consider when you set up your help projects: 
+<ul type="circle">
+<li>How best to organize help information files to
+organize them logically and conveniently for
+<i>authoring</i></li>
+<li>How to organize help information to best
+<i>package</i> it for delivery to your users.</li> 
+</ul>
+<p></p>
+<h3>Authoring</h3>
+<p> The JavaHelp system is <i>file-</i><i>based </i>- topics are contained in 
+  files that are displayed in the help viewer one file at a time. It is a good 
+  idea to group related topics together to keep them organized and to make it 
+  as easy as possible to link the topics together. <br>
+  <br>
+</p>
+<table border=0 cellpadding=0>
+  <tr valign="top"> 
+    <td width=2%><img src="../images/hg_note.gif" width="18" height="13" align="bottom">&nbsp;</td>
+    <td width=98%> The JavaHelp system uses URLs. A URL can resolve to the contents 
+      of a file in a file system, a file on the web, or a portion of a JAR file, 
+      or it can even be generated dynamically by a server. </td>
+  </tr>
+</table>
+<p> You might also consider organizing topics to make it easy to package them 
+  into a compressed <a
+href="jar.html">JAR file</a> for delivery to your users. </p>
+<p> For both these reasons, it is usually best to organize your topics in a folder 
+  hierarchy that you can "tear off" and place in the JAR file. </p>
+<p>
+The following diagram shows such a hierarchy:
+</p>
+<p align="center">
+  <img src="../images/topic_filesystem.gif" width="374" height="252">
+</p>
+
+<h4>Links</h4>
+<p> The destination of a link to another topic in the helpst should be specified 
+  <i>relative</i> to the file that contains the link. The following is an example 
+  of such a relative link: 
+<pre>   &lt;A HREF="../subtopicB/topic.html"&gt;new topic&lt;/A&gt;</pre>
+Do not specify links to other topics by using an absolute link. For example, the 
+following link uses a full path name to the destination of the link: 
+<pre>   &lt;A HREF="C:/product/help/subtopicB/topic.html"&gt;new topic&lt;/A&gt;</pre>
+<p> Only relative links remain valid when the topic hierarchy is packaged into 
+  a JAR file and then installed on the user's computer.
+<h4><a name="separators">File Separators ("/" vs. "\")</a> </h4>
+<p> All files in a JavaHelp system are specified as URLs, which use the forward 
+  slash ("/") as the separator between elements (files) in a hierarchy. Although 
+  in some cases a backslash ("\") works on Windows platforms, if files that contain 
+  such references are installed on a different platform, the references no longer 
+  work. 
+<h3>Packaging</h3>
+<p>
+In addition to the topic files, the help information
+includes <i>metadata</i> files that contain information
+about the help system.  Where you locate these metadata
+files can affect how you package, deliver, and update the
+help information for your users.
+</p><p>
+In JavaHelp systems there are two kinds of metadata:
+<ul type="circle">
+<li><a href="#nav_data">Navigational data</a></li>
+<li><a href="#hs_data">Helpset data</a></li>
+</ul>
+
+
+<h4><a name="nav_data">Navigational Data</a></h4>
+<p>
+Navigational data files contain information that is used
+by the JavaHelp system navigators.  The standard JavaHelp
+system navigators are:
+<ul type="circle">
+  <li><a href="toc.html">Table of contents</a></li>
+  <li><a href="index.html">Index</a></li>
+  <li><a href="search.html">Full-text search</a></li>
+  <li><a href="glossary.html">Glossary</a></li>
+</ul>
+<p></p>
+<p> Each of these navigators has a metadata file associated with it that contains 
+  navigational data. These metadata files should be located in close proximity 
+  to the topic files to make it easier to package them into <a href="jar.html">JAR 
+  files</a> with the topic files for delivery to customers. The following diagram 
+  displays an example. </p>
+<p align="center">
+<img src="../images/meta_filesystem.gif"  width="373" height="330">
+</p>
+
+
+<h4><a name="hs_data">Helpset Data</a></h4>
+<p>
+Helpset data is information that the JavaHelp system needs to
+run your help system.  It is contained in two files:
+<ul type="circle">
+<li><a href="helpset.html">Helpset file</a></li>
+<li><a href="map.html">Map file</a></li>
+</ul>
+<p>
+When the JavaHelp system is activated by your application,
+the first thing it does is read the <a
+href="helpset.html">helpset file</a>.  The helpset file
+contains all the information needed to
+run the help system. As you can imagine, your application
+must be able to find the helpset file after the product is
+installed on your user's system.
+</p><p>
+The helpset file contains the location of the <a
+href="map.html">map file</a> and in most cases, the map
+file is read when the <a href="helpset.html">helpset</a> is
+initialized.  The map file is used to associate topic IDs
+with URLs (paths to HTML topic files).
+</p>
+<p>
+The following diagram shows how a help hierarchy might be
+set up to include the helpset file and map file.
+</p>
+<p align="center"> <img src="../images/full_filesystem.gif" width="370" height="344"></p>
+
+<h3><a name="jar">Packaging a Helpset into a JAR File</a></h3>
+<p> You can package your help information into JAR files for delivery to your 
+  users. Usually, you package the helpset file and map file in the JAR file along 
+  with the topic files and navigational files. 
+<p> On the Java<sup><font size="1">TM</font></sup> 2 Platform, the <code>jar:</code> 
+  protocol makes various packaging options available. Including the helpset and 
+  map files in or or excluding them from the JAR file has an effect on how you 
+  deliver the help information and how you can later update it. The following 
+  two sections describe some of the issues to consider when making that decision. 
+<p>
+<h4>Helpset File</h4>
+<p>
+Under some installation conditions, the helpset file could be
+excluded from the JAR file, while the map file is included.
+The following diagram illustrates this arrangement:
+</p> 
+<p align="center">
+<img src="../../images/map1.gif" width="448" height="438">
+</p>
+<p> Note that the map file is referenced with the <a
+href="jar.html#jarprotocol"><code>jar:</code> protocol</a>. </p>
+<p> The helpset file is the only help system file referenced explicitly by the 
+  application. The JavaHelp system derives all information about the help system 
+  from that file. If the helpset file is outside the JAR file, the installation 
+  program can update the helpset file so the JAR files can be installed anywhere 
+  in the user's file system. This is not possible if the helpset file is included 
+  in the JAR file. </p>
+<p>
+Another advantage of locating the helpset file outside 
+the JAR file is that it can be updated independently of the
+rest of the helpset.  For example, additional help information
+can be added to the user's help system by adding more JAR files
+and updating the helpset file.
+</p>
+
+<h4><a name="map_jar">Map File</a></h4>
+<p> Excluding the map file from the JAR file is possible, but is usually not useful. 
+</p>
+<center>
+<img src="../../images/map3.gif" width="499" height="465">
+</center>
+<p>
+If the map file is located outside of the JAR file, all URLs
+in the map must use the <code>jar:</code> protocol.  For
+example:
+</p>
+<pre>jar:file:/c:/product/help/Ajar.jar!/File1.html</pre>
+<hr>
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl> 
+  <dd><a href="helpset.html">The Helpset File</a> 
+  <dd><a href="map.html">Map File</a> 
+  <dd><a href="jar.html">JAR Files</a> 
+  <dd><a href="toc.html">Table of Contents File</a> 
+  <dd><a href="index.html">Index File</a> 
+  <dd><a href="glossary.html">Glossary File</a>
+  <dd><a href="search.html">Creating the Full-Text Search Database</a> 
+</dl>
+<p>
+</body>
+</html>

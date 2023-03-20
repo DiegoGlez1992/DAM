@@ -1,0 +1,4 @@
+ERROR:
+Exception in thread "main" java.lang.NoClassDefFoundError: org/springframework/beans/factory/support/BeanDefinitionRegistry
+Solución:
+Añadir Spring Framework 5.2.9

@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Full-Text Search</title>
+<link rel="stylesheet" type="text/css" href="../wizard.css" title="Style">
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Full-Text Search</h2>
+<p>
+The JavaHelp system full-text search engine uses a natural
+language search technology that not only retrieves
+documents, but locates specific passages within those
+documents where answers to queries are likely to be
+found. The technology involves a conceptual indexing engine
+that analyzes documents to produce an index of their
+content and a query engine that uses this index to find
+relevant passages in the material.
+<p>
+As the help author, you create the search database 
+that is searched by the JavaHelp system full-text search
+engine.  The process of creating the search database
+is described in <a href="searchdb.html">Creating the Full-Text
+Search Database</a>.
+
+<h3>How Searching Works</h3>
+<p>
+To initiate a search the user enters a natural language
+query in the search navigator Find text box. The results
+are reported back to the user in the following display:
+
+<p align="center">
+<img  src="../images/search.gif" width="188" height="304">
+</p>
+
+<ul type="circle">
+  <li>The circle in the first column indicates the <a
+href=search.html#ranking>ranking</a> of the matches for that topic. The more filled-in 
+    the circle is, the higher the ranking. There are five possible rankings (from 
+    highest to lowest): <img src="../images/ranks.gif"
+align="MIDDLE" width="90" height="24"> 
+  <li>The number in the second column indicates the number of times the query 
+    was matched in the listed topic. 
+  <li>The text specifies the name of the topic (as specified in the topic's <code>&lt;TITLE&gt;</code> 
+    tag) in which matches are found. <br>
+ <br>
+    <table width="95%">
+      <tr valign="top"> 
+        <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+        <td width="98%">To avoid confusion, ensure that the <code>&lt;TITLE&gt;</code> 
+          tag corresponds to the title used in the table of contents. 
+      </table>
+    <p>&nbsp;
+  </ul>
+
+
+<h4><a name="ranking">Relaxation Ranking</a></h4>
+<p>
+The search engine uses a technique called <i>relaxation
+ranking</i> to identify and score specific passages of
+text that are likely to answer the user's query. 
+The relaxation ranking algorithm compares the user's
+query terms with occurrences of the same or related terms
+in the help topics. The search engine attempts to find
+passages in the help topics in which as many as possible of
+the query terms occur in the same form and the same order.
+The search engine automatically relaxes these constraints
+to identify passages in which:
+<ul type="circle">
+<li>Not all of the terms occur
+<li>The terms occur in different forms
+<li>The terms occur in a different order
+<li>The terms occur with intervening words
+</ul>
+<p>The search engine assigns appropriate penalties (that lower the ranking) to 
+  the passages for these deviations from the specified query. </p>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td width="98%">The ranking process improves as queries become more complex 
+      and include more information.
+  
+</table>
+<h4>Morphing</h4>
+<p>
+The JavaHelp search engine uses "morphing" technology to
+find words with common roots.  For example, when the term
+"build" is included in a search string, matches that
+contain "built", "builder", "building", and "builds" are
+returned.
+<p><img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b> 
+<dl>
+<dd><a href="searchdb.html">Creating the Full-Text Search Database</a>
+<dd><a href="jhindexer.html">The <code>jhindexer</code> Command</a>
+<dd><a href="jhsearch.html">The <code>jhsearch</code> Command</a>
+<dd><a href="../locale/loc_search.html">Localizing the Full-Text Search Database</a>
+</dl>
+<p>
+</body>
+</html>

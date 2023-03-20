@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Viewing HelpSets</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Viewing Helpsets</h2> 
+<p>A <a href="helpset.html">helpset</a> viewer is provided with the release to 
+  enable you to view your helpsets. If the path to the <code>java</code> executable 
+  file is in your PATH variable, you can enter the following command in your operating 
+  system's command-line shell to run the helpset viewer (where <i>JavaHelp_home</i> 
+  is the JavaHelp system installation directory): </p>
+<pre>java -jar <i>JavaHelp_home</i>/demos/bin/hsviewer.jar</pre>
+<table width=100% border=0 cellpadding=5>
+  <tr valign="top">
+    <td nowrap width="30"><img src="../../images/hg_note.gif" width="18" height="13"></td>
+    <td> On a Windows system, you can configure a shortcut to run the viewer. 
+      For example, if your J2SE installation is in <code>C:\j2sdk1.4.1</code> 
+      and your JavaHelp system installation is in <code>C:\JavaHelp</code>, you 
+      can configure the shortcut as follows:</td>
+</tr>
+
+<tr valign="top">
+    <td nowrap width="30">&nbsp;</td>
+<td>
+<ol>
+<li>If necessary, create a shortcut on your desktop.
+<ol>
+            <li type="a">Open the file Explorer and navigate to a folder containing 
+              an executable file (for example, <code>c:\j2sdk1.4.1\bin\java.exe</code>).&nbsp;</li>
+<li type="a">Right-click the file and choose Create Shortcut.</li>
+            <li type="a">Drag the newly created shortcut to your desktop.</li>
+</ol>
+</li>
+<li>Right-click the  shortcut and choose Properties.</li>
+<li>In the Shortcut dialog, type the following command in the Target field:
+          <p><code>c:\j2sdk1.4.1\bin\java -jar c://JavaHelp//demos//bin//hsviewer.jar</code></p>
+</li>
+<li>Save the shortcut.</li>
+<li>You can  then double-click the shortcut to open the viewer in the Java virtual machine.</li>
+</ol>
+</td>
+</tr>
+</table>
+<p>All helpsets are displayed in the JavaHelp system help viewer&#151;the same 
+  viewer used to provide help in applications.</p>
+<table width=100% border=0 cellpadding=5>
+  <tr valign="top"> 
+    <td width="30"><img src="../../images/hg_note.gif" alt="note"></td>
+    <td width="15"><img src="../images/blue-ball-small.gif" align="absmiddle" alt="blue ball image">&nbsp;</td>
+    <td> If you want the viewer to find the default helpset, add its path to the 
+      <code>CLASSPATH</code> system variable.</td>
+  </tr>
+  <tr valign="top"> 
+    <td width="30">&nbsp;</td>
+    <td width="15"><img src="../images/blue-ball-small.gif" align="absmiddle" alt="blue ball image">&nbsp;</td>
+    <td> For the purpose of running the examples, the JRE you use to run <code>hsviewer</code> 
+      does not have to be the same version as the JRE on which your application 
+      is deployed. For example, you can use J2SE 1.4.1 to run the demo programs 
+      (including <code>hsviewer</code>) even if your application is deployed on J2SE 
+      1.3.1. </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="30">&nbsp;</td>
+    <td width="15"><img src="../images/blue-ball-small.gif" align="absmiddle" alt="blue ball image">&nbsp; 
+    </td>
+    <td> For a list of limitations, bugs, and "idiosyncrasies" that pertain to 
+      the JavaHelp system HTML viewer, see <a
+href="../release/limitations.html#htmlviewer">Limitations and Bugs</a>. </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="30">&nbsp;</td>
+    <td width="15"><img src="../images/blue-ball-small.gif" align="absmiddle" alt="blue ball image">&nbsp;</td>
+    <td> The viewer toolbar does not include a reload button. The easiest way 
+      to reload a file after you change it is to click the viewer's "previous" 
+      and "next" buttons. </td>
+  </tr>
+</table>
+
+<h3>Displaying a Helpset with <code>hsviewer.jar</code></h3> 
+<p>
+To display a specific helpset, start the helpset viewer <code>hsviewer.jar</code> as described above. 
+When the viewer opens, either click the Browse button to navigate to a helpset or, in the URL field, type the full path to the  helpset file.    When
+the helpset has loaded, click Display to view the helpset in the  viewer.
+<p> Alternatively, you can specify the helpset by using a command-line switch 
+  with <code>hsviewer.jar</code>. You can do this on the command line itself, 
+  in a batch file, in a script file, in a JAR file, or in a shortcut. The command-line 
+  syntax of the <code>hsviewer.jar</code> command-line interface is:<br>
+<br>
+<code>
+&nbsp;&nbsp;&nbsp;java -jar hsviewer.jar [-helpset <i>hs_name</i>]
+</code>
+<br><br>
+
+
+<table width=98% border=0 cellpadding=5>
+  <tr valign="top">
+    <td nowrap width="5%"><code>-helpset</code> </td>
+<td>
+Specifies the helpset name:
+
+<!-- Begin Nested Table -->
+      <table width=100% border=0 cellpadding=5>
+        <tr valign="top">
+          <td nowrap width="5%"><i>hs_name</i> </td>
+          <td> The full path to a helpset file. For example (on a Windows system):<br>
+            <pre>C:\> java -jar c:\JavaHelp\demos\bin\hsviewer.jar<br>     -helpset c:\JavaHelp\demos\hs\newmerge\MergeHelp.hs</pre>
+</td>
+</tr>
+
+</table>
+<!-- End Nested Table -->
+</td>
+</tr>
+
+</table>
+
+<h3>Displaying a Helpset in Windows by Clicking the <code>.hs</code> File</h3>
+<p>In Windows, you can open a file in a program by double-clicking the file in 
+  the Explorer. For example, if you double-click an HTML file, it opens in your 
+  default web browser. This technique works because Windows can associate a file 
+  extension (like <code>.html</code>) with a program that displays the file. You can 
+  use this technique to open a helpset file in the helpset viewer (<code>hsviewer.jar</code>). 
+  Here is how to do it.</p>
+<ol>
+  <li>Create a batch file that runs <code>hsviewer.jar</code> and accepts a command-line 
+    parameter. 
+    <p>For example, if the JavaHelp system is installed in <code>c:\JavaHelp</code> 
+      and <code>java.exe</code> is in your PATH, you would put the following line 
+      in the file:</p>
+    <pre>java -jar c://JavaHelp//demos//bin//hsviewer.jar -helpset %1</pre>
+  </li>
+  <li>Save the file as <code>hsviewer.bat</code>.<br>
+    <br>
+  </li>
+  <li>Open Windows Explorer, navigate to a directory containing a helpset (<code>.hs</code>) 
+    file, and double-click the file. 
+    <p>Windows displays the Open With dialog, which enables you to associate the 
+      helpset file with a program that opens the file.<br>
+      <br>
+    </p>
+  </li>
+  <li>Click the Other button, navigate to the directory where you saved the <code>hsviewer.bat</code> 
+    file, and choose that file as the one that will open <code>.hs</code> files.<br>
+    <br>
+  </li>
+  <li>Click OK in the Open With dialog.<br>
+    <br>
+  </li>
+  <li>The helpset opens in the helpset viewer. 
+    <p>In the future, when you double-click a helpset file in the Explorer, it 
+      will open in the helpset viewer.</p>
+  </li>
+</ol>
+<h3>Displaying a Helpset by Using an Executable JAR File</h3>
+<p>You can display a specific helpset
+in a standalone environment by using the <code>sunw.demo.jhdemo.Runner</code> class available in <code>hsviewer.jar</code>, specifying that class and some other information in a manifest file, and creating an executable JAR file from the manifest file.
+<p><b>To create a JAR file that can display a single helpset:</b></p>
+<ol>
+  <li>Create a manifest file for the helpset. 
+    <p> For example, shown below is the manifest file that displays the <i>JavaHelp 
+      System User's Guide</i>. (See the <code>UserGuide.jar</code> file in the 
+      <i>JavaHelp-Home</i><code>/demos/bin</code> directory.)</p>
+    <p> <code> &nbsp;&nbsp;Main-Class: sunw.demo.jhdemo.Runner <br>
+      &nbsp;&nbsp;Run-Class: sunw.demo.jhdemo.JHLauncher <br>
+      &nbsp;&nbsp;Class-Path: ../../javahelp/lib/jh.jar hsviewer.jar ../../doc/jhug/ 
+      <br>
+      &nbsp;&nbsp;Arguments: -helpset jhug.hs </code> 
+    <p>The syntax of the manifest file is as follows: </p>
+    <p> <code>&nbsp;&nbsp;Main-Class: sunw.demo.jhdemo.Runner<br>
+      &nbsp;&nbsp;Run-Class: sunw.demo.jhdemo.JHLauncher<br>
+      &nbsp;&nbsp;Class-Path: </code><i>jar-file</i> | <i>directory</i><code><br>
+      &nbsp;&nbsp;Arguments: -javahelp</code>&nbsp;<i>helpset-filename</i> <br>
+      <br>
+    <table border=0 cellpadding=5>
+      <tr valign="top"> 
+        <td nowrap><code>Main-Class:</code> </td>
+        <td> The main class to execute when running this JAR file. This class 
+          is a standard argument for executable JAR files, and in this case it 
+          must always be <code>sunw.demo.jhdemo.Runner</code>. For example: <br>
+          <br>
+          <code> &nbsp;&nbsp;&nbsp;Main-Class: sunw.demo.jhdemo.Runner </code> </td>
+      </tr>
+      <tr valign="top"> 
+        <td nowrap><code>Run-Class:</code> </td>
+        <td> The class that the <code>sunw.demo.jhdemo.Runner</code> executes. This 
+          class is usually <code>sunw.demo.jhdemo.JHLauncher</code>, but it could 
+          be another class that launches a JavaHelp viewer. The following code 
+          is the typical <code>Run-Class</code> entry: <br>
+          <br>
+          <font size="-1"> <code>&nbsp;&nbsp;&nbsp;Run-Class: sunw.demo.jhdemo.JHLauncher</code> 
+          </font> </td>
+      </tr>
+      <tr valign="top"> 
+        <td nowrap><a name="classpath"><code>Class-Path:</code></a></td>
+        <td> Files to use with the <code>Run-Class</code>. Specify them as a series 
+          of space-separated JAR files or directories to be added to existing 
+          <code>CLASSPATH</code> environment variable. <br>
+          <p>Note: The files must be relative to the location of the executable 
+            JAR file. For example, if the JAR file is in the <code>demos/bin</code> 
+            directory of the JavaHelp installation directory, this entry would 
+            be::<br>
+            <br>
+            <code> &nbsp;&nbsp;Class-Path: ../../javahelp/lib/jh.jar hsviewer.jar 
+            ../../doc/jhug/ </code> </p>
+        </td>
+      </tr>
+      <tr valign="top"> 
+        <td nowrap><code>Arguments:</code> </td>
+        <td> Arguments to be passed to the <code>Run-Class</code> when <code>Run-Class</code> 
+          is executed. These arguments are specific to the <code>Run-Class</code>. 
+          For example: <br>
+          <br>
+          <font size="-1"> <code> -helpset jhug.hs</code> </font> </td>
+      </tr>
+    </table>
+    <br>
+  </li>
+  <li> 
+    <p> Create an executable JAR file by using the <code>jar</code> command. The JAR 
+      file contains only one file, the manifest file. Other files are specified 
+      in the <code>Class-Path </code>argument and must be relative to the JAR file. 
+      The command to create the manifest file is:</p>
+    <p> <code>&nbsp;&nbsp;&nbsp;jar cmf <i>manifest_file</i> <i>jar_file</i></code></p>
+    <p> For example: </p>
+    <p> &nbsp;&nbsp;<code>&nbsp;jar cmf manifest.mf UsersGuide.jar <br>
+      <br>
+      </code></p>
+  </li>
+  <li>Run the JAR file by opening it in <code>java.exe</code> or executing it from 
+    the Windows Explorer (if you have set up <code>java.exe</code> as the application 
+    that executes JAR files). For example: 
+    <ul type="circle">
+      <li>In the command shell, change to the <i>JavaHelp-home</i><code>/demos/bin</code> 
+        directory and enter the following command: 
+        <p><code>java -jar UserGuide.jar</code></p>
+      </li>
+      <li>In Windows Explorer, navigate to the directory containing the JAR file 
+        and double-click it to display the help file. 
+        <p>Note: If double-clicking the file opens it in WinZip or some other 
+          zip utility, right-click the file, choose Open, and then navigate to 
+          the <code>java.exe</code> program in your J2SE installation's bin directory.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+</body>
+</html>

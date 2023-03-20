@@ -1,0 +1,332 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2004 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Opening Popup and Secondary Windows From an HTML Topic</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Opening Popup and Secondary Windows From an HTML Topic</h2>
+<p> In an HTML topic, you can link to any help topic in your help system and display 
+  it in a number of different windows. 
+<ul type="circle">
+  <li>You can link to the help topic by using the standard <code>&lt;a href=</code><i>URL</i><code>&gt;</code> 
+    syntax. The help topic opens in the current help viewer as another topic. 
+  <li>You can use the <code>&lt;object&gt;</code> tag to open a popup window. </li>
+  <li>You can use the <code>&lt;object&gt;</code> tag to open a secondary window. 
+</ul>
+<p>Secondary windows and popups are implemented by a the lightweight component 
+  class <code>JHSecondaryViewer</code>. You use this class in an HTML topic by 
+  defining an &lt;<code>object</code>&gt; tag with the appropriate parameters. 
+  This topic describes how these windows look and how to use this tag to display 
+  popup and secondary windows. </p>
+<p> 
+<table >
+  <tr valign="top"> 
+    <td nowrap width="3%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td > Popups and secondary windows are not used in 
+      this <i>JavaHelp System User's Guide</i> because they cannot be included 
+      in the PDF version. To see actual examples of how these windows can be used, 
+      experiment with the <code>object</code> demo located in the following directory: 
+      <p><code>&nbsp;&nbsp;demos\bin</code> 
+      <p>You can also launch the object demo program by using shortcuts (program 
+        groups, desktop icons, links) that you might have created during the installation 
+        of the JavaHelp system.</p>
+</table>
+<h3><a name="diff">Differences Between Popups and Secondary Windows</a></h3>
+<p> Popups and secondary windows are functionally similar. They are both fully 
+  capable HTML windows that can include graphics, links, and lightweight components. 
+  Most of the features described in this topic apply to both types of windows. 
+  The following lists describe their differences: 
+<p> <b>Popups</b>: 
+<ul type="circle">
+  <li>Are always displayed directly adjacent to the object the user clicks to 
+    activate the popup. 
+  <li>Cannot be resized or moved by the user. 
+  <li>Are dismissed whenever focus is changed to another part of the help viewer.
+  <li>Have only a content viewer.<br>
+    <br>
+    <p> <img src="../images/popwin-small.gif" > </p>
+</ul>
+<p> <b>Secondary windows</b>: 
+<ul type="circle">
+  <li>Can be displayed anywhere on the screen. 
+  <li>Can be iconified, resized, and moved by the user. 
+  <li>Persist until they are dismissed or the help viewer is dismissed.
+  <li>Can contain a navigation pane and a toolbar, but by default have a content 
+    viewer only.<br>
+    <br>
+    <p align="left"><img src="../images/secwin-small.gif" > </p>
+</ul>
+<h3>Working with Popups and Secondary Windows</h3>
+<p> You define the characteristics of a popup or secondary window 
+  by using a set of parameters with the <code>&lt;object&gt;</code> 
+  tag. For example, the following <code>&lt;object&gt;</code> 
+  tag definition creates a secondary window that uses the presention 
+  named &quot;secondary window&quot; defined in the <a href="helpset.html#helpsetexample">helpset 
+  file</a>. The secondary window is activated by clicking the 
+  text object "Click here".
+<pre>&lt;object classid="java:com.sun.java.help.impl.JHSecondaryViewer"&gt;
+     &lt;param name="content" value="../topicB/task_topic.html"&gt;
+     &lt;param name="viewerActivator" value="javax.help.LinkLabel"&gt;
+     &lt;param name="viewerStyle" value="javax.help.SecondaryWindow"&gt;
+     &lt;param name="viewerSize" value="300,400"&gt;
+     &lt;param name=&quot;viewerName&quot; value=&quot;secondary window&quot;&gt;
+     &lt;param name="text" value="Click here"&gt;
+     &lt;param name="textFontFamily" value="SansSerif"&gt;
+     &lt;param name="textFontSize" value="x-large"&gt;
+     &lt;param name="textFontWeight" value="plain"&gt;
+     &lt;param name="textFontStyle" value="italic"&gt;
+     &lt;param name="textColor" value="red"&gt;
+&lt;/object&gt;</pre>
+<p>This popup object has the following characteristics: 
+<ul type="circle">
+  <li>The content of the window is the file at the location <code>../topicB/glossary_def.html</code>.</li>
+  <li>The object that the user clicks (<code>viewerActivator</code>) is a link.</li>
+  <li>The type of window (<code>viewerStyle</code>) is a popup.</li>
+  <li>The size of the window (<code>viewerSize</code>) is 300 pixels wide by 400 
+    pixels high.</li>
+  <li>The text that the user sees in the link is "Click here".</li>
+  <li>The remaining <code>param </code>values define the font, font size, weight, 
+    style, and color of the text that the user sees.</li>
+
+</ul>
+<p>The &lt;<code>param</code>&gt; element specifies parameters to the JHSecondaryViewer 
+  component. The &lt;<code>param</code>&gt; element takes two attributes: <code>name</code>, 
+  and <code>value</code>. Parameters can be specified in any order. If parameters 
+  conflict, the one specified last is used. Valid parameter names are: </p>
+<ul type="circle">
+  <li><code>viewerStyle</code> 
+  <li><code>content</code>
+  <li><code>viewerActivator</code> 
+  <li><code>viewerSize</code> 
+  <li><code>viewerLocation</code> 
+  <li><code>viewerName</code> 
+  <li><code>iconByName</code> 
+  <li><code>iconByID</code> 
+  <li><code>text</code> 
+  <li><code>textFontFamily</code> 
+  <li><code>textFontSize</code> 
+  <li><code>textFontWeight</code> 
+  <li><code>textFontStyle</code> 
+  <li><code>textColor</code> 
+</ul>
+<h3></h3>
+<p>The following sections describe each element of the object tag definition and 
+  provide examples of a parameter that performs a particular function.</p>
+<h3>Window Type (<tt>viewerStyle</tt>)</h3>
+<p> The type of window, popup or secondary, is defined by the following parameter: 
+<pre>    &lt;param name="viewerStyle" 
+           value="javax.help.Popup"|"<code>javax.help.SecondaryWindow</code>"&gt;</pre>
+ 
+<p>If you omit this parameter, the window defaults to a secondary window. 
+<p>For example, the following parameter specifies a popup: 
+<pre>    &lt;param name="viewerStyle" value="javax.help.Popup"&gt;</pre>
+ 
+<h3>Content or ID</h3>
+<p> The content of the object is defined by one of the following parameters: 
+<pre>    &lt;param name="content" value="<i>URL</i> &gt;<br>    &lt;param name="id" value="<i>MapID</i> &gt;</pre>
+<p>
+<p>The content of popups and secondary windows is rendered by the same HTML engine 
+  used in the main help viewer. Anything that is rendered in the main help viewer 
+  can be used in a popup or secondary window, including links, graphics, and lightweight 
+  components (for example, popup/secondary windows). You can specify the topics 
+  displayed in a window by using a URL or a JavaHelp system map ID. 
+<table >
+  <tr valign="top"> 
+    <td nowrap ><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    <td > If you use a link in a popup or secondary window, whatever 
+      you link to will also be displayed in that same window. Therefore, links 
+      are not often used in these kinds of windows because it is preferable to 
+      keep users in the main viewer where they have access to the TOC, index, 
+      and other navigational tools. 
+</table>
+<p> 
+<h3><a name="activate">Activation</a> (<tt>viewerActivator</tt>)</h3>
+<p>You indicate the object that the user clicks to activate the window with the 
+  following parameter: 
+<pre>    &lt;param name="viewerActivator" 
+           value=&quot;<code>javax.help.LinkButton</code>&quot;|"javax.help.LinkLabel&quot;&gt;</pre>
+<p>Users activate popup/secondary windows by clicking one of the following objects: 
+<h4> Button (<img src="../images/sec_win_button.gif">)
+</h4>
+<p> This object is a standard button provided as part of the popup or secondary 
+  window component. You can use the button as pictured to the left or you can 
+  specify a string of text or an image to replace the ">" character on the button. 
+</p>
+<p>The following sample code defines a button with the text &quot;ClickMe&quot;: 
+</p>
+<pre>    &lt;param name="viewerActivator" value=&quot;<code>javax.help.LinkButton</code>&quot;&gt;
+    &lt;param name="text" value="ClickMe"&gt;</pre>
+<p>Here's what this button looks like: <img src="../images/clickmebtn.gif" width="51" height="22" align="absbottom"></p>
+<p>The following sample code defines a button that has a GIF image on it: </p>
+<pre>    &lt;param name="viewerActivator" value=&quot;<code>javax.help.LinkButton</code>&quot;&gt;
+    &lt;param name="text" value="../images/popup_icon.gif"&gt;</pre>
+<p>Here's what this button looks like: <img src="../images/popupbtn.gif" width="30" height="30" align="absbottom"></p>
+<h4>Text object </h4>
+<p> This object is a specified string of text inserted inline with the text of 
+  the topic. You can control font characteristics of the text to make it stand 
+  out. </p>
+<p>For example, following parameters define the text object "Click here" to be 
+  SanSerif, medium in size, bold, italic, and blue: </p>
+<pre>     &lt;param name="viewerActivator" value=&quot;javax.help.LinkLabel&quot;&gt;
+     &lt;param name="text" value="Click here"&gt;
+     &lt;param name="textFontFamily" value="SansSerif"&gt;
+     &lt;param name="textFontSize" value="medium"&gt;
+     &lt;param name="textFontWeight" value="bold"&gt;
+     &lt;param name="textFontStyle" value="italic"&gt;
+     &lt;param name="textColor" value="blue"&gt;</pre>
+ 
+<p>Here's what this text looks like: <font face="Arial, Helvetica, sans-serif" size="3" color="#0000FF"><i><b>Click 
+  here</b></i></font></p>
+<p></p>
+<h4>Graphic object </h4>
+<p> This object is a GIF or JPG image.</p>
+<p>The following sample code defines a GIF image from the file <code>rel_topic_button.gif</code>: 
+</p>
+<pre>    &lt;param name="viewerActivator" value=&quot;<code>javax.help.LinkLabel</code>&quot;&gt;
+    &lt;param name=&quot;iconByName&quot; 
+           value=&quot;../images/rel_topic_button.gif&quot;&gt;</pre>
+ 
+<p>Here's what this button looks like: <img src="../images/rel_topic_button.gif" width="12" height="12" align="baseline"></p>
+<p>&nbsp; </p>
+<h3>Window Size (<tt>viewerSize</tt>&gt;, Location (<tt>viewerLocation</tt>) , 
+  and Name (<tt>viewerName</tt>)</h3>
+<p> You can specify the height and width of a popup or secondary window. When 
+  content exceeds the size of the window, scroll bars are automatically added 
+  to the window. For example, to specify a width of 300 pixels and a height of 
+  400 pixels, use the following parameter: 
+<pre>    &lt;param name="viewerSize" value="300,400"&gt;</pre>
+ 
+<p>For secondary windows, you can also specify the window's position and name. 
+<p><b>Window Location</b> 
+<p> You can specify the position of secondary windows on the screen. The parameter 
+  specifies the x,y position (in pixels) of the upper left corner of the secondary 
+  window on the screen, with 0,0 being the upper left corner of the screen. Popups 
+  ignore this parameter. For example, the following parameter specifies a window 
+  whose top left corner is 300 pixels from the left side of the screen and 400 
+  pixels from the top: 
+<pre>    &lt;param name="viewerLocation" value="300,400"&gt;</pre>
+<p> <b>Named Windows</b> (secondary windows only) 
+<p> You can name secondary windows. Doing so enables you to reuse an already active 
+  window. Popups ignore this parameter. 
+<p>For example, the following parameter defines a window with the name glossary_window: 
+<pre>    &lt;param name="viewerName" value="glossary_window"&gt;</pre>
+<h3>Text</h3> 
+<p> When you add text to a button or use a text object as an activator, you can 
+  control the following font characteristics: 
+<table width=99% border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td  nowrap> <p><b>Font family</b></p>
+       <p>
+      Parameter name:<br>
+      <code> textFontFamily</code></td>
+    <td > <p>You can set the font family to: </p>
+ 
+        <dd>Serif 
+        <dd>SansSerif 
+        <dd>Monospaced 
+        <dd>Dialog 
+        <dd>DialogInput 
+        <dd>Symbol 
+      </dd>
+       
+      <p>For example, 
+	  <pre>&lt;param name="textFontFamily" value="SansSerif"&gt;</pre>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap > <p><b>Font size</b></p>
+       <p>
+      Parameter name:<br>
+      <code>textFontSize</code></td>
+    <td > <p>You can set the size of the font to:</p> 
+
+        <dd>xx-small 
+        <dd>x-small 
+        <dd>small 
+        <dd>medium 
+        <dd>large 
+        <dd>x-large 
+        <dd>xx-large 
+        <dd>bigger (Increases the current base font size by 1)
+        <dd>smaller (Decreases the current base font size by 1)
+        <dd><i>nn</i>pt (Sets the font size to a specific point value of <i>nn</i>)
+        <dd>+<i>n</i> (Increases the current base font size by a value of <i>n</i>)
+        <dd>-<i>n</i> (Decreases the current base font size by a value of <i>n</i>)
+        <dd><i>n</i> (Sets the font size to the point size associated with the 
+          index <i>n</i>)
+      </dd>
+      <p>For example, <pre>&lt;param name="textFontSize" value="x-large"&gt;</pre> 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap > <p><b>Font weight</b></p>
+       <p>
+      Parameter name:<br>
+      <code>textFontWeight</code></td>
+    <td > <p>You can set the weight of the font to: 
+      </p>
+        <dd>plain 
+        <dd>bold 
+      </dd>
+      <p>For example, <pre>&lt;param name="textFontWeight" value="plain"&gt;</pre> 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap > <p><b>Font style</b></p>
+       <p>
+      Parameter name:<br>
+      <code>textFontStyle</code></td>
+    <td > <p>You can set the style of the font to: 
+      </p>
+        <dd>plain 
+        <dd>italic 
+      </dd>
+      <p>For example, <pre>&lt;param name="textFontStyle" value="italic"&gt;</pre> 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap > <p><b>Font color</b> </p>
+      <p>Parameter name:<br>
+      <code>textColor</code></td>
+    <td > <p>You can set the color of the font to:</p> 
+      
+        <dd>black 
+        <dd>blue 
+        <dd>cyan 
+        <dd>darkGray 
+        <dd>gray 
+        <dd>green 
+        <dd>lightGray 
+        <dd>magenta 
+        <dd>orange 
+        <dd>pink 
+        <dd>red 
+        <dd>white 
+        <dd>yellow</dd>
+     <p>
+      For example, <pre>&lt;param name="textColor" value="red"&gt;</pre></td>
+  </tr>
+</table>
+<p> <img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b> 
+<dl> 
+  <dd><a href="../dev/lwcomp.html">Creating Lightweight Java Components</a> 
+</dl>
+ 
+</body>
+</html>

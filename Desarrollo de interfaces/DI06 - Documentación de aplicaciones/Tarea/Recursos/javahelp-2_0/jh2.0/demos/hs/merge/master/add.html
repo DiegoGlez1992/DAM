@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright (C) 1998  Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *
+ *    Sun Microsystems, Inc., 2550 Garcia Avenue,
+ *    Mountain View, California 94043.
+ *
+-->
+<HTML>
+<HEAD>
+<TITLE>
+Add a HelpSet
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<H1>Adding HelpSets</H1>
+Use the Add dialog box to add HelpSets to the Merged HelpSets panel
+in the main merge demo window.
+<p>
+In order to add a HelpSet, the folder or JAR file that
+contains it must be in your CLASSPATH.  If you are
+running this demo under JDK1.2, you can add to the
+CLASSPATH by specifying a URL.
+<p>
+If you are running this demo on JDK 1.1 you can only add
+the HolidayHistory.hs HelpSet to the list.  With JDK 1.1,
+it is not possible to append to the CLASSPATH.  The folder
+for HolidayHistory.hs has been added to the CLASSPATH by the
+merge demo program.
+<p>
+<IMG SRC="images/hg_proc.gif">To add a HelpSet to the Merged HelpSets list
+(JDK 1.2 only):
+<ol>
+<li>Enter the name of the HelpSet in the HelpSet Name text
+box. 
+<p>
+<p>
+The following HelpSets are included in this release:
+<pre>
+doc\welcome\welcome.hs
+demos\hs\holidays\HolidayHistory.hs
+demos\hs\idehelp\IdeHelp.hs
+</pre>
+You can also add HelpSets of your own.
+<p>
+<li>Enter the URL of the folder or JAR file that contains the HelpSet.
+<em>If you are specifying a folder, the URL must include
+the "/" or "\" as the last character.</em>
+<p>
+<p>
+Examples:
+<pre>
+file:C:\myproduct\help\ (Win32)
+file:C:\myproduct\help\helpfiles.jar (Win32)
+file:/myproduct/help/ (Solaris)
+file:/myproduct/help/helpfiles.jar (Solaris)
+</pre>
+<p>
+<li>Click Add
+
+</ol>
+
+<p>
+NOTES:
+<ul>
+<li>The Current Values portion of the dialog box displays
+the folders and JAR files available through CLASSPATH and
+URLs.
+</ul>
+
+
+</body>
+</HTML>

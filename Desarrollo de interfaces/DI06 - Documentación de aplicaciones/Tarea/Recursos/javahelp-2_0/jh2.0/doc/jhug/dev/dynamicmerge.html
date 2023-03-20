@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Merging Helpsets Dynamically</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Merging Helpsets Dynamically</h2>
+<p> In addition to the static merging of helpsets described in <a href="../author/merge.html">Merging 
+  Helpsets</a>, helpsets can be merged dynamically. To merge helpsets dynamically, 
+  you use the JavaHelp software API in your Java applications. 
+<p>
+The basic API consists of the 
+<code>HelpSet.add(HelpSet)</code> method
+and its corresponding
+<code>HelpSet.remove(HelpSet)</code>method.
+These methods fire 
+<code>HelpSetEvent</code> events for the
+<code>HelpSetListeners</code> that have registered interest in them.
+The Component UIs for the TOC, index,  search, and glossary views register for
+these events and react to changes.
+
+<p>
+The semantics of merging is implemented by individual
+<code>NavigatorView</code> objects
+and
+<code>JHelpNavigator</code> objects.
+There are three basic methods:
+<ul type="circle">
+<li><code>canMerge(NavigatorView)</code>
+<li><code>merge(NavigatorView)</code>
+<li><code>remove(NavigatorView)</code>
+</ul>
+The <code>canMerge(NavigatorView)</code> method is present in both
+<code>NavigatorView</code> and <code>JHelpNavigator</code>.
+The <code>JHelpNavigator</code> method just calls into its
+corresponding <code>NavigatorView</code> method.
+The other two methods are present only in <code>JHelpNavigator</code>.
+<p> For more information about these classes and methods, refer to the JavaHelp 
+  software API documentation. API information can be viewed using a web browser 
+  (<code>doc/api/overview-summary.html</code>) or by using the sample API viewer 
+  in <code>demos\bin\apiviewer</code>. 
+<p> Two demonstration programs, <code>demos\bin\merge</code> and <code>demos\bin\newmerge</code> 
+  are included with the JavaHelp system release. These programs demonstrate how 
+  helpsets can be merged and removed dynamically. The <code>newmerge</code> program 
+  demonstrates what happens with a UniteAppendMerge of TOCs and a SortMerge of 
+  indexes. 
+<p>The sources for these programs are available under <code>demos\src\sunw\demo\</code>.
+</body>
+</html>

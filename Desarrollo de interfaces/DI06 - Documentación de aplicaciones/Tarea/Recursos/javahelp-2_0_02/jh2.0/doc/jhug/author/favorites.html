@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Favorites Navigator and File</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Favorites Navigator and File</h2>
+<p> Favorites are links to helpset topics that the user wants to save and reuse. 
+  The favorites file describes the content and layout of these links in the favorites 
+  navigator. Unlike other navigational views that store the view's metadata in 
+  the helpset directories, favorites are stored in the user's directory in the 
+  file <i>userdir</i><tt>/</tt><code>.JavaHelp/Favorites.xml</code>. </p>
+<p>The favorites file format is based on the World Wide Web Consortium Extended 
+  Markup Language (XML). The DTD for this syntax is <code>dtd/favorites_2_0.dtd</code>. 
+  The top level tag is <code>&lt;favorites&gt;</code>. A version attribute is 
+  optional. When present, its value must be &quot;2.0&quot;.</p>
+<p>The JavaHelp system specifies one favorites navigator view: <code>javax.help.FavoritesView</code>. 
+  Favorites do not require a data definition as part of the navigator view definition. 
+  Also, the <code>mergetype</code> tag is ignored. </p>
+<p>The following XML code shows a sample definition of a favorites navigator in 
+  the view section of a <a href="helpset.html">helpset file</a>:</p>
+<pre>   &lt;view&gt;
+      &lt;name&gt;Favorites&lt;/name&gt;
+      &lt;label&gt;Favorites&lt;/label&gt;
+      &lt;type&gt;javax.help.FavoritesView&lt;/type&gt;
+   &lt;/view&gt;<br></pre>
+<p> The following figure shows how the Favorites navigator looks in the helpset 
+  for the JavaHelp System Users Guide. As the figure shows, when you add a Favorites 
+  navigator to a helpset, the JavaHelp system also adds a Favorites button to 
+  the default toolbar. Clicking the Favorites button enables the user to add the 
+  currently displayed help topic to the list of favorites in the navigator.
+</p><br>
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr valign="top"> 
+    <td><img src="../../images/hg_note.gif">&nbsp;</td>
+    <td>If you have defined your own windows (presentations) in the helpset file, 
+      the favorites button is not added automatically. To display a favorites 
+      button on the presentation's toolbar, you must add the following help action 
+      to the <code>&lt;presentation&gt;</code> tag's <code>&lt;toolbar&gt;</code> 
+      tag: <br>
+      <pre>   &lt;helpaction&gt;javax.help.FavoritesAction&lt;/helpaction&gt;
+	  </pre>
+      For more information, see the <a href="helpset.html#toolbar">toolbar tag 
+      description</a> in the Helpset File section.</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><img src="../images/favoritesscrnshot.gif" width="606" height="379"></p>
+<p>The following XML code is an example of a favorites file, which is created 
+  for you by the JavaHelp system:</p>
+<pre>   &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+   &lt;!DOCTYPE favorites
+       PUBLIC &quot;-//Sun Microsystems Inc.//DTD JavaHelp Favorites Version 2.0//EN&quot;
+       &quot;http://java.sun.com/products/javahelp/favorites_2_0.dtd&quot;&gt;
+   &lt;favorites version=&quot;2.0&quot;&gt;
+     &lt;favoriteitem text=&quot;Love Holidays&quot; &gt;
+        &lt;favoriteitem text=&quot;On Love&quot; target=&quot;onlove&quot; hstitle=&quot;History of the Holidays&quot;/&gt;
+        &lt;favoriteitem text=&quot;Valentines&quot; target=&quot;valentine&quot; hstitle=&quot;History of the Holidays&quot;/&gt;
+     &lt;/favoriteitem&gt;
+     &lt;favoriteitem text=&quot;Numbers&quot; &gt;
+         &lt;favoriteitem text=&quot;Zero&quot; target=&quot;0&quot; hstitle=&quot;Master&quot;/&gt;
+         &lt;favoriteitem text=&quot;Zero - note &quot; 
+                     url=&quot;file:/usr/test/hs/Zeronote.html&quot;
+                     hstitle=&quot;Master&quot;/&gt;
+     &lt;/favoriteitem&gt;
+</pre>
+
+<h4>The Favorites Tags</h4>
+<p> The following table describes the favorites tags: 
+<table border=1 cellpadding=5 cellspacing="1">
+  <tr valign="top"> 
+    <td width=10% nowrap><code>&lt;favorites&gt;</code> </td>
+    <td> Defines the user favorites list. It contains <code>&lt;favoriteitem&gt;</code> 
+      tags and the following optional attributes. <br>
+      <table width=100% border=0 cellpadding=5>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td> Language for the favorites list. Use the standard locale-country-variant 
+            format.<br>
+ <dl>
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>         </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>version=&quot;2.0&quot;</code></td>
+          <td> Version of JavaHelp software.</td>
+        </tr>
+      </table>
+      . </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap width="10%"><code>&lt;favoriteitem&gt;</code> </td>
+    <td> Defines a favorites link. You can nest favorites links to create hierarchies 
+      of favorites. Uses the following attributes: <br>
+      <br>
+      <table width="100%" border="0" cellpadding="5">
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>xml:lang=&quot;lang&quot;</code></td>
+          <td> <i>(optional) </i>Language for the favorites link. Use the standard 
+            locale-country-variant format.<br>
+ <dl>
+              <dt>Some examples:</dt>
+              <dd><code>xml:lang=&quot;de&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en&quot;</code></dd>
+              <dd><code>xml:lang=&quot;en-US&quot;</code></dd>
+            </dl>         </tr>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>text</code>=&quot;<i>string</i>&quot; </td>
+          <td> Specifies the text that displays in the list. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>target</code>=&quot;<i>string</i>&quot;</td>
+          <td> (<i>optional</i>) Specifies the map ID of the topic that displays 
+            when the link is chosen by the user. IDs are defined (associated with 
+            a URL) in the <a href="map.html">map file</a>. </td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>url</code>=&quot;<i>string</i>&quot;</td>
+          <td> (<i>optional</i>) Specifies the URL of the topic that displays 
+            when the link is chosen by the user. IDs are defined (associated with 
+            a URL) in the <a href="map.html">map file</a>. </td>
+        </tr>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>hstitle</code>=&quot;<i>string</i>&quot; 
+          </td>
+          <td> Specifies the title of the helpset.</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>image</code>=&quot;<i>string</i>&quot;</td>
+          <td> (<i>optional</i>) Specifies the image displayed before a favorites 
+            link. The argument to this attribute is a mapID defined (associated 
+            with a <code>GIF</code> or <code>JPEG</code> image) in the <a href="map.html">map 
+            file</a>. If this attribute is not specified, the default images are 
+            displayed. </td>
+        </tr>
+        <tr valign="top"> 
+          <td width=10% nowrap> <code>presentationtype</code> </td>
+          <td> (<i>optional</i>) Specifies the type of window in which the favorite 
+            topic will be displayed (defined in the <code>&lt;presentation&gt;</code> 
+            section of the <code>Hs</code> file). For more information, see the 
+            presentation feature in <a href="helpset.html#presentationtag">Helpset 
+            File</a>.</td>
+        </tr>
+        <tr valign="top"> 
+          <td nowrap width="10%"> <code>presentationname</code></td>
+          <td> (<i>optional</i>) Specifies the name of the window in which the 
+            favorites topic will be displayed. </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+  <dd><a href="helpset.html">The Helpset File</a> 
+  <dd><a href="map.html">Map File</a>
+<dd><a href="jar.html">JAR Files</a>
+<dd><a href="toc.html">Table of Contents File</a>
+<dd><a href="index.html">Index File</a>
+<dd><a href="glossary.html">Glossary File</a>
+<dd><a href="search.html">Creating the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2004 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>The HelpSet File</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css">
+</head>
+<body bgcolor="#ffffff">
+<h2>Helpset File</h2>
+<p>
+When the JavaHelp system is activated by your application,
+the first thing it does is read the helpset file specified
+by the application. The helpset file defines the
+helpset for that application.  A helpset is the set
+of data that comprises your help system. The helpset
+file includes the following information:
+
+<table border=0 cellpadding=5>
+  <tr valign="top"> 
+    <td nowrap>Map file </td>
+    <td> The <a href="map.html">map file</a> is used to associate topic IDs with 
+      the URL or path name of HTML topic files. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>View information </td>
+    <td> Information that describes the navigators being used in the helpset. 
+      The standard navigators are: table of contents, index, and full-text search. 
+      Additional navigators are the glossary and the favorites navigators. Information 
+      about custom navigators is included here as well. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>Helpset title </td>
+    <td> The <code><a href="#title">&lt;title&gt;</a></code> defined in the helpset 
+      (<code>.hs</code>) file. This title appears at the top of the main window 
+      and any secondary windows defined in your helpset file.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>Home ID </td>
+    <td> The name of the (default) ID that is displayed when the help viewer is 
+      called without specifying an ID. </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>Presentation</td>
+    <td> The windows in which to display the help topics. This is a new feature 
+      of the JavaHelp 2 software that is described in more detail below under 
+      <a href="#presentationtag"><code>&lt;presentation&gt;</code></a>.</td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>Sub-helpsets </td>
+    <td> This optional section statically includes other helpsets by using the 
+      <code>&lt;subhelpset&gt;</code> tag. The helpsets indicated by this tag 
+      are merged automatically into the helpset that contains the tag. More details 
+      about merging can be found in <a href="merge.html">Merging Helpsets</a>. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td nowrap>Implementation</td>
+    <td> This optional section creates a registry that provides key data mapping 
+      to define the HelpBroker class to use in the <code>HelpSet.createHelpBroker</code> 
+      method. The registry also determines the content viewer to user for a given 
+      MIME type. See <code><a href="#impl">&lt;impl&gt;</a></code> below.</td>
+  </tr>
+</table>
+<p> After your product is installed on your user's system, your Java program must 
+  be able to find the helpset file. The application specifies the path to the 
+  helpset file when it starts the JavaHelp system. By convention, the name of 
+  the helpset file ends with the <code>.hs</code> extension. </p>
+<h3><a name="helpsetexample">Helpset File Format</a></h3>
+<p>
+The format of the helpset file is based on the World Wide
+Web Consortium Extended Markup Language (XML 1.0) proposed
+recommendation: 
+<pre>http://www.w3.org/TR/PR-xml-971208</pre>
+The following is an example of a helpset file (description follows): 
+<pre>&lt;?xml version='1.0' encoding='ISO-8859-1' ?&gt;
+&lt;!DOCTYPE helpset
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 2.0//EN"
+         "http://java.sun.com/products/javahelp/helpset_2_0.dtd"&gt;
+&lt;helpset version="2.0"&gt;
+   &lt;!-- title --&gt; 
+   &lt;title&gt;Java Development Environment - Help&lt;/title&gt;
+			
+   &lt;!-- maps --&gt; 
+   &lt;maps&gt;
+     &lt;homeID&gt;top &lt;/homeID&gt;
+     &lt;mapref location="Map.jhm" /&gt;
+   &lt;/maps&gt;
+	
+   &lt;!-- views --&gt; 
+   &lt;view xml:lang=&quot;en&quot; mergetype=&quot;<code>javax.help.UniteAppendMerge</code>&quot;&gt;
+      &lt;name&gt;TOC&lt;/name&gt;
+      &lt;label&gt;Table Of Contents&lt;/label&gt;
+      &lt;type&gt;javax.help.TOCView&lt;/type&gt;
+      &lt;data&gt;IdeHelpTOC.xml&lt;/data&gt;
+   &lt;/view&gt;
+	
+   &lt;view xml:lang=&quot;en&quot; mergetype=&quot;<code>javax.help.SortMerge</code>&quot;&gt;
+      &lt;name&gt;Index&lt;/name&gt;
+      &lt;label&gt;Index&lt;/label&gt;
+      &lt;type&gt;javax.help.IndexView&lt;/type&gt;
+      &lt;data&gt;IdeHelpIndex.xml&lt;/data&gt;
+   &lt;/view&gt;
+	
+   &lt;view xml:lang=&quot;en&quot;&gt;
+      &lt;name&gt;Search&lt;/name&gt;
+      &lt;label&gt;Search&lt;/label&gt;
+      &lt;type&gt;javax.help.SearchView&lt;/type&gt;
+         &lt;data engine="com.sun.java.help.search.DefaultSearchEngine"&gt;
+         JavaHelpSearch
+         &lt;/data&gt;
+   &lt;/view&gt;
+
+   &lt;!-- A <a href="glossary.html">glossary navigator</a> --&gt;
+   &lt;view  mergetype=&quot;<code>javax.help.SortMerge</code>&quot;&gt;
+      &lt;name&gt;glossary&lt;/name&gt;
+      &lt;label&gt;Glossary&lt;/label&gt;
+      &lt;type&gt;javax.help.GlossaryView&lt;/type&gt;
+      &lt;data&gt;glossary.xml&lt;/data&gt;
+   &lt;/view&gt;
+
+   &lt;!-- A <a href="favorites.html">favorites navigator</a> --&gt;
+   &lt;view&gt;
+      &lt;name&gt;favorites&lt;/name&gt;
+      &lt;label&gt;Favorites&lt;/label&gt;
+      &lt;type&gt;javax.help.FavoritesView&lt;/type&gt;
+   &lt;/view&gt;
+
+<code>   </code>&lt;!-- presentation windows --&gt;
+
+   &lt;!-- This window is the default one for the helpset. 
+     *  Its title bar says &quot;Project X Help&quot;. It
+     *  is a tri-paned window because displayviews, not
+     *  defined, defaults to true and because a toolbar is defined.
+     *  The toolbar has a back arrow, a forward arrow, and
+     *  a home button that has a user-defined image.
+   --&gt;
+   &lt;presentation default=true&gt;
+       &lt;name&gt;main window&lt;/name&gt;
+       &lt;size width=&quot;400&quot; height=&quot;400&quot; /&gt; 
+       &lt;location x=&quot;200&quot; y=&quot;200&quot; /&gt;
+       &lt;title&gt;Project X Help&lt;/title&gt;
+       &lt;toolbar&gt;
+           &lt;helpaction&gt;javax.help.BackAction&lt;/helpaction&gt;
+           &lt;helpaction&gt;javax.help.ForwardAction&lt;/helpaction&gt;
+           &lt;helpaction image=&quot;homeicon&quot;&gt;javax.help.HomeAction&lt;/helpaction&gt;
+       &lt;/toolbar&gt;
+   &lt;/presentation&gt;
+
+   &lt;!-- This window is simpler than the main window. 
+     *  It's intended to be used a secondary window.
+     *  It has no navigation pane or toolbar.
+   --&gt;
+   &lt;presentation displayviews=false&gt;
+       &lt;name&gt;secondary window&lt;/name&gt;
+       &lt;size width=&quot;200&quot; height=&quot;200&quot; /&gt; 
+       &lt;location x=&quot;200&quot; y=&quot;200&quot; /&gt;
+   &lt;/presentation&gt;
+ 
+   &lt;!-- subhelpsets --&gt; 
+   &lt;subhelpset location="file:/c:/Foobar/HelpSet2.hs" /&gt;
+
+   &lt;!-- implementation section --&gt;
+   &lt;impl&gt;
+      &lt;helpsetregistry helpbrokerclass=&quot;javax.help.DefaultHelpBroker&quot; /&gt;
+      &lt;viewerregistry viewertype=&quot;text/html&quot; 
+         viewerclass=&quot;com.sun.java.help.impl.CustomKit /&gt;
+      &lt;viewerregistry viewertype=&quot;text/xml&quot; 
+         viewerclass=&quot;com.sun.java.help.impl.CustomXMLKit /&gt;
+   &lt;/impl&gt;
+&lt;/helpset&gt;</pre>
+<h4>The Helpset Tags</h4>
+<p>
+The following table describes the helpset tags:
+
+<table width=90% border=1 cellpadding=5>
+  <tr valign="top"> 
+    <td colspan="2"><code>&lt;helpset&gt;</code> </td>
+    <td> Defines the helpset. It can contain all the following tags. </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif" alt="blue bullet"></td>
+    <td nowrap><code>&lt;title&gt;</code> </td>
+    <td> Names the helpset. This string can be accessed by the application and 
+      used in the presentation (for example, in the viewer header stripe). </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif"  alt="blue bullet"></td>
+    <td nowrap><code>&lt;maps&gt;</code> </td>
+    <td> Specifies the default topic and URL of the <a
+href="map.html">map file</a> used in the helpset. <br>
+      <br>
+      <code><b>&lt;maps&gt;</b></code><b> Tags</b> 
+      <ul type="circle">
+        <li url="../images/../images/blueListBullMid.gif"><code>&lt;homeID&gt;</code> 
+          <p>Specifies the name of the (default) ID that is displayed when the 
+            help viewer is called if an ID is not explicitly specified.<br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;mapref&gt;</code> 
+          <p>Specifies the URL of the map file relative to the helpset.</p>
+        </li>
+      </ul>
+      
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif"  alt="blue bullet"></td>
+    <td nowrap><code>&lt;view&gt;</code> </td>
+    <td> Defines the navigators used in the helpset. Each navigator is defined 
+      by its own &lt;view&gt;.<br>
+      <br>
+      <b>&lt;view&gt; Attributes</b> 
+      <ul type="circle">
+        <li><code>xml:lang=&quot;</code><i>lang</i><code>&quot;&nbsp;</code> 
+          <p>Language for the view. Use the standard locale-country-variant format. 
+            Some examples:</p>
+          <dl> 
+            <dt><code>xml:lang=&quot;de&quot;</code></dt>
+            <dt><code>xml:lang=&quot;en&quot;</code></dt>
+            <dt><code>xml:lang=&quot;en-US&quot;<br>
+              <br>
+              </code></dt>
+          </dl>
+        </li>
+        <li><code>mergetype</code>=&quot;<i>class&quot;&nbsp;</i> 
+          <p>Specifies the path to the merge class. The merge classes are:</p>
+          <dl> 
+            <dt><code>javax.help.UniteAppendMerge</code></dt>
+            <dt><code>javax.help.SortMerge</code></dt>
+            <dt><code>javax.help.AppendMerge</code></dt>
+            <dt><code>javax.help.NoMerge</code></dt>
+            <p>For more information, see <a href="merge.html">Merging Helpsets</a>.</p>
+          </dl>
+        </li>
+      </ul>
+      <p><a name="viewtags"><b>&lt;view&gt; Tags</b></a></p>
+      <ul type="circle">
+        <li><code>&lt;name&gt;</code> 
+          <p> Names the view. <br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;label&gt;</code> 
+          <p> Specifies a label associated with the view. This string is displayed 
+            in the navigator's tab if the presentation's <code>displayviewimages</code> 
+            attribute is <code>&quot;false&quot;</code>. <br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;type&gt;</code> 
+          <p> Specifies the path to the navigator class. <br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;data&gt;</code> </li>
+        <p> Specifies the path to the data used by the navigator. When used with 
+          the search navigator, this tag contains the following attribute: </p>
+        <blockquote> <code>engine</code>&nbsp;&nbsp;&nbsp;&nbsp;A <code>String</code> 
+          indicating the path to the search engine class. </blockquote>
+        <li type="circle"><code>&lt;image&gt;</code> 
+          <p> Specifies the image displayed for the navigator in the tab bar at 
+            the top of the navigator pane. The argument to this attribute is an 
+            ID defined in the <a href="map.html">map file</a>. The ID must be 
+            associated with a GIF or JPEG file. If this attribute is not specified, 
+            the default navigator image is displayed. </p>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif"  alt="blue bullet"></td>
+    <td nowrap><a name="presentationtag"><code>&lt;presentation&gt;</code></a> 
+    </td>
+    <td> Defines the windows used in the helpset. Each window is defined by its 
+      own <code>&lt;presentation&gt;</code> tag. See the <a href="#helpsetexample">helpset 
+      example</a> above for sample code for this tag and its attributes. <br>
+      <br>
+      <b><code>&lt;presentation&gt;</code> Attributes</b><br>
+      <ul type="circle">
+        <li><code>xml:lang=&quot;</code><i>lang</i><code>&quot;&nbsp;</code> 
+          <p>Language for the view. Use the standard locale-country-variant format. 
+            Some examples:</p>
+          <dl> 
+            <dt><code>xml:lang=&quot;de&quot;</code></dt>
+            <dt><code>xml:lang=&quot;en&quot;</code></dt>
+            <dt><code>xml:lang=&quot;en-US&quot;<br>
+              <br>
+              </code></dt>
+          </dl>
+        </li>
+        <li><code>default=&quot;true|false&quot;</code> 
+          <p>This presentation is the default one for this helpset. The default 
+            value of this attribute is &quot;<code>false</code>&quot;. (In other 
+            words, if you do not specify this attribute, the presentation is not 
+            the default one.) <br>
+            <br>
+            If more than one presentation is specified as <code>default</code>, 
+            the last one specified is the default presentation.<br>
+            <br>
+          </p>
+        </li>
+        <li><code>displayviews=&quot;true|false&quot;</code> 
+          <p>Show the navigational views of this helpset in a pane on the left 
+            side of the window (like the tri-paned viewer). The default value 
+            is &quot;<code>true</code>&quot;.<br>
+            <br>
+          </p>
+        </li>
+        <li><code>displayviewimages=&quot;true|false&quot;</code> <br>
+          <p>The default value &quot;<code>true</code>&quot; displays the image 
+            for each navigator in the navigator's tab. If set to &quot;<code>false</code>&quot;, 
+            the text defined in each view's <code>&lt;label&gt;</code> tag is 
+            displayed instead.</p>
+        </li>
+      </ul>
+      <p><b><code>&lt;presentation&gt;</code> Tags</b></p>
+      <ul type="circle">
+        <li><code>&lt;name&gt;</code> 
+          <p> Names the window, allowing it to be called by name from the Java 
+            program or from the TOC. If you define a presentation, be sure to 
+            tell the Java programmer its name and when you expect it to be called 
+            from the program.<br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;size&gt;</code> 
+          <p> Specifies the size of the window with the following attributes:<br>
+            <code>width=&quot;nnn&quot;&nbsp;&nbsp;&nbsp;</code>Width in pixels.<br>
+            <code>height=&quot;nnn&quot;&nbsp;&nbsp;</code>Height in pixels. <br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;location&gt;</code> 
+          <p>Specifies the position of the window with the following attributes:<br>
+            <code>x=&quot;nnn&quot;&nbsp;&nbsp;</code>Horizontal (x) coordinate.<br>
+            <code>y=&quot;nnn&quot;&nbsp;&nbsp;</code>Vertical (y) coordinate.<br>
+            <br>
+          </p>
+        </li>
+        <li><code>&lt;title&gt;</code> 
+          <p>Specifies the text that appears in the title bar at the top of the 
+            window.</p>
+        </li>
+        <br>
+        <li> <code>&lt;image&gt;</code> </li>
+        <p> Specifies the image displayed on the left side of the help window's 
+          title bar. The argument to this attribute is an ID defined in the <a href="map.html">map 
+          file</a>. The ID must be associated with a GIF or JPEG file. If this 
+          attribute is not specified, the default JavaHelp image is displayed. 
+        <br>
+        </p>
+        <li><a name="toolbar"><code>&lt;toolbar&gt;</code></a> 
+          <p>Indicates that the window is to have a toolbar. </p>
+          <p>You define buttons on the toolbar by using a <code>&lt;helpaction&gt;</code> 
+            tag for each button and a Java class name for the action. </p>
+          <p><code>&lt;helpaction&gt;<br>
+            javax.help.</code><i>HelpAction<br>
+            </i><code>&lt;/helpaction&gt;</code></p>
+          <p><i>HelpAction</i> is any of the following default class names, each 
+            of which defines an action and a button image: </p>
+          <dl> 
+            <dt><code>BackAction</code></dt>
+            <dd> Goes to previous topic. </dd>
+            <dt><code>FavoritesAction</code></dt>
+            <dd> Adds current map ID (currently displayed topic) to Favorites 
+              navigator. </dd>
+            <dt><code>ForwardAction</code></dt>
+            <dd> Goes to next topic. </dd>
+            <dt><code>HomeAction</code></dt>
+            <dd> Loads the home topic in the content pane </dd>
+            <dt><code>PrintAction</code></dt>
+            <dd>Prints the topics selected in the navigator. </dd>
+            <dt><code>PrintSetupAction</code></dt>
+            <dd>Runs print setup before printing. </dd>
+            <dt><code>ReloadAction</code></dt>
+            <dd>Reloads the current topic page in the content viewer. </dd>
+            <dt><code>SeparatorAction</code></dt>
+            <dd>Creates a separator between action buttons.</dd>
+          </dl>
+          <p>Each action button has a default button image. If you want to use 
+            a different image, you must define a map ID for the image file in 
+            the<a href="map.html"> map file</a> and reference the map ID inside 
+            the <code>&lt;helpaction&gt;</code> tag by using the <code>image</code> 
+            attribute.<br>
+            <br>
+            <b><code>&lt;helpaction&gt;</code> Attribute</b><br>
+            <br>
+            <code>image=&quot;</code><i>mapID</i><code>&quot;</code> </p>
+          <p>For example:</p>
+          <blockquote> 
+            <p><code>&lt;helpaction image=&quot;images_backbutton&quot;&gt;<br>
+              javax.help.BackAction<br>
+              &lt;/helpaction&gt; </code></p>
+          </blockquote>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif"  alt="blue bullet"></td>
+    <td nowrap><code>&lt;subhelpset&gt;</code><img src="../images/tablespacer80.gif" width="80" height="10"> 
+    </td>
+    <td> This optional tag can be used to specify helpsets you want merged with 
+      the helpset that contains the tag. See <a href="merge.html">Merging Helpsets</a> 
+      for more information. Contains the following attribute: <br>
+      <dd>
+      <code>location</code>&nbsp;&nbsp;&nbsp;&nbsp; URL of the helpset file to be 
+      merged. </td>
+  </tr>
+  <tr valign="top"> 
+    <td><img src="../images/blueListBullMid.gif"  alt="blue bullet"></td>
+    <td nowrap><code><a name="impl">&lt;impl&gt;</a></code> </td>
+    <td> 
+      <p>The implementation section creates a registry that provides key data 
+        mapping to define the HelpBroker class to use in the <code>HelpSet.createHelpBroker</code> 
+        method. The registry also determines the content viewer to user for a 
+        given MIME type. <br>
+        <br>
+        <code><b>&lt;impl&gt;</b></code><b> Tags </b></p>
+      <ul type="circle">
+        <li><code>&lt;helpsetregistry&gt;</code> 
+          <p>Registers the default <code>HelpBroker</code> class. Uses the following 
+            attribute: <br>
+            <code>helpbrokerclass=&quot;class&quot;</code> - Required. Name of 
+            a class that implements <code>HelpBroker</code>.</p>
+        </li>
+        <li><code>&lt;viewregistry&gt;</code> 
+          <p>Registers a viewer class for a given MIME type. Uses the following 
+            attributes: <br>
+            <code>viewertype=&quot;mine/type&quot;</code> - Required. MIME type.<br>
+            <code>viewerclass=&quot;class&quot;</code> - Required. Class name. 
+          </p>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+<p>
+<img src="../../images/hg_see.gif" alt="see-also pointer"><b>See also:</b>
+<dl> 
+  <dd><a href="map.html">Map File</a> 
+  <dd><a href="toc.html">Table of Contents File</a> 
+  <dd><a href="index.html">Index File</a> 
+  <dd><a href="glossary.html">Glossary File</a> 
+  <dd><a href="favorites.html">Favorites File</a> 
+  <dd><a href="search.html">Creating the Full-Text Search Database</a> 
+    <!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p></p><p>
+</p>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2002 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Localizing the Full-Text Search Database</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2><a name="search">Localizing the Full-Text Search Database</a></h2>
+<p>
+The JavaHelp system <a href="../author/search.html">full-text search
+database</a> is constructed using the <a
+href="../author/jhindexer.html"><code>jhindexer</code> command</a>. The
+<code>jhindexer</code> command parses HTML topic files
+according to each file's <a href="loc_html.html#HTML_char">character
+encoding</a>. If the document format (HTML, GIF, text)
+supports a <a href="loc_html.html#htmllang">language attribute</a>, the
+document text is tokenized according to the language
+attributes for its elements.
+<p>
+By default, <code>jhindexer</code> assumes the default locale - use the <code>locale</code> option to specify the
+locale directly to the <code>jhindexer</code> command. The
+syntax for the locale option is:
+<pre>    jhindexer -locale <i>language_country_variant</i></pre>
+The argument to the option is the name of the locale as
+described in <code>java.util.Locale</code>, for example,
+<code>en_US</code> (English, United States) or
+<code>en_US_WIN</code> (English, United States, Windows
+variant).
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="loc.html">Localizing Help Information</a>
+<dd><a href="loc_pres.html">Localizing Help Presentation</a>
+<dd><a href="loc_helpset.html">Localizing Helpsets</a>
+<dd><a href="loc_xml.html">Localizing XML Data</a>
+<dd><a href="loc_html.html">Localizing HTML Data</a>
+<dd><a href="loc_font.html">Localization and Fonts</a>
+<br>
+<dd><a href="../author/search.html">Creating the Full-text Search Database</a>
+<dd><a href="../author/jhindexer.html">The <code>jhindexer</code> Command</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

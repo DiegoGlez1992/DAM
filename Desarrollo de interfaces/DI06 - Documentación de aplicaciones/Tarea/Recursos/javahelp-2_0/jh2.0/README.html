@@ -1,0 +1,212 @@
+<html>
+<title>JavaHelp 2.0 README - July 2003</title>
+<body bgcolor="#ffffff">
+<h1>README: JavaHelp<sup><font size="-1">TM</font></sup> 2.0 - September 2003</h1>
+
+<h3>Contents: </h3>
+<ul>
+  <li><a href="#ChangetoAPI">Change to API for Accessing Frames</a> </li>
+  <li><a href="#FileSeparators">File Separators on Win32 Platforms</a> </li>
+  <li><a href="#TargetAudience">Target Audience</a> </li>
+  <li><a href="#113changes">Changes Since the 1.1.3 Release</a> </li>
+  <li><a href="#contentsoftherelease">Contents of the Release</a> </li>
+  <li><a href="#GettingStarted">How to Get Started</a> </li>
+  <li><a href="#redistributable">Redistributable Files</a></li>
+  <li><a href="#ReachUs">How to Reach Us</a> </li>
+  <li><a href="#Limitations">Limitations and Bugs</a> </li>
+  <li><a href="#Copyright">Copyright</a> </li>
+</ul>
+<p>
+---------------------------------
+
+<h2><a name="ChangetoAPI">Change</a> to API for Accessing Frames</h2>
+<p> In previous versions of JavaHelp, you could directly access the frame in which 
+  JavaHelp is displayed if you extended the DefaultHelpBroker. After extending 
+  DefaultHelpBroker, you were able access the protected JFrame frame field.
+<p>In JavaHelp 2, the frame field is no longer accessible. In applications that 
+  use JavaHelp 2, you will have to rewrite code that does this kind of frame access. 
+  Use the following methods: 
+<blockquote> 
+  <p> <code>WindowPresentation DefaultHelpBroker.getWindowPresentation(); <br>
+    Window WindowPresentation.getHelpWindow();</code></p>
+</blockquote>
+<p>You will still be able to access the frame with the following method calls:</p>
+<blockquote> 
+ <code>WindowPresentation pres = hb.getWindowPresentation(); <br>
+    Window win = pres.getHelpWindow();</code>
+</blockquote>
+
+<h2><a name="FileSeparators">File</a> Separators on Win32 Platforms <b>("/" vs. "\")</b></h2>
+
+<p> All files in the JavaHelp system are specified as URLs. The separator between 
+  elements (files) in a hierarchy should be "/". In some cases "\" works on the 
+  Win32 platforms; however when the files that contain these references are added 
+  to JAR files or moved to different platforms, these references no longer work. 
+
+<h2><a name="TargetAudience">Target Audience</a></h2>
+JavaHelp software is intended for help authors, information architects, and software 
+developers who need a framework for delivering online help and documentation. 
+<h2><a name="113changes">Changes</a> Since the 1.1.3 Release</h2>
+
+<p>Changes since the 1.1.3 release are described in the "Release Information" 
+  chapter of the<i> JavaHelp System User's Guide</i>. You can view the JavaHelp 
+  System User's Guide as a JavaHelp helpset by executing the UserGuide.jar file 
+  in the <code>demos\bin</code> folder as described in the next section, Contents 
+  of the Release.</p>
+<h2><a name="contentsoftherelease">Contents of the Release</a></h2>
+
+<p>The contents of the release are described in the "Release Information" chapter 
+  of the <i>JavaHelp System User's Guide</i>. You can view the JavaHelp System 
+  User's Guide by executing the UserGuide.jar file in the <code>demos\bin</code> 
+  folder. </p>
+<p>To execute the jar file, open a command window and change your directory to 
+  the <code>demos\bin</code> folder, then enter the following command at the command 
+  line:</p>
+<blockquote> 
+  <p><code>java -jar UserGuide.jar</code></p>
+</blockquote>
+<p> The JavaHelp System User's Guide is also included in PDF format in <code>doc\jhug\jhug.pdf</code> 
+  and can be read and printed by using the Adobe Acrobat Reader program available 
+  at <a href="http://www.adobe.com/products/acrobat/readstep2.html">http://www.adobe.com/products/acrobat/readstep2.html</a>. 
+<h2><a name="GettingStarted"></a>Getting Started</h2>
+
+<p>You install JavaHelp software by extracting the zip file. While most 
+installations will not require any additional installation tasks, 
+some installations might require that the environment variable JAVAHELP_HOME
+be defined so that jhindexer and jhsearch will work correctly. You will
+know that you need to set JAVAHELP_HOME if, after installation, you see 
+an error from jhindexer or jhsearch indicating that the environment 
+variable needs to be set.
+</p>
+<h2><a name="redistributable"></a>Redistributable Files</h2>
+<p>The following files are redistributable. Distribution of these files is governed 
+  by the Terms and Conditions of the JavaHelp Binary Code License.</p>
+<table border=0 cellpadding=10>
+  <tr valign="top"> 
+    <td> <code>javahelp/lib/jh.jar</code></td>
+    <td> The standard library that includes everything needed to use the help 
+      viewer and the standard navigator types (TOC, index, full-text search). 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td> <code>javahelp/lib/jhall.jar</code></td>
+    <td> A subset of <code>jh.jar</code> that does not include support for the 
+      full-text search engine. This subset might be useful for simple help systems 
+      that do not require a full-text search database or for help systems whose 
+      size is important. </td>
+  </tr>
+  <tr valign="top"> 
+    <td> <code>javahelp/lib/jhbasic.jar</code></td>
+    <td> Includes all the JavaHelp system classes, including the tools required 
+      to create a search database. </td>
+  </tr>
+  <tr valign="top"> 
+    <td> <code>javahelp/lib/jhsearch.jar</code></td>
+    <td> The default full-text search engine used in the JavaHelp system. </td>
+  </tr>
+</table>
+<h2><a name="ReachUs">How to Reach Us</a></h2>
+
+<h3>Mailing List</h3>
+<p>
+  We maintain a mailing list for regular information about JavaHelp
+  updates and events.  To subscribe, send mail to:
+<blockquote>
+  <p><a href="mailto:listserv@javasoft.com">listserv@javasoft.com</a>. </p>
+</blockquote>
+<p>
+  In the body of the message type
+<blockquote>
+  <p><code>SUBSCRIBE JAVAHELP-INFO</code> </p>
+</blockquote>
+<h3>Feedback </h3>
+<p> Comments and questions about how the JavaHelp system software works are welcome. 
+  Please review the FAQ at our home page, and if your question is not covered, 
+  send email by using the following web page: 
+<blockquote>
+  <a href="http://java.sun.com/docs/forms/javahelp_sendusmail.html">
+  http://java.sun.com/docs/forms/javahelp-sendusmail.html</a>
+</blockquote>
+<p>
+  If you have comments on the JavaHelp specification, instead of 
+  the web page above, please send comments to: 
+<blockquote>
+<p>
+  <a href="mailto:jsr-97-comments@jcp.org">
+  jsr-97-comments@jcp.org</a>
+</blockquote>
+<p>
+  Your email message will be read. However, due to the large volume of
+  emails, we might not able to respond personally.
+<p>
+<h3>Discussion group (JAVAHELP-INTEREST) </h3>
+<p>
+Sun maintains a mailing list as a JavaHelp community resource where 
+interested parties can post and exchange information and inquiries 
+about the JavaHelp system in a public forum.  Subscribers to this list 
+can receive inquiries either as they are posted or in regular digest 
+versions.
+<p>
+To subscribe, send mail to: 
+<blockquote>
+  <p><a href="mailto:listserv@javasoft.com">listserv@javasoft.com</a> </p>
+</blockquote>
+<p>
+In the body of the message type:
+<blockquote>
+  <p><code>SUBSCRIBE JAVAHELP-INTEREST</code> </p>
+</blockquote>
+<p>
+To view archives, manage your subscription, or to
+unsubscribe, go to:
+<blockquote>
+  <p><a href="http://archives.java.sun.com/archives/javahelp-interest.html">http://archives.java.sun.com/archives/javahelp-interest.html</a> 
+  </p>
+</blockquote>
+<h3>Web Site</h3>
+<p>
+Other information can be obtained at our web site:
+<blockquote>
+  <p><a href="http://java.sun.com/products/javahelp">http://java.sun.com/products/javahelp</a> 
+  </p>
+</blockquote>
+<p>
+We hope to hear from you!
+
+
+<p>
+---------------------------------
+
+<h2><a name="Limitations">Limitations and Bugs</a></h2>
+
+<p>Limitations and bugs are described in the "Release Information" chapter of 
+  the <i>JavaHelp System User's Guide</i>. You can view the JavaHelp System User's 
+  Guide as a JavaHelp helpset by executing UserGuide.jar in the <code>demos\bin</code> 
+  folder as described previously under <a href="#contentsoftherelease">Contents 
+  of the Release</a>.</p>
+<p>
+
+---------------------------------
+
+<h2><a name="Copyright">Copyright</a></h2>
+
+<font size="-1"> Copyright 2003 Sun Microsystems, Inc. All rights reserved. Use 
+is subject to license terms. Sun, Sun Microsystems, the Sun Logo, Solaris, Java, 
+the Java Coffee Cup Logo, JDK, Java Foundation Classes (J.F.C.), Java Plug-in 
+and JavaHelp are trademarks or registered trademarks of Sun Microsystems, Inc. 
+in the U.S. and other countries. </font> 
+<p>
+<font size="-1">
+DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED CONDITIONS,
+REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE
+DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE 
+LEGALLY
+INVALID.
+</font>
+<p> <font size="-1"> RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure 
+  by the U.S. Government is subject to restrictions as set forth in subparagraph 
+  (c)(1)(ii) of the Rights in Technical Data and Computer Software Clause at DFARS 
+  252.227-7013 (Oct. 1988) and FAR 52.227-19 (c) (June 1987). </font> 
+</body>
+</html>

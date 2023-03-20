@@ -1,0 +1,205 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2002 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Localizing HelpSets</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Localizing Helpsets</h2>
+<p>
+The portal to all JavaHelp system help information is the
+<a href="../author/helpset.html">helpset file</a> which
+defines the <i>helpset</i>.  The helpset is the set of data
+that constitutes your help system and includes:
+<ul type="circle">
+<li>Helpset file (XML)
+<li>Map file (XML)
+<li>TOC definition file (XML)
+<li>Index definition file (XML)
+<li>Topic files (HTML)
+<li>Full-text search database
+</ul>
+All helpset data can be localized,
+often in multiple ways.  The process of localizing helpsets
+can be viewed as a <i>cascading</i> process, where each
+level of the cascade becomes more specific and takes
+precedence over the levels above it.  
+<p>
+The following diagram shows the different levels in the
+JavaHelp system where the locale can be set and
+localization can occur, starting with the host application
+and moving into the helpset.  Changes to locale are propagated
+down the hierarchy, with a change at each level overriding
+the locale set above it.
+
+<p align="center">
+<img src="../images/cascade.gif" width="592" height="387">
+</p>
+<p>
+Legend:
+<br>
+<img src="../images/purple_box.gif" align="bottom" width="29" height="17"> Described in <a href="loc_pres.html">Localizing Help Presentation</a>
+<br>
+<img src="../images/red_box.gif" align="bottom" width="29" height="17"> Described in the
+following sections
+<br>
+<img src="../images/green_box.gif" align="bottom" width="29" height="17"> Described in <a href="loc_xml.html">Localizing XML Data</a>
+<br>
+<img src="../images/blue_box.gif" align="bottom" width="29" height="17"> Described in <a href="loc_html.html">Localizing HTML Data</a>
+</p>
+<h3>The Helpset File</h3>
+<p>
+The locale of a helpset is usually set through the helpset
+file.  The locale for the entire helpset can be specified
+through the helpset file, although portions of it can be be
+selectively overridden in the data files.</p>
+
+<h4><a name="finding">Finding the Helpset File</a></h4>
+<p>
+When the application activates the JavaHelp system, the
+application uses the <code>HelpSet.findHelpSet</code> method to
+find the correct helpset file and return its location
+(URL).  The full name of the helpset file is constructed
+based on the <i>name</i> of the helpset file specified as
+an argument to <code>HelpSet.findHelpSet</code>, and the
+<i>locale</i> based on either the system default locale
+or a locale specified as an optional argument.
+<p><a name="hs_naming">
+The name </a>of the locale-specific helpset file is constructed
+and then searched for in the following order (from most to least specific):
+<ol>
+<li><i>name_language_country_variant</i><code>.hs</code>
+<li><i>name_language_country</i><code>.hs</code>
+<li><i>name_language</i><code>.hs</code>
+<li><i>name</i><code>.hs</code>
+<li><i>name_defaultlanguage_defaultcountry_defaultvariant</i><code>.hs</code>
+<li><i>name_defaultlanguage_defaultcountry</i><code>.hs</code>
+<li><i>name_defaultlanguage</i><code>.hs</code>
+</ol>
+<p>&nbsp; </p>
+<table width="95%">
+  <tr valign="top"> 
+    <td nowrap width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp; 
+    </td>
+    <td width="98%">The defaults are derived from the system with the <code>Locale.getDefault</code> 
+      method.</td>
+  </tr>
+</table>
+<p>&nbsp;</p> 
+<h4><a name="loc_hs_file">Setting Locales in the Helpset File</a></h4>
+<p>
+The helpset file can be used to control the locale of
+different aspects of the help system.  The XML language
+controls used to set locale are discussed in more detail in
+<a href="loc_xml.html">Localizing XML Data</a>.
+<p>
+The <code>xml:lang</code> attribute can be used within the
+<code>&lt;helpset&gt;</code> tag to specify the locale of the
+entire helpset (the other elements in the helpset
+file automatically inherit the locale). For example:
+<pre>    &lt;helpset <b>xml:lang="fr"</b>&gt;</pre>
+The locale specified for the helpset in this manner
+overrides any locale acquired from the system or the
+application.  For this reason, it is the most reliable means
+for setting the helpset locale.
+<p>
+The locale of the <code>&lt;title&gt;</code> element is always
+the same as locale of the helpset. Any <code>xml:lang</code>
+attributes specified for the <code>&lt;title&gt;</code> element
+are ignored.
+
+<h4>Navigation View Locale</h4>
+<p>
+The <code>xml:lang</code> attribute can also be used to change
+the locale of the navigator views specified in the
+<code>&lt;view&gt;</code> elements (for example, the
+TOC and index).  Note, however, that this
+locale is overridden by any locale settings specified by
+<code>xml:lang</code> attributes in the TOC and index
+XML definition files, as described in <a href="loc_xml.html">XML Data</a>.
+<p>
+The locale of the <code>&lt;label&gt;</code> element is always
+the same as the locale of the containing view.  Any
+<code>xml:lang</code> attributes specified for
+<code>&lt;label&gt;</code> elements are ignored.
+
+
+<h4><a name="mult_locales">Shipping Multiple Locales</a></h4>
+<p> The JavaHelp software makes it possible to simultaneously distribute multiple 
+  localized helpsets (for example, German, French, and English). As described 
+  <a href="#finding">above</a>, the <code>HelpSet.findHelpSet</code> method determines 
+  the correct helpset file based on the system's locale or as set by the application 
+  using <code>HelpBroker.setLocale()</code>. You can include multiple, localized 
+  helpset files and locate the appropriate version using this naming convention. 
+<p>
+If you ship multiple locales, you will probably organize
+your help information a little differently than is
+described in <a href="../author/setup.html#hs_data">Setting Up a
+JavaHelp System</a>.  The following diagram shows one way
+you can organize the help information by locale:
+
+<p align="center">
+<img src="../images/i18n_filesystem.gif" width="426" height="291">
+</p>
+<p>
+Note that the paths specified in the <code>&lt;data&gt;</code>
+sections of the localized <a href="../author/helpset.html">helpset
+files</a> must point to the appropriate locations.  For
+example:
+<pre>&lt;maps&gt;
+       &lt;mapref&gt; location="<b>de/Map.jhm</b>" /&gt;
+    &lt;/maps&gt;
+    &lt;view&gt;
+      &lt;name&gt;TOC&lt;/name&gt;
+      &lt;label&gt;Holidays&lt;/label&gt;
+      &lt;type&gt;javax.help.TOCView&lt;/type&gt;
+      &lt;data&gt;<b>de/HolidayTOC.xml</b>&lt;/data&gt;
+    &lt;/view&gt;</pre>
+
+<h4>Merging Localized Helpsets</h4>
+<p>
+JavaHelp system helpsets can be <a
+href="../author/merge.html">merged</a>. The locale of a helpset is
+maintained in a merge operation. For instance, if the
+master helpset (locale <code>en_US</code>) is merged with
+another Helpset (locale <code>fr_FR</code>), the locale of both
+helpsets is maintained.
+
+</p>
+
+<h4><a name="map">Map Data</a></h4>
+<p> Map data should not be localized. If IDs (<code>target</code> attribute) are localized 
+  they will no longer match the IDs used internally in the application. </p>
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="loc.html">Localizing Help Information</a>
+<dd><a href="loc_pres.html">Localizing Help Presentation</a>
+<dd><a href="loc_xml.html">Localizing XML Data</a>
+<dd><a href="loc_html.html">Localizing HTML Data</a>
+<dd><a href="loc_font.html">Localization and Fonts</a>
+<dd><a href="loc_search.html">Localizing the Full-Text Search Database</a>
+<br>
+<dd><a href="../author/helpset.html">Helpset File</a>
+<dd><a href="../author/toc.html">Table of Contents File</a>
+<dd><a href="../author/index.html">Index File</a>
+</dl>
+
+<p>
+</body>
+</html>

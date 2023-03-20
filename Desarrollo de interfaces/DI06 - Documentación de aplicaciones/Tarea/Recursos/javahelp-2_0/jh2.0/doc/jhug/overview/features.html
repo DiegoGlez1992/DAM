@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>JavaHelp System Features</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+
+<h2>JavaHelp System Features</h2>
+<p>This section describes the main features of the JavaHelp system. For a list of new features in this release, see <a href="../release/changes.html">New Features in JavaHelp 2.0</a>.</p>
+
+<h3><a name="helpviewers">Help Viewers</a></h3>
+<p>There are three types of windows in which you can display your help topics. 
+  These windows can be specified in the Java program when it makes a call to the 
+  help system. The help author can set various attributes of these windows in 
+  the helpset (<code>.hs</code>) file. These windows cannot be invoked from a link 
+  in a help topic (although there is a way to link to a popup window that uses 
+  a different technique, described in <a href="../author/popup.html">Opening Popup 
+  and Secondary Windows From an HTML Topic</a>). However, it is possible to open 
+  a topic in one of these windows from the table of contents in the tri-paned 
+  viewer (see the Presentation feature in <a href="../author/helpset.html#presentationtag">Helpset 
+  File</a>,  the  <code>presentationtype</code> and <code>presentationname</code> descriptions in the sections on the <a href="../author/toc.html">TOC</a>, <a href="../author/index.html">index</a>, and <a href="../author/glossary.html">glossary</a> navigators, and the section  <a href="../dev/csh.html#presentation">Implementing Context-Sensitive 
+  Help</a>.
+</p>
+<p>The windows are:</p>
+<ul type="circle">
+  
+<li>Main window (by default, a tri-paned help viewer)</li>
+  <li>Secondary window</li>
+  <li>Popup window</li>
+</ul>
+<h4>Main Window</h4>
+<p> The standard JavaHelp system main window has three panes, is not destroyed 
+  when you exit the window, and is configurable (see the presentation feature 
+  in <a href="../author/helpset.html#presentationtag">Helpset File</a>). By default, 
+  a main window has the following three panes: 
+<table width=98% border=0 cellpadding=5>
+  <tr valign="top"> 
+    <td width="15%" nowrap>Toolbar</td>
+    <td width="85%"> A bar over the navigation and content panes that can be configured 
+      to display various toolbar buttons, such as Back, Forward, and Print. </td>
+  </tr>
+  <tr valign="top"> 
+    <td width="15%" nowrap>Navigation pane </td>
+    <td width="85%"> A tabbed interface appearing on the left that allows users 
+      to switch between the table of contents, index, and full text search displays. 
+    </td>
+  </tr>
+  <tr valign="top"> 
+    <td width=15% nowrap>Content pane </td>
+    <td width=85%> A pane on the right that displays help topics formatted with 
+      HTML 3.2 or later, plus embedded <a href="../dev/lwcomp.html">lightweight 
+      Java components</a>. </td>
+  </tr>
+</table>
+
+<p>The following figure shows a help window with a toolbar that has three buttons 
+  in it, a table of contents in the navigation pane on the left, and in the content 
+  pane, a help topic, &quot;Debugging in the Source Editor&quot;:</p>
+<p align="center"> <img alt="Help Viewer Window" src="../images/overview/viewer.gif"> 
+</p>
+<h4 align="left">Secondary Window</h4>
+<p align="left">By default, this window contains a single pane, a help content 
+  viewer that shows a help topic. It is similar to the content pane of the tri-paned 
+  viewer. A secondary window has a name and can be configured to have a navigation 
+  pane and a toolbar. If the window is already open, its contents are replaced 
+  if the Java program uses it again. When the user closes a secondary window, 
+  it is destroyed (unlike the main window, which is not destroyed on exit).</p>
+<h4 align="left">Popup Window</h4>
+<p align="left">This type of window stays open as long as it has focus. When the 
+  user clicks elsewhere, the window is destroyed. A popup has only one pane, a 
+  content viewer.</p>
+<h3>Table of Contents</h3>
+<p> Provides a collapsible and expandable display of topics in the help system. Supports unlimited 
+  levels and merging of multiple TOCs. The underlying file format follows World 
+  Wide Web Consortium (W3C) Extended Markup Language (XML) standards. The TOC 
+  display is synchronized with the content viewer: The topic being displayed is 
+  highlighted in the TOC. For more information, see <a href="../author/toc.html">Table of Contents File</a>.
+<h3>Index</h3>
+<p> Supports merging of multiple indexes. The underlying file format follows W3C 
+  XML standards. The index display is synchronized with the content viewer: The 
+  topic being displayed is highlighted in the index. For more information, see <a href="../author/index.html">Index File</a>.
+<h3>Full-Text Search</h3>
+<p>
+The  full-text search engine can be used in a
+variety of network environments.  Matches returned from
+searches are ranked for relevancy by using "relaxation
+rules."
+For more information, see <a href="../author/search.html">Full-Text Search</a>.
+<h3>Compression and Encapsulation</h3>
+<p>
+The standard JAR format is used to encapsulate the
+help information into a single, compressed file.  The
+JavaHelp system works equally well with help information
+that is not compressed into JAR files - this flexibility allows authors
+to view files during development without taking the time to
+compress them.
+
+<h3>Embeddable Help Windows</h3>
+<p>
+Help windows (individually or in combination) can be embedded directly
+into application interfaces. 
+
+<h3>Context-Sensitive Help</h3>
+<p> Help can be activated from Java programs through a number of different mechanisms. For more information, see the help authoring section <a href="../author/csh.html"> Context-Sensitive Help</a> and the Java developer section <a href="../dev/csh.html">Implementing Context-Sensitive Help</a>.
+<h3>Flexible Packaging</h3>
+<p>
+Flexible packaging of help information for product delivery
+makes it easy to incrementally update help information in
+the field.
+
+<h3>Customization</h3>
+<p>
+The JavaHelp system is designed to permit great flexibility
+in customizing both the user interface and functionality.
+
+<h3>Merging</h3>
+<p>
+Help information from different sources can be combined and
+presented to the end user.
+For more information, see <a href="../author/merge.html">Merging 
+  Helpsets</a>. 
+
+<h3>JavaBeans Support</h3>
+<p>
+The JavaHelp API enables a JavaBeans component to specify
+help information that can be presented to the end
+user (perhaps merged with additional information).
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>Next Overview Topic:</b> 
+<a href="scenarios.html">Descriptive Scenarios</a>
+<p>
+<!-- Return to <A HREF="../jhugTOC.html">table of contents</A> -->
+<p>
+</body>
+</html>

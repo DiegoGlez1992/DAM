@@ -1,0 +1,140 @@
+We have provided sources for some of the JavaHelp demos. These sources 
+show how to program using the JavaHelp API.
+
+The JavaHelp release ships with HelpSets and demo sources.  
+
+HELPSETS
+
+apidoc/
+	HelpSet for JavaHelp API documentation.
+	Shows extensibility of JavaHelp
+	(Data is obtained using a javadoc/doclet which is not included in EA2)
+
+browser/
+	Demonstrates the JavaHelp viewer running as an applet in
+	a web browser.
+
+holidays/
+	HelpSet with a history of the holidays.
+	This is most useful to show JavaHelp as navigation of data
+
+idehelp/
+	HelpSet with (context-sensitive) help for the mock ide
+
+merge/
+	This is a simple helpset used in the merge example
+
+object/
+	HelpSet that contains two simple JComponents embedded
+	in HTML pages using the <OBJECT> tag
+
+
+
+SOURCE EXAMPLES
+
+classviewer/
+	An API viewer tool (apiviewer).
+	Uses apidoc helpset generated from a JavaHelp javadoc doclet.
+
+idedemo/
+	Mock-up of an IDE tool.
+	Uses classviewer, apidoc and idehelp helpsets.
+
+merge/
+	Shows how to merge HelpSets into a master HelpSet
+
+object/
+	Demonstrates two JComponents
+
+searchdemo/
+	Shows how to use an alternate SearchEngine
+	Uses the holidays HelpSet
+
+
+
+COMPILING THE SOURCES
+
+All of the demo sources are in directory demos/src/sunw/demo/. The helpsets 
+are either in compressed and encapsulated in the directory demos/hsjar or
+uncompressed in demos/hs.
+
+To recompile the classviewer use the steps indicated below. On win32 use "\"
+instead of "/" as file separator, and use "copy" instead of "cp".
+
+			      **NOTES**
+(1) The merge and idedemo program must be compiled using a 1.2fcs compiler.
+(2) We do not include javac in the release.
+(3) We include only a portion of the searchdemo sources.
+(4) When compiling on JDK1.1 you must add jdk1.1.x/lib/classes.zip
+    and ../../swing/swingall.jar to the classpath. Note that the
+    pathname to the jdk1.1.x directory must be fully qualified to
+    make this work.
+
+			      *********
+
+* Setup
+
+% mkdir demos/classes
+% echo $PATH
+---- be sure you are getting the right javac.
+% which javap
+% which java
+% java -fullversion
+
+CLASSVIEWER
+
+* Compiling classviewer (apiviewer):
+
+% cd demos/src
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/classviewer/*.java 
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/classviewer/plaf/basic/*.java
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/classviewer/plaf/metal/*.java
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/classviewer/plaf/motif/*.java
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/classviewer/plaf/windows/*.java
+
+
+IDEDEMO
+
+* Compiling IdeDemo and copying localization data and images:
+
+% cd demos/src
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/idedemo/*.java
+% cp sunw/demo/idedemo/IdeDemo.properties ../classes/sunw/demo/idedemo/IdeDemo.properties
+% mkdir ../classes/sunw/demo/idedemo/images
+% cp sunw/demo/idedemo/images/* ../classes/sunw/demo/idedemo/images
+
+* Running IdeDemo:
+(note the different directory)
+
+% cd demos
+% java -classpath classes:hsjar/apidoc.jar:hsjar/idehelp.jar:../javahelp/lib/jh.jar sunw.demo.idedemo.ApiDemo
+
+
+MERGE
+
+* Compiling Merge demo:
+
+% cd demos/src
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/merge/*.java
+
+* Running Merge:
+(note the different directory)
+
+% cd demos
+% java -classpath classes:hs/merge:../javahelp/lib/jh.jar sunw.demo.merge.Merge
+
+
+OBJECT
+
+* Compiling Object demo:
+
+% cd demos/src
+% javac -d ../classes -classpath .:../classes:../../javahelp/lib/jhall.jar sunw/demo/object/*.java
+
+* Running Object:
+(note the different directory)
+
+% cd demos
+% java -classpath classes:hs/object:../javahelp/lib/jh.jar sunw.demo.object.Object
+
+

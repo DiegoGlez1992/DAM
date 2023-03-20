@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright (C) 1998  Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *
+ *    Sun Microsystems, Inc., 2550 Garcia Avenue,
+ *    Mountain View, California 94043.
+ *
+-->
+<HTML>
+<HEAD>
+<TITLE>
+Using the Merge Demo
+</TITLE>
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<H1>Using the Merge Demo</H1>
+This merge demo is included to demonstrate the merge
+capabilities as they exist in the JavaHelp system.  
+
+<H2>How Merging Works</H2> 
+When HelpSets are merged, the TOC, index, and search
+database information of the constituent HelpSets are
+appended to each other to form a merged HelpSet.
+Constituent HelpSets can be dynamically
+removed from the merged HelpSet, even while the merged
+HelpSet is displayed.
+<p>
+It's important to understand that
+there is always a <em>master</em> HelpSet to which other
+HelpSets are appended.  For the purposes of this demo, this
+HelpSet serves as the master HelpSet.
+<H2>The Demo Program</H2>
+This demo allows you to add HelpSets to the merge list, display
+the resulting merged HelpSet, and remove constituent HelpSets 
+from the merged HelpSet.
+<p>
+<IMG SRC="images/hg_proc.gif">To run the merge demo:
+<ol>
+<li>Use the <A HREF="add.html">Add dialog box</A> to
+construct a list of HelpSets in the Merged HelpSets panel that
+you wish to append to the Master HelpSet
+<li>In the list, select the Master HelpSet
+<li>Click the Display button to view the merged information. 
+<li>To remove one of the constituent HelpSets (other than
+the Master HelpSet), select the HelpSet in the list and
+click the Remove button.
+</ol>
+NOTES:
+<ul>
+<li>You can view any of the HelpSets in the list
+individually by selecting them and clicking Display. To
+view merged HelpSets you <em>must select the Master HelpSet
+only</em>, then click Display. All the HelpSets
+in the list are appended to the Master HelpSet.
+<li>Source to this demo can be found at:
+<pre>
+	demos\src\sunw\demo\merge\Merge.java
+</pre>
+
+</ul>
+
+</body>
+</HTML>

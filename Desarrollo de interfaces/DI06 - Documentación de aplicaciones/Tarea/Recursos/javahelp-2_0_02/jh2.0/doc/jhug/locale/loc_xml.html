@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2002 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Localizing XML Data</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Localizing XML Data</h2>
+<p> The XML data that defines the TOC, index, and helpset files can be localized 
+  as specified in the XML 1.0 specification (<code><a href="http://w3c.org/XML/)">http://w3c.org/XML/</a></code>). 
+  Both the character encoding and language can be set for these files. 
+<h3>Character Encoding</h3>
+<p>
+Character encoding is an unambiguous mapping of the members
+of a character set (letters, ideographs, digits, symbols,
+or control functions) to specific numeric code values.  The
+specified encoding applies to the entire file. Character
+encoding can be set for XML files using the following
+methods (listed in order of precedence):
+<ul type="circle">
+<li><a href="#http_encoding">The HTTP protocol</a>
+<li><a href="#prolog_encoding">The XML prolog declaration</a>
+</ul>
+<p><img src="../../images/hg_note.gif" width="18" height="13"> Only one encoding 
+  can be specified for any file.</p>
+
+<h4><a name="http_encoding">HTTP Protocol</a></h4>
+ 
+<p>
+If the XML file is provided by a server via the HTTP
+protocol, the server can specify the character set using
+the <code>charset</code> parameter in the HTTP <code>Content-Type</code>
+field.
+<p>
+
+
+<h4><a name="prolog_encoding">XML Prolog Declaration</a></h4>
+<p>
+Typically, the encoding attribute in the prolog to all of the XML
+metadata files is used to specify the encoding used for its
+character set.  For example, the following prolog specifies
+the Latin-1 (ISO-8859-1) character set:
+<pre>&lt;?xml version='1.0' <b>encoding='ISO-8859-1'</b> standalone='yes' ?&gt;</pre>
+
+<h3>Setting the Language</h3>
+<p>
+The language can be set for the XML files using the
+following methods (listed in order of precedence):
+<ul type="circle">
+<li>The <a href="#lang_attr"><code>xml:lang</code>
+attribute</a>, which can be set for any XML element (tag)
+<li>By  <a href="#inherit">inheritance</a> from the closest
+parent element (tag)
+<li>The  <a href="#http_xmllang">HTTP protocol</a>
+<code>Content-Language</code> header
+<li>The default locale of the helpset
+<li>The default locale of the application
+</ul>
+<table width="99%" border="0" cellspacing="1" cellpadding="2">
+  <tr valign="top"> 
+    <td width="2%"><img src="../../images/hg_note.gif" width="18" height="13">&nbsp;</td>
+    <td>It is possible to mix languages in these files. A different language can 
+      be specified for each tag; however, only one character encoding can be specified 
+      for each file. </td>
+  </tr>
+</table>
+
+
+<h4><a name="lang_attr">The <tt>xml:lang</tt> Attribute</a></h4>
+<p> The language for any element (tag) in XML files can be set using the <code>xml:lang</code> 
+  attribute. For example, the following code sets the language for that table 
+  of contents entry to German. Any elements (<code>&lt;tocitem&gt;</code> tags) nested 
+  in that tag automatically inherit that language: </p>
+<pre>&lt;tocitem <b>xml:lang="de"</b> target="jde.intro"&gt;Homepage der JDE Online-Hilfe&lt;/tocitem&gt;</pre>
+<p>
+<a name="inherit">
+Typically, </a>the <code>xml:lang</code> attribute is set in the
+opening tag (for example, <code>&lt;toc xml:lang="de"&gt;</code>),
+so all of the other elements in the TOC inherit the
+attribute. In this case the entire TOC is in German.
+
+<p>
+The syntax of the lang attribute is:</p>
+<table width=98% border=0 cellpadding=5>
+  <tr valign="top">
+    <td width="10%" nowrap><i>lang</i> </td>
+    <td width="90%"> = language-code </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>language-code</i> </td>
+    <td width="90%"> = primarycode ('-' subcode) </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>primarycode</i> </td>
+    <td width="90%"> = ISO639 | IonaCode | UserCode </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>ISO639</i> </td>
+    <td width="90%"> = 2 alpha characters </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>IonaCode</i> </td>
+    <td width="90%"> = (i | I) '-' (alpha characters) </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>UserCode</i> </td>
+    <td width="90%"> = (x | X) '-' (alpha characters) </td>
+</tr>
+
+<tr valign="top">
+    <td width=10% nowrap><i>subcode</i> </td>
+    <td width="90%"> = (alpha characters) </td>
+</tr>
+
+</table>
+<p> For more information about the <code>lang</code> attribute, please refer to 
+  the XML recommendation at the World Wide Web Consortium web site (<code><a href="http://w3c.org/XML/">http://w3c.org/XML/</a></code>). 
+</p>
+
+<h4><a name="http_xmllang">HTTP Protocol</a></h4>
+<p>
+If the XML file is provided by a server via the HTTP
+protocol, the server can specify the language for that file
+using the HTTP <code>Content-Language</code> header (for example,
+<code>Content-Language:en-US</code>).  
+
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="loc.html">Localizing Help Information</a>
+<dd><a href="loc_pres.html">Localizing Help Presentation</a>
+<dd><a href="loc_helpset.html">Localizing Helpsets</a>
+<dd><a href="loc_html.html">Localizing HTML Data</a>
+<dd><a href="loc_font.html">Localization and Fonts</a>
+<dd><a href="loc_search.html">Localizing the Full-Text Search Database</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+
+</body>
+</html>

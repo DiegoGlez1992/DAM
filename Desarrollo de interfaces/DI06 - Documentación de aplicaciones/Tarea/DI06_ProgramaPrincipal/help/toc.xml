@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="1.0">
+	<!--  categoryclosedimage="FolderClosed" categoryopenimage="FolderOpened"
+	topicimage="ItemIco"-->
+	<tocitem text="Concepto de componente" target="ComponenteJava"/>
+	<tocitem text="Crear un componente" target="CrearComponente"/>
+	<tocitem text="Uso del componente" target="UsoComponente"/>
+	<tocitem text="Codigo completo de ejemplo" target="CodigoCompleto"/> 
+</toc>

@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.S. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Adding the JavaHelp System to Applications</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Adding the JavaHelp System to Applications</h2>
+<p> The following code sample adds a JavaHelp system to an application. It is 
+  followed by a series of steps explaining more about what is happening in the 
+  code: 
+<pre>import javax.help.*;
+// Find the HelpSet file and create the HelpSet object:
+   String helpHS = "myHelpSet.hs";
+   ClassLoader cl = ApiDemo.class.getClassLoader();
+   try {
+      URL hsURL = HelpSet.findHelpSet(cl, helpHS);
+      hs = new HelpSet(null, hsURL);
+   } catch (Exception ee) {
+      // Say what the exception really is
+      System.out.println( "HelpSet " + ee.getMessage());
+      System.out.println("HelpSet "+ helpHS +" not found")
+      return;
+   }
+// Create a HelpBroker object:
+   hb = hs.createHelpBroker();
+// Create a "Help" menu item to trigger the help viewer:
+   JMenu help = new JMenu("Help");
+   menuBar.add(help);
+   menu_help = new JMenuItem("Launch Help");
+   menu_help.addActionListener(new CSH.DisplayHelpFromSource( hb ));
+</pre>
+<p><b>The folllowing steps explain more about the preceding code sample:</b>
+<ol>
+  <li><a name="classloader">Import the JavaHelp system classes:</a> 
+    <pre>import javax.help.*;</pre>
+    <table border="0" cellspacing="1" cellpadding="5">
+      <tr valign="top"> 
+        <td><img src="../../images/hg_note.gif"></td>
+        <td>Be sure to add one of the JavaHelp system libraries (for example, 
+          <code>jh.jar</code>) to your application's <code>CLASSPATH</code>. </td>
+      </tr>
+    </table>
+    <p> 
+  <li>Find the helpset file and create the helpset object: 
+    <pre>String helpHS = &quot;myHelpSet.hs&quot;;
+ClassLoader cl = ApiDemo.class.getClassLoader();
+try {
+    URL hsURL = HelpSet.findHelpSet(cl, helpHS);
+    hs = new HelpSet(null, hsURL);
+} catch (Exception ee) {
+    System.out.println( &quot;HelpSet &quot; + ee.getMessage());
+    System.out.println(&quot;HelpSet &quot;+ helpHS +&quot; not found&quot;)
+    return;
+}
+</pre>
+    <table  border="0" cellspacing="1" cellpadding="5">
+      <tr valign="top"> 
+        <td><img src="../../images/hg_note.gif"></td>
+        <td>In this code sample, <code>findHelpSet()</code> takes a <code>ClassLoader</code> 
+          object as its first parameter. If you add your helpset's directory to 
+          the <code>CLASSPATH</code>, <code>findHelpSet()</code> will find it 
+          because it calls <code>ClassLoader.getResource()</code>, which searches 
+          the directories in the <code>CLASSPATH</code> for the helpset file. 
+          If <code>getResource()</code>finds a <code>.jar</code> file under a 
+          directory, it opens the <code>.jar</code> file and searches in it for 
+          the helpset file. <br>
+          <br>
+          For more information on setting the class path, see <a href="http://java.sun.com/j2se/1.4.2/docs/tooldocs/solaris/classpath.html">http://java.sun.com/j2se/1.4.2/docs/tooldocs/solaris/classpath.html</a>.</td>
+      </tr>
+    </table>
+  </li>
+  <li>Create a HelpBroker object: 
+    <pre>hb = hs.createHelpBroker();</pre>
+  <li>Create a "Help" menu item to trigger the help viewer: 
+    <pre>JMenu help = new JMenu("Help");
+menuBar.add(help);
+menu_help = new JMenuItem((&quot;Launch Help&quot;);
+menu_help.addActionListener(new CSH.DisplayHelpFromSource( hb ));</pre>
+</ol>
+
+<h3>Helpset</h3>
+<p>
+The first thing your application does is read the helpset
+file specified by the application. The helpset file defines
+the <i>helpset</i> for that application.  A helpset is
+the set of data that constitutes your help system. The
+helpset file includes the following information:
+
+<table width=98% border=0 cellpadding=5>
+<tr valign="top">
+<td width=30%>Map file
+</td>
+<td width=70%>
+The <a href="../author/map.html">map file</a> is used to associate
+topic IDs with the URL or path name of HTML topic files.
+</td>
+</tr>
+
+<tr valign="top">
+<td width=30%>View information
+</td>
+<td width=70%>
+Information that describes the navigators being used in the
+helpset.  The standard navigators are:
+table of contents, index, and full-text search.
+Information about custom navigators is included here as
+well.
+</td>
+</tr>
+
+<tr valign="top">
+<td width=30%>Helpset title
+</td>
+    <td width=70%> The title of the helpset as defined in the helpset file's <code>&lt;title&gt;</code> 
+      tag.</td>
+</tr>
+
+<tr valign="top">
+<td width=30%>Home ID
+</td>
+<td width=70%>
+The name of the (default) ID that is displayed when the
+help viewer is called without specifying an ID.
+</td>
+</tr>
+
+<tr valign="top">
+<td width=30%>Sub-helpsets
+</td>
+<td width=70%>
+This optional section can be used to statically include other helpsets by using the tag. The helpsets indicated
+by this tag are merged automatically into the helpset that
+contains the tag. More details about
+merging can be found in <a href="../author/merge.html">Merging Helpsets</a>. 
+</td>
+</tr>
+</table>
+<p>
+For more information about the helpset file, see <a href="../author/helpset.html">Helpset File</a>.
+
+<p>
+<a name="HelpBroker"></a>
+<br>
+<h3>HelpBroker</h3>
+<p>
+The HelpBroker is an agent that negotiates and manages the
+display of help content for your application. The
+HelpBroker also provides "convenience" methods that you can
+use to implement context-sensitive help.  See <a href="csh.html#HelpBroker">Implementing Context-Sensitive Help</a> for details.
+<p>
+You can implement a help system without using the
+HelpBroker. However, without the HelpBroker you have to
+write code to directly manage the HelpViewer and JHelp
+objects, navigators, and context-sensitive
+help functionality (F1 key on dialogs, help button
+activation, and on item help button/menu activation).
+<p>
+For a list and description of the HelpBroker methods, see
+the API at:  <a
+href="../../api/javax/help/HelpBroker.html">doc\api\javax\help\HelpBroker.html</a>.
+
+<p>
+<img src="../../images/hg_see.gif"><b>See also:</b>
+<dl>
+<dd><a href="dev.html">Programming with the JavaHelp System</a>
+<dd><a href="csh.html">Implementing Context-Sensitive Help</a>
+<dd><a href="embed.html">Embedding JavaHelp Components</a>
+</dl>
+
+<br>
+</body>
+</html>

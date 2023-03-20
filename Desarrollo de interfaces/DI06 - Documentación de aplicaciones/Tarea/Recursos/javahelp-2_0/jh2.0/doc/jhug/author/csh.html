@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+ *         Copyright © 2003 Sun Microsystems, Inc
+ *                    All rights reserved.
+ *          Notice of copyright on this source code 
+ *          product does not indicate publication. 
+ * 
+ * RESTRICTED RIGHTS LEGEND: Use, duplication, or disclosure by 
+ * the U.Sc. Government is subject to restrictions as set forth 
+ * in subparagraph (c)(1)(ii) of the Rights in Technical Data
+ * and Computer Software Clause at DFARS 252.227-7013 (Oct. 1988) 
+ * and FAR 52.227-19 (c) (June 1987).
+ *     Sun Microsystems, Inc., 4150 Network Circle,
+ *    Santa Clara, California 95054, U.S.A.
+ *
+-->
+<html>
+<head>
+<title>Context-Sensitive Help</title>
+<link rel="stylesheet" type="text/css" href="../jhug.css" title="Style">
+</head>
+<body bgcolor="#ffffff">
+<h2>Context-Sensitive Help</h2>
+<p>
+The JavaHelp system provides a number of features that
+enable you to provide context-sensitive help to your
+users.  Context-sensitive help is information provided to
+users based on the context of the task in which they are
+involved.  
+<p> Implementing context-sensitive help involves associating help topics with 
+  objects in the application's graphical user interface (GUI) such as menu items, 
+  buttons, text boxes, and windows. Help authors generally work with developers 
+  to determine which topics are assigned to each object. The developer assigns 
+  map IDs to the application's GUI objects, then the help author associates those 
+  IDs with topic URLs in the <a href="map.html">map file</a>. The fact that hard 
+  URL addresses are not embedded in the application code allows the author to 
+  change topics without requiring the developer to change the application. 
+<p>
+For details about how context-sensitive help is
+implemented for an application, see <a
+href="../dev/csh.html">Implementing Context-Sensitive
+Help</a>.
+
+<h3>Types of Context-Sensitive Help</h3> 
+<p>
+The JavaHelp system provides mechanisms for two types of
+context-sensitive help: <i>user-initiated help</i> and
+<i>system-initiated help</i>.
+
+<h3>User-Initiated Help</h3>
+<p>
+User initiated help delivers information to users when they
+explicitly ask for it. The JavaHelp system includes the
+following user-initiated mechanisms:
+<ul type="circle">
+<li><a href="csh.html#window-level">Window-Level Help</a>
+<li><a href="csh.html#field-level">Field-Level Help</a>
+<li><a href="csh.html#menu">Help Menu</a>
+<li><a href="csh.html#button">Help Button</a>
+</ul>
+<a name="window-level"></a>
+<h4>Window-Level Help</h4>
+<p>
+Users can obtain help about container objects such as
+application windows and dialog boxes that have focus by
+pressing the F1 function key (on systems with a Help key,
+the Help key also works). An object is considered to have
+focus when it is in a state that allows the user to interact with
+it. 
+
+<!--
+<p>
+<IMG SRC="../../images/hg_note.gif" width="18" height="13"><br>
+It is technically possible to use this mechanism to provide
+context-sensitive help for any object that has focus when
+the F1 key is pressed.  <i>However, to make JavaHelp system
+implementations as consistent as possible, you are strongly
+encouraged to use this mechanism only to provide help at
+the window level. Use the field-level help mechanism to
+provide help for other GUI objects.</i>
+<p>
+-->
+
+By default, help information is displayed in the help viewer.
+
+<a name="field-level"></a>
+<h4>Field-Level Help</h4>
+<p>
+Users can use field-level help to obtain help about any GUI
+object.  To use field-level help, the user:
+<ol>
+<li>Clicks the field-level help button <img align="middle" src="../images/csh_button_small.gif" width="22" height="17"> or chooses the
+Help &gt; Field-Level Help menu 
+item to change the cursor to
+the special field-level help cursor (<img align="bottom" src="../images/helpItem16.gif">)</li>
+<li>Selects a GUI object</li>
+</ol>
+By default, help information is displayed in the help viewer and the
+cursor returns to its original state.
+
+<a name="menu"></a>
+<h4>Help Menu</h4>
+<p>
+The Help menu can be used to provide help to users about
+specific tasks or objects.  The following Help menu contains
+a submenu of items that provide help about completing various
+tasks.
+<p>
+<center>
+<img src="../images/helpmenu2.gif" width="379" height="350">
+</center>
+</p>
+
+<a name="button"></a>
+<h4>Help Button</h4>
+<p>
+It is common for dialog boxes to contain a Help button that
+provides help information about how to use the dialog box.
+Clicking the Help button is usually equivalent to pressing
+the F1 key while the dialog box has focus.
+
+<a name="system"></a>
+<h3>System-Initiated Help</h3>
+<p>
+Most applications provide information automatically when
+the user performs a particular action.  Most commonly, this
+information consists of status, warning, or error
+messages.  It is also possible for the application to use
+the help viewer to provide more detailed help based on user
+actions.
+
+
+
+
+
+<p>
+<img src="../../images/hg_see.gif" width="18" height="13"><b>See also:</b>
+<dl>
+<dd><a href="../dev/csh.html">Implementing Context-Sensitive Help</a>
+
+<!-- <dd><A HREF="../jhugTOC.html">Table of Contents</A> -->
+</dl>
+<p>
+</body>
+</html>

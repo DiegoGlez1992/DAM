@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="di02_reservascoche.MenuPrincipalController">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Reservar vehículos eléctricos">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#hanleBtnCoche" text="Coche" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleBtnEmpty" text="Furgoneta" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleBtnEmpty" text="Bicicleta" />
+                <MenuItem mnemonicParsing="false" onAction="#handleBtnEmpty" text="Patinete" />
+               </items></Menu>
+        </menus>
+         <tooltip>
+            <Tooltip text="Pulse sobre el tipo de vehículo que desea reservar" />
+         </tooltip>
+      </MenuBar>
+      <Pane layoutX="20.0" layoutY="39.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="560.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="39.0">
+         <children>
+            <Button id="btCoche" layoutX="53.0" layoutY="71.0" mnemonicParsing="false" onAction="#hanleBtnCoche" prefHeight="80.0" prefWidth="200.0" text="Coche">
+               <font>
+                  <Font name="Arial" size="30.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Reservar coche eléctrico" />
+               </tooltip>
+            </Button>
+            <Button id="btFurgoneta" layoutX="308.0" layoutY="71.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnEmpty" prefHeight="80.0" prefWidth="200.0" text="Furgoneta">
+               <font>
+                  <Font name="Arial" size="30.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Reservar furgoneta eléctrica" />
+               </tooltip>
+            </Button>
+            <Button id="btBicicleta" layoutX="53.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnEmpty" prefHeight="80.0" prefWidth="200.0" text="Bicicleta">
+               <font>
+                  <Font name="Arial" size="30.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Reservar bicicleta eléctrica" />
+               </tooltip>
+            </Button>
+            <Button id="btPatinete" layoutX="308.0" layoutY="190.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnEmpty" prefHeight="80.0" prefWidth="200.0" text="Patinete">
+               <font>
+                  <Font name="Arial" size="30.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Reservar patinete eléctrico" />
+               </tooltip>
+            </Button>
+            <Label alignment="CENTER" prefHeight="47.0" prefWidth="560.0" text="Gestión de vehículos" textAlignment="CENTER">
+               <font>
+                  <Font name="Wide Latin" size="30.0" />
+               </font>
+            </Label>
+            <Separator layoutY="45.0" prefHeight="13.0" prefWidth="560.0" />
+            <Separator layoutY="290.0" prefHeight="1.0" prefWidth="560.0" />
+            <Button id="btSalir" alignment="CENTER" layoutY="308.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleBtnSalir" prefHeight="40.0" prefWidth="560.0" text="SALIR" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+               <tooltip>
+                  <Tooltip text="Salir del programa" />
+               </tooltip>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

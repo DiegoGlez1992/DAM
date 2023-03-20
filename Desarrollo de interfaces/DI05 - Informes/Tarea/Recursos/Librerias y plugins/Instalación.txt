@@ -1,0 +1,7 @@
+Instalación de JasperReports en NetBeans.
+
+Para poder utilizar JasperReports a través de NetBeans es necesario instalar los plugins y librerías de JasperReports e iReports. Los plugins y las librerías necesarias las puedes descargar desde el siguiente enlace: Enlace para descargar librerías y plugins. (No olvides descomprimir el fichero para utilizarlo).
+
+Comenzaremos por instalar los plugins de NetBeans, para ello, dentro de NetBeans seleccionamos la opción Herramientas -> Plugins --> Descargados --> Agregar Plugins. Seleccionamos los ficheros que nos hemos descargados.
+
+A continuación, procederemos a instalar las librerías necesarias. Para ello, pulsamos Herramientas --> Librerías --> Nueva Librería. Asignamos un nombre, por ejemplo, JasperReport 6.11.  Pulsaremos el botón Agregar jar / carpeta y seleccionaremos todas las librerías. Para finalizar pulsaremos Aceptar.
