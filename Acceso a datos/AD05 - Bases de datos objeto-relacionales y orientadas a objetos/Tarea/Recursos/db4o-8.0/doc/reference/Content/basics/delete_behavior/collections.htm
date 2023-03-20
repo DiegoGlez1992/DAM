@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts|Delete Behavior" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Collections and Arrays</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#basics/delete_behavior/collections.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../delete_behavior.htm">Delete Behavior</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Collections and Arrays</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Collections and Arrays</h1>
+        <p>Collections and arrays don't have a special behavior in db4o. When you delete a collection, the collection-members are not deleted. The collection and objects are two independent objects for db4o. </p>
+        <h2>Removing From A Collection</h2>
+        <p>To remove object from a collection you can simple use the regular collection-operations and then store that collection. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">PilotGroup group = findGroup(container);
+<span style="color:Blue;">final</span> Pilot pilot = group.getPilots().get(0);
+group.getPilots().remove(pilot);
+container.store(group.getPilots());
+
+assertEquals(3,allPilots(container).size());
+assertEquals(2,group.getPilots().size());</pre>
+            <div class="codesnippet-meta">DeletionExamples.java: Removing from a collection doesn't delete the collection-members
+			<div class="codedownload"><a href="../../CodeExamples/deletion/Example-db4odoc-deletion-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Remove And Delete Collection Members</h2>
+        <p>If you want to delete a collection-member, remove it and then delete it.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">PilotGroup group = findGroup(container);
+<span style="color:Blue;">final</span> Pilot pilot = group.getPilots().get(0);
+group.getPilots().remove(pilot);
+container.store(group.getPilots());
+container.delete(pilot);
+
+assertEquals(2,allPilots(container).size());
+assertEquals(2,group.getPilots().size());</pre>
+            <div class="codesnippet-meta">DeletionExamples.java: Remove and delete
+			<div class="codedownload"><a href="../../CodeExamples/deletion/Example-db4odoc-deletion-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

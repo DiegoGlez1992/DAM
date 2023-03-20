@@ -1,0 +1,17 @@
+<html>
+<body>
+
+<p>Repositories for important BLOAT objects such as the
+<tt>Editor</tt>, <tt>ClassHierarchy</tt>, and <tt>FlowGraph</tt>s.  In
+order to avoid build dependencies with other packages we took the
+novel approach of having a "context" interface in several packages that
+the classes in this package then implement.</p>
+
+<p>The reason we implement all of the methods in one class is so that
+if the user wants to have different contexts with different attributes
+(for instance, caching policies), all one has to do is subclass
+<tt>BloatContext</tt> instead of subclassing other contextes which may
+become ackward.</p>
+
+</body>
+</html>

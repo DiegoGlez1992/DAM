@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts|Querying|Native Queries" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Native Query Examples</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#basics/querying/native_queries/native_query_examples.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../querying.htm">Querying</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../native_queries.htm">Native Queries</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Equality</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Native Query Examples</h1>
+        <p>Here's a collection of native query examples. These queries assume that there's a Pilot class with a name and age and a Car class with a pilot and name.</p>
+        <h2><a name="Equality"></a>Equality</h2>
+        <p>This query shows you how compare a <span class="Primarygetter/setter">getter/setter</span> for equality. In this example we compare the name of a person.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> pilot.getName().equals(<span style="color:#A31515;">"John"</span>);
+    }
+});</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Check for equality of the name
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="Comparison"></a>Comparison</h2>
+        <p>You can compare values with the usual comparison operators.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> pilot.getAge() &gt; 18;
+    }
+});</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Compare values to each other
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="ValueRange"></a>Query For Value Range</h2>
+        <p>Of course you can combine different comparisons. For example you can combine the greater and smaller than operators to check for a range of values.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> pilot.getAge() &gt; 18 &amp;&amp; pilot.getAge()&lt;30;
+    }
+});</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Query for a particular rage of values
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="LogicalOperators"></a>Combine Check With Logical Operators</h2>
+        <p>Of course you can combine a arbitrary set of conditions with logical operators.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> (pilot.getAge() &gt; 18 &amp;&amp; pilot.getAge()&lt;30)
+                || pilot.getName().equals(<span style="color:#A31515;">"John"</span>);
+    }
+});</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Combine different comparisons with the logical operators
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="SeperateQueryUnit"></a>Query In Separate<span MadCap:conditions="Primary.Java"> Class</span></h2>
+        <p>You can implement your query in a separate<span MadCap:conditions="Primary.Java"> class</span> and then just us it where you need it. This is especially useful when you reuse the same query multiple times. Or you want to give your query a clear name for documentation purposes.</p>
+        <p>First write your <span MadCap:conditions="Primary.Java"> class</span>:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">class</span> AllJohns <span style="color:Blue;">extends</span> Predicate&lt;Pilot&gt; {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> pilot.getName().equals(<span style="color:#A31515;">"John"</span>);
+    }
+}</pre>
+            <div class="codesnippet-meta">AllJohns.java: Query as class
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>And then use it:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> AllJohns());</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Use the predefined query
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="ArbitraryCode"></a>Arbitrary Code</h2>
+        <p>In principal your query can contain any code and can do the most complex comparisons. However in practice the are limitations. The simple queries are <a href="native_query_optimization.htm">optimized and translated to SODA-queries</a>. This is not possible for complex queries. If the query cannot be optimized, db4o will instantiate all objects and pass it to your query-object. This is a order of magnitude slower than a optimized native query and only feasible for smaller data sets.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> List&lt;Integer&gt; allowedAges = Arrays.asList(18,20,33,55);
+ObjectSet&lt;Pilot&gt; result = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+    @Override
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+        <span style="color:Blue;">return</span> allowedAges.contains(pilot.getAge()) ||
+               pilot.getName().toLowerCase().equals(<span style="color:#A31515;">"John"</span>); 
+    }
+});</pre>
+            <div class="codesnippet-meta">NativeQueryExamples.java: Arbitrary code
+			<div class="codedownload"><a href="../../../CodeExamples/query/nq/Example-query-nq-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>&#160;</p>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

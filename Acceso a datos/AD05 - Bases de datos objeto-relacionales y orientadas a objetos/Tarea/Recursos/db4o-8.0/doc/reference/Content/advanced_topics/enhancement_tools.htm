@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Enhancement Tools</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#advanced_topics/enhancement_tools.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Enhancement Tools</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor47"></a>Enhancement Tools</h1>
+        <p>Enhancement tools provide a convenient framework for application (jar, dll, exe) or classes modification to support db4o-specific functionality. Enhancement tools can work on a ready application or library and apply the improvements at load or build time.  </p>
+        <p>The tools functionality is provided through <span class="PrimaryByteCode">bytecode</span> instrumentation. This process inserts special, usually
+short, sequences of <span class="PrimaryByteCode">bytecode</span> at designated points in your code. It is
+typically used for profiling or monitoring, however the range of use of
+<span class="PrimaryByteCode">bytecode</span> instrumentation is not limited by this tasks: it can be applied
+anywhere where a specific functionality should be plugged into the ready built
+classes.</p>
+        <p>db4o Enhancement Tools currently have these cases for <span class="PrimaryByteCode">bytecode</span>instrumentation:</p>
+        <ul>
+            <li value="1"><a href="../basics/activation_concept/transparent_activation_framework.htm">Transparent
+Activation</a>
+            </li>
+            <li value="2"><a href="../basics/update_concept/transparent_persistence.htm">Transparent Persistence</a>
+            </li>
+            <li value="3"><a href="../basics/querying/native_queries/native_query_optimization.htm">Native Query Optimization </a>
+            </li>
+        </ul>
+        <p>In <a href="../basics/update_concept/transparent_persistence.htm">transparent activation/persistence case</a>, classes are required
+to implement <span class="PrimaryActivatable">Activatable</span> interface to support transparent activation. In many
+cases you don't want to pollute your classes with some additional
+interface, or even won't be able to do so if you use a third party classes
+library. That's where bytecode instrumentation comes handy: <span class="PrimaryActivatable">Activatable</span>interface will be implemented
+on your existing classes by applying bytecode instrumentation. Another
+advantage of this approach - you can still work on your "clean" classes, just
+do not forget to run the instrumentation afterwards.</p>
+        <p>In the native query optimization case bytecode
+instrumentation is used as a more performant alternative to a run-time
+optimization. When an native query is optimized the user and compiler-friendly syntax of
+<span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">NQ<img style="border: none;margin-left: 5px;" src="../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Native Query</span></span> predicate is replaced with a query-processor-friendly code. Obviously, optimization process can take some time, therefore it
+can be a good choice to use pre-instrumented classes, then to let the
+optimization be executed each time it is required by application.</p>
+        <p>
+            <p>The instrumentation can be run at build time, also known as static
+instrumentation. In this case a special build script calls runs the instrumentation on the classes
+before packaging them to <span class="PrimaryArtefact">jar</span>, or on the <span class="PrimaryArtefact">jar</span> itself. This is the fastest solution as no time is
+spent on bytecode instrumentation at runtime. </p>
+            <p MadCap:conditions="Primary.Java">Another method is to use bytecode instrumentation at load time. In this case
+instrumenting information is inserted into the classes by a specific
+instrumenting classloader just before they are loaded into the VM.</p>
+        </p>
+        <p>There are different possibilities to integrate the enhancement tools into a project.</p>
+        <ul>
+            <li MadCap:conditions="Primary.Java" value="1">More details about built time enhancements: <a href="enhancement_tools/enhancement_for_java/build_time_enhancement.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Build Time Enhancement"</a></li>
+            <li MadCap:conditions="Primary.Java" value="2">It's possible to enhance the classes a runtime:&#160;<a target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Load Time Enhancement"</a></li>
+        </ul>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

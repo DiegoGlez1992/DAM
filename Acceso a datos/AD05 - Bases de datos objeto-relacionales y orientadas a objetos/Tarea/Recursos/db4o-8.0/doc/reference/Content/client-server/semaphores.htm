@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Client-Server|Concurrency Control" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Semaphores</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#client-server/semaphores.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../client-server.htm">Client-Server</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="concurrency_control.htm">Concurrency Control</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Semaphores</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor97"></a>Semaphores</h1>
+        <p>db4o semaphores are named flags that can only be owned by one object container at one time. They are supplied to be used as locks for exclusive access to code blocks in applications and to signal states from one client to the server and to all other clients.</p>
+        <p>The naming of semaphores is up to the application. Any string can be used.</p>
+        <p><a href="#" class="glossaryTerm_0">Semaphores</a> are freed automatically when a client disconnects correctly or when a clients presence is no longer detected by the server, that constantly monitors all client connections.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Green;">// Grab the lock. Specify the name and a timeout in milliseconds</span>
+<span style="color:Blue;">boolean</span> hasLock = container.ext().setSemaphore(<span style="color:#A31515;">"LockName"</span>, 1000);
+<span style="color:Blue;">try</span> {
+    <span style="color:Green;">// you need to check the lock</span>
+    <span style="color:Blue;">if</span> (hasLock) {
+        System.out.println(<span style="color:#A31515;">"Could get lock"</span>);
+    } <span style="color:Blue;">else</span>{
+        System.out.println(<span style="color:#A31515;">"Couldn't get lock"</span>);
+    }
+} <span style="color:Blue;">finally</span> {
+    <span style="color:Green;">// release the lock</span>
+    container.ext().releaseSemaphore(<span style="color:#A31515;">"LockName"</span>);
+}</pre>
+            <div class="codesnippet-meta">SemaphoreExamples.java: Grab a semaphore
+			<div class="codedownload"><a href="../CodeExamples/semaphores/Example-db4odoc-semaphores-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Building Block</h2>
+        <p>Semaphores are a low level building block. Usually they are not used directly. Instead you can build the abstractions you need with semaphores. For example you can build object-locking, critical sections etc with semaphores. </p>
+        <p>&#160;</p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

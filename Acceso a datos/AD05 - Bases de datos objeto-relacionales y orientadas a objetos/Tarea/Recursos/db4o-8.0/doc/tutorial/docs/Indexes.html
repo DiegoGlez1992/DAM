@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="Indexes"></a><br>
+<a name="outline101"></a><br><h1>15. Indexes</h1><br>
+db4o allows to index fields to provide maximum querying&nbsp;performance. To request an index to be created, you would&nbsp;issue the following API method call in your global &nbsp;<a href="Configuration.html#Configuration">db4o configuration method</a>&nbsp;before you&nbsp;open an ObjectContainer/ObjectServer:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// assuming<br>
+class Foo{<br>
+&nbsp;&nbsp;String bar;<br>
+}<br>
+<br>
+CommonConfiguration#objectClass(Foo.class).objectField("bar").indexed(true);</code></td></tr></table>
+<br>
+<br>
+If the configuration is set in this way, an index on the Foo#bar field&nbsp;will be created (if not present already) the next time you open an<br>
+ObjectContainer/ObjectServer and you use the Foo class the first time<br>
+in your application.<br>
+<br>
+Contrary to all other <a href="Configuration.html#Configuration">configuration calls</a>&nbsp;indexes&nbsp;- once created - will remain in a database even if the index configuration&nbsp;call is not issued before opening an ObjectContainer/ObjectServer. <br>
+<br>
+To drop an index you would also issue a configuration call in your db4o&nbsp;configuration method:<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>CommonConfiguration#objectClass(Foo.class).objectField("bar").indexed(false);</code></td></tr></table>
+<br>
+Actually dropping the index will take place the next time the respective&nbsp;class is used.<br>
+<br>
+db4o will tell you when it creates and drops indexes, if you choose a&nbsp;message level of 1 or higher:<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>CommonConfiguration#messageLevel(1);</code></td></tr></table>
+<br>
+<br>
+For creating and dropping indexes on large amounts of objects there are&nbsp;two possible strategies:<br>
+(1) Import all objects with indexing off, configure the index and reopen&nbsp;the ObjectContainer/ObjectServer.<br>
+(2) Import all objects with indexing turned on and commit regularly&nbsp;for a fixed amount of objects (~10,000).<br>
+<br>
+(1) will be faster.<br>
+(2) will keep memory consumption lower.<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div></body></html>

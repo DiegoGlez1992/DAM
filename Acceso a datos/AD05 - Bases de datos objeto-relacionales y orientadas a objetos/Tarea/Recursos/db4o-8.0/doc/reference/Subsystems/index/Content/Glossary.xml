@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Glossary" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml">
+    <head>
+        <link href="SkinSupport/MadCap.css" rel="stylesheet" type="text/css" />
+        <title>Glossary</title>
+        <link href="Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" type="text/css" />
+        <script src="SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body style="background-color: #fafafa;">
+        <div id="GlossaryBody">
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_0" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">CF</a>
+                    <a name="2837035041_anchor1">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_0" style="display: none;">.NET Compact Framework</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_1" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">NQ</a>
+                    <a name="2837035041_anchor2">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_1" style="display: none;">Native Query</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_2" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">OME</a>
+                    <a name="2837035041_anchor3">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_2" style="display: none;">Object Manager, a tool to view and edit a db4o database</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_3" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">OMN</a>
+                    <a name="2837035041_anchor4">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_3" style="display: none;">Object Manager, a tool to view and edit a db4o database</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_4" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">RDBMS</a>
+                    <a name="2837035041_anchor5">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_4" style="display: none;">Relational Database Management System</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_5" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">TA</a>
+                    <a name="2837035041_anchor6">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_5" style="display: none;">Transparent Activation</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_6" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">TP</a>
+                    <a name="2837035041_anchor7">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_6" style="display: none;">Transparent Persistence</div>
+            </div>
+            <div class="GlossaryPageEntry">
+                <div class="GlossaryPageTerm">
+                    <a href="javascript:void(0);" class="GlossaryPageTerm" id="MCDropDownHotSpot_2837035041_7" onclick="FMCDropDown( this ); FMCScrollToVisible( window, this.parentNode.parentNode ); return false;">VOD</a>
+                    <a name="2837035041_anchor8">
+                    </a>
+                </div>
+                <div class="GlossaryPageDefinition" id="MCDropDownBody_2837035041_7" style="display: none;">Versant Object Database</div>
+            </div>
+        </div>
+        <p>&#160;</p>
+        <script type="text/javascript" src="SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

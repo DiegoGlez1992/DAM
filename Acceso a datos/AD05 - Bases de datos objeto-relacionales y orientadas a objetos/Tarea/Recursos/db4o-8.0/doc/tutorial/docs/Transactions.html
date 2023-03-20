@@ -1,0 +1,162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="Transactions"></a><br>
+<a name="outline67"></a><br><h1>9. Transactions</h1><br>
+Probably you have already wondered how db4o handles concurrent access&nbsp;to a single database. Just as any other DBMS, db4o provides a transaction&nbsp;mechanism. Before we take a look at multiple, perhaps even remote, clients&nbsp;accessing a db4o instance in parallel, we will introduce db4o transaction&nbsp;concepts in isolation.<br>
+<br>
+<ul>
+<a name="outline68"></a><br><h2>9.1. Commit and rollback</h2><br>
+You may not have noticed it, but we have already been working with&nbsp;transactions from the first chapter on. By definition, you are always&nbsp;working inside a transaction when interacting with db4o. A transaction&nbsp;is implicitly started when you open a container, and the current transaction&nbsp;is implicitly committed when you close it again. So the following code snippet&nbsp;to store a car is semantically identical to the ones we have seen before;&nbsp;it just makes the commit explicit.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeCarCommit<br>
+Pilot pilot=new Pilot("Rubens Barrichello",99);<br>
+Car car=new Car("BMW");<br>
+car.setPilot(pilot);<br>
+db.store(car);<br>
+db.commit();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="storeCarCommit"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// listAllCars<br>
+ObjectSet result=db.queryByExample(Car.class);<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="listAllCars"/></applet></td></tr></table>
+<br>
+<br>
+However, we can also rollback the current transaction, resetting the&nbsp;state of our database to the last commit point.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeCarRollback<br>
+Pilot pilot=new Pilot("Michael Schumacher",100);<br>
+Car car=new Car("Ferrari");<br>
+car.setPilot(pilot);<br>
+db.store(car);<br>
+db.rollback();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="storeCarRollback"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// listAllCars<br>
+ObjectSet result=db.queryByExample(Car.class);<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="listAllCars"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline69"></a><br><h2>9.2. Refresh live objects</h2><br>
+There's one problem, though: We can roll back our database, but this&nbsp;cannot automagically trigger a rollback for our live objects.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// carSnapshotRollback<br>
+ObjectSet result=db.queryByExample(new Car("BMW"));<br>
+Car car=(Car)result.next();<br>
+car.snapshot();<br>
+db.store(car);<br>
+db.rollback();<br>
+System.out.println(car);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="carSnapshotRollback"/></applet></td></tr></table>
+<br>
+<br>
+We will have to explicitly refresh our live objects when we suspect they&nbsp;may have participated in a rollback transaction.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// carSnapshotRollbackRefresh<br>
+ObjectSet result=db.queryByExample(new Car("BMW"));<br>
+Car car=(Car)result.next();<br>
+car.snapshot();<br>
+db.store(car);<br>
+db.rollback();<br>
+db.ext().refresh(car,Integer.MAX_VALUE);<br>
+System.out.println(car);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.TransactionExample"/><param name="examplemethod" value="carSnapshotRollbackRefresh"/></applet></td></tr></table>
+<br>
+<br>
+What is this&nbsp;#ext() construct good for? Well, it provides some functionality&nbsp;that is in itself stable, but the API may still be subject to change. As soon&nbsp;as we are confident that no more changes will occur, &nbsp;#ext() &nbsp;functionality&nbsp;will be transferred to the common&nbsp;ObjectContainer API. <br>
+<br>
+Finally, we clean up again.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// deleteAll<br>
+ObjectSet result=db.queryByExample(new Object());<br>
+while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.delete(result.next());<br>
+}</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.Util"/><param name="examplemethod" value="deleteAll"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline70"></a><br><h2>9.3. Conclusion</h2><br>
+We have seen how transactions work for a single client. In the&nbsp;<a href="ClientServer.html#ClientServer">Client/Server chapter</a>&nbsp;&nbsp;we will see how the transaction concept extends to multiple&nbsp;clients, whether they are located within the same VM&nbsp;or on a remote machine.<br>
+<br>
+Let't first revisit Activation again in the <a href="TransparentActivation.html#TransparentActivation">next chapter</a>&nbsp;and&nbsp;take a look at how db4o can take care of our Object lifecycle automatically. <br>
+<br>
+<a name="outline71"></a><br><h2>9.4. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter6;<br>
+import java.io.*;<br>
+import com.db4o.*;<br>
+import com.db4odoc.f1.*;<br>
+<br>
+public class TransactionExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db=Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeCarCommit(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db=Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listAllCars(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeCarRollback(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db=Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listAllCars(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carSnapshotRollback(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carSnapshotRollbackRefresh(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeCarCommit(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot=new Pilot("Rubens Barrichello",99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car=new Car("BMW");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.commit();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void listAllCars(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(Car.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeCarRollback(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot=new Pilot("Michael Schumacher",100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car=new Car("Ferrari");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.rollback();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void carSnapshotRollback(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(new Car("BMW"));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car=(Car)result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.rollback();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void carSnapshotRollbackRefresh(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(new Car("BMW"));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car=(Car)result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.rollback();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.ext().refresh(car,Integer.MAX_VALUE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

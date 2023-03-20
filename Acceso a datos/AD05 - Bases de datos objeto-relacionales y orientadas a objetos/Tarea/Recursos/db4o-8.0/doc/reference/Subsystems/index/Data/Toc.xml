@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CatapultToc Version="1" DescendantCount="39">
+    <TocEntry Title="db4o Replication System" Link="/Content/welcome.htm" ComputedResetPageLayout="true" ComputedFirstTopic="true" DescendantCount="0" />
+    <TocEntry Title="Getting Started" Link="/Content/db4o_replication_system_drs/getting_started.htm" ComputedFirstTopic="false" DescendantCount="0" />
+    <TocEntry Title="db4o Databases Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication.htm" ComputedFirstTopic="false" DescendantCount="4">
+        <TocEntry Title="Simple Example" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/simple_example.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Bidirectional Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/bi-directional_replication.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Selective Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/selective_replication.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Replicate Deletions" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/deleted_objects_replication.htm" ComputedFirstTopic="false" DescendantCount="0" />
+    </TocEntry>
+    <TocEntry Title="Replication With RDBMS" Link="/Content/db4o_replication_system_drs/replication_with_rdbms.htm" conditions="Primary.Java" ComputedFirstTopic="false" DescendantCount="5">
+        <TocEntry Title="Getting Started" Link="/Content/db4o_replication_system_drs/db4o_rdbms/getting_started.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Replicate From db4o To Hibernate" Link="/Content/db4o_replication_system_drs/db4o_rdbms/db4o_to_rdbms.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Bidirectional Replication" Link="/Content/db4o_replication_system_drs/db4o_rdbms/bi_directional.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="dRS Internals" Link="/Content/db4o_replication_system_drs/db4o_rdbms/drs_internals.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Limitations" Link="/Content/db4o_replication_system_drs/db4o_rdbms/limitations.htm" ComputedFirstTopic="false" DescendantCount="0" />
+    </TocEntry>
+    <TocEntry Title="Replication With VOD" Link="/Content/db4o_replication_system_drs/vod_replication.htm" conditions="Primary.Java" ComputedFirstTopic="false" DescendantCount="19">
+        <TocEntry Title="Setup JDO for VOD" Link="/Content/db4o_replication_system_drs/vod/setup.htm" ComputedFirstTopic="false" DescendantCount="3">
+            <TocEntry Title="Create A Database" Link="/Content/db4o_replication_system_drs/vod/setup.htm#CreateDB" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="JDO Setup" Link="/Content/db4o_replication_system_drs/vod/setup.htm#JDOSetup" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Using JDO" Link="/Content/db4o_replication_system_drs/vod/setup.htm#UsingJDo" ComputedFirstTopic="false" DescendantCount="0" />
+        </TocEntry>
+        <TocEntry Title="Setup Event Processing" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm" ComputedFirstTopic="false" DescendantCount="4">
+            <TocEntry Title="Creating the Event Schema" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm#EventSchema" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Running The Event Driver" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm#EventDriver" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Running The Event Processor" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm#EventProcessor" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Example Scripts" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm#ExampleScripts" ComputedFirstTopic="false" DescendantCount="0" />
+        </TocEntry>
+        <TocEntry Title="VOD Replication" Link="/Content/db4o_replication_system_drs/vod/vod_replication.htm" ComputedFirstTopic="false" DescendantCount="4">
+            <TocEntry Title="Prepare db4o" Link="/Content/db4o_replication_system_drs/vod/vod_replication.htm#Prepare" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Replication From db4o To VOD" Link="/Content/db4o_replication_system_drs/vod/vod_replication.htm#db4oToVod" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Replicate From VOD To db4o" Link="/Content/db4o_replication_system_drs/vod/vod_replication.htm#vodToDb4o" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Bidirectional Replication" Link="/Content/db4o_replication_system_drs/vod/vod_replication.htm#Bidirectional" ComputedFirstTopic="false" DescendantCount="0" />
+        </TocEntry>
+        <TocEntry Title="Replicating to a Mobile Device" Link="/Content/db4o_replication_system_drs/vod/replicating_to_mobile_device.htm" ComputedFirstTopic="false" DescendantCount="4">
+            <TocEntry Title="The Workaround" Link="/Content/db4o_replication_system_drs/vod/replicating_to_mobile_device.htm#Workaround" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Setup the Intermediate db4o Server" Link="/Content/db4o_replication_system_drs/vod/replicating_to_mobile_device.htm#Intermediate" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="Setup Periodic Replication" Link="/Content/db4o_replication_system_drs/vod/replicating_to_mobile_device.htm#Periodic" ComputedFirstTopic="false" DescendantCount="0" />
+            <TocEntry Title="The Client" Link="/Content/db4o_replication_system_drs/vod/replicating_to_mobile_device.htm#Client" ComputedFirstTopic="false" DescendantCount="0" />
+        </TocEntry>
+    </TocEntry>
+    <TocEntry Title="Advanced Replication Strategies" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies.htm" ComputedFirstTopic="false" DescendantCount="3">
+        <TocEntry Title="Events" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/events.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Dealing with Conflicts" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/dealing_with_conflicts.htm" ComputedFirstTopic="false" DescendantCount="0" />
+        <TocEntry Title="Prepare Old Databases for Replication" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/Prepare_old_databases_for_replication.htm" ComputedFirstTopic="false" DescendantCount="0" />
+    </TocEntry>
+    <TocEntry Title="Deployment Instructions" Link="/Content/db4o_replication_system_drs/deployment_instructions.htm" ComputedFirstTopic="false" DescendantCount="0" />
+    <TocEntry Title="License" Link="/Content/db4o_replication_system_drs/license.htm" ComputedFirstTopic="false" DescendantCount="0" />
+</CatapultToc>

@@ -1,0 +1,609 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="ClientServer"></a><br>
+<a name="outline84"></a><br><h1>12. Client/Server</h1><br>
+Now that we have seen how transactions work in db4o conceptually, we&nbsp;are prepared to tackle concurrently executing transactions.<br>
+<br>
+We start by preparing our database in the familiar way.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// setFirstCar<br>
+Pilot pilot = new Pilot("Rubens Barrichello", 99);<br>
+Car car = new Car("BMW");<br>
+car.setPilot(pilot);<br>
+db.store(car);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="setFirstCar"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// setSecondCar<br>
+Pilot pilot = new Pilot("Michael Schumacher", 100);<br>
+Car car = new Car("Ferrari");<br>
+car.setPilot(pilot);<br>
+db.store(car);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="setSecondCar"/></applet></td></tr></table>
+<br>
+<br>
+<ul>
+<a name="outline85"></a><br><h2>12.1. Embedded server</h2><br>
+From the API side, there's no real difference between transactions&nbsp;executing concurrently within the same &nbsp;VM&nbsp;&nbsp;and transactions executed&nbsp;against a remote server. To use concurrent transactions within&nbsp;a single &nbsp;VM&nbsp;, we just open a db4o server on our database file,&nbsp;directing it to run on port 0, thereby declaring that no networking&nbsp;will take place.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// accessLocalServer<br>
+ObjectServer server = Db4oClientServer.openServer(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newServerConfiguration(), DB4OFILENAME, 0);<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Do something with this client, or open more clients<br>
+&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+}</code></td></tr></table>
+<br>
+<br>
+Again, we will delegate opening and closing the server to our&nbsp;environment to focus on client interactions.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// queryLocalServer<br>
+ObjectContainer client = server.openClient();<br>
+listResult(client.queryByExample(new Car(null)));<br>
+client.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="queryLocalServer"/></applet></td></tr></table>
+<br>
+<br>
+The transaction level in db4o is <em>read committed</em>&nbsp;. However, each&nbsp;client container maintains its own weak reference cache of already known&nbsp;objects. To make all changes committed by other clients immediately, we&nbsp;have to explicitly refresh known objects from the server. We will delegate&nbsp;this task to a specialized version of our&nbsp;#listResult() method.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public static void listRefreshedResult(ObjectContainer container,ObjectSet result,int depth) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(result.size());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object obj = result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.ext().refresh(obj, depth);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(obj);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}</code></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// demonstrateLocalReadCommitted<br>
+ObjectContainer client1 = server.openClient();<br>
+ObjectContainer client2 = server.openClient();<br>
+Pilot pilot = new Pilot("David Coulthard", 98);<br>
+ObjectSet result = client1.queryByExample(new Car("BMW"));<br>
+Car car = (Car) result.next();<br>
+car.setPilot(pilot);<br>
+client1.store(car);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.commit();<br>
+listResult(client1.queryByExample(Car.class));<br>
+listRefreshedResult(client2, client2.queryByExample(Car.class), 2);<br>
+client1.close();<br>
+client2.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="demonstrateLocalReadCommitted"/></applet></td></tr></table>
+<br>
+<br>
+Simple rollbacks just work as you might expect now.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// demonstrateLocalRollback<br>
+ObjectContainer client1 = server.openClient();<br>
+ObjectContainer client2 = server.openClient();<br>
+ObjectSet result = client1.queryByExample(new Car("BMW"));<br>
+Car car = (Car) result.next();<br>
+car.setPilot(new Pilot("Someone else", 0));<br>
+client1.store(car);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.rollback();<br>
+client1.ext().refresh(car, 2);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.close();<br>
+client2.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="demonstrateLocalRollback"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline86"></a><br><h2>12.2. Networking</h2><br>
+From here it's only a small step towards operating db4o over a TCP/IP network.&nbsp;We just specify a port number greater than zero&nbsp;and set up one or more accounts for our client(s).<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// accessRemoteServer<br>
+ObjectServer server = Db4oClientServer.openServer(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newServerConfiguration(), DB4OFILENAME, PORT);<br>
+server.grantAccess(USER, PASSWORD);<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = Db4oClientServer.openClient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Db4oClientServer.newClientConfiguration(), "localhost",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PORT, USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Do something with this client, or open more clients<br>
+&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+}</code></td></tr></table>
+<br>
+<br>
+The client connects providing host, port, user name and password.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// queryRemoteServer<br>
+ObjectContainer client = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+listResult(client.queryByExample(new Car(null)));<br>
+client.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="queryRemoteServer"/></applet></td></tr></table>
+<br>
+<br>
+Everything else is absolutely identical to the local server examples above.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// demonstrateRemoteReadCommitted<br>
+ObjectContainer client1 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+ObjectContainer client2 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+Pilot pilot = new Pilot("Jenson Button", 97);<br>
+ObjectSet result = client1.queryByExample(new Car(null));<br>
+Car car = (Car) result.next();<br>
+car.setPilot(pilot);<br>
+client1.store(car);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.commit();<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listRefreshedResult(client2, client2.queryByExample(Car.class), 2);<br>
+client1.close();<br>
+client2.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="demonstrateRemoteReadCommitted"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// demonstrateRemoteRollback<br>
+ObjectContainer client1 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+ObjectContainer client2 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+ObjectSet result = client1.queryByExample(new Car(null));<br>
+Car car = (Car) result.next();<br>
+car.setPilot(new Pilot("Someone else", 0));<br>
+client1.store(car);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.rollback();<br>
+client1.ext().refresh(car, 2);<br>
+listResult(client1.queryByExample(new Car(null)));<br>
+listResult(client2.queryByExample(new Car(null)));<br>
+client1.close();<br>
+client2.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter6.ClientServerExample"/><param name="examplemethod" value="demonstrateRemoteRollback"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline87"></a><br><h2>12.3. Native Queries in Client/Server mode</h2><br>
+A quite subtle problem may occur if you're using Native Queries as anonymous (or just non-static) inner&nbsp;classes in Client/Server mode. Anonymous/non-static inner class instances carry a synthetic field&nbsp;referencing their outer class instance - this is just Java's way of implementing inner class access&nbsp;to fields or final method locals of the outer class without introducing any notion of inner classes&nbsp;at all at the bytecode level. If such a non-static inner class predicate cannot be converted to&nbsp;S.O.D.A. form on the client, it will be wrapped into an evaluation and passed to the server,&nbsp;introducing the same problem already mentioned in the <a href="Evaluations.html#Evaluations">evaluation chapter</a>&nbsp;:&nbsp;db4o will try to transfer the evaluation, using the standard platform serialization mechanism.&nbsp;If this fails, it will just try to pass it to the server via db4o marshalling. However, this&nbsp;may fail, too, for example if the outer class references any local db4o objects like&nbsp;ObjectContainer, etc., resulting in an ObjectNotStorableException.<br>
+<br>
+So to be on the safe side with NQs in C/S mode, you should declare Predicates as top-level&nbsp;or static inner classes only. Alternatively, you could either make sure that the outer&nbsp;classes containing Predicate definitions could principally be persisted to db4o, too,&nbsp;and don't add significant overhead to the predicate (the appropriate value for 'significant'<br>
+being your choice) or ensure during development that all predicates used actually can&nbsp;be optimized to S.O.D.A. form.<br>
+<br>
+<br>
+<a name="outline88"></a><br><h2>12.4. Out-of-band signalling</h2><br>
+Sometimes a client needs to send a special message to a server in order&nbsp;to tell the server to do something.&nbsp;&nbsp;The server may need to be signalled&nbsp;to perform a defragment or it may need to be signalled to shut itself&nbsp;down gracefully.<br>
+<br>
+This is configured bycalling #messageRecipient() , passing the object&nbsp;that will process client-initiated messages.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public void runServer() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;synchronized (this) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServerConfiguration config = Db4oClientServer.newServerConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Using the messaging functionality to redirect all<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// messages to this.processMessage <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.networking().messageRecipient(this);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectServer db4oServer = Db4oClientServer.openServer(config<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;, FILE, PORT);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db4oServer.grantAccess(USER, PASS);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to identify the thread in a debugger<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.currentThread().setName(this.getClass().getName());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We only need low priority since the db4o server has<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// it's own thread.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.currentThread().setPriority(Thread.MIN_PRIORITY);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!stop) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// wait forever for notify() from close()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.wait(Long.MAX_VALUE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db4oServer.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}</code></td></tr></table>
+<br>
+<br>
+The message is received and processed by a&nbsp;#processMessage() method:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public void processMessage(MessageContext con, Object message) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (message instanceof StopServer) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}</code></td></tr></table>
+<br>
+<br>
+Db4o allows a client to send an arbitrary signal or message to a server&nbsp;by sending a plain object to the server.&nbsp;&nbsp;The server will receive&nbsp;a callback message, including the object that came from the client.&nbsp;The server can interpret this message however it wants.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer objectContainer = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// connect to the server<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objectContainer = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), HOST, PORT, USER, PASS);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;} catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if (objectContainer != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get the messageSender for the ObjectContainer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageSender messageSender = objectContainer.ext().configure()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.clientServer().getMessageSender();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send an instance of a StopServer object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messageSender.send(new StopServer());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// close the ObjectContainer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objectContainer.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}</code></td></tr></table>
+<br>
+<br>
+<a name="outline89"></a><br><h2>12.5. Putting it all together: a simple but complete db4o server</h2><br>
+Let's put all of this information together now to implement a simple&nbsp;standalone db4o server with a special client that can tell the server&nbsp;to shut itself down gracefully on demand.<br>
+<br>
+First, both the client and the server need some shared configuration&nbsp;information.&nbsp;&nbsp;We will provide this using an interface:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter6;<br>
+/**<br>
+ * Configuration used for {@link StartServer} and {@link StopServer}.<br>
+ */<br>
+public interface ServerInfo {<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;* the host to be used.<br>
+&nbsp;&nbsp;&nbsp;* &lt;br>If you want to run the client server examples on two computers,<br>
+&nbsp;&nbsp;&nbsp;* enter the computer name of the one that you want to use as server. <br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;public String&nbsp;&nbsp;&nbsp;HOST = "localhost";&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;* the database file to be used by the server.<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;public String&nbsp;&nbsp;&nbsp;FILE = "formula1.db4o";<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;* the port to be used by the server.<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;public int&nbsp;&nbsp;&nbsp;&nbsp;PORT = 4488;<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;* the user name for access control.<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;public String&nbsp;&nbsp;&nbsp;USER = "db4o";<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;* the pasword for access control.<br>
+&nbsp;&nbsp;&nbsp;*/<br>
+&nbsp;&nbsp;public String&nbsp;&nbsp;&nbsp;PASS = "db4o";<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+Now we'll create the server:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter6;<br>
+import com.db4o.*;<br>
+import com.db4o.cs.*;<br>
+import com.db4o.cs.config.*;<br>
+import com.db4o.messaging.*;<br>
+/**<br>
+ * starts a db4o server with the settings from {@link ServerInfo}. &lt;br><br>
+ * &lt;br><br>
+ * This is a typical setup for a long running server. &lt;br><br>
+ * &lt;br><br>
+ * The Server may be stopped from a remote location by running StopServer. The<br>
+ * StartServer instance is used as a MessageRecipient and reacts to receiving an<br>
+ * instance of a StopServer object. &lt;br><br>
+ * &lt;br><br>
+ */<br>
+public class StartServer implements ServerInfo, MessageRecipient {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * setting the value to true denotes that the server should be closed<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private boolean stop = false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * starts a db4o server using the configuration from {@link ServerInfo}.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] arguments) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new StartServer().runServer();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * opens the ObjectServer, and waits forever until close() is called or a<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * StopServer message is being received.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void runServer() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized (this) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServerConfiguration config = Db4oClientServer.newServerConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Using the messaging functionality to redirect all<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// messages to this.processMessage <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.networking().messageRecipient(this);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectServer db4oServer = Db4oClientServer.openServer(config<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;, FILE, PORT);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db4oServer.grantAccess(USER, PASS);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// to identify the thread in a debugger<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.currentThread().setName(this.getClass().getName());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// We only need low priority since the db4o server has<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// it's own thread.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.currentThread().setPriority(Thread.MIN_PRIORITY);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!stop) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// wait forever for notify() from close()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.wait(Long.MAX_VALUE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db4oServer.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * messaging callback<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * <br>
+&nbsp;&nbsp;&nbsp;&nbsp; * @see com.db4o.messaging.MessageRecipient#processMessage(MessageContext,<br>
+&nbsp;&nbsp;&nbsp;&nbsp; *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Object)<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void processMessage(MessageContext con, Object message) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (message instanceof StopServer) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * closes this server.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void close() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized (this) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stop = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.notify();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+And last but not least, the client that stops the server.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter6;<br>
+import com.db4o.*;<br>
+import com.db4o.cs.*;<br>
+import com.db4o.messaging.*;<br>
+/**<br>
+ * stops the db4o Server started with {@link StartServer}. &lt;br><br>
+ * &lt;br><br>
+ * This is done by opening a client connection to the server and by sending a<br>
+ * StopServer object as a message. {@link StartServer} will react in it's<br>
+ * processMessage method.<br>
+ */<br>
+public class StopServer implements ServerInfo {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * stops a db4o Server started with StartServer.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * <br>
+&nbsp;&nbsp;&nbsp;&nbsp; * @throws Exception<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer objectContainer = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// connect to the server<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objectContainer = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), HOST, PORT, USER, PASS);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (objectContainer != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get the messageSender for the ObjectContainer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MessageSender messageSender = objectContainer.ext().configure()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.clientServer().getMessageSender();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// send an instance of a StopServer object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messageSender.send(new StopServer());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// close the ObjectContainer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;objectContainer.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<a name="outline90"></a><br><h2>12.6. Conclusion</h2><br>
+That's it, folks. No, of course it isn't. There's much more to db4o&nbsp;we haven't covered yet: schema evolution, custom persistence for your classes,&nbsp;writing your own query objects, etc. A much more thorough documentation is&nbsp;provided in the reference that you should have also received with the&nbsp;download or <a href="http://developer.db4o.com/Documentation.aspx" target="_blank">online</a>.<br>
+<br>
+We hope that this tutorial has helped to get you started with db4o. How&nbsp;should you continue now?<br>
+<br>
+- Register on db4o developer <a href="http://www.db4o.com/Users/register.aspx" target="_blank">website</a>. <br>
+<br>
+- You could browse the remaining chapters. They are a selection of themes&nbsp;from the reference that very frequently come up as questions in&nbsp;our <a href="http://developer.db4o.com/Forums.aspx" target="_blank">http://developer.db4o.com/Forums.aspx</a>.<br>
+<br>
+-<em>(Interactive version only)</em>While this tutorial is basically sequential in&nbsp;nature, try to switch back and forth between the chapters and execute the&nbsp;sample snippets in arbitrary order. You will be working with the same&nbsp;database throughout; sometimes you may just get stuck or even induce&nbsp;exceptions, but you can always reset the database via the console window.<br>
+<br>
+- The examples we've worked through are included in your db4o distribution&nbsp;in full source code. Feel free to experiment with it.<br>
+<br>
+- If you're stuck, browse the information&nbsp;on our <a href="http://www.db4o.com/" target="_blank">web site</a>, check if your problem is submitted&nbsp;to <a href="http://tracker.db4o.com/" target="_blank">Jira</a>&nbsp;or visit our&nbsp;forums at <a href="http://developer.db4o.com/Forums.aspx" target="_blank">http://developer.db4o.com/Forums.aspx</a>.<br>
+<br>
+<br>
+<a name="outline91"></a><br><h2>12.7. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter6;<br>
+import java.io.*;<br>
+import com.db4o.*;<br>
+import com.db4o.cs.*;<br>
+import com.db4o.cs.config.*;<br>
+import com.db4odoc.f1.*;<br>
+public class ClientServerExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private final static int PORT = 0xdb40;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private final static String USER = "user";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private final static String PASSWORD = "password";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessLocalServer();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setFirstCar(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setSecondCar(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ServerConfiguration config = Db4oClientServer.newServerConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.common().objectClass(Car.class).updateDepth(3);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectServer server = Db4oClientServer.openServer(config, DB4OFILENAME,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryLocalServer(server);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demonstrateLocalReadCommitted(server);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demonstrateLocalRollback(server);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;accessRemoteServer();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server = Db4oClientServer.openServer(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newServerConfiguration(), DB4OFILENAME, PORT);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.grantAccess(USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryRemoteServer(PORT, USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demonstrateRemoteReadCommitted(PORT, USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;demonstrateRemoteRollback(PORT, USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void setFirstCar(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot = new Pilot("Rubens Barrichello", 99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = new Car("BMW");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void setSecondCar(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot = new Pilot("Michael Schumacher", 100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = new Car("Ferrari");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void accessLocalServer() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectServer server = Db4oClientServer.openServer(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newServerConfiguration(), DB4OFILENAME, 0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with this client, or open more clients<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void queryLocalServer(ObjectServer server) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void demonstrateLocalReadCommitted(ObjectServer server) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client1 = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client2 = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot = new Pilot("David Coulthard", 98);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = client1.queryByExample(new Car("BMW"));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.commit();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(Car.class));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listRefreshedResult(client2, client2.queryByExample(Car.class), 2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client2.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void demonstrateLocalRollback(ObjectServer server) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client1 = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client2 = server.openClient();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = client1.queryByExample(new Car("BMW"));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(new Pilot("Someone else", 0));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.rollback();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.ext().refresh(car, 2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client2.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void accessRemoteServer() throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectServer server = Db4oClientServer.openServer(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newServerConfiguration(), DB4OFILENAME, PORT);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.grantAccess(USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = Db4oClientServer.openClient(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Db4oClientServer.newClientConfiguration(), "localhost",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PORT, USER, PASSWORD);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Do something with this client, or open more clients<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;server.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void queryRemoteServer(int port, String user, String password)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void demonstrateRemoteReadCommitted(int port, String user,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client1 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client2 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot = new Pilot("Jenson Button", 97);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = client1.queryByExample(new Car(null));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(pilot);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.commit();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listRefreshedResult(client2, client2.queryByExample(Car.class), 2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client2.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void demonstrateRemoteRollback(int port, String user,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String password) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client1 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer client2 = Db4oClientServer.openClient(Db4oClientServer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newClientConfiguration(), "localhost", port, user, password);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = client1.queryByExample(new Car(null));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.setPilot(new Pilot("Someone else", 0));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.rollback();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.ext().refresh(car, 2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client1.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(client2.queryByExample(new Car(null)));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client1.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client2.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

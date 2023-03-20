@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Object Manager Enterprise" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Querying</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#object_manager_enterprise/ome_for_eclipse/querying.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../object_manager_enterprise.htm">Object Manager Enterprise</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Querying</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Querying</h1>
+        <p>It is easy to
+retrieve all of the Pilot instances from the database: just right-click the
+Pilot class in db4o Browser and select "View All Objects". The list of the
+Pilot objects will be shown in the Query Result view:</p>
+        <p>
+            <img src="ome_result.png" />
+        </p>
+        <p>You can see object details in the detailed view
+below. Try to change any values and use Save button to persist the changes to
+the database. You can also use Delete button to delete objects from the
+database. For the objects containing field objects you will be prompted to use
+cascade on delete.</p>
+        <p>More
+complex queries can be done by using Build Query view:</p>
+        <p>
+            <img src="ome_query.png" />
+        </p>
+        <p>Drag
+"points" field from the db4oBrowser view into the Build Query view, set
+condition "Greater Than", put a value "99" and run the query. You can return to
+the Built Query tab and modify the query later on again. For example: add "AND"
+operator, drag "name" field and set the value to "Michael Schumacher". Re-run
+the query. </p>
+        <p>When the
+new query is created, the previous query is stored and can be selected from the
+history drop-down:</p>
+        <p>
+            <img src="ome_qhistory.png" />
+        </p>
+        <p>More
+sophisticated queries can be build by joining grouped constraints using "Add
+Group" button.</p>
+        <p>When you
+are done working with the database in <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">OME<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Object Manager, a tool to view and edit a db4o database</span></span>, you can close the connection by
+using OME-&gt;Connect/Disconnect DB menu command or by using the equivalent
+button on the toolbar. </p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

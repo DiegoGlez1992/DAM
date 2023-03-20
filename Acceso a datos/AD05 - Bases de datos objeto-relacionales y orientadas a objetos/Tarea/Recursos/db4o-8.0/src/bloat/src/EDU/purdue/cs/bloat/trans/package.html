@@ -1,0 +1,45 @@
+<html>
+<body>
+
+<p>Performs transformations (optimizations) on a control flow graph.
+There are several optimizations performed by classes in this package.
+Older Java compilers produced poor code for initializing arrays.
+BLOAT can replace this poor code with more efficient code by loading
+the array from the constant pool.  Dead code elimination removes code
+from a method that does not contribute to the final output of the
+program.</p>
+
+<p>Value numbering associates a number with each expression such that
+if two expressions have the same number, they have the same value.  A
+value folder is then used to eliminate redundent nodes from and to
+propagate constants through the control flow graph.</p>
+
+<p>Constant propagation removes unnecessary assignments by replacing
+variables that are assigned constant values with those values.  Copy
+propagation removes unnecessary assignments to varibles to other
+variables.</p>
+
+<p>BLOAT was designed to optimize classes that were to be run inside a
+persistent system that required special opcodes to perform operation
+such as checking an object cache for a certain resident object.  The
+analysis that BLOAT does can eliminate some of these checks.</p>
+
+<p>SSA-based partial redundency elimination (PRE) of expressions and
+access paths can also be performed on a control flow graph.  If a
+calculation is redundent along one control flow path leading to a
+merge point, PRE computes it once along <b>all</b> paths, assigns the
+result to a variable, and replaces further occurrences of the
+calculation with that variable.  This way, the expression is only
+computed once along any given control flow path.</p>
+
+<p>Finally, peephole optimizations are performed on Java bytecode.
+For instance, a push instruction followed by a pop instruction is
+useless and can be removed.  Additionally, unreachable code is removed
+from the method.</p>
+
+<p>This package also contains several auxiliary classes that perform
+operations like determining whether or not an expression has side
+effects and comparing two nodes.</p>
+
+</body>
+</html>

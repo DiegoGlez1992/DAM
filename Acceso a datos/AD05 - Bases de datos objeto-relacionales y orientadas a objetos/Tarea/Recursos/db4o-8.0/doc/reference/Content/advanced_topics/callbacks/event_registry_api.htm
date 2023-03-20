@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Callbacks" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Event Registry API</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#advanced_topics/callbacks/event_registry_api.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../callbacks.htm">Callbacks</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Event Registry API</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor50"></a>Event Registry API</h1>
+        <p>You can register to events of the db4o-database. You can used these events to implement all kinds of additional functionality. Take a look a few example use-cases. <a href="possible_usecases.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Possible Usecases"</a></p>
+        <p>There's an event for each database operation. Most of the time there are two events for an operation. One is fired before the operation starts, the other when the operation ends.</p>
+        <h2>Register to an Event</h2>
+        <p>You can gain access to the events via a event registry. These three steps show how to register to events.</p>
+        <p>First obtain a <span class="PrimaryEventRegistry">EventRegistry</span>-instance from the object container.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EventRegistry events = EventRegistryFactory.forObjectContainer(container);</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: Obtain the event-registry
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Now you can register your event-handlers on the event registry.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">events.committing().addListener(<span style="color:Blue;">new</span> EventListener4&lt;CommitEventArgs&gt;() {
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onEvent(Event4&lt;CommitEventArgs&gt; source,
+                        CommitEventArgs arguments) {
+        handleCommitting(source,arguments);
+    }
+});</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: register for a event
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Then implement your event handling.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">static</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> handleCommitting(Event4&lt;CommitEventArgs&gt; source,
+                                     CommitEventArgs commitEventArgs) {
+    <span style="color:Green;">// handle the event here</span>
+}</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: implement your event handling
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Cancelable Events</h2>
+        <p>Some events can cancel the operation. All events which have a CancellableObjectEventArgs-parameter can cancel the operation.  When you cancel in a event, the operation won't be executed. For example:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EventRegistry events = EventRegistryFactory.forObjectContainer(container);
+events.creating().addListener(<span style="color:Blue;">new</span> EventListener4&lt;CancellableObjectEventArgs&gt;() {
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onEvent(Event4&lt;CancellableObjectEventArgs&gt; events,
+                        CancellableObjectEventArgs eventArgs) {
+        <span style="color:Blue;">if</span>(eventArgs.object() <span style="color:Blue;">instanceof</span> Person){
+            Person p = (Person) eventArgs.object();
+            <span style="color:Blue;">if</span>(p.getName().equals(<span style="color:#A31515;">"Joe Junior"</span>)){
+                eventArgs.cancel();
+            }
+        }
+    }
+});</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: Cancel store operation
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Register Events On The Server</h2>
+        <p>When you want to register for the events on the server, you should register it on the server-container. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectServer server = 
+        Db4oClientServer.openServer(DATABASE_FILE_NAME, PORT_NUMBER);
+EventRegistry eventsOnServer =
+        EventRegistryFactory.forObjectContainer(server.ext().objectContainer());</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: register for events on the server
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Commit-Events</h2>
+        <p>Commit-events bring a collection of the added, updated and deleted object with it. You can iterate over these objects. The updated- and added-collections contain LazyObjectReferences, the deleted-event a FrozenObjectInfos. Note that you may cannot get deleted object-instance anymore, but only the meta-info. Furthermore the object doesn't need to be activated. So when you need to read information out if it, ensure that you've activated it first.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EventRegistry events = EventRegistryFactory.forObjectContainer(container);
+events.committed().addListener(<span style="color:Blue;">new</span> EventListener4&lt;CommitEventArgs&gt;() {
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onEvent(Event4&lt;CommitEventArgs&gt; events,
+                        CommitEventArgs eventArgs) {
+        <span style="color:Blue;">for</span>(Iterator4 it=eventArgs.added().iterator();it.moveNext();){
+            LazyObjectReference reference = (LazyObjectReference) it.current();
+            System.out.println(<span style="color:#A31515;">"Added "</span>+reference.getObject());
+        }
+        <span style="color:Blue;">for</span>(Iterator4 it=eventArgs.updated().iterator();it.moveNext();){
+            LazyObjectReference reference = (LazyObjectReference) it.current();
+            System.out.println(<span style="color:#A31515;">"Updated "</span>+reference.getObject());
+        }
+        <span style="color:Blue;">for</span>(Iterator4 it=eventArgs.deleted().iterator();it.moveNext();){
+            FrozenObjectInfo deletedInfo = (FrozenObjectInfo) it.current();
+            <span style="color:Green;">// the deleted info might doesn't contain the object anymore and</span>
+            <span style="color:Green;">// return the null.</span>
+            System.out.println(<span style="color:#A31515;">"Deleted "</span>+deletedInfo.getObject());
+        }
+    }
+});</pre>
+            <div class="codesnippet-meta">EventRegistryExamples.java: Commit-info
+			<div class="codedownload"><a href="../../CodeExamples/callbacks/eventregistry/Example-callbacks-eventregistry-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Pitfalls and Limitations</h2>
+        <ul>
+            <li value="1">All embedded clients-/session share the same event registry. So you need to register the events only on one.</li>
+            <li value="2">You cannot call recursively the event-producing operation within the event-handler. For example in the storing-event you cannot call store. In the committing-event you cannot call commit.</li>
+            <li value="3">In client-server mode, each client has it's own event-registry, and therefore only sees its own events. Except the committed-event. <a href="../../client-server/events_in_cs_mode.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Events In Client Server-Mode"</a></li>
+        </ul>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

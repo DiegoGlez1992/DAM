@@ -1,0 +1,295 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="Inheritance"></a><br>
+<a name="outline55"></a><br><h1>7. Inheritance</h1><br>
+So far we have always been working with the concrete (i.e. most&nbsp;specific type of an object. What about subclassing and interfaces?<br>
+<br>
+To explore this, we will differentiate between different kinds of&nbsp;sensors.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter5;<br>
+import java.util.*;<br>
+public class SensorReadout {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private Date time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private Car car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private String description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected SensorReadout(Date time,Car car,String description) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.time=time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.car=car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.description=description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Car getCar() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String getDescription() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return car+" : "+time+" : "+description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter5;<br>
+import java.util.*;<br>
+<br>
+public class TemperatureSensorReadout extends SensorReadout {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private double temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date time,Car car,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String description,double temperature) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(time,car,description);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.temperature=temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public double getTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return super.toString()+" temp : "+temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter5;<br>
+import java.util.*;<br>
+<br>
+public class PressureSensorReadout extends SensorReadout {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private double pressure;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public PressureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date time,Car car,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String description,double pressure) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(time,car,description);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pressure=pressure;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public double getPressure() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pressure;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return super.toString()+" pressure : "+pressure;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+Our car's snapshot mechanism is changed accordingly.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter5;<br>
+import java.util.*;<br>
+public class Car {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private String model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private Pilot pilot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private List history;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Car(String model) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.model=model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pilot=null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.history=new ArrayList();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Pilot getPilot() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void setPilot(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.pilot=pilot;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String getModel() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public SensorReadout[] getHistory() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (SensorReadout[])history.toArray(new SensorReadout[history.size()]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void snapshot() {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.add(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"oil",pollOilTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.add(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"water",pollWaterTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.add(new PressureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"oil",pollOilPressure()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollOilTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.1*history.size();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollWaterTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.2*history.size();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollOilPressure() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.3*history.size();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model+"["+pilot+"]/"+history.size();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<ul>
+<a name="outline56"></a><br><h2>7.1. Storing</h2><br>
+Our setup code has not changed at all, just the internal workings of a snapshot.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeFirstCar<br>
+Car car1=new Car("Ferrari");<br>
+Pilot pilot1=new Pilot("Michael Schumacher",100);<br>
+car1.setPilot(pilot1);<br>
+db.store(car1);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="storeFirstCar"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeSecondCar<br>
+Pilot pilot2=new Pilot("Rubens Barrichello",99);<br>
+Car car2=new Car("BMW");<br>
+car2.setPilot(pilot2);<br>
+car2.snapshot();<br>
+car2.snapshot();<br>
+db.store(car2);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="storeSecondCar"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline57"></a><br><h2>7.2. Retrieving</h2><br>
+db4o will provide us with all objects of the given type. To collect&nbsp;all instances of a given class, no matter whether they are subclass&nbsp;members or direct instances, we just provide a corresponding prototype.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveTemperatureReadoutsQBE<br>
+SensorReadout proto=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new TemperatureSensorReadout(null,null,null,0.0);<br>
+ObjectSet result=db.queryByExample(proto);<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="retrieveTemperatureReadoutsQBE"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveAllSensorReadoutsQBE<br>
+SensorReadout proto=new SensorReadout(null,null,null);<br>
+ObjectSet result=db.queryByExample(proto);<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="retrieveAllSensorReadoutsQBE"/></applet></td></tr></table>
+<br>
+<br>
+This is one more situation where QBE might not be applicable: What if&nbsp;the given type is an interface or an abstract class? Well, there's a little&nbsp;trick to keep in mind: Class&nbsp;objects receive special handling with QBE.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveAllSensorReadoutsQBEAlternative<br>
+ObjectSet result=db.queryByExample(SensorReadout.class);<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="retrieveAllSensorReadoutsQBEAlternative"/></applet></td></tr></table>
+<br>
+<br>
+And of course there's our SODA API:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveAllSensorReadoutsQuery<br>
+Query query=db.query();<br>
+query.constrain(SensorReadout.class);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter5.InheritanceExample"/><param name="examplemethod" value="retrieveAllSensorReadoutsQuery"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline58"></a><br><h2>7.3. Updating and deleting</h2><br>
+is just the same for all objects, no matter where they are situated&nbsp;in the inheritance tree.<br>
+<br>
+Just like we retrieved all objects from the database above, we can&nbsp;delete all stored objects to prepare for the next chapter.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// deleteAll<br>
+ObjectSet result=db.queryByExample(new Object());<br>
+while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.delete(result.next());<br>
+}</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.Util"/><param name="examplemethod" value="deleteAll"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline59"></a><br><h2>7.4. Conclusion</h2><br>
+Now we have covered all basic OO features and the way they are handled by&nbsp;db4o. We will complete the first part of our db4o walkthrough in the&nbsp;<a href="Deep.html#Deep">next chapter </a>&nbsp;&nbsp;by looking at deep object graphs, including recursive structures.<br>
+<br>
+<a name="outline60"></a><br><h2>7.5. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter5;<br>
+import java.io.*;<br>
+import com.db4o.*;<br>
+import com.db4o.query.*;<br>
+import com.db4odoc.f1.*;<br>
+<br>
+public class InheritanceExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db=Db4oEmbedded.openFile(Db4oEmbedded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeFirstCar(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeSecondCar(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveTemperatureReadoutsQBE(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveAllSensorReadoutsQBE(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveAllSensorReadoutsQBEAlternative(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveAllSensorReadoutsQuery(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveAllObjectsQBE(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeFirstCar(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car1=new Car("Ferrari");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot1=new Pilot("Michael Schumacher",100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car1.setPilot(pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeSecondCar(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot2=new Pilot("Rubens Barrichello",99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car2=new Car("BMW");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.setPilot(pilot2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveAllSensorReadoutsQBE(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout proto=new SensorReadout(null,null,null);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(proto);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveTemperatureReadoutsQBE(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout proto=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new TemperatureSensorReadout(null,null,null,0.0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(proto);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveAllSensorReadoutsQBEAlternative(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(SensorReadout.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveAllSensorReadoutsQuery(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(SensorReadout.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveAllObjectsQBE(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(new Object());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

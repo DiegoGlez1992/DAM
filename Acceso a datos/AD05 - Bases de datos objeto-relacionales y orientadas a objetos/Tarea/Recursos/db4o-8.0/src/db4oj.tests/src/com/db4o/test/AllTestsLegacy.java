@@ -1,0 +1,59 @@
+/* This file is part of the db4o object database http://www.db4o.com
+
+Copyright (C) 2004 - 2011  Versant Corporation http://www.versant.com
+
+db4o is free software; you can redistribute it and/or modify it under
+the terms of version 3 of the GNU General Public License as published
+by the Free Software Foundation.
+
+db4o is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program.  If not, see http://www.gnu.org/licenses/. */
+package com.db4o.test;
+
+import com.db4o.test.legacy.*;
+import com.db4o.test.legacy.soda.*;
+
+/**
+ * This suite contains all the old style regression tests that have been converted to
+ * db4ounit. It should serve as a safety net against test bugs introduced during
+ * conversion.
+ */
+public class AllTestsLegacy extends AllTests {
+
+    public static void main(String[] args) {
+        new AllTestsLegacy(new String[]{}).runWithException();
+    }
+    
+    public AllTestsLegacy(String[] testcasenames) {
+    	super(testcasenames);
+    }
+    protected void addTestSuites(TestSuite suites) {
+        suites.add(this);
+	}
+    
+    public Class[] tests(){
+    	return new Class[] {
+    		ArrayNOrder.class,
+    		Book.class,
+    		ByteArray.class,
+    		CascadeToHashtable.class,
+    		CreateIndex.class,
+    		GetByUUID.class,
+    		MultiDelete.class,
+    		NestedArrays.class,
+    		PersistStaticFieldValues.class,
+    		SimpleTypeArrayInUntypedVariable.class,
+	    	Soda.class,
+	    	SodaNumberCoercion.class,
+    		TypedArrayInObject.class,
+    		TypedDerivedArray.class,
+        };
+    }
+
+
+}

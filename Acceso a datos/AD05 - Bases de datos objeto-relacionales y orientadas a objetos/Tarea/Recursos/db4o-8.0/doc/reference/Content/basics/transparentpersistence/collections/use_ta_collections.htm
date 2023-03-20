@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts|Transparent Activation/Persistence|Collections" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Using Transparent Activatable Collections Directly</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#basics/transparentpersistence/collections/use_ta_collections.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../transparent_persistence.htm">Transparent Activation/Persistence</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../Collections.htm">Collections</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Using TA Collections Directly</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Using Transparent Activatable Collections Directly</h1>
+        <p>You can use the transparent activation aware collections directly in your code. Their behavior is the same as the <span class="PrimaryPlattform">Java</span>-collections. Here are a few tips:</p>
+        <ul>
+            <li value="1">Prefer the collection-interfaces over the concrete classes in your field-, parameter- and return-type declarations. For example declare a field as a 
+			<span MadCap:conditions="Primary.Java">List&lt;T&gt; instead of an ArrayList&lt;T&gt;</span></li>
+            <li value="2">Maybe it is useful to create a collection factory in your code. Then you have only one place in your code which decides which implementation is used. That makes it easy to replace the implementations.</li>
+        </ul>
+        <p>An example:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">class</span> Team  <span style="color:Blue;">extends</span> AbstractActivatable{ 
+
+    <span style="color:Blue;">private</span> List&lt;Pilot&gt; pilots = <span style="color:Blue;">new</span> ActivatableArrayList&lt;Pilot&gt;();
+
+    <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> add(Pilot pilot) {
+        activate(ActivationPurpose.WRITE);
+        <span style="color:Blue;">return</span> pilots.add(pilot);
+    }
+
+    <span style="color:Blue;">public</span> Collection&lt;Pilot&gt; getPilots(){
+        activate(ActivationPurpose.READ);
+        <span style="color:Blue;">return</span> pilots;
+    }
+}</pre>
+            <div class="codesnippet-meta">Team.java: Using the activation aware collections
+			<div class="codedownload"><a href="../../../CodeExamples/ta/collections/Example-ta-collections-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Currently these collections are available:</p>
+        <ul MadCap:conditions="Primary.Java">
+            <li value="1">ActivatableArrayList&lt;T&gt;: An activatable version of the ArrayList&lt;T&gt;</li>
+            <li value="2">ActivatableHashMap&lt;T&gt;: An activatable version of the HashMap&lt;T&gt;</li>
+            <li value="3">ActivatableHashSet&lt;T&gt;: An activatable version of the HashSet&lt;T&gt;</li>
+            <li value="4">ActivatableHashtable&lt;T&gt;: An activatable version of the HashHashtable&lt;T&gt;</li>
+            <li value="5">ActivatableLinkedList&lt;T&gt;: An activatable version of the LinkedList&lt;T&gt;</li>
+            <li value="6">ActivatableStack&lt;T&gt;: An activatable version of the Stack&lt;T&gt;</li>
+            <li value="7">ActivatableTreeSet&lt;T&gt;: An activatable version of the TreeSet&lt;T&gt;</li>
+        </ul>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

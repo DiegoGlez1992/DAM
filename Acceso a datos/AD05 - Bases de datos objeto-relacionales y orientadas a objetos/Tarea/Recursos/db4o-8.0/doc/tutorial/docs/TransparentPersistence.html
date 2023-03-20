@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="TransparentPersistence"></a><br>
+<a name="outline79"></a><br><h1>11. Transparent Persistence</h1><br>
+The problem of updating deep object structures was briefly outlined&nbsp;in <a href="Structured.html#Structured">Structured objects chapter</a>&nbsp;. Update Depth configuration setting&nbsp;gives a user a certain control over the object updating and&nbsp;allows to find a balance between performance and convenient object storage&nbsp;code. However, this balance is far from ideal:<br>
+- when update depth is zero, each piece of code should "know" how many levels&nbsp;of objects should be updated; this potentially creates lots of problems&nbsp;when the objects are refactored;<br>
+- when update depth is maximum performance can become very poor as&nbsp;many unchanged objects will be stored unnecessary.<br>
+<br>
+The solution to this problem is to let db4o engine decide, which objects&nbsp;were modified and should be stored. This feature was introduced in db4o&nbsp;version 7.1 and was named Transparent Persistence. So how does it work?<br>
+<br>
+1. Database should be configured to use TransparentPersistenceSupport.<br>
+2. Persistent classes available for Transparent Persistence must implement&nbsp;&nbsp;Activatable interface. This interface provides a&nbsp;#bind() &nbsp;method to bind an object to the object container's activator.<br>
+3. The object is bound to the&nbsp;ObjectContainer &nbsp;when it is first stored or&nbsp;instantiated from the database.<br>
+4. When an object field is modified in the&nbsp;runtime, &nbsp;#activate() &nbsp;method is&nbsp;called to register the object to be stored with the next commit. The difference&nbsp;from <a href="TransparentActivation.html#TransparentActivation">Transparent Activation</a>&nbsp;is in the activation purpose:&nbsp;<em>ActivationPurpose.WRITE</em>&nbsp;is used for TP.<br>
+5. When the transaction is committed or the database is closed, db4o traverses&nbsp;the list of modified Activatable objects and persists them.<br>
+Well, that's enough of theory, let's look at an example.<br>
+<br>
+<ul>
+<a name="outline80"></a><br><h2>11.1. Transparent Persistence Example</h2>&nbsp;&nbsp;&nbsp;<br>
+We will use Car and SensorReadout classes from <a href="Deep.html#Deep">Deep Graphs chapter</a>. These are&nbsp;persistent classes, so if we want to use Transparent Persistence, we should&nbsp;make them "visible" to Transparent Persistence by&nbsp;implementing <em>Activatable</em>&nbsp;&nbsp;interface.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter9;<br>
+import java.util.*;<br>
+import com.db4o.activation.*;<br>
+import com.db4o.ta.*;<br>
+public class Car implements Activatable {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private String model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private SensorReadout history;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private transient Activator _activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Car(String model) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.model=model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.history=null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String getModel() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public SensorReadout getHistory() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return history;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void snapshot() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appendToHistory(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"oil",pollOilTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appendToHistory(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"water",pollWaterTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollOilTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.1*countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollWaterTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.2*countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model+"/"+countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private int countHistoryElements() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (history==null ? 0 : history.countElements());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private void appendToHistory(SensorReadout readout) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(history==null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history=readout;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.append(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void activate(ActivationPurpose purpose) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator.activate(purpose);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void bind(Activator activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_activator == activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (activator != null &amp;&amp; _activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new IllegalStateException();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator = activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+Note, that we've added an <em>activator</em>&nbsp;&nbsp;field,&nbsp;<em>bind</em>&nbsp;&nbsp;and&nbsp;<em>activate</em>&nbsp;&nbsp;methods to implement&nbsp;<em>Activatable</em>&nbsp;&nbsp;interface. In addition&nbsp;to that all methods that read or write object fields has got <em>activate</em>&nbsp;calls&nbsp;with a corresponding purpose.<br>
+Similar modifications should be done to the SensorReadout class.<br>
+Now we are ready to test how Transparent Persistence work. First we should&nbsp;configure the database to use TransparentPersistenceSupport before storing objects:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeCarAndSnapshots<br>
+EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+config.common().add(new TransparentPersistenceSupport());<br>
+ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+Car car = new Car("Ferrari");<br>
+for (int i = 0; i &lt; 3; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;car.snapshot();<br>
+}<br>
+db.store(car);<br>
+db.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter9.TransparentPersistenceExample"/><param name="examplemethod" value="storeCarAndSnapshots"/></applet></td></tr></table>
+<br>
+Ok, all the objects are stored. <br>
+Now, let's retrieve all the stored objects and modify them:<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// modifySnapshotHistory<br>
+EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+config.common().add(new TransparentPersistenceSupport());<br>
+ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+System.out.println("Read all sensors and modify the description:");<br>
+ObjectSet result = db.queryByExample(Car.class);<br>
+if (result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout readout = car.getHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while (readout != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout.setDescription("Modified: " + readout.getDescription());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout = readout.getNext();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.commit();<br>
+}<br>
+db.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter9.TransparentPersistenceExample"/><param name="examplemethod" value="modifySnapshotHistory"/></applet></td></tr></table>
+<br>
+You can see that we do not have to call <em>#store</em>&nbsp;any more - all the objects are&nbsp;stored when <em>#commit</em>&nbsp;is called.<br>
+Let's test that the modifications actually reached the database:<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// readSnapshotHistory<br>
+EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+config.common().add(new TransparentPersistenceSupport());<br>
+ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+System.out.println("Read all modified sensors:");<br>
+ObjectSet result = db.queryByExample(Car.class);<br>
+if (result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout readout = car.getHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;while (readout != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout = readout.getNext();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+db.close();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter9.TransparentPersistenceExample"/><param name="examplemethod" value="readSnapshotHistory"/></applet></td></tr></table>
+<br>
+Yes, it is all as it should be. If you want to see the difference without Transparent&nbsp;Persistence, run the same examples without<em>TransparentPersistenceSupport</em>&nbsp;.<br>
+<br>
+<a name="outline81"></a><br><h2>11.2. Transparent Persistence Enhancement</h2>As we saw <a href="TransparentActivation.html#TransparentActivation">before</a>&nbsp;enhancement tools can simplify the&nbsp;process for Transparent Activation. The same applies to Transparent Persistence.&nbsp;Actually Transparent Persistence enhancement implicitly provides TA for&nbsp;enhanced classes. <br>
+For more information please refer to <a href="Enhancement.html#Enhancement">Enhancement chapter</a>&nbsp;.<br>
+<br>
+<a name="outline82"></a><br><h2>11.3. Conclusion</h2>Transparent Persistence can considerably simplify the development process&nbsp;at the same time providing considerable performance benefits. For more&nbsp;information on Transparent Persistence please refer&nbsp;to our <a href="http://developer.db4o.com/Documentation.aspx" target="_blank">online reference</a>&nbsp;&nbsp;or&nbsp;your offline copy of the Reference documentation.&nbsp;&nbsp;&nbsp;<br>
+<br>
+<a name="outline83"></a><br><h2>11.4. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter9;<br>
+import java.io.*;<br>
+import com.db4o.*;<br>
+import com.db4o.config.*;<br>
+import com.db4o.ta.*;<br>
+import com.db4odoc.f1.*;<br>
+public class TransparentPersistenceExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) throws Exception {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeCarAndSnapshots();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modifySnapshotHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readSnapshotHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeCarAndSnapshots() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.common().add(new TransparentPersistenceSupport());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = new Car("Ferrari");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 3; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void modifySnapshotHistory() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.common().add(new TransparentPersistenceSupport());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Read all sensors and modify the description:");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = db.queryByExample(Car.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout readout = car.getHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (readout != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout.setDescription("Modified: " + readout.getDescription());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout = readout.getNext();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.commit();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void readSnapshotHistory() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;config.common().add(new TransparentPersistenceSupport());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db = Db4oEmbedded.openFile(config, DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Read all modified sensors:");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = db.queryByExample(Car.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car = (Car) result.next();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SensorReadout readout = car.getHistory();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while (readout != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readout = readout.getNext();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter9;<br>
+import java.util.*;<br>
+import com.db4o.activation.*;<br>
+import com.db4o.ta.*;<br>
+public class Car implements Activatable {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private String model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private SensorReadout history;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private transient Activator _activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Car(String model) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.model=model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.history=null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String getModel() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public SensorReadout getHistory() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return history;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void snapshot() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appendToHistory(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"oil",pollOilTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;appendToHistory(new TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Date(),this,"water",pollWaterTemperature()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollOilTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.1*countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected double pollWaterTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 0.2*countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return model+"/"+countHistoryElements();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private int countHistoryElements() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (history==null ? 0 : history.countElements());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private void appendToHistory(SensorReadout readout) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(history==null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history=readout;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;history.append(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void activate(ActivationPurpose purpose) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator.activate(purpose);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void bind(Activator activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_activator == activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (activator != null &amp;&amp; _activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new IllegalStateException();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator = activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter9;<br>
+import java.util.*;<br>
+import com.db4o.activation.*;<br>
+import com.db4o.ta.*;<br>
+public class SensorReadout implements Activatable {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private Date time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private Car car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private String description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private SensorReadout next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private transient Activator _activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protected SensorReadout(Date time,Car car,String description) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.time=time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.car=car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.description=description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.next=null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Car getCar() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return car;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return time;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String getDescription() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void setDescription(String description) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.description = description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public SensorReadout getNext() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return next;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void append(SensorReadout readout) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.WRITE);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(next==null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next=readout;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next.append(readout);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public int countElements() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (next==null ? 1 : next.countElements()+1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return car+" : "+time+" : "+description;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void activate(ActivationPurpose purpose) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(_activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator.activate(purpose);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public void bind(Activator activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (_activator == activator) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (activator != null &amp;&amp; _activator != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new IllegalStateException();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_activator = activator;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter9;<br>
+import java.util.*;<br>
+import com.db4o.activation.*;<br>
+<br>
+public class TemperatureSensorReadout extends SensorReadout {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;private double temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public TemperatureSensorReadout(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date time,Car car,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String description,double temperature) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(time,car,description);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.temperature=temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public double getTemperature() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;activate(ActivationPurpose.READ);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return super.toString()+" temp : "+temperature;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<br>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

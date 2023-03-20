@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts|Transactions and ACID Properties " MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>db4o Transactions</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#basics/acid_and_transactions/db4o_tx_basics.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../acid_and_transactions.htm">Transactions and ACID Properties </a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">db4o Transactions</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor19"></a>db4o Transactions</h1>
+        <p>All db4o operations are transactional and there's always a transaction running. Each object container has its own transaction running. The transaction is started implicitly. </p>
+        <p>You can commit the transaction at any time.&#160;When the commit-call returns, all changes are made persistent. </p>
+        <h2>Commit A Transactions</h2>
+        <p>In order to commit a transaction, you need to call the commit-method. This will make all changes of the current transaction persistent. When the commit call is finished, everything is safely stored. If something goes wrong during the commit-operation or the commit-operation is interrupted (power-off, crash etc) the database has the state of either before or after the commit-call. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">container.store(<span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"John"</span>));
+container.store(<span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"Joanna"</span>));
+
+container.commit();</pre>
+            <div class="codesnippet-meta">Transactions.java: Commit changes
+			<div class="codedownload"><a href="../../CodeExamples/transactions/Example-db4odoc-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="kanchor20"></a>Rollback a Transaction</h2>
+        <p>Of course you also can rollback a transaction. Just call rollback on the object container. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">container.store(<span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"John"</span>));
+container.store(<span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"Joanna"</span>));
+
+container.rollback();</pre>
+            <div class="codesnippet-meta">Transactions.java: Rollback changes
+			<div class="codedownload"><a href="../../CodeExamples/transactions/Example-db4odoc-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Note that when you rollback the changes, db4o won't rollback the objects in memory. All objects in memory will keep the state. If you want to make sure that objects in memory have the same state as in the database, you need to refresh the objects.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Pilot pilot = container.query(Pilot.<span style="color:Blue;">class</span>).get(0);
+pilot.setName(<span style="color:#A31515;">"New Name"</span>);
+container.store(pilot);
+container.rollback();
+
+<span style="color:Green;">// use refresh to return the in memory objects back</span>
+<span style="color:Green;">// to the state in the database.</span>
+container.ext().refresh(pilot,Integer.MAX_VALUE);</pre>
+            <div class="codesnippet-meta">Transactions.java: Refresh objects after rollback
+			<div class="codedownload"><a href="../../CodeExamples/transactions/Example-db4odoc-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Implicit Commits</h2>
+        <p>db4o commits implicitly when you close the object-container. The assumption is that normally you want to make the changes persistent when you close the object container. That's why it commits automatically. When you want to prevent this you should rollback the transaction before closing the container,</p>
+        <h2>Multiple Concurrent Transactions</h2>
+        <p>db4o transactions are always bound to their object container. When you want multiple concurrent transactions, you need to open multiple object containers. You can easily do this with the open session method. <a href="../../advanced_topics/session_containers.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Session Containers"</a></p>
+        <p>Note that in this mode, db4o uses the read committed isolation. <a href="isolation.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Isolation"</a></p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectContainer rootContainer = Db4oEmbedded.openFile(DATABASE_FILE_NAME);
+
+<span style="color:Green;">// open the db4o-session. For example at the beginning for a web-request</span>
+ObjectContainer session = rootContainer.ext().openSession();
+<span style="color:Blue;">try</span> {
+    <span style="color:Green;">// do the operations on the session-container</span>
+    session.store(<span style="color:Blue;">new</span> Person(<span style="color:#A31515;">"Joe"</span>));
+} <span style="color:Blue;">finally</span> {
+    <span style="color:Green;">// close the container. For example when the request ends</span>
+    session.close();
+}</pre>
+            <div class="codesnippet-meta">Db4oSessions.java: Session object container
+			<div class="codedownload"><a href="../../CodeExamples/container/sessions/Example-container-sessions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

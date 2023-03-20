@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Replication With RDBMS" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>dRS Internals</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/TableStyles/Basic.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#db4o_replication_system_drs/db4o_rdbms/drs_internals.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../replication_with_rdbms.htm">Replication With RDBMS</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">dRS Internals</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link");
+			document.write('</a>');/*]]>*/</script>
+        <h1>dRS Internals</h1>
+        <p>How does dRS work to replicate between Hibernate and db4o?&#160;This topic gives some insights.</p>
+        <h2>Meta Data</h2>
+        <p>In order to know which version the objects have and the state of the replication peers dRS needs additional information. For this the dRS system adds extra tables which contain this meta data. These meta data has to maintained, otherwise dRS doesn't replicate the changes. To enable this meta-data tracking you need to add a listener to every Hibernate session:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">SessionFactory sessionFactory = hibernateConfig.buildSessionFactory();
+Session session = sessionFactory.openSession();
+ReplicationConfigurator.install(session, hibernateConfig);</pre>
+            <div class="codesnippet-meta">Db4oRDBMSReplicationExamples.java: Install the listeners to the session
+			<div class="codedownload"><a href="../../CodeExamples/drs/rdms/Example-drs-rdms-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h3>The Providers</h3>
+        <p>The providers are the peers which replicate to each others. Each database has a unique identity so that the different providers can be distinguished. This data is kept in the 'drs_providers' table.</p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 93px;" />
+            <col style="width: 81px;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Column</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Type</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Purpose</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">id</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Synthetic, auto-increment primary key.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">is_my_sig</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">char(1)</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">'t' when MySignature, 'f' when PeerSignature.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">signature</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">binary</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Holds the unique identifier - byte array.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">created</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">Legacy field for older versions.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>The History</h4>
+        <p>The dRS keeps a history of replication with each pair. This history is used to find out when the last replication took place and which objects have changed since the last replication. This data is kept in the 'drs_history' table.</p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 93px;" />
+            <col style="width: 81px;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Column</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Type</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Purpose</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">provider_id</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Primary key, same as the primary key of a provider.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">time</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">The last version of the last replication session.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>The Object Meta Data</h3>
+        <p>For each object there's meta data. This meta data contains a UUID, the version and some additional information. This data is kept in the 'drs_objects' table.</p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 93px;" />
+            <col style="width: 81px;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Column</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Type</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Purpose</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">id</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Synthetic, auto-increment primary key.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">created</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">The UUID long part of this ObjectReference.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">provider_id</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Specifies the originating replication provider of this object.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">class_name</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">varchar</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">The type of the referenced object.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">typed_id</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">The id used by Hibernate, which is only unique within its type.</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">modified</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">long</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">The version of the referenced object</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Collections </h2>
+        <p>db4o treats collections like regular objects which have a identity. Hibernate however maps collections to joins  and therefore collections don't have an identity. To bridge this gap, dRS treats collections as special objects and does not assign UUIDs to them. However this also means that dRS cannot detect changed collections. So currently you cannot replicate collection-updates between db4o and Hibernate. </p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

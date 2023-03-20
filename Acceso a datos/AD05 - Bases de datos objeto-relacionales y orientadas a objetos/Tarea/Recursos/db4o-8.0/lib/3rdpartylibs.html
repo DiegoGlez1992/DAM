@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>3rd Party</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #666666 }
+H2,H3,H4,H5 { color: black; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+
+</style>
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+    <p>
+        This distribution comes with the 3rd party libraries listed below.
+        <br />
+        These are not needed for plain db4o operation, but only for specific use cases involving
+        native query optimization.
+    </p>
+    <p>
+        bloat-1.0.jar
+        <br />
+        http://www.cs.purdue.edu/s3/projects/bloat/
+        <br />
+        Needed for bytecode analysis during native query optimization. Must be on the runtime
+        classpath for optimization at load or query execution time, must be present during
+        the Ant build for class file optimization.
+    </p>
+    <p>
+        ant.jar
+        <br />
+        http://ant.apache.org/
+        <br />
+        Needed for the native query optimization Ant task.
+    </p>
+    <p>
+        Please refer to the license files for these libraries as well as to the Licensing
+        and Native Query Optimization chapter in the tutorial for further information.</p>
+</body>
+</html>

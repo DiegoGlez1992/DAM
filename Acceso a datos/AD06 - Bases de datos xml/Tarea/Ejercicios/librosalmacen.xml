@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<almacen>
+  <comprados>
+    <codigo>1</codigo>
+    <codigo>2</codigo>
+  </comprados>
+  <pendientes>
+    <codigo>3</codigo>
+    <codigo>4</codigo>
+  </pendientes>
+</almacen>

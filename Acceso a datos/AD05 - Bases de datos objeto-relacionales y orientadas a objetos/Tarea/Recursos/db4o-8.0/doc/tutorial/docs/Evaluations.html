@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="Evaluations"></a><br>
+<a name="outline92"></a><br><h1>13. SODA Evaluations</h1><br>
+In the <a href="Query.html#SODAQueryAPI">SODA API chapter</a>&nbsp;we already mentioned <em>Evaluations</em>&nbsp;as a means of providing user-defined custom constraints and as a means to run any&nbsp;arbitrary code in a SODA query. Let's have a closer look.<br>
+<br>
+<ul>
+<a name="outline93"></a><br><h2>13.1. Evaluation API</h2><br>
+The evaluation API consists of two interfaces, &nbsp;Evaluation &nbsp;and &nbsp;Candidate &nbsp;.&nbsp;Evaluation implementations are implemented by the user and injected into a query.&nbsp;During a query, they will be called from db4o with a candidate instance&nbsp;in order to decide whether to include it into the current (sub-)result.<br>
+<br>
+<br>
+The&nbsp;Evaluation &nbsp;interface contains a single method only:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public void evaluate(Candidate candidate);</code></td></tr></table>
+<br>
+<br>
+<br>
+This will be called by db4o to check whether the object encapsulated by this&nbsp;candidate should be included into the current candidate set.<br>
+<br>
+<br>
+The&nbsp;Candidate &nbsp;interface provides three methods:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>public Object getObject();<br>
+public void include(boolean flag);<br>
+public ObjectContainer objectContainer();<br>
+</code></td></tr></table>
+<br>
+<br>
+<br>
+<br>
+An Evaluation implementation may call&nbsp;#getObject() &nbsp;to retrieve the actual object&nbsp;instance to be evaluated, it may call&nbsp;#include() &nbsp;to instruct db4o whether or not&nbsp;to include this object in the current candidate set, and finally it may access&nbsp;the current database directly by calling&nbsp;#objectContainer() .<br>
+<br>
+<br>
+<a name="outline94"></a><br><h2>13.2. Example</h2><br>
+For a simple example, let's go back to our Pilot/Car implementation from the&nbsp;<a href="Collections.html#Collections">Collections chapter</a>. Back then, we kept a history of&nbsp;SensorReadout instances in a List member inside the car. Now imagine that&nbsp;we wanted to retrieve all cars that have assembled an even number of history&nbsp;entries. A quite contrived and seemingly trivial example, however, it gets&nbsp;us into trouble: Collections are transparent to the query API, it just&nbsp;'looks through' them at their respective members.<br>
+<br>
+<br>
+So how can we get this done? Let's implement an Evaluation that expects the&nbsp;objects passed in to be instances of type Car and checks their history size.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter7;<br>
+import com.db4o.query.*;<br>
+import com.db4odoc.f1.chapter4.*;<br>
+public class EvenHistoryEvaluation implements Evaluation {<br>
+&nbsp;&nbsp;public void evaluate(Candidate candidate) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Car car=(Car)candidate.getObject();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;candidate.include(car.getHistory().size() % 2 == 0);<br>
+&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+To test it, let's add two cars with history sizes of one, respectively two:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storeCars<br>
+Pilot pilot1 = new Pilot("Michael Schumacher", 100);<br>
+Car car1 = new Car("Ferrari");<br>
+car1.setPilot(pilot1);<br>
+car1.snapshot();<br>
+db.store(car1);<br>
+Pilot pilot2 = new Pilot("Rubens Barrichello", 99);<br>
+Car car2 = new Car("BMW");<br>
+car2.setPilot(pilot2);<br>
+car2.snapshot();<br>
+car2.snapshot();<br>
+db.store(car2);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter7.EvaluationExample"/><param name="examplemethod" value="storeCars"/></applet></td></tr></table>
+<br>
+<br>
+and run our evaluation against them:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// queryWithEvaluation<br>
+Query query = db.query();<br>
+query.constrain(Car.class);<br>
+query.constrain(new EvenHistoryEvaluation());<br>
+ObjectSet result = query.execute();<br>
+Util.listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter7.EvaluationExample"/><param name="examplemethod" value="queryWithEvaluation"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline95"></a><br><h2>13.3. Drawbacks</h2><br>
+While evaluations offer you another degree of freedom for assembling queries,&nbsp;they come at a certain cost: As you may already have noticed from the example,&nbsp;evaluations work on the fully instantiated objects, while 'normal' queries&nbsp;peek into the database file directly. So there's a certain performance penalty&nbsp;for the object instantiation, which is wasted if the object is not included&nbsp;into the candidate set.<br>
+<br>
+<br>
+Another restriction is that, while 'normal' queries can bypass encapsulation and&nbsp;access candidates' private members directly, evaluations are bound to use their&nbsp;external API, just as in the language itself.<br>
+<br>
+<br>
+<br>
+One last hint: Evaluations are expected to be serializable for client/server&nbsp;operation. So be careful when implementing them as (anonymous) inner classes&nbsp;and keep in mind that those will carry an implicit reference to their surrounding&nbsp;class and everything that belongs to it. Best practice is to always implement&nbsp;evaluations as normal top level or static inner classes.<br>
+<br>
+<br>
+<br>
+<a name="outline96"></a><br><h2>13.4. Conclusion</h2><br>
+With the introduction of evaluations we finally completed our query toolbox.&nbsp;Evaluations provide a simple way of assemble arbitrary custom query building blocks,&nbsp;however, they come at a price.<br>
+<br>
+<a name="outline97"></a><br><h2>13.5. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter7;<br>
+import java.io.*;<br>
+import com.db4o.*;<br>
+import com.db4o.query.*;<br>
+import com.db4odoc.f1.*;<br>
+import com.db4odoc.f1.chapter4.*;<br>
+public class EvaluationExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new File(DB4OFILENAME).delete();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeCars(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queryWithEvaluation(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeCars(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot1 = new Pilot("Michael Schumacher", 100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car1 = new Car("Ferrari");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car1.setPilot(pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car1.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot2 = new Pilot("Rubens Barrichello", 99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Car car2 = new Car("BMW");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.setPilot(pilot2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;car2.snapshot();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(car2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void queryWithEvaluation(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query = db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Car.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(new EvenHistoryEvaluation());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result = query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Util.listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

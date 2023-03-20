@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>ACID Properties and Transactions</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#basics/acid_and_transactions.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">ACID Properties and Transactions</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor18"></a>ACID Properties and Transactions</h1>
+        <p>The <a href="http://en.wikipedia.org/wiki/ACID" target="_parent">ACID properties</a> are one of the oldest and most important concepts of database theory. It sets out the requirements for the database reliability:</p>
+        <ul>
+            <li value="1"><strong>Atomicity</strong>: This means that  must follow an "all or nothing" rule. Each transaction is either successfully completed or in case of failure the state of the database isn't changed at all.<br /> For example in a
+bank transfer transaction there are two steps: debit and credit. If the debit
+operation was successful, but the credit failed, the whole transaction should
+fail and the system should remain in the initial state.
+            </li>
+            <li value="2"><strong>Consistency</strong>: Consistency ensures that the database stays always in a consistent state. Each transaction takes the database from one consistent state to the next consistent state.</li>
+            <li value="3"><strong>Isolation</strong>: Isolation means that different operations cannot access modified data from another  transaction that has not yet completed. There are different isolation-models. <a href="acid_and_transactions/isolation.htm" target="" title="" alt="" class="MCXref">See "Isolation"</a></li>
+            <li value="4"><strong>Durability</strong>: This just refers to the real goal of any data store. It just means that the data should be persistently stored. </li>
+        </ul>
+        <p>db4o fulfills the <a href="#" class="glossaryTerm_0">ACID</a> properties. Each <a href="object_container.htm">object container</a> has its own transaction. Each transaction is a unit of work and ensures the ACID properties. This means, that a db4o transaction is an atomic operation. Either all changes of the db4o transactions are committed and made persistent. Or in case of a failure or rollback no state is changed. The database is kept consistent even on application or database crashes. And db4o transactions are isolated from each other. <a href="acid_and_transactions/db4o_tx_basics.htm" target="" title="" alt="" class="MCXref">See "db4o Transactions"</a></p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

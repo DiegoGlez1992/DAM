@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Web Environment" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Servlets</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/web/servlets.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../web_environment.htm">Web Environment</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Servlets</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor111"></a>Servlets</h1>
+        <p MadCap:conditions="Primary.Java,Primary.All languages">
+            <p>Running db4o as the persistence layer of a Java web application is easy. There is no installation procedure - db4o is just another library in your application. There are only two issues that make web applications distinct from standalone programs from db4o's point of view. One is the more complex classloader environment - db4o needs to know itself  and the classes to be persisted. </p>
+            <p>The other issue is configuring, starting and shutting down the db4o correctly. This can be done at the <a href="#" class="glossaryTerm_0">Servlet</a> API layer or within the web application framework you are using.</p>
+            <p>On the Servlet API layer, you could bind db4o server handling to the Servlet. </p>
+            <p>You can implement the ServletContextListener-interface, open the database when the web application starts and close when it ends.</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve">@Override
+<span style="color:Blue;">public</span>   <![CDATA[ ]]><span style="color:Blue;">void</span> contextInitialized(ServletContextEvent event) {
+    ServletContext context = event.getServletContext();
+    String filePath = context.getRealPath(<span style="color:#A31515;">"WEB-INF/"</span>
+            + context.getInitParameter(KEY_DB4O_FILE_NAME));
+    EmbeddedObjectContainer rootContainer = Db4oEmbedded.openFile(filePath);
+    context.setAttribute(KEY_DB4O_SERVER, rootContainer);
+    context.log(<span style="color:#A31515;">"db4o startup on "</span> + filePath);
+}
+
+
+@Override
+<span style="color:Blue;">public</span>   <![CDATA[ ]]><span style="color:Blue;">void</span> contextDestroyed(ServletContextEvent event) {
+    ServletContext context = event.getServletContext();
+    ObjectContainer rootContainer = (ObjectContainer) context.getAttribute(KEY_DB4O_SERVER);
+    context.removeAttribute(KEY_DB4O_SERVER);
+    close(rootContainer);
+    context.log(<span style="color:#A31515;">"db4o shutdown"</span>);
+}</pre>
+                <div class="codesnippet-meta">Db4oServletListener.java: db4o-instance for the web-application
+			<div class="codedownload"><a href="../../CodeExamples/WebAppJava/src/main/java/com/db4odoc/servlet/Example-db4odoc-servlet-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+            <p>Additionally you can implement the ServletRequestListener-interface and open a <a href="web_isolation.htm">db4o-session</a> on each request.</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve">@Override
+<span style="color:Blue;">public</span>   <![CDATA[ ]]><span style="color:Blue;">void</span> requestInitialized(ServletRequestEvent requestEvent) {
+    EmbeddedObjectContainer rootContainer = (EmbeddedObjectContainer) requestEvent
+            .getServletContext().getAttribute(Db4oServletListener.KEY_DB4O_SERVER);
+
+    ObjectContainer session = rootContainer.openSession();
+    requestEvent.getServletRequest().setAttribute(KEY_DB4O_SESSION, session);
+}
+
+
+@Override
+<span style="color:Blue;">public</span>   <![CDATA[ ]]><span style="color:Blue;">void</span> requestDestroyed(ServletRequestEvent requestEvent) {
+    ObjectContainer session = (ObjectContainer) requestEvent
+            .getServletRequest().getAttribute(KEY_DB4O_SESSION);
+
+    close(session);
+}</pre>
+                <div class="codesnippet-meta">Db4oServletListener.java: a db4o-session for each request
+			<div class="codedownload"><a href="../../CodeExamples/WebAppJava/src/main/java/com/db4odoc/servlet/Example-db4odoc-servlet-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+            <p>This listener has to be registered in the web.xml.</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">context-param</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">param-name</span><span style="color:Blue;">&gt;</span>database-file-name<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">param-name</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">param-value</span><span style="color:Blue;">&gt;</span>database.db4o<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">param-value</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">context-param</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;</span><span style="color:#A31515;">listener</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">listener-class</span><span style="color:Blue;">&gt;</span>com.db4odoc.servlet.Db4oServletListener<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">listener-class</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">listener</span><span style="color:Blue;">&gt;</span></pre>
+                <div class="codesnippet-meta">web.xml: register the listener for the web application
+			<div class="codedownload"><a href="../../CodeExamples/WebAppJava/src/main/webapp/WEB-INF/Example-webapp-WEB-INF-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+            <p>Now db4o should be available to your application classes. Each request has it own object-container. You can get the instance via its key, like this:</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve">ObjectContainer container = 
+        (ObjectContainer)req.getAttribute(Db4oServletListener.KEY_DB4O_SESSION);</pre>
+                <div class="codesnippet-meta">ServletExample.java: Get the session container
+			<div class="codedownload"><a href="../../CodeExamples/WebAppJava/src/main/java/com/db4odoc/servlet/Example-db4odoc-servlet-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+            <p>However, We strongly suggest that you use the features provided by your framework and that you consider not exposing db4o directly to your application logic. (There is nothing db4o-specific about these recommendentations, we would vote for this in the presence of any persistence layer.)</p>
+        </p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

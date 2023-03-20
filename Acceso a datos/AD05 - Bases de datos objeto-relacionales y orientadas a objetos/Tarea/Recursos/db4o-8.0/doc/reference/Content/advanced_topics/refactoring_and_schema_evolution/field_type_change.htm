@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Refactoring And Schema Evolution" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Field Type Change</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#advanced_topics/refactoring_and_schema_evolution/field_type_change.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../refactoring_and_schema_evolution.htm">Refactoring And Schema Evolution</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Field Type Change</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor62"></a>Field Type Change</h1>
+        <p>db4o's default policy is to never do any damage to stored data. When you change the type of a field, db4o will not update the data in this field. Instead db4o internally creates a new field of the same name, but with the new type. For existing object,  the values of the old typed field are still present, but hidden. Of course you can  access the old data. When you want to convert the content from the old field type to the new field type, you have to do it yourself.</p>
+        <p>You can use the stored-classes API to retrieve the data of the old typed field. An example: We decide that we want to refactor the id-field from a simple int to a special identity class. First we change the field-type:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span> Identity id = Identity.newId();
+<span style="color:Green;">//  was an int previously:</span>
+<span style="color:Green;">//    public int id = new Random().nextInt();</span></pre>
+            <div class="codesnippet-meta">Person.java: change type of field
+			<div class="codedownload"><a href="../../CodeExamples/strategies/refactoring/Example-strategies-refactoring-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After than read the old value from the old field-type and convert it to the new type:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectContainer container = Db4oEmbedded.openFile( <span style="color:#A31515;">"database.db4o"</span>);
+<span style="color:Blue;">try</span>{
+    <span style="color:Green;">// first get all objects which should be updated</span>
+    ObjectSet&lt;Person&gt; persons = container.query(Person.<span style="color:Blue;">class</span>);
+    <span style="color:Blue;">for</span> (Person person : persons) {
+        <span style="color:Green;">// get the database-metadata about this object-type</span>
+        StoredClass dbClass = container.ext().storedClass(person);
+        <span style="color:Green;">// get the old field which was an int-type</span>
+        StoredField oldField = dbClass.storedField(<span style="color:#A31515;">"id"</span>, <span style="color:Blue;">int</span>.<span style="color:Blue;">class</span>);
+        <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>!=oldField){
+            <span style="color:Green;">// Access the old data and copy it to the new field!</span>
+            Object oldValue = oldField.get(person);
+            <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>!=oldValue){
+                person.id = <span style="color:Blue;">new</span> Identity((Integer)oldValue);
+                container.store(person);
+            }                   
+        }
+    }
+} <span style="color:Blue;">finally</span> {
+    container.close();
+}</pre>
+            <div class="codesnippet-meta">RefactoringExamples.java: copying the data from the old field type to the new one
+			<div class="codedownload"><a href="../../CodeExamples/strategies/refactoring/Example-strategies-refactoring-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>db4o's approach gives you the maximum flexibility for refactoring field types. You can handle the convertion with regular code, which means it can be as complex as needed. Furthermore you can decide when you convert the values. You can update all objects in one operation, you can dynamically update and covert when you access a object or even decide not to convert the old values.</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Identity Concept</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#basics/identity_concept.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Identity Concept</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor22"></a>Identity Concept</h1>
+        <p>You've maybe noticed that you don't need to add an identifier to your objects in order to store them with db4o. So how does db4o manage objects? db4o uses the object-identity to identify objects. db4o ensures that each stored object in the database has only one in memory representation per object container. If you load an object in different ways db4o will always return the same object. Or as rule of thumb: The objects in the database behave like objects in memory. When you run multiple queries or retrieve objects in another way, the same object in the database will always represented by the same object in memory.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Car theCar = container.query(Car.<span style="color:Blue;">class</span>).get(0);
+<span style="color:Blue;">final</span> Pilot thePilot = container.query(Pilot.<span style="color:Blue;">class</span>).get(0);
+Pilot pilotViaCar = theCar.getPilot();
+assertTrue(thePilot == pilotViaCar);</pre>
+            <div class="codesnippet-meta">IdentityConcepts.java: db4o ensures reference equality
+			<div class="codedownload"><a href="../CodeExamples/identiy/Example-db4odoc-identiy-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>In order to implement this behavior each object container keeps a mapping between the objects in memory and the stored object representation. When you load the same object with multiple object-containers (for example with <a href="../advanced_topics/session_containers.htm">session-containers</a> or in <a href="../client-server.htm">client-server-mode</a>), it will have different in memory-identity. db4o ensures the same identity only for a single object-container.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Car loadedWithContainer1 = container1.query(Car.<span style="color:Blue;">class</span>).get(0);
+<span style="color:Blue;">final</span> Car loadedWithContainer2 = container2.query(Car.<span style="color:Blue;">class</span>).get(0);
+assertFalse(loadedWithContainer1 == loadedWithContainer2);</pre>
+            <div class="codesnippet-meta">IdentityConcepts.java: Loading with different object container results in different objects
+			<div class="codedownload"><a href="../CodeExamples/identiy/Example-db4odoc-identiy-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>This also means that an object should always be processed with the same object-container.  When you load a object in one container and store it with another container db4o cannot recognize the object and will store it as a completely new object. Therefore you need to use the same container to store and load objects. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Car loadedWithContainer1 = container1.query(Car.<span style="color:Blue;">class</span>).get(0);
+container2.store(loadedWithContainer1);
+<span style="color:Green;">// Now the car is store twice.</span>
+<span style="color:Green;">// Because the container2 cannot recognize objects from other containers</span>
+<span style="color:Green;">// Therefore always use the same container to store and load objects</span>
+printAll(container2.query(Car.<span style="color:Blue;">class</span>));</pre>
+            <div class="codesnippet-meta">IdentityConcepts.java: Don't use different object-container for the same object.
+			<div class="codedownload"><a href="../CodeExamples/identiy/Example-db4odoc-identiy-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>The identity concept works really well for desktop and embedded applications where you can have a single object container and keep that container open while the application is running. In such a case the behavior is just like you would work with regular objects. However this behavior doesn't work where you need to serialize objects, for example in web-applications. In such scenarios you need to do some extra work. <a href="../platform_specific_issues/disconnected_objects.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Disconnected Objects"</a></p>
+        <h2>Further Information</h2>
+        <p>Maybe your wondering why db4o manages object by identity. Why not by equality? There are good reasons why this is the case. <a href="indentity_concept/identity_vs_equals.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Identity Vs Equality"</a></p>
+        <p>In order to manage objects by identity db4o has a reference cache which contains all loaded objects. <a href="indentity_concept/reference_cache.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "The Reference Cache"</a></p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

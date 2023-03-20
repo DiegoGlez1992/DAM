@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Project Dependencies</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#community/working_with_source/project_dependencies.htm" style="">Open topic with navigation</a>
+        </p>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Project Dependencies</h1>
+        <p>
+        </p>
+        <table border="1" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="top">
+                    <p><b>Project</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p><b>Dependencies</b>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4o_osgi</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK6 db4o-<span class="PrimaryCurrentVersion">X.XX</span>-db4ounit-java1.2.jar org.eclipse.osgi_3.4.0.v20080605-1900.jar </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4o_osgi_test</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK6 db4o-<span class="PrimaryCurrentVersion">X.XX</span>-all-java1.2.jar 
+org.eclipse.osgi_3.4.0.v20080605-1900.jar db4o-osgi db4o-tests.jar db4o-tests-nq.jar</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4o.cs</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 db4oj</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4o.instrumentation</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 bloat db4oj db4ounit db4ounit.extensions ant.jar </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4o.net</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>.NET2.0 .NET3.5 .NET2.0.<span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">CF<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">.NET Compact Framework</span></span> .NET3.5.CF </p>
+                </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4oj                 </b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5  decaf-annotations</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4oj.optional                  </b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 db4oj</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4oj.tests</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 easymock.jar db4o.cs db4oj db4oj.optional db4ounit db4ounit.extensions </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4onqopt</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK5 bloat db4o.instrumentation db4oj db4oj.optional db4oj.tests db4ounit db4ounit.extensions </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4otaj</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK5 bloat db4o.instrumentation db4oj 
+db4oj.optional 
+db4oj.tests 
+db4ounit 
+db4ounit.extensions </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4otools</b>
+                    </p>
+                </td>
+                <td valign="top"> JDK5 bloat db4o.instrumentation db4oj db4onqopt 
+db4otaj db4ounit 
+db4ounit.extensions</td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4ounit</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 db4oj </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>db4ounit.extensions</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 db4o.cs db4oj db4ounit</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>decaf</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 eclipse plugins sharpen.core decaf.annotations </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>decaf.annotations</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>decaf.tests</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>decaf.tests.functional</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 ant.jar asm-3.1.jar JUnit3 </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>doctor</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 ant.jar itext.jar junit.jar</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>docWiki</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>None</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>drs</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>db4o.cs db4oj db4ounit ant.jar antlr-2.7.6.jar asm.jar asm-attrs.jar cglib-2.1.3.jar commons-collections-2.1.1.jar commons-logging-1.0.4.jar db2_license_cu.jar db4cc.jar derby.jar doctor.jar dom4j-1.6.1.jar ehcache-1.2.jar hibernate3.jar hsqdb.jar jText.jar jta.jar junit.jar log4j-1.2.13.jar mysql-connector-java.5.0.4-bin.jar odbc14.jar postgresql-8.1-407.jdbc3.jar sqljdbc.jar xerces-2.6.2.jar </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>drspolepos</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 db4oj db4ojdk1.2 db4ojdk5 db4oj.tests db4ounit db4ounit.extensions drs polepos</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>omj</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JDK1.5 other libraries included in svn </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>omn</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>.NET2.0 .NET3.5 other libraries included in svn  </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>sharpen.builder</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 xstream-1.1.2.jar eclipse plugin libraries </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>sharpen.core</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE6 eclipse plugin libraries </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>sharpen.ui</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE6 sharpen.core sharpen.builder eclipse plugin libraries </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>sharpen.ui.tests</b>
+                    </p>
+                    <p>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE6 sharpen.core 
+sharpen.builder sharpen.ui 
+eclipse plugin libraries</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p><b>Tutorial</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p>JRE5 db4oj db4oj.tools </p>
+                </td>
+            </tr>
+        </table>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

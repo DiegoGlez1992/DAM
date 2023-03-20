@@ -1,0 +1,554 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="Query"></a><br>
+<a name="outline18"></a><br><h1>4. Querying</h1><br>
+db4o supplies three querying systems, Query-By-Example (QBE)&nbsp;Native Queries (NQ), and the SODA API. In the previous chapter,&nbsp;you were briefly introduced to <em>Query By Example</em>(QBE).<br>
+<br>
+Query-By-Example (QBE) is appropriate as a quick start for users&nbsp;who are still acclimating to storing and retrieving objects with db4o.<br>
+<br>
+Native Queries (NQ) are the main db4o query interface, recommended&nbsp;for general use.&nbsp;<br>
+&nbsp;<br>
+<br>
+SODA is the underlying internal API. It is provided for backward&nbsp;compatibility and it can be useful for dynamic generation&nbsp;of queries, where &nbsp;&nbsp;NQ are too strongly typed.<br>
+<br>
+<a name="QBE"></a><br>
+<ul>
+<a name="outline19"></a><br><h2>4.1. Query by Example (QBE)</h2><br>
+When using <em>Query By Example</em>&nbsp;(QBE) you provide db4o with a&nbsp;template object. db4o will return all of the objects which match all&nbsp;non-default field values. This is done via reflecting all of the fields&nbsp;and building a query expression where all non-default-value fields are&nbsp;combined with AND expressions. Here's an example from the previous chapter:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrievePilotByName<br>
+Pilot proto = new Pilot("Michael Schumacher", 0);<br>
+ObjectSet result = db.queryByExample(proto);<br>
+listResult(result);</code></td></tr></table>
+<br>
+<br>
+Querying this way has some obvious limitations:<br>
+- db4o must reflect all members of your example object.<br>
+- You cannot perform advanced query expressions. (AND, OR, NOT, etc.)<br>
+- You cannot constrain on values like 0 (integers), "" (empty strings),&nbsp;or nulls (reference types) because they would be interpreted as unconstrained.<br>
+- You need to be able to create objects without initialized fields.&nbsp;That means you can not initialize fields where they are declared.&nbsp;You can not enforce contracts that objects of a class are only&nbsp;allowed in a well-defined initialized state.<br>
+- You need a constructor to create objects without initialized fields.<br>
+<br>
+To get around all of these constraints, db4o provides the Native Query (NQ) system.<br>
+<br>
+<br>
+<a name="NativeQueries"></a><br>
+<a name="outline20"></a><br><h2>4.2. Native Queries</h2><br>
+Wouldn't it be nice to pose queries in the programming&nbsp;language that you are using? Wouldn't it be nice if all your query code was&nbsp;100% typesafe, 100% compile-time checked and 100% refactorable? Wouldn't&nbsp;it be nice if the full power of object-orientation could be used&nbsp;by calling methods from within queries? Enter Native Queries. <br>
+<br>
+Native queries are the main db4o query interface and they are the&nbsp;recommended way to query databases from your application. Because native&nbsp;queries simply use the semantics of your programming language, they are&nbsp;perfectly standardized and a safe choice for the future.<br>
+<br>
+Native Queries are available for all platforms supported by db4o.<br>
+<br>
+<ul>
+<a name="outline21"></a><br><h2>4.2.1. Concept</h2>The concept of native queries is taken from the following two papers:<br>
+<br>
+- <a href="http://www.cs.utexas.edu/users/wcook/papers/NativeQueries/NativeQueries8-23-05.pdf" target="_blank">Cook/Rosenberger, Native Queries for Persistent Objects, A Design White Paper</a><br>
+- <a href="http://www.cs.utexas.edu/users/wcook/papers/SafeQuery05/SafeQueryFinal.pdf" target="_blank">Cook/Rai, Safe Query Objects: Statically Typed Objects as Remotely Executable Queries</a><br>
+<br>
+<a name="outline22"></a><br><h2>4.2.2. Principle</h2>Native Queries provide the ability to run one or more lines&nbsp;of code against all instances of a class. Native query expressions should&nbsp;return true to mark specific instances as part of the result set.&nbsp;db4o will attempt to optimize native query expressions and run them against indexes&nbsp;and without instantiating actual objects, where this is possible.<br>
+<br>
+<a name="outline23"></a><br><h2>4.2.3. Simple Example</h2>Let's look at how a simple native query&nbsp;will look like in some of the programming languages and dialects that db4o&nbsp;supports:<br>
+<br>
+<b>C# .NET </b><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>IList &lt;Pilot> pilots = db.Query &lt;Pilot> (delegate(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return pilot.Points == 100;<br>
+});</code></td></tr></table>
+&nbsp;<br>
+<br>
+<b>Java JDK 5</b><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>List &lt;Pilot> pilots = db.query(new Predicate&lt;Pilot>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot.getPoints() == 100;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+});</code></td></tr></table>
+<br>
+<br>
+<br>
+Public Class PilotHundredPoints <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Inherits Predicate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Public Function Match (pilot As Pilot) as Boolean<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If pilot.Points = 100 Then <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return True <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Else <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return False<br>
+&nbsp;&nbsp;&nbsp;&nbsp;End Function<br>
+End Class<br>
+<br>
+A side note on the above syntax:<br>
+For all dialects without support for generics, Native Queries&nbsp;work by convention. A class that extends the&nbsp;com.db4o.Predicate class is expected to have a&nbsp;boolean&nbsp;#match() method with one parameter to describe the&nbsp;class extent:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>boolean match(Pilot candidate);</code></td></tr></table>
+&nbsp;<br>
+<br>
+When using native queries, don't forget that modern integrated&nbsp;development environments (IDEs) can do all the typing&nbsp;work around the native query expression for you, if you use&nbsp;templates and auto-completion.<br>
+<br>
+Here is how to configure a Native Query template with Eclipse 3.1:<br>
+From the menu, choose Window + Preferences + Java + Editor + Templates + New<br>
+As the name type "nq". Make sure that "java" is selected as the&nbsp;context on the right. Paste the following into the pattern&nbsp;field:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>List &lt;${extent}> list = db.query(new Predicate &lt;${extent}> () {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(${extent} candidate){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+});</code></td></tr></table>
+<br>
+<br>
+Now you can create a native query with three keys: n + q + Control-Space.<br>
+Similar features are available in most modern IDEs.<br>
+<br>
+<br>
+<a name="outline24"></a><br><h2>4.2.4. Advanced Example</h2>For complex queries, the native syntax is very precise and quick&nbsp;to write. Let's compare to a SODA query that finds all pilots&nbsp;with a given name or a score within a&nbsp;given range:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storePilots<br>
+db.store(new Pilot("Michael Schumacher",100));<br>
+db.store(new Pilot("Rubens Barrichello",99));</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.NQExample"/><param name="examplemethod" value="storePilots"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveComplexSODA<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+Query pointQuery=query.descend("points");<br>
+query.descend("name").constrain("Rubens Barrichello")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.or(pointQuery.constrain(99).greater()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.and(pointQuery.constrain(199).smaller()));<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.NQExample"/><param name="examplemethod" value="retrieveComplexSODA"/></applet></td></tr></table>
+<br>
+<br>
+Here is how the same query will look like with native query&nbsp;syntax,&nbsp;fully accessible to autocompletion, refactoring and other IDE&nbsp;features, fully checked at compile time:<br>
+<br>
+<b>C# .NET 2.0</b><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>IList &lt;Pilot> result = db.Query&lt;Pilot> (delegate(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return pilot.Points > 99<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; pilot.Points &lt; 199<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| pilot.Name == "Rubens Barrichello";<br>
+});</code></td></tr></table>
+&nbsp;<br>
+<br>
+<b>Java JDK 5</b><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>List &lt;Pilot> result = db.query(new Predicate&lt;Pilot>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot.getPoints() > 99<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; pilot.getPoints() &lt; 199<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| pilot.getName().equals("Rubens Barrichello");<br>
+&nbsp;&nbsp;&nbsp;}<br>
+});</code></td></tr></table>
+<br>
+<br>
+<a name="outline25"></a><br><h2>4.2.5. Arbitrary Code</h2>Basically that's all there is to know about native queries to be able&nbsp;to use them efficiently. In principle&nbsp;you can run arbitrary code as native queries, you just have to be&nbsp;very careful with side effects - especially those that might affect&nbsp;persistent objects.<br>
+<br>
+Let's run an example that involves some more of the language features&nbsp;available.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveArbitraryCodeNQ<br>
+final int[] points={1,100};<br>
+List&lt;Pilot> result=db.query(new Predicate&lt;Pilot>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int point : points) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pilot.getPoints() == point) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot.getName().startsWith("Rubens");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+});<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.NQExample"/><param name="examplemethod" value="retrieveArbitraryCodeNQ"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline26"></a><br><h2>4.2.6. Native Query Performance</h2>One drawback of native queries has to be pointed out:&nbsp;Under the hood db4o tries to analyze native queries to&nbsp;convert them to SODA. This is not possible for all queries.&nbsp;For some queries it is very difficult to analyze the flowgraph. In&nbsp;this case db4o will have to instantiate some of the persistent objects&nbsp;to actually run the native query code. db4o will try to&nbsp;analyze parts of native query expressions to keep object instantiation&nbsp;to the minimum.<br>
+<br>
+The development of the native query optimization processor will&nbsp;be an ongoing process in a close dialog with the db4o community.&nbsp;Feel free to contribute your results and your needs by providing&nbsp;feedback to our <a href="http://forums.db4o.com/" target="_blank">db4o forums</a>(Forums&nbsp;are accessible&nbsp;through <a href="http://developer.db4o.com/user/CreateUser.aspx?ReturnUrl=/default.aspx" target="_blank">free db4o membership </a>&nbsp;).<br>
+The current state of the query optimization process is detailed&nbsp;in the chapter on <a href="Enhancement.html#NQOptimization">Native Query Optimization</a><br>
+<br>
+With the current implementation, all above examples will run&nbsp;optimized, except for the "Arbitrary Code" example - we are working on it.<br>
+<br>
+<a name="outline27"></a><br><h2>4.2.7. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter1;<br>
+import com.db4o.Db4oEmbedded;<br>
+import com.db4o.ObjectContainer;<br>
+import com.db4o.ObjectSet;<br>
+import com.db4o.query.Predicate;<br>
+import com.db4o.query.Query;<br>
+import com.db4odoc.f1.Util;<br>
+import java.util.List;<br>
+public class NQExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db=Db4oEmbedded.openFile(Db4oEmbedded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storePilots(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveComplexSODA(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveComplexNQ(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveArbitraryCodeNQ(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearDatabase(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storePilots(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(new Pilot("Michael Schumacher",100));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(new Pilot("Rubens Barrichello",99));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveComplexSODA(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query pointQuery=query.descend("points");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("name").constrain("Rubens Barrichello")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.or(pointQuery.constrain(99).greater()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.and(pointQuery.constrain(199).smaller()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveComplexNQ(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Pilot> result=db.query(new Predicate&lt;Pilot>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot.getPoints()>99<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; pilot.getPoints()&lt;199<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|| pilot.getName().equals("Rubens Barrichello");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveArbitraryCodeNQ(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;final int[] points={1,100};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;Pilot> result=db.query(new Predicate&lt;Pilot>() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public boolean match(Pilot pilot) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int point : points) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pilot.getPoints() == point) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return pilot.getName().startsWith("Rubens");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void clearDatabase(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.delete(result.next());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<a name="SODAQueryAPI"></a><br>
+</ul>
+<a name="outline28"></a><br><h2>4.3. SODA Query API</h2><br>
+The SODA query API is db4o's low level querying API, allowing direct access&nbsp;to nodes of query graphs. Since SODA uses strings to identify fields, it is&nbsp;neither perfectly typesafe nor compile-time checked and it also is quite&nbsp;verbose to write.<br>
+<br>
+For most applications <a href="Query.html#NativeQueries">Native Queries</a>&nbsp;will be the better&nbsp;querying interface.<br>
+<br>
+However there can be applications where dynamic generation of queries&nbsp;is required, that's why SODA is explained here.<br>
+<br>
+<ul>
+<a name="outline29"></a><br><h2>4.3.1. Simple queries</h2><br>
+Let's see how our familiar QBE queries are expressed with SODA. A new Query object&nbsp;is created through the&nbsp;#query() method of the ObjectContainer and we can add&nbsp;Constraint instances to it. To find all Pilot instances, we constrain the&nbsp;query with the Pilot class object.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveAllPilots<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveAllPilots"/></applet></td></tr></table>
+<br>
+<br>
+Basically, we are exchanging our 'real' prototype for a meta description of&nbsp;the objects we'd like to hunt down: a<b>&nbsp;query graph</b>&nbsp;made up of&nbsp;query nodes and constraints. A query node is a placeholder for a candidate&nbsp;object, a constraint decides whether to add or exclude candidates from the result.<br>
+<br>
+Our first simple graph looks like this.<br>
+<br>
+<img border="0" src="querygraph/1.gif" /><br>
+<br>
+We're just asking any candidate object (here: any object in the database)&nbsp;to be of type Pilot to aggregate our result.<br>
+<br>
+To retrieve a pilot by name, we have to further constrain the candidate&nbsp;pilots by descending to their name field and constraining this with the&nbsp;respective candidate String.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrievePilotByName<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("name").constrain("Michael Schumacher");<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrievePilotByName"/></applet></td></tr></table>
+<br>
+<br>
+What does &nbsp;#descend &nbsp;mean here? Well, just as we did in our 'real' prototypes,&nbsp;we can attach constraints to child members of our candidates.<br>
+<br>
+<img border="0" src="querygraph/2.gif" /><br>
+<br>
+<br>
+So a candidate needs to be of type Pilot and have a member named&nbsp;'name'&nbsp;that is equal to the given String to be accepted for the result.<br>
+<br>
+Note that the class constraint is not required: If we left it out, we would&nbsp;query for all objects that contain a&nbsp;'name'&nbsp;&nbsp;member with the given value. In&nbsp;most cases this will not be the desired behavior, though.<br>
+<br>
+Finding a pilot by exact points is analogous.We just have to cross&nbsp;the Java primitive/object divide.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrievePilotByExactPoints<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("points").constrain(100);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrievePilotByExactPoints"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline30"></a><br><h2>4.3.2. Advanced queries</h2><br>
+Now there are occasions when we don't want to query for exact field values, but&nbsp;rather for value ranges, objects not containing given member values, etc. This functionality&nbsp;is provided by the Constraint API.<br>
+<br>
+First, let's negate a query to find all pilots who are not Michael Schumacher:<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveByNegation<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("name").constrain("Michael Schumacher").not();<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveByNegation"/></applet></td></tr></table>
+<br>
+<br>
+Where there is negation, the other boolean operators can't be too far.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveByConjunction<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+Constraint constr=query.descend("name")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain("Michael Schumacher");<br>
+query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).and(constr);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveByConjunction"/></applet></td></tr></table>
+<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveByDisjunction<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+Constraint constr=query.descend("name")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain("Michael Schumacher");<br>
+query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).or(constr);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveByDisjunction"/></applet></td></tr></table>
+<br>
+<br>
+We can also constrain to a comparison with a given value.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveByComparison<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).greater();<br>
+ObjectSet result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveByComparison"/></applet></td></tr></table>
+<br>
+<br>
+The query API also allows to query for field default values.&nbsp;<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveByDefaultFieldValue<br>
+Pilot somebody=new Pilot("Somebody else",0);<br>
+db.store(somebody);<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("points").constrain(0);<br>
+ObjectSet result=query.execute();<br>
+listResult(result);<br>
+db.delete(somebody);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveByDefaultFieldValue"/></applet></td></tr></table>
+<br>
+<br>
+It is also possible to have db4o sort the results.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// retrieveSorted<br>
+Query query=db.query();<br>
+query.constrain(Pilot.class);<br>
+query.descend("name").orderAscending();<br>
+ObjectSet result=query.execute();<br>
+listResult(result);<br>
+query.descend("name").orderDescending();<br>
+result=query.execute();<br>
+listResult(result);</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="retrieveSorted"/></applet></td></tr></table>
+<br>
+<br>
+All these techniques can be combined arbitrarily, of course. Please try&nbsp;it out. There still may be cases left where the predefined query API&nbsp;constraints may not be sufficient - don't worry, you can always let&nbsp;db4o run any arbitrary code that you provide in an Evaluation.&nbsp;Evaluations will be discussed&nbsp;in a <a href="Evaluations.html#Evaluations">later chapter</a>.<br>
+<br>
+To prepare for the next chapter, let's clear the database.<br>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// clearDatabase<br>
+ObjectSet result=db.queryByExample(Pilot.class);<br>
+while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.delete(result.next());<br>
+}</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter1.QueryExample"/><param name="examplemethod" value="clearDatabase"/></applet></td></tr></table>
+<br>
+<br>
+<a name="outline31"></a><br><h2>4.3.3. Conclusion</h2>Now you have been provided with the following alternative approaches to query&nbsp;db4o databases: Query-By-Example,.? net&nbsp;&nbsp;LINQ,&nbsp;&nbsp;Native Queries, SODA.<br>
+<br>
+Which one is the best to use? Some hints:<br>
+<br>
+- Native queries are targeted to be the primary interface for db4o, so they&nbsp;should be preferred.<br>
+- With the current state of the db4o query optimizer there may be queries&nbsp;that will execute faster in SODA style, so it can be used to tune applications.&nbsp;SODA can also be more convenient for constructing dynamic queries at runtime.<br>
+- Query-By-Example is nice for simple one-liners, but restricted in&nbsp;functionality. If you like this approach, use it as long as it suits your&nbsp;application's needs.<br>
+<br>
+Of course you can mix these strategies as needed.<br>
+<br>
+We have finished our walkthrough and seen the various ways db4o provides&nbsp;to pose queries. But our domain model is not complex at all, consisting of&nbsp;one class only. Let's have&nbsp;a look at the way db4o handles object associations in the <a href="Structured.html#Structured">next chapter</a>&nbsp;.<br>
+<br>
+<a name="outline32"></a><br><h2>4.3.4. Full source</h2><br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>package com.db4odoc.f1.chapter1;<br>
+import com.db4o.*;<br>
+import com.db4o.query.Constraint;<br>
+import com.db4o.query.Query;<br>
+import com.db4odoc.f1.*;<br>
+<br>
+public class QueryExample extends Util {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final static String DB4OFILENAME = System.getProperty("user.home") + "/formula1.db4o";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db=Db4oEmbedded.openFile(Db4oEmbedded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newConfiguration(), DB4OFILENAME);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeFirstPilot(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;storeSecondPilot(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveAllPilots(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrievePilotByName(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrievePilotByExactPoints(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveByNegation(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveByConjunction(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveByDisjunction(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveByComparison(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveByDefaultFieldValue(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;retrieveSorted(db); <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clearDatabase(db);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeFirstPilot(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot1=new Pilot("Michael Schumacher",100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored "+pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void storeSecondPilot(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot2=new Pilot("Rubens Barrichello",99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(pilot2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored "+pilot2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveAllPilots(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrievePilotByName(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("name").constrain("Michael Schumacher");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrievePilotByExactPoints(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("points").constrain(100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveByNegation(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("name").constrain("Michael Schumacher").not();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveByConjunction(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constraint constr=query.descend("name")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain("Michael Schumacher");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).and(constr);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveByDisjunction(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Constraint constr=query.descend("name")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain("Michael Schumacher");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).or(constr);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveByComparison(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("points")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.constrain(99).greater();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveByDefaultFieldValue(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pilot somebody=new Pilot("Somebody else",0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.store(somebody);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("points").constrain(0);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.delete(somebody);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void retrieveSorted(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Query query=db.query();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.constrain(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("name").orderAscending();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;query.descend("name").orderDescending();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result=query.execute();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listResult(result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;public static void clearDatabase(ObjectContainer db) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ObjectSet result=db.queryByExample(Pilot.class);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while(result.hasNext()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;db.delete(result.next());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</code></td></tr></table>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

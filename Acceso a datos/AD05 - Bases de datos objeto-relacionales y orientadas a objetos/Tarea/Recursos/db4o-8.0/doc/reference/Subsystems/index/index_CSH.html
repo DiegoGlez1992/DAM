@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="./" MadCap:HelpSystemFileName="index.xml" MadCap:RuntimeFileType="DefaultCSH" MadCap:InPreviewMode="False">
+    <head>
+        <title>WebHelp</title>
+        <script type="text/javascript" src="Content/SkinSupport/MadCapAll.js">
+        </script>
+        <script type="text/javascript">
+/* <![CDATA[ */
+var gRootFolder	= FMCGetRootFolder( document.location );
+var gCSHData	= new Object();
+
+ProcessCSH();
+
+function ProcessCSH()
+{
+	CheckStartTopic();
+
+	var skinLayout		= null;
+	
+	if ( gCSHData.skinName )
+	{
+		skinLayout = GetSkinLayout( gCSHData.skinName );
+	}
+	
+	var currLocation	= document.location;
+	var href			= FMCGetHref( currLocation );
+	var hash			= currLocation.hash;
+	var search			= currLocation.search;
+	var outputFile		= href.substring( href.lastIndexOf( "/" ) + 1, href.lastIndexOf( "." ) - "_CSH".length );
+	var outputSuffix	= href.substring( href.lastIndexOf( "." ) );
+
+	//
+
+	var newHash	= search;
+	
+	newHash += "#CSHID=" + encodeURIComponent( gCSHData.cshID );
+	
+	if ( gCSHData.topic )
+	{
+		newHash += "|StartTopic=" + encodeURIComponent( gCSHData.topic );
+	}
+
+	if ( gCSHData.skinName )
+	{
+		newHash += "|SkinName=" + gCSHData.skinName;
+	}
+	
+	if ( gCSHData.isJS )
+	{
+		newHash += "|OpenType=Javascript";
+	}
+
+	//
+
+	var url	= gRootFolder + outputFile;
+	
+	if ( skinLayout )
+	{
+		url = url + "_" + skinLayout;
+	}
+
+	url = url + outputSuffix + newHash;
+	
+	document.location.replace( url );
+	
+	window.focus();
+}
+
+function CheckStartTopic()
+{
+    var hash        = document.location.hash;
+    var startTopic  = hash.substring( 1 );
+    
+    if ( startTopic != null && startTopic != "" )
+    {
+		var parts	= startTopic.split( "|" );
+		var pos		= startTopic.indexOf( "OpenType=Javascript" );
+		
+		if ( pos != -1 )
+		{
+			if ( startTopic.charAt( pos - 1 ) == "|" )
+			{
+				pos--;
+			}
+			
+			startTopic = startTopic.substring( 0, pos );
+			
+			gCSHData = new Object();
+			gCSHData.topic = null;
+			gCSHData.skinName = null;
+			gCSHData.isJS = true;
+			
+			for ( var i = 0; i < parts.length; i++ )
+			{
+				var pair	= parts[i].split( "=" );
+				
+				if ( pair[0] == "CSHID" )
+				{
+					gCSHData.cshID = pair[1];
+				}
+				else if ( pair[0] == "Topic" )
+				{
+					gCSHData.topic = pair[1];
+				}
+				else if ( pair[0] == "Skin" )
+				{
+					gCSHData.skinName = pair[1];
+				}
+			}
+		}
+		else
+		{
+			gCSHData = LookupCSHDataFromMapID( parts[0] );
+			
+			if ( parts.length == 2 )
+			{
+				gCSHData.skinName = parts[1];
+			}
+		}
+    }
+}
+
+function GetSkinLayout( skinName )
+{
+	var skinPath		= "Data/Skin" + skinName + "/";
+    var xmlDoc			= CMCXmlParser.GetXmlDoc( skinPath + "Skin.xml", false, null, null );
+    var webHelpOptions	= xmlDoc.getElementsByTagName( "WebHelpOptions" )[0];
+    var skinLayout		= "Left";
+    
+    if ( webHelpOptions )
+    {
+        if ( webHelpOptions.getAttribute( "NavigationPanePosition" ) )
+        {
+            skinLayout = webHelpOptions.getAttribute( "NavigationPanePosition" );
+        }
+    }
+    
+    return skinLayout;
+}
+
+function LookupCSHDataFromMapID( id )
+{
+    var cshShortcutData = new Object();
+    var fileUrl			= new CMCUrl( document.location.href );
+    var fileName		= fileUrl.Name.toLowerCase();
+    var endPos			= fileName.lastIndexOf( "_CSH".toLowerCase() );
+    var newName			= fileUrl.Name.substring( 0, endPos );
+    var helpSystem		= new CMCHelpSystem( null, gRootFolder, gRootFolder + newName + ".xml", null, null );
+    var idInfo			= helpSystem.LookupCSHID( id );
+	
+	cshShortcutData.cshID = id;
+    cshShortcutData.topic = idInfo.Topic;
+    cshShortcutData.skinName = idInfo.Skin;
+
+	return cshShortcutData;
+}
+/* ]]> */
+</script>
+    </head>
+    <body>
+    </body>
+</html>

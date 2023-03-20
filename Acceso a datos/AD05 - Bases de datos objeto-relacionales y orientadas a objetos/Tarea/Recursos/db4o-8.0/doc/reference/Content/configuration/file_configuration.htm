@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Configuration" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>File Configuration</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/TableStyles/Basic.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#configuration/file_configuration.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../configuration.htm">Configuration</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">File Configuration</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor77"></a>File Configuration</h1>
+        <p>The file-configuration contains all the configuration-settings which are related to file access. It can be set in the db4o-embedded-container or on the db4o-server. All the file configuration is accessible via the file-<span class="Primarygetter">getter</span> on the configuration-object.</p>
+        <h2>Overview</h2>
+        <p>Here's a overview over all file configuration-settings which you can change:</p>
+        <table style="width: 100%;mc-table-style: url('../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 80%;" />
+            <col style="width: 50pt;" />
+            <col style="width: 50pt;" />
+            <tbody>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Can not change <span class="MCTextPopup"><a href="javascript:void(0);" class="popupHead_0" onclick="FMCTextPopup( event, this ); return false;" style="font-size: 0.9em; vertical-align: super">1</a><span class="MCTextPopupBody" style="display: none; ">This setting has to be set the first time when the database is created. You cannot change is for an existing database.</span></span></td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Only useful for recovery           <![CDATA[ ]]><span class="MCTextPopup"><a href="javascript:void(0);" class="popupHead_0" onclick="FMCTextPopup( event, this ); return false;" style="font-size: 0.9em; vertical-align: super">2</a><span class="MCTextPopupBody" style="display: none; ">This setting is only useful when you try to recover a corrupted database file.</span></span></td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/async_sync.htm">AsynchronousSync</a></strong>: Enables asynchronous commits.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/blob_path.htm">BlobPath</a></strong>: Specify where blobs are stored.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/block_size.htm">BlockSize</a></strong>: Set the block-size of the database. Larger Blocks allow larger databases.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Yes</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/database_growth_size.htm">DatabaseGrowthSize</a></strong>: Set the grow step size when the database-file is to small.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/disable_commit_recovery.htm">DisableCommitRecovery</a></strong>: Disable the commit-recovery.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Yes</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/freespace_configuration.htm">Freespace</a></strong>: Configure the free-space system.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/generate_uuids.htm">GenerateUUIDs</a></strong>: Configure to generate UUIDs for objects.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><strike>GenerateVersionNumbers</strike></strong>: Deprecated. Generate <a href="file/generate_timestamps.htm">commit timestamps</a> instead. </td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/lock_database.htm">LockDatabaseFile</a></strong>: Enable/disable the database file lock.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/read_only.htm">ReadOnly</a></strong>: Set the database to read only mode.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/recover_mode.htm">RecoveryMode</a></strong>: Set the database to a recovery mode.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Yes</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep"><strong><a href="file/reserve_storage_space.htm">ReserveStorageSpace</a></strong>: Reserve storage-space up front.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">&#160;</td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep"><strong><a href="file/storage.htm">Storage</a></strong>: Configure the storage system.</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">&#160;</td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">&#160;</td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

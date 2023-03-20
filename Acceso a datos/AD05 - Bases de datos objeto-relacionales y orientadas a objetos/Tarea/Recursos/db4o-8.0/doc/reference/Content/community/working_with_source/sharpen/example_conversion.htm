@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Community|Working With Source Code|Sharpen" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Doing a Sharpen Conversion</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#community/working_with_source/sharpen/example_conversion.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../community.htm">Community</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../working_with_source_code.htm">Working With Source Code</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../sharpen.htm">Sharpen</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Doing a Sharpen Conversion</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Doing a Sharpen Conversion</h1>
+        <p>Ensure that you've installed sharpen to an existing eclipse installation as explained <a href="how_to_setup_sharpen.htm">here</a>. </p>
+        <p>Use Ant scripts to run <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">Sharpen<img style="border: none;margin-left: 5px;" src="../../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Sharpen is a tool to translate Java source code to C# source code</span></span> and translate your Java code to C#. The best way for this is to define an Ant macro which you then can reuse. This task takes two arguments. The first argument is the path to a valid Eclipse workspace which contains the project to translate. The second parameter is the project in the workspace which you want to translate.</p>
+        <div class="codesnippet" MadCap:conditions="">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">macrodef</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">sharpen</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">attribute</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">workspace</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">attribute</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">resource</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">element</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">args</span><span style="color:Black;">"</span> <![CDATA[ ]]><span style="color:Red;">optional</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">yes</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">sequential</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">java</span> <![CDATA[ ]]><span style="color:Red;">taskname</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">sharpen</span><span style="color:Black;">"</span>
+              <span style="color:Red;">fork</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">true</span><span style="color:Black;">"</span>
+              <span style="color:Red;">classname</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">org.eclipse.core.launcher.Main</span><span style="color:Black;">"</span>
+              <span style="color:Red;">failonerror</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">true</span><span style="color:Black;">"</span> <![CDATA[ ]]><span style="color:Red;">timeout</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">1800000</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;</span><span style="color:#A31515;">fileset</span> <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${eclipse.home}/plugins</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">include</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">org.eclipse.equinox.launcher_*.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">fileset</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">-clean</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">-data</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">file</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">@{workspace}</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">-application</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">sharpen.core.application</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">@{resource}</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">args</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">java</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">sequential</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">macrodef</span><span style="color:Blue;">&gt;</span></pre>
+            <div class="codesnippet-meta">sharpen-install.xml: The sharpen task
+			<div class="codedownload"><a href="../../../CodeExamples/sharpen/Example-db4odoc-sharpen-.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Now you can use this task to sharpen your project. First ensure that your project is in a valid Eclipse workspace. Then you specify the workspace and the sources of the project:</p>
+        <div class="codesnippet" MadCap:conditions="">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span> <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">sharpen</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">sharpen</span>
+        <span style="color:Red;">workspace</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">C:\temp\sharpenExamples\</span><span style="color:Black;">"</span>
+        <span style="color:Red;">resource</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">example/src</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">args</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">arg</span> <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">@sharpen-config</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">args</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">sharpen</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span></pre>
+            <div class="codesnippet-meta">sharpen-example.xml: Sharpen a example project
+			<div class="codedownload"><a href="../../../CodeExamples/sharpen/Example-db4odoc-sharpen-.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Additionally you can pass the sharpen configuration as a file-name. When you add a '@' in front of the file-name sharpen will read that file and use all configuration flags of that. For example:</p>
+        <pre class="prettyprint">-pascalCase+
+-nativeTypeSystem
+-nativeInterfaces</pre>
+        <p>You can find a list of all Sharpen <a href="sharpen_command-line_arguments.htm">configuration flags here</a> and a list of all <a href="sharpen_annotations.htm">Sharpen annotations here</a>. </p>
+        <p MadCap:conditions="Primary.Online">The example Ant scripts can be downloaded <a href="../../../CodeExamples/sharpen/Example-db4odoc-sharpen-.zip">here</a>.</p>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

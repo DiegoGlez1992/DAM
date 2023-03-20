@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Reporting Example with MS Report Viewer</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/reporting/reporting_with_ms_report_viewer.htm" style="">Open topic with navigation</a>
+        </p>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Reporting Example with MS Report Viewer</h1>
+        <p>This example illustrates how you can generate a report with db4o and Microsoft's Report viewer. For the official documentation take a look at the <a href="http://msdn.microsoft.com/en-us/library/ms251671(v=VS.100).aspx" target="_parent">MSDN entries</a> or on this <a href="http://www.gotreportviewer.com/" target="_parent">site</a>.</p>
+        <h2>Designing the Report</h2>
+        <p>The first step is to design the report. For this go to your project and add a new item. In the dialog choose the 'Report Wizard'. On the dialog choose a datasource name, then data class on which you want to base your report. Then select the properties etc which you want to show on your report.</p>
+        <p>
+            <img src="ms-choose-report_565x78.png" style="width: 565; height: 78;" />
+        </p>
+        <p>
+            <img src="ms-report.png" />
+        </p>
+        <p>
+            <img src="ms-data-source.png" />
+        </p>
+        <h2>Filling the Report</h2>
+        <p>After that you can fill the report with the data from db4o. For that you put your query result to the right datasource. After that you can view your report with the report viewer. For more details read the <a href="http://msdn.microsoft.com/en-us/library/ms251671(v=VS.100).aspx" target="_parent">official Microsoft documentation</a>.</p>
+        <p>&#160;</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

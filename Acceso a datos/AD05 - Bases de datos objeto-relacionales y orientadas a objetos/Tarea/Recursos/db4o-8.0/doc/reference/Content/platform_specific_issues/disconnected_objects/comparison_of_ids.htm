@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Disconnected Objects" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Comparison Of Different IDs</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/TableStyles/Basic.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/disconnected_objects/comparison_of_ids.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../disconnected_objects.htm">Disconnected Objects</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Comparison Of Different IDs</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor108"></a>Comparison Of Different IDs</h1>
+        <p>There are a lot of possibilities for additional ids to identify objects across the object container boundary. </p>
+        <h2>Internal db4o ids</h2>
+        <p>db4o has internal ids to identify each object in the database. You can access these ids and use them yourself. <a target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Internal IDs"</a>. Take a look at the example. <a href="example_internal_id.htm" target="" title="" alt="" class="MCXref">See "Example Internal Id"</a></p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 33%;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Advantages</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Disadvantages</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">
+                        <ul>
+                            <li value="1">Internal ids are fast.</li>
+                            <li value="2">No additional field on the class required.</li>
+                            <li value="3">No additional configuration required.</li>
+                        </ul>
+                    </td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">
+                        <ul>
+                            <li value="1">The id may change when defragmentating the database.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>db4o UUIDs</h2>
+        <p>db4o supports special UUIDs. You can enable them by configuration. <a target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Unique Universal IDs"</a>. Take a look at the example. <a href="example_db4o_uuid.htm" target="" title="" alt="" class="MCXref">See "Example db4o UUID"</a></p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 33%;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Advantages</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Disadvantages</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">
+                        <ul>
+                            <li value="1">A UUID is a worldwide unique id.</li>
+                            <li value="2">No additional field on the class required.</li>
+                        </ul>
+                    </td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">
+                        <ul>
+                            <li value="1">db4o UUIDs are large. </li>
+                            <li value="2">db4o UUID is db4o-specific type.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2><span class="PrimaryUUID">UUID</span>-Fields on Classes</h2>
+        <p>You can add <span class="PrimaryUUID">UUID</span>-fields to your classes. In the constructor of the object you assign a new <span class="PrimaryUUID">UUID</span> to the object. Then you can find the object by a regular query. <span MadCap:conditions="Primary.Java">Add <a href="../../advanced_topics/type_handling/uuid_support.htm">UUID support</a> before using UUIDs </span>. Don't forget <a href="../../basics/indexing.htm">to index the id-field</a>. Take a look at the example. <a href="example_plattform_uuid.htm" target="" title="" alt="" class="MCXref">See "Example UUID"</a></p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 33%;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Advantages</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Disadvantages</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">
+                        <ul>
+                            <li value="1">A <span class="PrimaryUUID">UUID</span> is a worldwide unique id .</li>
+                            <li value="2"><span class="PrimaryUUID">UUID</span> are easy to generate and portable.</li>
+                        </ul>
+                    </td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">
+                        <ul>
+                            <li value="1">You need an id-field on your objects.</li>
+                            <li value="2"><span class="PrimaryUUID">UUID</span>s are quite large.</li>
+                            <li value="3">Additional index required.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>ID-Field On Classes With a ID-Generator</h2>
+        <p>You can add a id-field to your classes and then use an ID-Generator to assign new ids to stored objects. Don't forget <a href="../../basics/indexing.htm">to index the id-field</a>.  Take a look at the example. <a href="example_id_generator.htm" target="" title="" alt="" class="MCXref">See "Example ID-Generator"</a></p>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Basic.css');" class="TableStyle_Basic" cellspacing="0">
+            <col style="width: 33%;" />
+            <col style="width: 33%;" />
+            <tbody>
+                <tr>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColSep">Advantages</th>
+                    <th style="text-align: left;" class="TableStyle_Basic_Body_0_0_RowSep_ColEnd">Disadvantages</th>
+                </tr>
+                <tr>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColSep">
+                        <ul>
+                            <li value="1">A simple id on objects.</li>
+                            <li value="2">Familiar model from the <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">RDBMS<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Relational Database Management System</span></span>-world.</li>
+                        </ul>
+                    </td>
+                    <td class="TableStyle_Basic_Body_0_0_RowEnd_ColEnd">
+                        <ul>
+                            <li value="1">You need an id-field on your objects.</li>
+                            <li value="2">You need to implement an ID-Generator. Which isn't trivial.</li>
+                            <li value="3">Additional index required.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

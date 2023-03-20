@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Product Philosophy" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Data Persistence</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#product_philosophy/data_persistence.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../product_philosophy.htm">Product Philosophy</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Data Persistence</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Data Persistence</h1>
+        <p>Software programs using different data
+persistence technologies are an integral part of contemporary informational
+space. More than often such systems are implemented with the help of
+object-oriented programming language (Java, C#, etc.) and a relational database
+management system (Oracle, MySQL, etc.). This implementation originally
+contains a mismatch between relational and object worlds, which is often called
+object/relational impedance mismatch. The
+essence of the problem is in the way the systems are designed. Object systems
+consist of objects and are characterized by identity, state, behavior,
+encapsulation. The relational model consists of tables, columns, rows and
+foreign keys and is described by relations, attributes and tuples.</p>
+        <p>The object-relational mismatch has become
+enormously significant with the total adoption of OO technology. This resulted
+in the rapid development of object-relational mappers (ORM), such as
+Hibernate, EclipseLink or Entity Framework. This solution "cures" the symptoms of the object relational
+mismatch by adding a layer into the software stack that automates the tedious
+task of linking objects to tables. However, this approach creates a huge drain
+on system performance, drives up software complexity and increases the burden
+on software maintenance, thus resulting in higher cost of ownership. While the
+mapper solution may be feasible in large, administered datacenter environments,
+it is prohibitive in distributed and zero-administration architectures such as
+those required for embedded databases in client software, mobile devices,
+middleware or real-time systems.</p>
+        <p>Significant
+side effects of the object relational mismatch manifest themselves in
+unnecessary system overhead with bloated footprints and runtime performance
+issues.  Of course, there is also overall
+time to market delays due to poor developer productivity.   The overhead still exists in ORM because
+under the covers, the runtime is still query driven.  And, despite improvements in productivity for
+developers, incremental changes to your object models reek havoc during ORM schema
+evolution pitfalls.  The more complicated
+your models are, the more problematic keeping changes in sync with the internal
+mapping.</p>
+        <p>Primary
+performance issues come from the fact that despite being called a "relational
+database", an <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">RDBMS<img style="border: none;margin-left: 5px;" src="../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Relational Database Management System</span></span> does not store direct relations.   Relations are resolved at runtime by
+performing set based operations on primary-foreign key pairs.   This
+means the application has to constantly re-discover data relationships at
+runtime resulting in immense CPU consumption for something that should be an
+inherent part of your application model. 
+Further, because discovering these relations over and over again
+requires continual access to index structures and data to perform the set
+operations, contention is much higher within database internals leading to poor
+scalability of individual database processes. </p>
+        <p>Further,
+lack of direct storage of relations cause the application design to become
+query driven instead of object modeling driven. 
+Using an object database, the relations are a fundamental part of the
+storage architecture. So, application design is model driven.  You do not have to suffer any performance
+overhead for discovering an M-M relationship. The relationships are just there
+and immediately accessible to the requesting thread.  This makes the internal structures much
+simpler and therefore less contention exists with data requests being isolated
+to data of interest instead of leveraging indexes or sequential scans.  The result, individual processes become more
+scalable under concurrency. </p>
+        <p>Technology
+is ever changing and today there is a whole world of object database experts in
+the software community.  Anyone who is an
+expert in ORM technology is an expert in object database technology.  All of the concepts found in object life cycle
+management within ORM technologies were invented by the object database
+community in the early 90's.  All of the
+tuning concepts of closure, fetch configurations, value vs reference types, light weight transactions - are concepts created by and applicable to object database
+technologies.  Now with the growing
+popularity of object based design and the proliferation of ORM tools, thousands
+of developers are becoming experts in the object database API.</p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

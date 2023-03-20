@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Configuration|File Configuration|Storage" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>NonFlushingStorage</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#configuration/file/storage/nonflushingstorage.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../configuration.htm">Configuration</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../file_configuration.htm">File Configuration</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../storage.htm">Storage</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">NonFlushingStorage</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>NonFlushingStorage</h1>
+        <p>NonFlushingStorage is a special IO <span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="../storage.htm">Storage<img style="border: none;margin-left: 5px;" src="../../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../../SkinSupport/ExpandingOpen.gif' ); }" /></a></span>, which can be used to
+improve commit performance. Committing is a complex operation and requires
+flushing
+to the hard drive after each stage of commit. This is necessary as
+most operating system try to avoid the overhead of disk access by
+caching disk write data and only flushing the resulting changes to the
+disk. In the case of db4o commit it would mean that the physical write
+of some commit stages will be partially skipped and the data will be
+irreversibly lost.  </p>
+        <p>However,
+physical access to the hard drive is a time-consuming operation and may
+considerably affect the performance.  That is where
+NonFlushingStorage comes in: it allows the operating system to keep
+commit data in cache and do the physical writes in a most performant
+order. This may sound very nice, but in fact a system shutdown while
+the commit data is still in cache will lead to the database corruption.</p>
+        <p>The following example shows how to use the NonFlushingStorage. You
+can run it and see the performance improvement on commit stage.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+Storage fileStorage = <span style="color:Blue;">new</span> FileStorage();
+<span style="color:Green;">// the non-flushing storage improves performance, but risks database corruption.</span>
+Storage cachingStorage = <span style="color:Blue;">new</span> NonFlushingStorage(fileStorage);
+configuration.file().storage(cachingStorage);
+ObjectContainer container = Db4oEmbedded.openFile(configuration, <span style="color:#A31515;">"database.db4o"</span>);</pre>
+            <div class="codesnippet-meta">IOConfigurationExamples.java: Using the non-flushing storage
+			<div class="codedownload"><a href="../../../CodeExamples/configuration/io/Example-configuration-io-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Please, remember, that NonFlushingStorage is potentially dangerous
+and any unexpected system shutdown may corrupt your database. Use with
+caution and avoid using in production environments. </p>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

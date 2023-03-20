@@ -1,0 +1,144 @@
+<html>
+<head>
+<title>Readme</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #666666 }
+H2,H3,H4,H5 { color: black; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+</style>
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+    This folder contains library files, which you can use in your projects.
+    <br />
+    <br />
+    <table>
+        <tr>
+            <td style="width: 300px">
+                ant.jar</td>
+            <td style="width: 500px">
+                ant build tool, used to build db4o sources (<a href="http://ant.apache.org/">http://ant.apache.org/</a>)</td>
+        </tr>
+        <tr>
+            <td style="width: 380px">
+                bloat-1.0.jar</td>
+            <td style="width: 500px">
+                bytecode optimization library, used to optmize Native Queries and Transparent Activation</td>
+        </tr>
+    	<tr>
+        	<td style="width: 380px">
+            	db4o-8.0.276.16149-all-java5.jar</td>
+        	<td style="width: 500px">
+            	no-dependency jar with all db4o binaries for JDK 5 and JDK 6</td>
+    	</tr>
+        <tr>
+           <td style="width: 380px">
+               db4o-8.0.276.16149-bench.jar</td>
+           <td style="width: 500px">
+               IO benchmark library
+           </td>
+		</tr>
+    <tr>
+        <td style="width: 380px">
+            db4o-8.0.276.16149-core-java5.jar</td>
+        <td style="width: 500px">
+            db4o database engine core for JDK 5 and JDK 6</td>
+    </tr>
+        <tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-cs-java5.jar</td>
+            <td style="width: 500px">
+                db4o client/server components for JDK 5 and JDK 6</td>
+        </tr>
+        <tr>
+          <td style="width: 380px">
+              db4o-8.0.276.16149-db4ounit-java1.5.jar
+          </td>
+          <td style="width: 500px">
+             testing framework for db4o needs for JDK 5 and JDK 6
+          </td>
+		</tr>
+        <tr>
+           <td style="width: 380px">
+               db4o-8.0.276.16149-instrumentation.jar</td>
+           <td style="width: 500px">
+               Instrumentation layer on top of bloat
+           </td>
+		</tr>
+		<tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-nqopt.jar</td>
+            <td style="width: 500px">
+                Native Query optimization library. This library should be available in the classpath
+                for NQ optimization</td>
+        </tr>
+        <tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-optional-java5.jar</td>
+            <td style="width: 500px">
+                db4o optional components for JDK 5 and JDK 6</td>
+        </tr>
+		<tr>
+            <td style="width: 380px">
+               db4o-8.0.276.16149-osgi.jar</td>
+           <td style="width: 500px">
+               db4o for OSGi. See <a href="../doc/osgi/index.html">OSGi API documentation</a>.</td>
+		</tr>
+        <tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-osgi-test.jar</td>
+            <td style="width: 500px">
+                db4o OSGI tests</td>
+        </tr>
+        <tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-taj.jar</td>
+            <td style="width: 500px">
+                db4o instrumentation classes for Transparent Activation
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 380px">
+                db4o-8.0.276.16149-tools.jar</td>
+            <td style="width: 500px">
+                db4o tools user interface, contains db4o enhancer and Ant tasks
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <h2>
+        USING DB4O LIBRARIES
+    </h2>
+    <p>
+    	To use db4o you need at least db4o-8.0.276.16149-core-java5.jar.
+	</p>
+	<p>
+        For using db4o in client/server mode you will additionally need the respective
+        client/server library, i.e. db4o-8.0.276.16149-cs-java5.jar. 
+        You can also use the nodependency db4o library (db4o-8.0.276.16149-all-java5.jar).
+	</p>
+	<p>
+	db4o optional components (BigMath- and UUID-support, file statistics, etc) can be obtained from
+	db4o optional jars (i.e. db4o-8.0.276.16149-optional-java5.jar. 
+	These components are also included in the nodependency jar (db4o-8.0.276.16149-all-java5.jar).
+	</p>
+	<p>
+        For Native Query optimization you will additionally need:<br>
+        bloat-1.0.jar<br>
+        db4o-8.0.276.16149-instrumentation.jar<br>
+        db4o-8.0.276.16149-nqopt.jar<br>
+        db4o-8.0.276.16149-tools.jar<br>
+        These components are also included in the nodependency jar (db4o-8.0.276.16149-all-java5.jar).
+	</p>
+	<p>
+		For Transparent Activation optimization you will additionally need:<br>
+        bloat-1.0.jar<br>
+        db4o-8.0.276.16149-instrumentation.jar<br>
+        db4o-8.0.276.16149-taj.jar<br>
+        db4o-8.0.276.16149-tools.jar<br>
+        These components are also included in the nodependency jar (db4o-8.0.276.16149-all-java5.jar).
+	</p>      
+</body>
+</html>

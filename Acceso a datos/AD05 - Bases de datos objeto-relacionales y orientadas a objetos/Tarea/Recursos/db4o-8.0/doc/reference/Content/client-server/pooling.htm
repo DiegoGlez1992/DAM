@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Client-Server" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Client-Container Pooling</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#client-server/pooling.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../client-server.htm">Client-Server</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Client-Container Pooling</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor95"></a>Client-Container Pooling</h1>
+        <p>When a client connects to the server, there's overhead to establish the connection. First the regular TCP-connection needs to be established. Then the server and client exchange meta data and finally the connection is ready. If you don't need a single or a few long during connections but rather short units of work on the client it is quite inefficient to open a client connection for each unit of work. In such scenarios you should consider to pool the client-containers.</p>
+        <p>Now simply pooling the raw client container might lead to issues. Each object-container has a <a href="../basics/indentity_concept/reference_cache.htm">reference-cache</a>. When you pool the object-container and reuse it for some other work, this cache isn't cleared. This means that you might get dirty objects from the reference cache. You want to avoid this and have a clean cache when reusing the client container.</p>
+        <p> There's a way to archive that. On the client container the open session method creates a fresh object container with a clean reference cache which is sharing the transaction with the client. With this building block you can build a proper container pool.
+		<span MadCap:conditions="Primary.Online">Download <span MadCap:conditions="Primary.Java">(<a href="../CodeExamples/clientserver/pooling/Example-clientserver-pooling-java.zip">Java</a>)</span> the source code of a very simple example container pool.</span></p>
+        <p>First you need to create client connections on demand which will be pooled. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectContainer client = Db4oClientServer.openClient(<span style="color:#A31515;">"localhost"</span>,PORT,
+                USER_AND_PASSWORD, USER_AND_PASSWORD);</pre>
+            <div class="codesnippet-meta">ConnectionPoolExamples.java: Open clients for the pool
+			<div class="codedownload"><a href="../CodeExamples/clientserver/pooling/Example-clientserver-pooling-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>On a request for a object container, get a client container from the pool. Rollback the transaction on it to ensure that it is in a clean state.Then open a session container on it and use this session. The session-container ensures that the reference-cache is empty. Make sure that each client container is always used only once at any time, which means that there's always only one session-container open per client-container. The session-containers share the transaction with the client and you don't want to share transactions across multiple object containers.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Green;">// Obtain a client container. Either take one from the pool or allocate a new one</span>
+ObjectContainer client = obtainClientContainer();
+<span style="color:Green;">// Make sure that the transaction is in clean state</span>
+client.rollback();
+<span style="color:Green;">// Then create a session on that client container and use it for the database operations.</span>
+<span style="color:Green;">// The client-container is now in use. Ensure that it isn't leased twice.</span>
+<span style="color:Blue;">final</span> ObjectContainer sessionContainer = client.ext().openSession();</pre>
+            <div class="codesnippet-meta">ConnectionPool.java: Obtain a pooled container
+			<div class="codedownload"><a href="../CodeExamples/clientserver/pooling/Example-clientserver-pooling-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Now when you're done with your operations, you can return the client to your pool of object containers. First close the session-container, which commits the changes and releases the resources. Then get the underlying client-container for that session and return it to the pool.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Green;">// First you need to get the underlying client for the session</span>
+<span style="color:Blue;">final</span> ObjectContainer client = clientForSession(session);
+<span style="color:Green;">// then the client is ready for reuse</span>
+returnToThePool(client);</pre>
+            <div class="codesnippet-meta">ConnectionPool.java: Returning to pool
+			<div class="codedownload"><a href="../CodeExamples/clientserver/pooling/Example-clientserver-pooling-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

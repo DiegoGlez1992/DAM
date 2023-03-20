@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="db4o-IoBenchmark" default="run.benchmark.small">
+
+	<target name="init">
+		<property file="IoBenchmark.properties" />
+	</target>
+	
+	<target name="run.benchmark.small" depends="init">
+		<run.normal.benchmark object.count="${object.count.small}"/>
+	</target>
+	
+	<target name="run.benchmark.medium" depends="init">
+		<run.normal.benchmark object.count="${object.count.medium}"/>
+	</target>
+	
+	<target name="run.benchmark.large" depends="init">
+		<run.normal.benchmark object.count="${object.count.large}"/>
+	</target>
+
+	<target name="run.delayed.benchmark.small" depends="init">
+		<run.delayed.benchmark object.count="${object.count.small}"/>
+	</target>
+	
+	<target name="run.delayed.benchmark.medium" depends="init">
+		<run.delayed.benchmark object.count="${object.count.medium}"/>
+	</target>
+	
+	<target name="run.delayed.benchmark.large" depends="init">
+		<run.delayed.benchmark object.count="${object.count.large}"/>
+	</target>
+	
+	<macrodef name="run.normal.benchmark">
+		<attribute name="object.count" />
+		<sequential>
+			<run.benchmark 	object.count="@{object.count}"
+							file.1=""
+							file.2=""
+			/>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="run.delayed.benchmark">
+		<attribute name="object.count" />
+		<sequential>
+			<run.benchmark	object.count="@{object.count}"
+							file.1="${results.file.1}"
+							file.2="${results.file.2}"
+			/>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="run.benchmark">
+		<attribute name="object.count" />
+		<attribute name="file.1" default="" />
+		<attribute name="file.2" default="" />
+		<sequential>
+			<java classname="com.db4o.bench.IoBenchmark" failonerror="true" fork="true">
+				<classpath>
+					<pathelement location="bin"/>
+					<pathelement location="lib/${db4o.jar}"/>
+				</classpath>
+				<jvmarg line="${jvm.args}"/>
+				<arg line="@{object.count}" />
+				<arg line="@{file.1}" />
+				<arg line="@{file.2}" />
+			</java>
+		</sequential>
+	</macrodef>
+
+	
+</project>

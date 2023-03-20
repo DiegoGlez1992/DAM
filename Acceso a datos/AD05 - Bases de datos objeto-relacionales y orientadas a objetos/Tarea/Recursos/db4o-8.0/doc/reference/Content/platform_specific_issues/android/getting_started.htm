@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Android" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Getting Started</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/android/getting_started.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../android.htm">Android</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Getting Started</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor116"></a>Getting Started</h1>
+        <p>It takes only a few steps to get started with db4o and <span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="../android.htm">Android<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a></span>. This description assumes that your using Eclipse to create your Android application.</p>
+        <h2>Setup db4o for a Android project</h2>
+        <ol>
+            <li value="1">First download the Java version of db4o at the 
+			<a href="http://community.versant.com/Downloads.aspx" target="_blank">download area</a></li>
+            <li value="2">Unpack the distribution. Then copy the <b><i>db4o-xxx-java5.jar </i></b>the db4o-distribution to your Android project-folder. </li>
+            <li value="3">Add the db4o-jar to the class path. In Eclipse you do it this way. Refresh you project. Right click on the <b><i>db4o-xxx-java5.jar </i></b>. Choose 'Build Path' -&gt; 'Add to Build Path'</li>
+            <li value="4">Your done! You can now use db4o in your Android application and it will be deployed automatically when running the Android emulator.</li>
+        </ol>
+        <h2>Using db4o in a Android application</h2>
+        <p>You can use db4o on Android as normally. However you when you create a db4o-database you should use a file in the application-context. The start class of your application itself is usually the context. </p>
+        <p>Also add the AndroidSupport to your configuration, which tunes some configuration settings to work better with Android.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">class</span> Db4oOnAndroidExample  <span style="color:Blue;">extends</span> Activity  {	
+    <span style="color:Green;">/** Called when the activity is first created. */</span>
+    @Override
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onCreate(Bundle savedInstanceState) {
+		String filePath = <span style="color:Blue;">this</span>.getFilesDir() + <span style="color:#A31515;">"/android.db4o"</span>;
+        <span style="color:Blue;">final</span> EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+        config.common().add(<span style="color:Blue;">new</span> AndroidSupport());
+        ObjectContainer db = Db4oEmbedded.openFile(config,filePath);
+		<span style="color:Green;">// do your stuff</span>
+		db.close();
+    	
+    }
+}</pre>
+            <div class="codesnippet-meta">Db4oOnAndroidExample.java: open db4o on Android
+			<div class="codedownload"><a href="../../CodeExamples/Android/src/com/db4odoc/android/Example-db4odoc-android-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Configuration</title>
+        <link href="SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../index_CSH.html#configuration.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><span class="MCBreadcrumbs">Configuration</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor71"></a>Configuration</h1>
+        <p>db4o is configured by its configuration API. The configuration allows you to adjust db4o to your scenarios. </p>
+        <h2>Configure db4o</h2>
+        <p>In order to configure db4o, you need to create a new configuration-instance and set the desired settings on it. After that, you pass the configuration-instance to the object-container factory.</p>
+        <p> Note that you cannot share a configuration-instance. For each object-container you create, you need to pass in a new configuration-instance.  It's recommended to create a method which will return a new configuration instance on request:</p>
+        <h2>Embedded-Configuration</h2>
+        <p>For an embedded container you can configure the <a href="configuration/common_configuration.htm">common</a>-, <a href="configuration/file_configuration.htm">file</a>- and <a href="configuration/id_system.htm">id-system</a>-configuration.</p>
+        <h2>Server-Configuration</h2>
+        <p>For an server you can configure the <a href="configuration/common_configuration.htm">common</a>-, <a href="configuration/file_configuration.htm">file</a>-, <a href="configuration/network_configuration.htm">networking</a>-, <a href="configuration/server_configuration.htm">server</a>- and <a href="configuration/id_system.htm">id-system</a>-configuration.</p>
+        <h2>Client-Configuration</h2>
+        <p>For an client you can configure the <a href="configuration/common_configuration.htm">common</a>-,  <a href="configuration/network_configuration.htm">networking</a>-, <a href="configuration/client_configuration.htm">client</a>- and <a href="configuration/id_system.htm">id-system</a>-configuration.</p>
+        <h2>Configuration Is Not Persistent</h2>
+        <p>The db4o configuration is not persistent with a few exception. This means that you need to configure db4o each time you create a object-container instance. </p>
+        <h2>Configuration in Client/Server-Mode</h2>
+        <p>  For using db4o in client/server mode it is recommended to use the same configuration on the server and on the client.  To set this up nicely it makes sense to create one application class with one method that returns the required configuration and to deploy this class both to the server and to all clients.</p>
+        <h2>Configuration-Settings Overview</h2>
+        <p>The configuration-settings which are common across -client, embedded and db4o-server are summed up here: <a href="configuration/common_configuration.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Common Configuration"</a></p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <script src="Resources/Code/jquery.min.js">
+        </script>
+        <script src="Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

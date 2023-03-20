@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Android|Comparison With SQLite" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Backup</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/android/backup.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../android.htm">Android</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="comparison_with_sqlite.htm">Comparison With SQLite</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Backup</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Backup</h1>
+        <h2>SQLite</h2>
+        <p>SQLite does not support a special API to make a backup.
+However, as you remember SQLite database is stored in a single database file,
+so the backup can be simply a matter of copying the database file.
+Unfortunately, this can't be done if the database is in use. In this case you
+can use <a href="http://code.google.com/android/reference/adb.htm">Android
+Debug Bridge</a> (adb) tool to access sqlite3 command-line application, which
+has .dump command for backing up database contents while the database is in
+use:</p>
+        <pre class="monospace" xml:space="preserve">E:\&gt;adb shell
+# sqlite3 /data/data/com.db4odoc.android.compare/databases/android.db
+sqlite3 /data/data/com.db4odoc.android.compare/databases/android.db
+SQLite version 3.5.0
+Enter ".help" for instructions
+sqlite&gt; .dump &gt; android200711.dmp
+.dump &gt; android200711.dmp
+BEGIN TRANSACTION;
+COMMIT;
+sqlite&gt;.exit
+.exit
+# ^D
+
+
+</pre>
+        <p>Ctrl+D command is used to close adb session.</p>
+        <h2>db4o</h2>
+        <p>On db4o a ExtObjectContainer#backup call is used to backup a
+database in use. <a href="../../advanced_topics/backup.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Backup"</a></p>
+        <p>&#160;</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

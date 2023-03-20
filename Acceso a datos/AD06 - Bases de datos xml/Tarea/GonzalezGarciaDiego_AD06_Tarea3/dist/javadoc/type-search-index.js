@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"gonzalezgarciadiego_ad06_tarea3","l":"BaseDatos_eXist"},{"p":"gonzalezgarciadiego_ad06_tarea3","l":"GonzalezGarciaDiego_AD06_Tarea3"}];updateSearchResults();

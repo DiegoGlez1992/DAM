@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Community|Working With Source Code" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Using The Sources From db4o Distribution</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#community/working_with_source/using_the_sources_from_db4o_distribution.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../community.htm">Community</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../working_with_source_code.htm">Working With Source Code</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Using The Sources From db4o Distribution</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor128"></a>Using The Sources From db4o Distribution</h1>
+        <p MadCap:conditions="Primary.Java">The sources for db4o are in the 'src' subdirectory of the db4o distribution. You simply can open these projects in Eclipse (or another IDE). Compile and use the db4o projects like any other Eclipse project. </p>
+        <p MadCap:conditions="Primary.Java">Following projects are shipped with db4o:</p>
+        <ul MadCap:conditions="Primary.Java">
+            <li value="1">bloat: The bytecode manipulation library used by db4o.</li>
+            <li value="2">db4o.cs: The db4o client server mode.</li>
+            <li value="3">db4o.cs.optional: Optional additions for the db4o client server mode.</li>
+            <li value="4">db4o.instrumentation: The base for different instrumentations provided by db4o.</li>
+            <li value="5">db4o_osgi: The db4o <span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="../../platform_specific_issues/database_for_osgi.htm">OSGi<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a></span> service</li>
+            <li value="6">db4o_osgi_test: The test cases for the db4o OSGi service.</li>
+            <li value="7">db4oj: The db4o core.</li>
+            <li value="8">db4oj.optional: Optional features for db4o.</li>
+            <li value="9">db4oj.tests: The db4o test-suite.</li>
+            <li value="10">db4onqopt: The db4o native query optimization.</li>
+            <li value="11">db4otaj: Transparent activation/persistence enhancers.</li>
+            <li value="12">db4otools: Tooling for db4o like Ant-tasks</li>
+            <li value="13">db4ounit: The db4o unit test framework.</li>
+            <li value="14">db4ounit.extensions: Utilities and extensions for the db4o unit test framework.</li>
+        </ul>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Usage Pitfalls" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>The Activation Pitfall</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#usage_pitfalls/activation_depth.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../usage_pitfalls.htm">Usage Pitfalls</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Activation Depth Pitfall</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>The Activation Pitfall</h1>
+        <p>In order to work effectively with db4o
+you should understand the concept of
+<a href="../basics/activation.htm">Activation</a>. Activation controls the amount
+of objects loaded into the memory. There are two main
+pitfalls that you should be aware about.</p>
+        <h2>Accessing Not Activated Objects</h2>
+        <p>One common pitfall is to access unactivated objects. This usually results in null pointer exceptions or invalid values. This happens when you navigate beyond the activated object-graph area. For example, we have a complex relationships and follow them:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Person jodie = queryForJodie(container);
+Person julia = jodie.mother().mother().mother().mother().mother();
+<span style="color:Green;">// This will print null</span>
+<span style="color:Green;">// Because julia is not activated</span>
+<span style="color:Green;">// and therefore all fields are not set</span>
+System.out.println(julia.getName());
+<span style="color:Green;">// This will throw a NullPointerException.</span>
+<span style="color:Green;">// Because julia is not activated</span>
+<span style="color:Green;">// and therefore all fields are not set</span>
+String joannaName = julia.mother().getName();</pre>
+            <div class="codesnippet-meta">ActivationDepthPitfall.java: Run into not activated objects
+			<div class="codedownload"><a href="../CodeExamples/pitfalls/activation/Example-pitfalls-activation-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>This will result in a exception. Because by default db4o only activates objects up the a depth of 5. This means that when you load an object, that object and all objects which are reachable via 4 references are activated. </p>
+        <p>There are multiple solutions to this issue.</p>
+        <ul>
+            <li value="1">Activate the object explicitly as you dive deeper into the object graph.</li>
+            <li value="2">Increase the <a href="../configuration/common/activation_depth.htm">global activation-depth</a>.</li>
+            <li value="3">Increase the activation-depth <a href="../configuration/objectclass/minimum_activation_depth.htm">for certain types</a>.</li>
+            <li value="4">Use wisely the     <![CDATA[ ]]><a href="../configuration/objectclass/cascade_on-activate.htm">cascading activation</a>.</li>
+            <li value="5">The most elegant solution is <a href="../basics/activation_concept/transparent_activation_framework.htm">transparent activation</a>. With transparent activation db4o takes care of activating object as you access them.</li>
+        </ul>
+        <h2>To High Activation Depth Or Two Many Cascade Activation</h2>
+        <p>Having a high activation-depth makes working with db4o much easier. However activation can take a long time with deeper object graphs and become a serious performance bottleneck. The same applies when using cascade activation on almost all types. To reduce the time spend on activating objects, you need to be more selective about what to activate and what not.</p>
+        <ul>
+            <li value="1">Activate the object explicitly as you dive deeper into the object graph.</li>
+            <li value="2">The most elegant solution is <a href="../basics/activation_concept/transparent_activation_framework.htm">transparent activation</a>. With transparent activation db4o takes care of activating object as you access them.</li>
+        </ul>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

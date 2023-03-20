@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Configuration|File Configuration|Storage|Pluggable Storage" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Logging Storage</title>
+        <link href="../../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../../index_CSH.html#configuration/file/storage/pluggable_storage/logging_storage.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../../configuration.htm">Configuration</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../../file_configuration.htm">File Configuration</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../storage.htm">Storage</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Logging Storage</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Logging Storage</h1>
+        <p>In this example we will implement a simple file base
+storage, which will log messages about each IO operation. In the implementation
+you can see that most of the functionality is derived from StorageDecorator and
+BinDecorator classes with additional logging added:</p>
+        <p MadCap:conditions="Primary.Java,Primary.All languages">
+            <pre class="prettyprint" xml:space="preserve">LoggingStorage.java
+/**//* Copyright (C) 2004 - 2009  Versant Corporation http://www.versant.com */
+package com.db4odoc.<span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="../../storage.htm">Storage<img style="border: none;margin-left: 5px;" src="../../../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../../../SkinSupport/ExpandingOpen.gif' ); }" /></a></span>;
+
+import java.util.logging.*;
+
+import com.db4o.ext.*;
+import com.db4o.io.*;
+
+public class LoggingStorage extends StorageDecorator  {
+
+  public LoggingStorage() {
+    // delegate to a normal file storage
+    this(new FileStorage());
+  }
+  
+  public LoggingStorage(Storage storage)  {
+    // use submitted storage as a delegate
+    super(storage);
+  }
+
+  /** *//**
+   * opens a logging bin for the given URI.
+   */
+  @Override
+  public Bin open(BinConfiguration config) throws Db4oIOException  {
+    final Bin storage = super.open(config);
+    if (config.readOnly())  {
+      return new ReadOnlyBin(new LoggingBin(storage));
+    }
+    return new LoggingBin(storage);
+  }
+
+  /** *//**
+   * LoggingBin implementation. Allows to log information
+   * for each IO operation
+   *
+   */
+  static class LoggingBin extends BinDecorator  {
+
+    public LoggingBin(Bin bin)  {
+      super(bin);
+    }
+
+    // delegate to the base class and log a message
+    public void close() throws Db4oIOException  {
+      super.close();
+      Logger.getLogger(this.getClass().getName()).log(Level.INFO,
+          "File closed");
+    }
+
+    // log a message, then delegate
+    public int read(long pos, byte[] buffer, int length)
+        throws Db4oIOException  {
+      Logger.getLogger(this.getClass().getName()).log(
+          Level.INFO,
+          String.format("Reading %d bytes and %d position", length,
+              pos));
+      return super.read(pos, buffer, length);
+
+    }
+
+    // log a message, then delegate
+    public void write(long pos, byte[] buffer, int length)
+        throws Db4oIOException  {
+      Logger.getLogger(this.getClass().getName()).log(
+          Level.INFO,
+          String.format("Writing %d bytes and %d position", length,
+              pos));
+      super.write(pos, buffer, length);
+    }
+
+    // log a message, then delegate
+    public void sync() throws Db4oIOException  {
+      Logger.getLogger(this.getClass().getName()).log(
+          Level.INFO,"Syncing");
+      super.sync();
+    }
+
+  }
+}</pre>
+        </p>
+        <p MadCap:conditions="Global.Primary:java" />
+        <p MadCap:conditions="Global.Primary:cs" />
+        <p MadCap:conditions="Global.Primary:vb" />
+        <p>Use the LoggingStorage implementation with the following
+code (you can find a working example if you download LoggingStorage class).</p>
+        <p MadCap:conditions="Primary.Java,Primary.All languages">
+            <p>Java:</p>
+            <p><code>config.file().storage(new LoggingStorage());</code>
+            </p>
+        </p>
+        <p MadCap:conditions="Global.Primary:java" />
+        <p MadCap:conditions="Global.Primary:cs" />
+        <p MadCap:conditions="Global.Primary:vb" />
+        <p MadCap:conditions="Primary.Online">Download example code:</p>
+        <p MadCap:conditions="Primary.Online">
+            <MadCap:conditionalText MadCap:conditions="Primary.Java"><a href="storagejava.zip">Java </a>
+            </MadCap:conditionalText>
+        </p>
+        <script src="../../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

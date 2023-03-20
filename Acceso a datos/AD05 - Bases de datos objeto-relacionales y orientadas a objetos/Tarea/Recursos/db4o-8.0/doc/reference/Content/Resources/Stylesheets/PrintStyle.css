@@ -1,0 +1,135 @@
+/*<meta />*/
+
+@import url('BaseStyle.css');
+
+body{
+    background-color: white;
+    font-family: Tahoma,Helvetica,Arial,sans-serif;
+	font-size: 10pt;
+    margin: 1em 2em 1em 2em;	
+}
+
+p
+{
+	text-align: justify;
+}
+
+tr
+{
+	border: solid 1px #a9a9a9;
+}
+
+td
+{
+	border: solid 1px #a9a9a9;
+}
+
+table
+{
+	border: none;
+	padding: 2px 10px 2px 2px;
+	border-collapse: collapse;
+}
+
+h1
+{
+	page-break-after: avoid;
+}
+
+h2
+{
+	page-break-after: avoid;
+}
+
+h3
+{
+	page-break-after: avoid;
+}
+
+h4
+{
+	page-break-inside: avoid;
+	page-break-after: avoid;
+}
+
+h5
+{
+	page-break-after: avoid;
+	page-break-inside: avoid;
+}
+
+h6
+{
+	page-break-inside: avoid;
+	page-break-after: avoid;
+}
+
+body a
+{
+	padding-right: 1px;
+}
+
+a
+{
+	color: #0000EE;
+}
+
+/* Code Snippet */
+
+MadCap|xref.TOCPageNumber
+{
+	color: #0000EE;
+	mc-format: 'See {quote}{paraxml}{quote} ';
+}
+
+MadCap|xref.TOCPageNumber
+{
+	mc-format: 'See {quote}{paraxml}{quote}';
+}
+
+pre
+{
+	font-family: Consolas, "Droid Sans Mono", "DejaVu Sans Mono", "Courier New", courier, monospace;
+	font-size: 8pt;
+}
+
+pre.prettyprint
+{
+	border-bottom: #AAAAAA solid 1px;
+	background-color: #EEEEEE;
+	margin: 0;
+	padding: 4px;
+}
+
+pre.lang-vb
+{
+	border-bottom: #AAAAAA solid 1px;
+	background-color: #EEEEEE;
+	margin: 0;
+	padding: 4px;
+}
+
+div.codesnippet
+{
+	border: #AAAAAA solid 1px;
+	margin: 8px 0px 0px 0px;
+	padding: 0;
+	text-align: left;
+	page-break-inside: avoid;
+}
+
+div.codesnippet-meta
+{
+	padding: 4px;
+}
+
+a.codedownload
+{
+	visibility: none;
+}
+
+MadCap|glossaryTerm
+{
+	color: #45abbf;
+}
+

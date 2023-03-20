@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Community|Working With Source Code|Sharpen" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Sharpen Annotations</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#community/working_with_source/sharpen/sharpen_annotations.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../community.htm">Community</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../working_with_source_code.htm">Working With Source Code</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../sharpen.htm">Sharpen</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Sharpen Annotations</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Sharpen Annotations</h1>
+        <p><span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">Sharpen<img style="border: none;margin-left: 5px;" src="../../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Sharpen is a tool to translate Java source code to C# source code</span></span> annotations decorate java source code and are used
+to notify sharpener about how the code should be processed and converted. Annotations
+can be used to specify how a code element should be converted (for example
+class to enum), to skip conversion of some code elements, to rename classes, to
+change visibility etc.</p>
+        <p>The following table shows existing annotations, their
+meaning and examples.</p>
+        <table border="1" cellpadding="0" cellspacing="0">
+            <tr>
+                <td valign="top">
+                    <p><b>Annotation</b>
+                    </p>
+                </td>
+                <td valign="top">
+                    <p><b>Meaning</b>
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.enum</p>
+                </td>
+                <td valign="top">
+                    <p>Mark java class to be processed as a .NET enum</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.rename</p>
+                </td>
+                <td valign="top">
+                    <p>Specifies a different name for the converted type, takes a
+  single name argument. For example:</p>
+                    <p>@sharpen.rename Db4oFactory</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.private</p>
+                </td>
+                <td valign="top">
+                    <p>Specifies that the element must be declared private in the
+  converted file, though it can be not private in the java source:</p>
+                    <pre class="monospace" xml:space="preserve">/*
+* @sharpen.private
+*/
+</pre>
+                    <p>public List4 _first;</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.internal</p>
+                </td>
+                <td valign="top">
+                    <p>Specifies that the element must be declared internal in
+  the converted file:</p>
+                    <pre class="monospace" xml:space="preserve">/**
+ * @sharpen.internal
+*/</pre>
+                    <p>public abstract int size();</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.protected</td>
+                <td valign="top">
+                    <p>Specifies that the element must be declared protected in
+  the converted file:</p>
+                    <pre class="monospace" xml:space="preserve">/**
+ * @sharpen.protected
+*/</pre>
+                    <p>public abstract int size();</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.new</td>
+                <td valign="top">Adds the C#-'new' modifier to the translated code.</td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.event</p>
+                </td>
+                <td valign="top">
+                    <p>Links an event to its arguments. For example:</p>
+                    <p>Java:</p>
+                    <pre class="monospace">/**
+* @sharpen.event com.db4o.events.QueryEventArgs
+*/
+public Event4 queryStarted();</pre>
+                    <p>is converted to:</p>
+                    <pre class="monospace">public delegate void QueryEventHandler(
+  object sender,
+  Db4objects.Db4o.Events.QueryEventArgs args);
+.......
+event Db4objects.Db4o.Events.QueryEventHandler QueryStarted;</pre>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.event.add</p>
+                </td>
+                <td valign="top">
+                    <p>Marks the method as an event subscription method. Invocations to the method in the form &lt;target&gt;.method(&lt;argument&gt;) will be replaced by the c# event subscription idiom: &lt;target&gt; += &lt;argument&gt; </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.event.onAdd</p>
+                </td>
+                <td valign="top">
+                    <p>Valid for event declaration only (SHARPEN_EVENT). Configures the method to be invoked whenever a new event handler is subscribed to the event. </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.if</p>
+                </td>
+                <td valign="top">
+                    <p>Add #if &lt;expression&gt;#endif declaration:</p>
+                    <p>@sharpen.if &lt;expression&gt;</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.property</p>
+                </td>
+                <td valign="top">
+                    <p>Convert a java method as a property:</p>
+                    <pre class="monospace" xml:space="preserve">/**
+ * @sharpen.property
+*/</pre>
+                    <p>public abstract int size();</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.indexer</p>
+                </td>
+                <td valign="top">
+                    <p>Marks an element as an indexer property</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.ignore</p>
+                </td>
+                <td valign="top">
+                    <p>Skip the element while converting</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.ignore.extends</p>
+                </td>
+                <td valign="top">
+                    <p>Ignore the extends clause in Java class definition</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.ignore.implements</p>
+                </td>
+                <td valign="top">
+                    <p>Ignore the implements clause in Java class definition</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.extends</p>
+                </td>
+                <td valign="top">
+                    <p>Adds an extends clause to the converted class definition.
+  For example:</p>
+                    <p>Java:</p>
+                    <pre class="monospace" xml:space="preserve">/**
+* @sharpen.extends System.Collections.IList
+*/
+public interface ObjectSet {...</pre>
+                    <p>converts to</p>
+                    <pre class="monospace">public interface IObjectSet : System.Collections.IList</pre>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.partial</p>
+                </td>
+                <td valign="top">
+                    <p>Marks the converted class as partial</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.remove</p>
+                </td>
+                <td valign="top">
+                    <p>Marks a method invocation that should be removed</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.remove.first</td>
+                <td valign="top">
+                    <p valign="top">Removes the first line of the method/constructor when converting to C#:</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">/**
+* @sharpen.remove.first
+*/
+public void doSomething(){
+    System.out.println("Java");
+    NextMethod();
+}
+</pre>
+                    <p valign="top">converts to:</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">public void DoSomething(){
+    NextMethod();
+}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p>@sharpen.struct</p>
+                </td>
+                <td valign="top">
+                    <p>Marks class to be converted as c# struct</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.unwrap</td>
+                <td valign="top">
+                    <p valign="top">When a method is marked with this annotation <br />all method calls are removed. This is useful for removing conversion methods when their aren't required in C#.</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">/*
+* @sharpen.unwrap
+*/
+public Iterable toIterable(Object[] array){
+   return Arrays.asList(array);
+}
+public void doSomething(Object[] objs){
+  Iterable iterable =&#160;toIterable(objs);
+  // do something with the iterable
+}</pre>
+                    <p valign="top">Is converted to:</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">
+public IEnumerable ToIterable(object[] array){
+    return Arrays.AsList(array);
+}
+public void doSomething(object[] objs){
+   Iterable iterable = objs;
+   //&#160;do something with the iterable
+}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.attribute</td>
+                <td valign="top">
+                    <p valign="top">Adds an attribute to the converted code:</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">/*
+* @sharpen.attribute TheAttribute
+*/
+public void doSomething(){}</pre>
+                    <p valign="top">Will be converted to:</p>
+                    <pre valign="top" class="monospace" xml:space="preserve">[TheAttribute]
+public void DoSomething(){}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">@sharpen.macro</td>
+                <td valign="top">Add a replace-pattern macro to your code.</td>
+            </tr>
+        </table>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

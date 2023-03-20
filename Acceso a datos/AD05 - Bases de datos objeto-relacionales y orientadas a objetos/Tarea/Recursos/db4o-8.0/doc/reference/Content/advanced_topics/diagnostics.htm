@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Diagnostics</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#advanced_topics/diagnostics.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Diagnostics</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor70"></a>Diagnostics</h1>
+        <p>The db4o engine provides user with a special mechanism showing runtime diagnostics information.
+Diagnostics can be switched on in the configuration before opening the database file:</p>
+        <p>The DiagnosticListener is a callback interface tracking diagnostic messages from different parts of the system.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+configuration.common().diagnostic().addListener(<span style="color:Blue;">new</span> DiagnosticToConsole());</pre>
+            <div class="codesnippet-meta">CommonConfigurationExamples.java: Add a diagnostic listener
+			<div class="codedownload"><a href="../CodeExamples/configuration/common/Example-configuration-common-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Built-in Listeners</h2>
+        <p>There are two build in listeners, which print the output to the console</p>
+        <ul>
+            <li value="1">DiagnosticToConsole:Prints diagnostic messages to the console.</li>
+            <li value="2">DiagnosticToTrace: Only on .NET, prints diagnostic messages to the debug output window.</li>
+        </ul>
+        <h2>Messages-Types</h2>
+        <p>Every diagnostic message is represented by it's own type. You can filter the messages by checking for certain instances. Take a look how you can filter for <a href="diagnostics/diagnostic_messages_filter.htm">certain messages.</a></p>
+        <ul>
+            <li value="1"><strong>MissingClass</strong>: Notifies you that a class couldn't be found. You should add that class in order to avoid problems. If you've renamed the class, you <a href="refactoring_and_schema_evolution.htm">should rename</a> it in the database or add <a href="../configuration/common/alias.htm">an alias</a>.</li>
+            <li value="2"><strong>DefragmentRecommendation</strong>: Notifies you that you should consider to <a href="defragment.htm">defragment</a> the database.</li>
+            <li value="3"><strong>LoadedFromClassIndex</strong>: Notifies you that db4o couldn't use a field-index to perform a query. This means that the query runs extremely slow on larger data sets. Consider adding a <a href="../basics/indexing.htm">field-index</a>.</li>
+            <li value="4"><strong>DescendIntoTranslator</strong>: Means that you a query couldn't be optimized, because the query touches a class <a href="type_handling/translators.htm">with a translator</a>. Therefore the query runs slow. You should consider working without a translator or changing the query.</li>
+            <li value="5"><strong>ClassHasNoFields</strong>: You stored a class which has no fields. Even when the class has no fields it need to maintain its class index and needs to be stored. So it adds overhead for storing 'empty' objects. You should consider removing the empty class.</li>
+            <li value="6"><strong>DeletionFailed</strong>: db4o failed to delete a object from the database.</li>
+            <li value="7"><strong>UpdateDepthGreaterOne</strong>: You have configured a update depth greater one. A large update depth slows down updates significantly. Consider reducing the update-depth and use another strategies to update objects correctly, like <a href="../basics/update_concept/transparent_persistence.htm">transparent persistence</a>.</li>
+            <li value="8"><strong>NativeQueryNotOptimized</strong>: A native query couldn't be optimized. An unoptimized query runs significantly slower than a optimized query. Consider to simplify you're query.</li>
+            <li value="9"><strong>NativeQueryOptimizerNotLoaded</strong>: Couldn't load the native query optimizer. Ensure that all required <span class="PrimaryArtefact">jar</span> are added to your application.</li>
+            <li value="10"><strong>NotTransparentActivationEnabled</strong>: Notifies you when a class doesn't support transparent activation. Such object need to be fully activated and slow down the activation process.</li>
+            <li value="11"><strong>ObjectFieldDoesNotExist</strong>: A query uses a object-field which doesn't exist. Check you're queries to use only exising fields.</li>
+        </ul>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

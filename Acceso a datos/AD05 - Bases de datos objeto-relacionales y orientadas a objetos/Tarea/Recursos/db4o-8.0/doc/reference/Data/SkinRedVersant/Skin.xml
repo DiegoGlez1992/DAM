@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CatapultSkin Version="1" Comment="Blue theme skin" Anchors="Left,Right,Top,Bottom,Width,Height" Width="800px" Height="600px" Top="286px" Left="0" Bottom="286px" Right="0" Tabs="TOC,Index,Search,Glossary,Favorites" DefaultTab="TOC" UseBrowserDefaultSize="true" UseDefaultBrowserSetup="false" Title="db4o Reference Documentation" AutoSyncTOC="true" NavigationLinkTop="true" NavigationLinkBottom="false" BrowserSetup="" EnableAboutBox="false">
+    <!-- saved from url=(0014)about:internet -->
+    <Index BinaryStorage="true" />
+    <HtmlHelpOptions ShowMenuBar="False" TopmostWindowStyle="False" Buttons="Back,Print,Options" EnableButtonCaptions="True" AdvancedSearch="true" />
+    <Stylesheet Link="Stylesheet.xml">
+    </Stylesheet>
+    <WebHelpOptions NavigationPanePosition="Left" NavigationPaneWidth="200" VisibleAccordionItemCount="5" AboutBox="About.gif" AboutBoxWidth="340" AboutBoxHeight="245">
+    </WebHelpOptions>
+    <Toolbar EnableCustomLayout="true" Buttons="AddTopicToFavorites|ToggleNavigationPane|Print|Separator|RemoveHighlight|Separator|Back|Forward|Separator|SelectTOC|SelectIndex|SelectSearch|SelectGlossary|SelectFavorites" ExcludeAccordionTitle="false">
+        <Script />
+    </Toolbar>
+    <Toc LinesBetweenItems="true" LinesFromRoot="true" />
+    <TopicToolbar EnableCustomLayout="true" Buttons="AddTopicToFavorites|SyncTOC|ToggleNavigationPane|Separator|Stop|Refresh|Home|Back|Forward|Separator|SelectTOC|SelectSearch|SelectIndex|SelectGlossary|SelectFavorites|Separator|RemoveHighlight|Print|ExpandAll|CollapseAll|Separator|PreviousTopic|NextTopic" />
+</CatapultSkin>

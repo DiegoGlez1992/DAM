@@ -1,0 +1,2 @@
+(: Primer apellido de los alumnos matriculados en Ingeniería del Software. :)
+universidad/alumnos/alumno[estudios/asignaturas/asignatura/@codigo=[/universidad/asignaturas/asignatura[nombre='Ingeniería del Software']/@id]]/apellido1

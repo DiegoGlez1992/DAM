@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="ObjectManagerOverview"></a><br>
+<a name="outline15"></a><br><h1>3. Object Manager Enterprise Overview</h1><br>
+If you did not install the Object Manager Enterprise yet, please, return&nbsp;to <a href="FirstGlance.html#FirstGlance">FirstGlance</a>&nbsp;chapter and follow the installation instructions there.<br>
+Once the Object Manager Enterprise (OME) is installed you can see it in Eclipse by&nbsp;selecting Window->Open Perspective->Other and choosing "OME". Typically, OME window&nbsp;should look similar to this:<br>
+<img border="0" src="OME1.jpg" /><br>
+In the OME perspective you can see:<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;OME menu:<br>
+<img border="0" src="OME_Menu.jpg" /><br>
+&nbsp;&nbsp;<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;OME toolbar buttons to access the frequently used functionality fast<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;Db4o Browser:&nbsp;&nbsp;window displaying the contents of the open db4o database<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;Property Viewer: window displaying the properties of the open database&nbsp;or the properties of the selected database class<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;Build Query: windows allowing to build a query using drag&drop functionality<br>
+-&nbsp;&nbsp;&nbsp;&nbsp;Query Results: window to browse the results of the query execution<br>
+<br>
+<ul>
+<a name="outline16"></a><br><h2>3.1. Browsing the database</h2>In the <a href="First.html#First">previous chapter</a>&nbsp;we've learned how to create a new database&nbsp;and store objects in it. Let's create a new database and store some objects in it now:<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// deleteDatabase<br>
+new File(DB4OFILENAME).delete();</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter3.OMEExample"/><param name="examplemethod" value="deleteDatabase"/></applet></td></tr></table>
+<br>
+<table width="100%" cellpadding="3" cellspacing="0" border="0"><tr><td class="lg">
+<code>// storePilots<br>
+ObjectContainer db=Db4oEmbedded.openFile(Db4oEmbedded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.newConfiguration(), DB4OFILENAME);<br>
+try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot1=new Pilot("Michael Schumacher",100);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.store(pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored "+pilot1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Pilot pilot2=new Pilot("Rubens Barrichello",99);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.store(pilot2);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Stored "+pilot2);<br>
+}<br>
+finally {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;db.close();<br>
+}</code></td><td class="lg" align="left" valign="bottom" width=43><applet code="com.yetac.doctor.applet.DoctorRunExampleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="40" height="30"><param name="exampleclass" value="com.db4odoc.f1.chapter3.OMEExample"/><param name="examplemethod" value="storePilots"/></applet></td></tr></table>
+<br>
+Now we can see the resultant database in the Object Manager. Please select&nbsp;OME->Connect/Disconnect DB (or use a shortcut button from the toolbar menu)&nbsp;and browse to ome.db4o file in your user folder. (normally it&nbsp;is c:/Documents and Settings/[user name] on Windows XP/2000, c:/Users/[user name] on Windows Vista and /home/[user_name] on *nix systems).<br>
+Once you've connected you will see a screen similar to this:<br>
+<img border="0" src="OME_Pilot.jpg" /><br>
+ <br>
+The db4o Browser window shows that there is 1 class in the database (Pilot), which&nbsp;contains 2 fields: name and points. In the Property Viewer you can see more information&nbsp;about the class fields. You can also change "Is indexed" field and add the index to the&nbsp;database by pressing "Save Index" button.<br>
+The filter panel on the top of the view allows easier navigation through the database&nbsp;with lots of different classes. You can use wildcard searches and benefit from the&nbsp;search history to make the selection faster.<br>
+<br>
+<a name="outline17"></a><br><h2>3.2. Querying</h2>It is easy to retrieve all of the Pilot instances from the database: just right-click&nbsp;the Pilot class in db4o Browser and select "View All Objects". The list of the Pilot&nbsp;objects will be shown in the Query Result view:<br>
+<img border="0" src="OME_Result.jpg" /><br>
+ <br>
+You can see object details in the detailed view below. Try to change any values&nbsp;and use Save button to persist the changes to the database. You can also use&nbsp;Delete button to delete objects from the database. For the objects containing&nbsp;field objects you will be prompted to use cascade on delete.<br>
+More complex queries can be done using Build Query view:<br>
+<img border="0" src="OME_query.jpg" /><br>
+ <br>
+Drag "points" field from the db4oBrowser view into the Build Query view, set&nbsp;condition "Greater Than", put a value "99" and run the query. You can return to&nbsp;the Built Query tab and modify the query later on again. For example:&nbsp;add "AND" operator, drag "name" field and set the value to "Michael Schumacher". Re-run&nbsp;the query.<br>
+When the new query is created, the previous query is stored and can be selected&nbsp;from the history drop-down:<br>
+<img border="0" src="OME_QHistory.jpg" /><br>
+ <br>
+More sophisticated queries can be build by joining grouped constraints using "Add Group"&nbsp;button.<br>
+When you are done working with the database in OME, you can close the connection&nbsp;by using OME->Connect/Disconnect DB menu command or by using the equivalent&nbsp;button on the toolbar. <br>
+<br>
+In the <a href="Query.html#Query">next chapter</a>&nbsp;&nbsp;we will explore more about db4o&nbsp;querying capabilities. You can continue using OME while going&nbsp;through the rest of this tutorial. If you are using the interactive&nbsp;version you will find the database in formula1.db4o file in your user folder. (normally it&nbsp;is c:/Documents and Settings/[user name] on Windows XP/2000, c:/Users/[user name] on Windows Vista and /home/[user_name] on *nix systems).&nbsp;Please, remember to disconnect OME before running any of the tutorial&nbsp;examples, as only one active connection is allowed to the database file.&nbsp;&nbsp;<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div><div class="console"><applet name="doctorconsole" code="com.yetac.doctor.applet.DoctorConsoleApplet" archive="doctor-applets.jar, db4o-8.0.276.16149-core-java5.jar, db4o-8.0.276.16149-cs-java5.jar, db4o-8.0.276.16149-bench.jar, f1.jar" width="100%" height="150"><param name="yapfile" value="formula1.db4o"/></body></html>

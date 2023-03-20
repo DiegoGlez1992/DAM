@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Replication With RDBMS" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Bidirectional Replication</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#db4o_replication_system_drs/db4o_rdbms/bi_directional.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../replication_with_rdbms.htm">Replication With RDBMS</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Bidirectional Replication</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Bidirectional Replication</h1>
+        <p>In order to replicate objects from Hibernate to db4o you need to do some additional work. dRS needs to know which objects have changed since the last replication. For this some    <![CDATA[ ]]><a href="drs_internals.htm">meta data</a> <![CDATA[ ]]>is maintained.You need to register a dRS event handler on every Hibernate-session you're using. This listener will maintain the meta-data. If an object is stored on a session without this listener, the update is not replicated. That also means dRS replication only works when you persist all object through Hibernate</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">SessionFactory sessionFactory = hibernateConfig.buildSessionFactory();
+Session session = sessionFactory.openSession();
+ReplicationConfigurator.install(session, hibernateConfig);</pre>
+            <div class="codesnippet-meta">Db4oRDBMSReplicationExamples.java: Install the listeners to the session
+			<div class="codedownload"><a href="../../CodeExamples/drs/rdms/Example-drs-rdms-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that dRS is ready to replicate in both directions. Again, set up the replication-session. After that you can replicate the changes of the two providers in both directions.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">Configuration hibernateConfig
+        = <span style="color:Blue;">new</span> Configuration().configure(<span style="color:#A31515;">"com/db4odoc/drs/rdms/hibernate.cfg.xml"</span>);
+ObjectContainer container = openDB();
+
+Db4oEmbeddedReplicationProvider providerA = <span style="color:Blue;">new</span> Db4oEmbeddedReplicationProvider(container);
+HibernateReplicationProvider providerB = <span style="color:Blue;">new</span> HibernateReplicationProvider(hibernateConfig);
+
+ReplicationSession replicationSession = Replication.begin(providerA, providerB);
+
+<span style="color:Blue;">final</span> ObjectSet changesInDb4o = replicationSession.providerA()
+        .objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesInDb4o) {
+    replicationSession.replicate(changedObject);
+}
+<span style="color:Blue;">final</span> ObjectSet changesInHibernate = replicationSession.providerB()
+        .objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesInHibernate) {
+    replicationSession.replicate(changedObject);
+}</pre>
+            <div class="codesnippet-meta">Db4oRDBMSReplicationExamples.java: Bidirectional replication
+			<div class="codedownload"><a href="../../CodeExamples/drs/rdms/Example-drs-rdms-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>&#160;</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

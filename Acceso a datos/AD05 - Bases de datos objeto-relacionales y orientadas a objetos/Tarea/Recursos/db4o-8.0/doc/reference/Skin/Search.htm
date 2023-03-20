@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml" MadCap:RuntimeFileType="Search" MadCap:InPreviewMode="False">
+    <head>
+        <title>Search</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="../Content/SkinSupport/MadCapAll.js">
+        </script>
+        <style type="text/css">
+a:active
+{
+  color: #0055ff;
+  text-decoration: none;
+}
+a:link
+{
+  color: #0055ff;
+  text-decoration: none;
+}
+a:visited
+{
+  color: #0055ff;
+  text-decoration: none;
+}
+a:hover
+{
+  color: #ff0000;
+  text-decoration: none;
+}
+body
+{
+  background-color: #fafafa;
+  font-family: Arial, Sans-Serif;
+  font-size: 12px;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+select
+{
+  font-size: 10px;
+  width: 100%;
+}
+option
+{
+  font-size: 10px;
+}
+table#searchResultsTable
+{
+  font-size: 12px;
+  border: solid 1px #999999;
+  border-collapse: collapse;
+  margin: 0px auto 0px auto;
+  padding: 0px;
+}
+table#searchResultsTable th.columnHeading
+{
+  background-image: url( 'Images/SearchGradient.jpg' );
+  background-position: right bottom;
+  background-repeat: repeat-x;
+  border: solid 1px #999999;
+  cursor: default;
+  height: 20px;
+  text-indent: 5px;
+}
+table#searchResultsTable td
+{
+  border: dotted 1px #999999;
+  white-space: nowrap;
+}
+table
+{
+  border: none;
+  border-collapse: collapse;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+}
+div.SearchResultsContainer
+{
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  overflow: auto;
+}
+div#SearchResults
+{
+  border: none;
+  margin: 0px;
+  padding: 3px;
+}
+form
+{
+  margin: 2px;
+}
+</style>
+    </head>
+    <body>
+        <form name="search" onsubmit="StartSearch( false, null, null ); return false;" style="display: none;">
+            <table id="SearchFormTable">
+                <tr>
+                    <td style="padding-right: 10px;">
+                        <input name="searchField" title="Search text box" style="font-size: 10px; width: 100%;" type="text" />
+                    </td>
+                    <td style="width: 70px; padding-left: 5px; padding-right: 5px;">
+                        <input id="SearchButton" type="button" value="Search" onclick="StartSearch( false, null, null );" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="SearchResultsContainer">
+            <div id="SearchResults">
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Callbacks" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Commit-Time Callbacks</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#advanced_topics/callbacks/commit-time_callbacks.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../callbacks.htm">Callbacks</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Commit-Time Callbacks</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Commit-Time Callbacks</h1>
+        <p>Commit-time callbacks allow a user to add some specific
+behavior just before and just after a transaction is committed. </p>
+        <p>Typical use-cases for commit-time callbacks:</p>
+        <ul>
+            <li value="1">Add constraint-violation checking before commit.</li>
+            <li value="2">Check application-specific conditions before commit is done.</li>
+            <li value="3">Start synchronization or backup after commit.</li>
+            <li value="4">Notify other clients/applications about
+successful/unsuccessful commit.</li>
+        </ul>
+        <p>Commit-time callbacks can be triggered by the following 2 events:</p>
+        <ul>
+            <li value="1"><b>Committing</b>: Event
+     subscribers are notified before the container starts any meaningful commit
+     work and are allowed to cancel the entire operation by throwing an
+     exception; the object container instance is completely blocked while
+     subscribers are being notified which is both a blessing because
+     subscribers can count on a stable and safe environment and a curse because
+     it prevents any parallelism with the container;</li>
+            <li value="2"><b>Committed</b>:
+Event subscribers are notified in a separate thread after the container has completely
+finished the commit operation; exceptions if any will be ignored.
+
+</li>
+        </ul>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

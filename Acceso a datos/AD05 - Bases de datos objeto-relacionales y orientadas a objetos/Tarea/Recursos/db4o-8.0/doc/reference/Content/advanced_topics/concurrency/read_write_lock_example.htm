@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Concurrency and db4o|Sharing an Object Container Across Threads|Improving the Locking" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Read Write&#160;Lock Example</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#advanced_topics/concurrency/read_write_lock_example.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../concurrency.htm">Concurrency and db4o</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="share_object_container_threads.htm">Sharing an Object Container Across Threads</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Read Write Lock Example</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Read Write&#160;Lock Example</h1>
+        <p>This example is the same as used in the <a href="share_object_container_threads.htm">shared container topic</a>. Except that it is using read and write locks.</p>
+        <p>We replace the lock object with a read write lock:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">final</span> ReadWriteLock dataLock = <span style="color:Blue;">new</span> ReentrantReadWriteLock();</pre>
+            <div class="codesnippet-meta">ReadWriteLockingOperations.java: Read write lock
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/locking/Example-concurrency-locking-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>And then on reading operations you use the read lock:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">void</span> listAllPeople(ObjectContainer container) {
+    dataLock.readLock().lock();
+    <span style="color:Blue;">try</span>{
+        <span style="color:Blue;">for</span> (Person person : container.query(Person.<span style="color:Blue;">class</span>)) {
+            System.out.println(person.getName());
+        }
+
+    } <span style="color:Blue;">finally</span>{
+        dataLock.readLock().unlock();
+    }
+}</pre>
+            <div class="codesnippet-meta">ReadWriteLockingOperations.java: Grab the read-lock to show the data
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/locking/Example-concurrency-locking-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>On insert and update operations you grab the write lock. Note that you need the write lock every time you change some data.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">void</span> updateSomePeople(ObjectContainer container) {
+    dataLock.writeLock().lock();
+    <span style="color:Blue;">try</span> {
+        <span style="color:Blue;">final</span> ObjectSet&lt;Person&gt; people = container.query(<span style="color:Blue;">new</span> Predicate&lt;Person&gt;() {
+            @Override
+            <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Person person) {
+                <span style="color:Blue;">return</span> person.getName().equals(<span style="color:#A31515;">"Joe"</span>);
+            }
+        });
+        <span style="color:Blue;">for</span> (Person joe : people) {
+            joe.setName(<span style="color:#A31515;">"New Joe"</span>);
+            container.store(joe);
+        }
+    } <span style="color:Blue;">finally</span> {
+        dataLock.writeLock().unlock();
+    }
+}</pre>
+            <div class="codesnippet-meta">ReadWriteLockingOperations.java: Grab the write-lock to change the data
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/locking/Example-concurrency-locking-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="Read"></a>Read Write Lock Transactions</h2>
+        <p>You can use read write locks also in a transaction abstraction. This example is an extension of <a href="share_object_container_threads.htm#TransactionModel">transaction abstraction example</a> but with read write locks.</p>
+        <p>First we introduce the read write lock.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">final</span> ReadWriteLock dataLock = <span style="color:Blue;">new</span> ReentrantReadWriteLock();</pre>
+            <div class="codesnippet-meta">DatabaseSupportWithReadWriteLock.java: Read write lock
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Then we implement read and write transaction methods:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span> &lt;T&gt; T inReadTransaction(TransactionFunction&lt;T&gt; transactionClosure) {
+    <span style="color:Blue;">return</span> inTransaction(dataLock.readLock(),transactionClosure);
+}</pre>
+            <div class="codesnippet-meta">DatabaseSupportWithReadWriteLock.java: The read transaction method
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span> &lt;T&gt; T inWriteTransaction(TransactionFunction&lt;T&gt; transactionClosure) {
+    <span style="color:Blue;">return</span> inTransaction(dataLock.writeLock(),transactionClosure);
+}</pre>
+            <div class="codesnippet-meta">DatabaseSupportWithReadWriteLock.java: The write transaction method
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> &lt;T&gt; T inTransaction(Lock lockToGrab,TransactionFunction&lt;T&gt; transactionClosure) {
+    lockToGrab.lock();
+    <span style="color:Blue;">try</span> {
+        <span style="color:Blue;">return</span> transactionClosure.inTransaction(database);
+    } <span style="color:Blue;">catch</span> (Exception e) {
+        database.rollback();
+        <span style="color:Blue;">throw</span> <![CDATA[ ]]><span style="color:Blue;">new</span> TransactionFailedException(e.getMessage(), e);
+    } <span style="color:Blue;">finally</span> {
+        database.commit();
+        lockToGrab.unlock();
+    }
+}</pre>
+            <div class="codesnippet-meta">DatabaseSupportWithReadWriteLock.java: The transaction implementation
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that we can use these operations in our code:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">void</span> listAllPeople(DatabaseSupportWithReadWriteLock dbSupport) {
+    dbSupport.inReadTransaction(<span style="color:Blue;">new</span> TransactionAction() {
+        @Override
+        <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">void</span> inTransaction(ObjectContainer container) {
+            <span style="color:Blue;">final</span> ObjectSet&lt;Person&gt; result = container.query(Person.<span style="color:Blue;">class</span>);
+            <span style="color:Blue;">for</span> (Person person : result) {
+                System.out.println(person.getName());
+            }
+        }
+    });
+}</pre>
+            <div class="codesnippet-meta">ReadWriteTransactionOperations.java: Use a read transaction for reading objects
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> <![CDATA[ ]]><span style="color:Blue;">void</span> updateAllJoes(DatabaseSupportWithReadWriteLock dbSupport) {
+    dbSupport.inWriteTransaction(<span style="color:Blue;">new</span> TransactionAction() {
+        @Override
+        <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">void</span> inTransaction(ObjectContainer container) {
+            <span style="color:Blue;">final</span> ObjectSet&lt;Person&gt; allJoes = container.query(<span style="color:Blue;">new</span> Predicate&lt;Person&gt;() {
+                @Override
+                <span style="color:Blue;">public</span> <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Person person) {
+                    <span style="color:Blue;">return</span> person.getName().equals(<span style="color:#A31515;">"Joe"</span>);
+                }
+            });
+            <span style="color:Blue;">for</span> (Person joe : allJoes) {
+                joe.setName(<span style="color:#A31515;">"New Joe"</span>);
+                container.store(joe);
+            }
+        }
+    });
+}</pre>
+            <div class="codesnippet-meta">ReadWriteTransactionOperations.java: Use a write transaction to update objects
+			<div class="codedownload"><a href="../../CodeExamples/concurrency/transactions/Example-concurrency-transactions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

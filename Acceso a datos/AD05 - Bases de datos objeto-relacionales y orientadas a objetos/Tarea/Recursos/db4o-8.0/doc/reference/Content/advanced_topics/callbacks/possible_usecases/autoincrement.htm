@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Callbacks|Possible Usecases" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Autoincrement</title>
+        <link href="../../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../../index_CSH.html#advanced_topics/callbacks/possible_usecases/autoincrement.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../callbacks.htm">Callbacks</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../possible_usecases.htm">Possible Usecases</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Autoincrement</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor51"></a>Autoincrement</h1>
+        <p>db4o does not deliver a field auto increment feature, which
+is common in <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">RDBMS<img style="border: none;margin-left: 5px;" src="../../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Relational Database Management System</span></span>. Normally you don't need any additional ids, since db4o manages objects by object-identity. However cases where you have <a href="../../../platform_specific_issues/disconnected_objects.htm">disconnected objects</a>, you need additional ids. One of then possibilities it to use auto incremented ids.</p>
+        <p> If your application logic requires this feature you can
+implement it using external callbacks. One of the possible solutions is
+presented below. Note that this example only works in embedded-mode.</p>
+        <p>This example assumes that all object which need an auto incremented id are subclasses of the IDHolder class. This class contains the auto-incremented id.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">int</span> id;
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">int</span> getId() {
+    <span style="color:Blue;">return</span> id;
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> setId(<span style="color:Blue;">int</span> id) {
+    <span style="color:Blue;">this</span>.id = id;
+}</pre>
+            <div class="codesnippet-meta">IDHolder.java: id holder
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>First create a class which keeps the state of the auto-increment numbers. For example a map which keeps the latest auto incremented id for each class.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">static</span>  <![CDATA[ ]]><span style="color:Blue;">class</span> PersistedAutoIncrements {
+ <span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">final</span> Map&lt;Class, Integer&gt; currentHighestIds = <span style="color:Blue;">new</span> HashMap&lt;Class, Integer&gt;();
+
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">int</span> nextNumber(Class forClass) {
+        Integer number = currentHighestIds.get(forClass);
+        <span style="color:Blue;">if</span> (<span style="color:Blue;">null</span> == number) {
+            number = 0;
+        }
+        number += 1;
+        currentHighestIds.put(forClass,number);
+        <span style="color:Blue;">return</span> number;
+    }
+}</pre>
+            <div class="codesnippet-meta">AutoIncrement.java: persistent auto increment
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Then create two methods, which are called later. One which returns the next auto-incremented id for a certain class. Another which stores the current state of the auto-increments.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">synchronized</span>  <![CDATA[ ]]><span style="color:Blue;">int</span> getNextID(Class forClass) {
+       PersistedAutoIncrements incrementState = ensureLoadedIncrements();
+       <span style="color:Blue;">return</span> incrementState.nextNumber(forClass);
+}
+
+   <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">synchronized</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> storeState(){
+       <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>!=state){
+           container.ext().store(state,2);            
+       }
+   }</pre>
+            <div class="codesnippet-meta">AutoIncrement.java: getting the next id and storing state
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>The last part is to ensure that the existing auto-increments are loaded from the database. Or if not existing a new instance is created.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> PersistedAutoIncrements ensureLoadedIncrements() {
+    <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>==state){
+        state = loadOrCreateState();
+    }
+    <span style="color:Blue;">return</span> state;
+
+}
+
+<span style="color:Blue;">private</span> PersistedAutoIncrements loadOrCreateState() {
+    ObjectSet&lt;PersistedAutoIncrements&gt; existingState = container.query(PersistedAutoIncrements.<span style="color:Blue;">class</span>);
+    <span style="color:Blue;">if</span>(0==existingState.size()){
+        <span style="color:Blue;">return</span>  <![CDATA[ ]]><span style="color:Blue;">new</span> PersistedAutoIncrements(); 
+    } <span style="color:Blue;">else</span>  <![CDATA[ ]]><span style="color:Blue;">if</span>(1==existingState.size()){
+        <span style="color:Blue;">return</span> existingState.get(0);
+    } <span style="color:Blue;">else</span>{
+        <span style="color:Blue;">throw</span>  <![CDATA[ ]]><span style="color:Blue;">new</span> IllegalStateException(<span style="color:#A31515;">"Cannot have more than one state stored in database"</span>);
+    }
+}</pre>
+            <div class="codesnippet-meta">AutoIncrement.java: load the state from the database
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Now it's time to use the callbacks. Every time when a new object is created, assign a new id. For this the creating-event is perfect. When commiting  also make the auto increment-state persistent, to ensure that no id is used twice.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> AutoIncrement increment = <span style="color:Blue;">new</span> AutoIncrement(container);
+EventRegistry eventRegistry = EventRegistryFactory.forObjectContainer(container);
+eventRegistry.creating().addListener(<span style="color:Blue;">new</span> EventListener4&lt;CancellableObjectEventArgs&gt;() {
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onEvent(Event4&lt;CancellableObjectEventArgs&gt; event4,
+                        CancellableObjectEventArgs objectArgs) {
+        <span style="color:Blue;">if</span>(objectArgs.object() <span style="color:Blue;">instanceof</span> IDHolder){
+            IDHolder idHolder = (IDHolder) objectArgs.object();
+            idHolder.setId(increment.getNextID(idHolder.getClass()));
+        }
+    }
+});
+eventRegistry.committing().addListener(<span style="color:Blue;">new</span> EventListener4&lt;CommitEventArgs&gt;() {
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> onEvent(Event4&lt;CommitEventArgs&gt; commitEventArgsEvent4,
+                        CommitEventArgs commitEventArgs) {
+        increment.storeState();
+    }
+});</pre>
+            <div class="codesnippet-meta">AutoIncrementExample.java: use events to assign the ids
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Last, don't forget to index the id-field. Otherwise looks-ups will be slow.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">configuration.common().objectClass(IDHolder.<span style="color:Blue;">class</span>).objectField(<span style="color:#A31515;">"id"</span>).indexed(<span style="color:Blue;">true</span>);</pre>
+            <div class="codesnippet-meta">AutoIncrementExample.java: index the id-field
+			<div class="codedownload"><a href="../../../CodeExamples/disconnectedobj/idexamples/Example-disconnectedobj-idexamples-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

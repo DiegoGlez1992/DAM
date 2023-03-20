@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CatapultTargetIndex Count="27">
+    <IndexEntry>
+        <Entries>
+            <IndexEntry Term="dRS">
+                <Entries>
+                    <IndexEntry Term="Bidirectional Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Bidirectional Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/bi-directional_replication.htm#kanchor4" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Conflicts">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Dealing with Conflicts" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/dealing_with_conflicts.htm#kanchor12" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="db4o to db4o Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication.htm#kanchor2" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Events">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Events" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/events.htm#kanchor11" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Hibernate Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Replication With Hibernate" Link="/Content/db4o_replication_system_drs/replication_with_rdbms.htm#kanchor7" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Replicate Deletions">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Replicate Deletions" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/deleted_objects_replication.htm#kanchor6" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Selective Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Selective Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/selective_replication.htm#kanchor5" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Simple Example">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Simple Example	of db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/simple_example.htm#kanchor3" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Unidirectional Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Simple Example	of db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/simple_example.htm#kanchor3" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                </Entries>
+                <Links>
+                    <IndexLink Title="db4o Replication System" Link="/Content/welcome.htm#kanchor1" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+            <IndexEntry Term="Hibernate">
+                <Entries />
+                <Links>
+                    <IndexLink Title="Replication With Hibernate" Link="/Content/db4o_replication_system_drs/replication_with_rdbms.htm#kanchor7" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+            <IndexEntry Term="RDBMS">
+                <Entries />
+                <Links>
+                    <IndexLink Title="Replication With Hibernate" Link="/Content/db4o_replication_system_drs/replication_with_rdbms.htm#kanchor7" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+            <IndexEntry Term="Replication">
+                <Entries>
+                    <IndexEntry Term="Bidirectional">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Bidirectional Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/bi-directional_replication.htm#kanchor4" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Conflicts">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Dealing with Conflicts" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/dealing_with_conflicts.htm#kanchor12" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="db4o to db4o">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication.htm#kanchor2" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Deletions">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Replicate Deletions" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/deleted_objects_replication.htm#kanchor6" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Events">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Events" Link="/Content/db4o_replication_system_drs/advanced_replication_strategies/events.htm#kanchor11" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Selective Replication">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Selective Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/selective_replication.htm#kanchor5" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Simple Example">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Simple Example	of db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/simple_example.htm#kanchor3" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="Unidirectional">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Simple Example	of db4o to db4o Replication" Link="/Content/db4o_replication_system_drs/db4o_databases_replication/simple_example.htm#kanchor3" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="VOD">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Replication With VOD" Link="/Content/db4o_replication_system_drs/vod_replication.htm#kanchor8" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                </Entries>
+                <Links>
+                    <IndexLink Title="db4o Replication System" Link="/Content/welcome.htm#kanchor1" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+            <IndexEntry Term="Versant Object Database">
+                <Entries />
+                <Links>
+                    <IndexLink Title="Replication With VOD" Link="/Content/db4o_replication_system_drs/vod_replication.htm#kanchor8" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+            <IndexEntry Term="VOD">
+                <Entries>
+                    <IndexEntry Term="Event Processing">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Setup Event Processing" Link="/Content/db4o_replication_system_drs/vod/setup-event-processing.htm#kanchor10" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                    <IndexEntry Term="JDO Setup">
+                        <Entries />
+                        <Links>
+                            <IndexLink Title="Setup JDO for VOD" Link="/Content/db4o_replication_system_drs/vod/setup.htm#kanchor9" UsedConditions="" />
+                        </Links>
+                    </IndexEntry>
+                </Entries>
+                <Links />
+            </IndexEntry>
+            <IndexEntry Term="VOD-Replication">
+                <Entries />
+                <Links>
+                    <IndexLink Title="Replication With VOD" Link="/Content/db4o_replication_system_drs/vod_replication.htm#kanchor8" UsedConditions="" />
+                </Links>
+            </IndexEntry>
+        </Entries>
+        <Links />
+    </IndexEntry>
+</CatapultTargetIndex>

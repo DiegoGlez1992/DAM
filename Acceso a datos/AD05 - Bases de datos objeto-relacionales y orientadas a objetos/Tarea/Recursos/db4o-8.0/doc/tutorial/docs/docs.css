@@ -1,0 +1,103 @@
+body, p, td
+{
+	font-family: Arial, Helvetica, Verdana;
+	font-size: 10pt;
+	color: #666666;
+}
+H1
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 180%;
+	font-weight: normal;
+}
+
+H2
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 160%;
+	font-weight: normal;
+	border-bottom: double #CCC 3px;
+}
+
+H3
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 140%;
+	font-weight: normal;
+	border-bottom: solid #CCC 1px;
+}
+
+H4
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 130%;
+	font-weight: normal;
+}
+
+H5
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 120%;
+	font-weight: normal;
+}
+
+H6
+{
+	font-family: "Segoe UI","Lucida Grande",Arial,Helvetica,Sans-Serif;
+	color: #BB0000;
+	font-size: 100%;
+	font-weight: normal;
+}
+
+small
+{
+	margin-top: 2em;
+	padding: 0.5em;
+	font-size: 90%;
+	color: #CCCCCC;
+}
+
+
+code
+{
+	font-size: 100%;
+	color: black;
+	background-color: #F4F4F4;
+}
+
+a, a:link, a:active {
+  color:#698DB6;
+  font-weight:normal;
+  text-decoration:none;
+}
+a:visited{
+  color: #394DB6;
+  text-decoration:none;
+}
+
+.lg{background-color:#F4F4F4} 
+.co{background-color:#a0a0a0} 
+.console {
+	z-index:1;
+	float:none;
+	width:100%;
+	position:fixed;
+	height:150px;
+	bottom:0px;
+	left:0px;
+	overflow: hidden;
+}
+.button {
+	background-color: #BB0000;
+	color: #FFFFFF;
+}
+#footer {
+	border: 1px solid #F6F6F6;
+	background-color: 1px solid #F6F6F6;
+	padding: 2px;
+}

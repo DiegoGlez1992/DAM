@@ -1,0 +1,466 @@
+/*<meta />*/
+
+/*
+// {{MadCap}} //////////////////////////////////////////////////////////////////
+// Copyright: MadCap Software, Inc - www.madcapsoftware.com ////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// <version>5.0.1.0</version>
+////////////////////////////////////////////////////////////////////////////////
+*/
+
+.MCDropDown
+{
+	
+}
+
+.MCDropDownHead
+{
+	
+}
+
+.MCDropDownHotSpot
+{
+	
+}
+
+.MCDropDownBody
+{
+	
+}
+
+.MCDropDownIcon
+{
+	border: none;
+}
+
+.MCExpanding
+{
+	
+}
+
+.MCExpandingHead
+{
+	
+}
+
+.MCExpandingBody
+{
+	
+}
+
+.MCExpandingIcon
+{
+	border: none;
+}
+
+.MCKLink
+{
+	
+}
+
+.MCKLinkSpot
+{
+	
+}
+
+.MCKLinkBody
+{
+	background-color: #bbccdd;
+	border: solid 1px #000000;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	cursor: pointer;
+	cursor: hand;
+	filter: alpha( opacity = 100 );
+	-moz-opacity: 1.0;
+	z-index: 2;
+}
+
+.MCKLinkBodyBG
+{
+	background-color: #000000;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	filter: alpha( opacity = 100 );
+	-moz-opacity: 1.0;
+	z-index: 1;
+}
+
+.MCKLinkBodyCell_Highlighted
+{
+	padding: 5px;
+	background-color: Blue;
+	color: White;
+}
+
+.MCKLinkBodyCell
+{
+	padding: 5px;
+	background-color: Transparent;
+	color: Black;
+}
+
+.MCKeywordLinkIcon
+{
+	border: none;
+}
+
+.MCConceptLinkIcon
+{
+	border: none;
+}
+
+.MCRelatedTopicsIcon
+{
+	border: none;
+}
+
+.MCPopup
+{
+	
+}
+
+.MCPopupSpot
+{
+	
+}
+
+.MCPopupBody
+{
+	background-color: #ffffff;
+	border: solid 1px #000000;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 2;
+}
+
+.MCPopupBodyBG
+{
+	background-color: #000000;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 1;
+}
+
+.MCTextPopup
+{
+	
+}
+
+.MCTextPopupSpot
+{
+	
+}
+
+.MCTextPopupBody
+{
+	background-color: #bbccdd;
+	border: solid 1px #000000;
+	margin: 0px;
+	padding: 5px;
+	position: absolute;
+	overflow: auto;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 2;
+}
+
+.MCTextPopupBodyBG
+{
+	background-color: #000000;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 1;
+}
+
+.MCPopupThumbnail
+{
+	border: none;
+}
+
+.MCPopupThumbnail_Popup
+{
+	border: solid 1px Gray;
+	position: absolute;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 102;
+}
+
+.MCToggler
+{
+	
+}
+
+.MCTogglerIcon
+{
+	border: none;
+}
+
+div.MCDialogWrapper
+{
+	width: 400px;
+	position: fixed;
+	z-index: 110;
+}
+
+div.MCDialog
+{
+	width: 400px;
+	position: absolute;
+	padding: 10px;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 2;
+}
+
+div.MCDialogShadow
+{
+	width: 400px;
+	position: absolute;
+	padding: 10px;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 1;
+}
+
+div.MCDialog table.MCDialogOuterTable
+{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+div.MCDialog table.MCDialogOuterTable td.Label
+{
+	vertical-align: top;
+}
+
+endnotesBlock
+{
+	display: block;
+}
+
+endnoteBlock
+{
+	display: block;
+}
+
+footnotesBlock
+{
+	display: block;
+}
+
+footnoteBlock
+{
+	display: block;
+}
+
+a
+{
+	color: #45ABBF;
+	text-decoration: none;
+}
+
+a:link
+{
+	text-decoration: none;
+	color: #45ABBF;
+}
+
+a:visited
+{
+	color: #003366;
+	text-decoration: underline;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+a:focus
+{
+	outline: thin dotted invert;
+}
+
+div.MCBreadcrumbsBox
+{
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+a.MCTextPopupSpot
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCTextPopupSpot:link
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCTextPopupSpot:visited
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCTextPopupSpot:hover
+{
+	
+}
+
+a.MCTextPopupSpot:focus
+{
+	
+}
+
+span.MCTextPopupBody
+{
+	position: absolute;
+	overflow: auto;
+	filter: alpha( opacity = 0 );
+	-moz-opacity: 0.0;
+	z-index: 2;
+	padding: 5px;
+	margin: 0px;
+	border: solid 1px #000000;
+	background-color: #dcdcdc;
+	color: #000000;
+}
+
+a.glossaryTerm_0
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.glossaryTerm_0:link
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.glossaryTerm_0:visited
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.glossaryTerm_0:hover
+{
+	
+}
+
+a.glossaryTerm_0:focus
+{
+	
+}
+
+a.MCPopupSpot
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCPopupSpot:link
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCPopupSpot:visited
+{
+	color: darkgreen;
+	font-weight: bold;
+}
+
+a.MCPopupSpot:hover
+{
+	
+}
+
+a.MCPopupSpot:focus
+{
+	
+}
+
+a.MCXref
+{
+	text-decoration: underline;
+	color: blue;
+}
+
+a.MCXref:link
+{
+	text-decoration: underline;
+	color: blue;
+}
+
+a.MCXref:visited
+{
+	text-decoration: underline;
+	color: blue;
+}
+
+a.MCXref:hover
+{
+	
+}
+
+a.MCXref:focus
+{
+	
+}
+
+a.popupHead_0
+{
+	vertical-align: super;
+	font-size: 0.9em;
+	color: blue;
+}
+
+a.popupHead_0:link
+{
+	vertical-align: super;
+	font-size: 0.9em;
+	color: blue;
+}
+
+a.popupHead_0:visited
+{
+	vertical-align: super;
+	font-size: 0.9em;
+	color: blue;
+}
+
+a.popupHead_0:hover
+{
+	
+}
+
+a.popupHead_0:focus
+{
+	
+}
+

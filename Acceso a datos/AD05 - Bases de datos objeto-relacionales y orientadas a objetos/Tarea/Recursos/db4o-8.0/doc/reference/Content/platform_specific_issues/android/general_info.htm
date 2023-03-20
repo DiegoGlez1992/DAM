@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Android|Comparison With SQLite" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>General Info</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/android/general_info.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../android.htm">Android</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="comparison_with_sqlite.htm">Comparison With SQLite</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">General Info</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>General Info</h1>
+        <p>Both db4o and SQLite are embedded databases, i.e. they run within an
+application process, removing the overhead associated with a client-server
+configuration, although db4o can also be used in client-server mode. Both db4o
+and SQLite offer zero-configuration run modes, which allows to get the database
+up and running immediately.</p>
+        <h2>Access Control</h2>
+        <p>SQLite relies solely on the file system for its database permissions and has
+no concept of user accounts. SQLite has database-level locks and does not
+support client/server mode.</p>
+        <p>db4o can use encryption or client/server mode for user access control.
+Client/server can also be used in embedded mode, i.e on the same device.</p>
+        <h2>Referential Integrity</h2>
+        <p>Traditionally referential integrity in relational databases is implemented
+with the help of foreign keys. However SQLite <a href="http://www.sqlite.org/omitted.htm">does not support</a> this feature. In
+db4o referential integrity is imposed by the object model, i.e. you can't
+reference an object that does not exist. </p>
+        <h2>Transactions</h2>
+        <p>Both db4o and SQLite support <span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="../../basics/acid_and_transactions.htm">ACID<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a></span> transactions. </p>
+        <p>In db4o all the work is
+transactional: transaction is implicitly started when the database is open and
+closed either by explicit commit() call or by close() call through implicit
+commit.  Data is protected from system crash during all application lifecycle. If a crash occurs during commit itself, the commit will be restarted when the system is up again if the system had enough time to write the list of changes, otherwise the transaction will be rolled back to the last safe state. </p>
+        <p>In SQLite autocommit feature is
+used by default: transaction is started when a SQL command other than SELECT is
+executed and commit is executed as soon as pending operation is finished. Explicit
+BEGIN and END TRANSACTION(COMMIT) or ROLLBACK can be used alternatively to
+specify user-defined transaction limits. Database crash always results in
+pending transaction rollback. Nested transactions are not supported.</p>
+        <h2>Database Size</h2>
+        <p>Though embeddable db4o and SQLite support big database files:</p>
+        <ul>
+            <li value="1">db4o up to 256 GB</li>
+            <li value="2"> 
+SQLite up to 2TB</li>
+        </ul>
+        <p>all the data is stored in a single database file. db4o also supports clustered databases. </p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

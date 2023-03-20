@@ -1,0 +1,19 @@
+<html>
+<body>
+
+<p>Classes for performing method inlining.  The first step in method
+ininling is to create the call graph for a Java "program".  Rapid Type
+Analysis [Bacon 1997] is used to keep the size of the call graph
+managable.  RTA uses the class hierarchy to determine all possible
+methods that may be invoked at a given call site.  Methods are only
+considered to be live if their class is instantiated somewhere in the
+program.</p>
+
+<p>Call sites are specialized using the resolves-to information
+supplied by the call graph.  Each virtual method call is transformed
+into a "switch" statement on the possible receiver types.  The
+receiver is cast to a given type and a static method is invoked in
+place of the virtual method.</p>
+
+</body>
+</html>

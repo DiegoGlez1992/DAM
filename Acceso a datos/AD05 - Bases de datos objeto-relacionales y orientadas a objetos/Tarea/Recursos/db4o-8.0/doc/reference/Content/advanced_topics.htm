@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Advanced Topics</title>
+        <link href="SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../index_CSH.html#advanced_topics.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><span class="MCBreadcrumbs">Advanced Topics</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Advanced Topics</h1>
+        <p>This topic is about advanced features of db4o. </p>
+        <p>If you want to have multiple unit of work or multiple transaction in embedded mode you can take a look at session containers. <a href="advanced_topics/session_containers.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Session Containers"</a></p>
+        <p>db4o support unique constrains on fields. <a href="advanced_topics/unique_constraints.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Unique Constraints"</a></p>
+        <p>You can also do backups of your database at runtime. <a href="advanced_topics/backup.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Backup"</a></p>
+        <p>Implementing the interfaces for transparent activation/persistence is tedious. The enhancement tools can do that job for you. And can also optimize native queries at build time. <a href="advanced_topics/enhancement_tools.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Enhancement Tools"</a> <![CDATA[ ]]></p>
+        <p>The database file can fragment over time. In order to reclaim defragmentet space in the database you need to run the defragmentation. <a href="advanced_topics/defragment.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Defragment"</a></p>
+        <p>Callbacks allow you to perform additional logic for different database operations. <a href="advanced_topics/callbacks.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Callbacks"</a></p>
+        <p>As some point in time you will change your data model. Then you probably need to also refactor you're stored data in the database. <a href="advanced_topics/refactoring_and_schema_evolution.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Refactoring and Schema Evolution"</a></p>
+        <p>You can access the internal ids or generate UUIDs for objects. <a href="advanced_topics/ids_and_uuids.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "IDs and UUIDs"</a></p>
+        <p>It's also possible to access the meta information of all stored types in the database. <a href="advanced_topics/db4o_meta-information.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "db4o Meta-Information"</a>. And you can access system information about the database.</p>
+        <p>db4o tried hard to make persisting objects as easy as possible. However storing a object efficient and correctly is quite tricky. Read about db4o's type handling for more information. <a href="advanced_topics/type_handling.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Type Handling"</a>&#160;Furthermore db4o uses an abstraction layer to encapsulate <span class="PrimaryPlattform">Java</span>-reflection. This allows you do change how reflection behaves on your objects. <a href="advanced_topics/db4o_reflection_api.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "db4o Reflection API"</a></p>
+        <p>Unfortunately failure happen. db4o communicates failures with exceptions. <a href="advanced_topics/exceptions.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Exception-Handling"</a></p>
+        <script src="Resources/Code/jquery.min.js">
+        </script>
+        <script src="Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

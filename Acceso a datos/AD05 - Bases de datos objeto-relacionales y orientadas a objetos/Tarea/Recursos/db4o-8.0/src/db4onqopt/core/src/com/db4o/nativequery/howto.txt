@@ -1,0 +1,153 @@
+Native queries will run out of the box in any environment - they
+will just be executed as SODA evaluations. This has the downside
+that all candidate objects will have to be instantianted to run
+the evaluation against them, and that evaluations cannot take
+advantage of any indices you might have configured.
+
+In optimized mode, native queries are converted to plain SODA
+queries, if possible. (Otherwise they're just run unoptimized.)
+This feature is still experimental and will only cover basic
+use cases. Currently optimization supports:
+
+- constants
+- simple member access
+- simple getter methods
+- chaining of member access/simple getter methods
+- primitive comparisons
+- String#equals()
+- arithmetic expressions
+- boolean expressions
+
+Any native query that contains constructs not on this list will
+be run in unoptimized mode. This list will be constantly extended.
+
+Optimization currently will work with single return statements only.
+Further restrictions planned to be resolved in the production version
+include:
+
+- automatic primitive casting won't work (like cand.getFloatValue() < 2.0,
+  you'll have to use 2.0f).
+
+ANALYSIS AT QUERY EXECUTION TIME
+
+Note: This won't work with JDK1.1.
+
+To enable code analysis and generation of a corresponding live SODA
+query at query execution time, you just have to add db4o-5.0-nqopt.jar
+to your class path and start your application with
+
+-Ddb4o.dynamicnq
+
+as a VM parameter or call
+
+System.setProperty("db4o.dynamicnq","true");
+
+from within your application.
+ 
+INSTRUMENTING CLASS FILES
+
+Note: The resulting optimized classes will work for JDK1.1, but not
+the optimization process itself.
+
+File instrumentation can be done either programmatically or during an
+Ant build.
+
+To instrument all predicate classes in directory 'orig' whose package
+name starts with 'my.package' and store the modified files below
+directory 'instrumented', ensure the bloat jar is on your class path
+and use code like the following:
+
+new com.db4o.nativequery.main.Db4oFileEnhancer()
+  .enhance(
+    "orig",             // source directory
+    "instrumented",     // target directory
+    new String[]{       // class path
+      "lib/my_application.jar",
+      "lib/db4o-5.0-java1.x.jar"
+    },
+    "my.package"        // optional package prefix
+  );
+  
+An equivalent Ant snippet might look like this:
+
+<taskdef name="db4ooptimize" 
+         classname="com.db4o.nativequery.main.Db4oFileEnhancerAntTask">
+  <classpath>
+    <path path="lib/db4o-5.0-java1.x.jar" />
+    <path path="lib/db4o-5.0-nqopt.jar" />
+    <path path="lib/bloat-1.0.jar" />
+    <path path="lib/db4o-5.0-java1.x.jar" />
+  </classpath>
+</taskdef>
+
+<target name="optimize">
+  <db4ooptimize 
+      srcdir="orig" 
+      targetdir="instrumented" 
+      packagefilter="my.package">
+    <classpath>
+      <path location="lib/my_application.jar" />
+      <path path="lib/db4o-5.0-java1.x.jar" />
+    </classpath>
+  </db4oenhance>
+</target>
+
+All non-Predicate classes will just be copied to the target directory.
+
+INSTRUMENTING CLASSES AT LOAD TIME
+
+Note: This won't work with JDK1.1.
+
+To instrument an existing application on startup, db4o wraps its
+execution in a custom class loader. To apply this class loader
+manually, use code like this:
+
+ClassLoader loader=
+  new com.db4o.nativequery.main.Db4oEnhancingClassLoader();
+Class clazz=loader.loadClass("my.StarterClass");
+Method method=clazz.getMethod("someStaticMethod",new Class[]{});
+method.invoke(null,new Object[]{});
+
+(Of course the method needn't be static and can have parameters,
+too.)
+
+To start a full application in optimized mode, you can use the
+Db4oRunner utility class. If you'd normally start your application
+like this:
+
+$> java my.StarterClass some arguments
+
+...start Db4oRunner with the fully qualified name of your main class
+as the first argument and the actual arguments appended:
+
+$> java com.db4o.nativequery.main.Db4oRunner my.StarterClass some arguments
+
+Still to be evaluated:
+
+- Setting the system class loader
+  (-Djava.system.class.loader=com.db4o.nativequery.main.Db4oEnhancingClassLoader)
+- Configuring Tomcat to use the optimizing class loader
+  (Tomcat server.xml <Loader/> section)
+  
+MONITORING OPTIMIZATION
+
+This feature still is as basic as it can get and will soon be improved.
+Currently you can just attach a listener to the ObjectContainer:
+
+((NativeQueryHandler)db).addListener(new Db4oQueryExecutionListener() {
+  public void notifyQueryExecuted(Predicate pred, String msg) {
+    System.err.println(msg);
+  }
+});
+
+The listener will be notified on each native query call and will be
+passed the Predicate object processed and the success status of the
+optimization run:
+
+NativeQueryHandler.UNOPTIMIZED ("UNOPTIMIZED")
+  if the predicate could not be optimized and is run in unoptimized mode
+NativeQueryHandler.PREOPTIMIZED ("PREOPTIMIZED")
+  if the predicate already was optimized (due to class file or load time
+  instrumentation)
+NativeQueryHandler.DYNOPTIMIZED ("DYNOPTIMIZED")
+  if the predicate was optimized at query execution time

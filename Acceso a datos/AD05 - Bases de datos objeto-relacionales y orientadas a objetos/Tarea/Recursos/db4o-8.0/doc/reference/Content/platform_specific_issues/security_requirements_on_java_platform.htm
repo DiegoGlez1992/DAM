@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Security Requirements</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#platform_specific_issues/security_requirements_on_java_platform.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Security Requirements On Java Platform</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor120"></a>Security Requirements</h1>
+        <p>Java Security Manager can be used to specify Java application security permissions. It is usually provided by web-browsers and web-servers for applet and servlet execution, however any Java application can make use of a security manager. For example, to use the default security manager you will only need to pass <code>-Djava.security.manager</code> option to JVM command line. Custom security managers can be created and utilized as well (please refer to Java documentation for more information).</p>
+        <p>If you are going to use db4o in a Tomcat servlet container you will need to grant some additional permissions in {CATALINA_HOME}/conf/catalina.policy file:</p>
+        <p>
+            <pre class="prettyprint" xml:space="preserve">
+// The permissions granted to the context 
+WEB-INF/classes directory 
+grant codeBase "file:${catalina.home}/webapps/{your_db4o_application}/WEB-INF/classes/-" 
+{ 
+	permission java.util.PropertyPermission "user.home", "read"; 
+	permission java.util.PropertyPermission "java.fullversion", "read";    
+	permission java.io.FilePermission "path_to_db4o_database_folder", "read";    
+	permission java.io.FilePermission "path_to_db4o_database_file", "read, write"; 
+}; 
+// The permissions granted to the context WEB-INF/lib directory, containing db4o jar 
+grant codeBase "file:${catalina.home}/webapps/{your_db4o_application}/WEB-INF/lib/-" 
+{    
+	permission java.io.FilePermission "path_to_db4o_database_file", "read, write"; 
+};
+			</pre>
+        </p>
+        <p>An example  catalina.policy file can be downloaded <a href="security_requirements_on_java_platform/catalina.policy">here</a>. </p>
+        <p>In order to avoid db4o DatabaseFileLocked exception you will also need to add some configuration before opening the object container:<br /></p>
+        <p><code>Configuration config = Db4o.newConfiguration();<br /></code>
+        </p>
+        <p><code>config.lockDatabaseFile(false);<br /></code>
+        </p>
+        <p><code>ObjectContainer container = Db4o.openFile(config, dbfile.getPath());<br /></code>
+        </p>
+        <p>Having done that, you can package and deploy your application. To enable the security configuration start Tomcat with the following command:<br /></p>
+        <p>{CATALINA_HOME}/bin/catalina start -security <br /></p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

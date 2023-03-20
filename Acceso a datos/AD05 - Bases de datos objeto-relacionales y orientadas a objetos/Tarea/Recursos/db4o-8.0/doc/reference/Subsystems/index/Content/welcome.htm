@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>db4o Replication System</title>
+        <link href="SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../index_CSH.html#welcome.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><span class="MCBreadcrumbs">db4o Replication System</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor1"></a>db4o Replication System</h1>
+        <p>The db4o Replication System provides functionality to periodically synchronize databases that work disconnected from each other. For example mobile devices synchronizing to a central server or desktop application.</p>
+        <p>The dRS can replicate between any number of db4o-databases. <a href="db4o_replication_system_drs/db4o_databases_replication.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "db4o to db4o Replication"</a></p>
+        <p MadCap:conditions="Primary.Java">Another feature is to replicate between <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">VOD<img style="border: none;margin-left: 5px;" src="SkinSupport/ExpandingClosed.gif" MadCap:altsrc="SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( 'SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Versant Object Database</span></span> and db4o. <a href="db4o_replication_system_drs/vod_replication.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Replication With VOD"</a></p>
+        <p MadCap:conditions="Primary.Java">Utilizing Hibernate dRS can also replicate between db4o and a <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">RDBMS<img style="border: none;margin-left: 5px;" src="SkinSupport/ExpandingClosed.gif" MadCap:altsrc="SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( 'SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Relational Database Management System</span></span>. <a href="db4o_replication_system_drs/replication_with_rdbms.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Replication With Hibernate"</a></p>
+        <p>
+            <img src="dRSOverview_587x398.jpg" title="db4o Replication System" alt="db4o Replication System" style="width: 587; height: 398;" />
+        </p>
+        <p>Before you start, please make sure that you have downloaded the latest dRS distribution from the <a href="http://community.versant.com/Downloads.aspx" target="_blank">download area</a> of the <a href="http://community.versant.com/" target="_blank">db4o developer website</a>.</p>
+        <script src="Resources/Code/jquery.min.js">
+        </script>
+        <script src="Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,2 @@
+(: Nombre de los alumnos matriculados en asignaturas con 0 créditos prácticos y que estudien la carrera de I.T. Informática. :)
+universidad/alumnos/alumno[estudios/asignaturas/asignatura/@codigo = [/universidad/asignaturas/asignatura[creditos_practicos=0]/@id]][estudios/carrera/@codigo = [/universidad/carreras/carrera[nombre='I.T. Informática']/@id]]/nombre

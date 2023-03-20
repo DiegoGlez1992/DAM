@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Enhancement Tools" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Transparent Persistence Enhancement Example</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#basics/transparentpersistence/ta_enhanced_example.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../../advanced_topics/enhancement_tools.htm">Enhancement Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Required Depedencies</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor30"></a>Transparent Persistence Enhancement Example</h1>
+        <p>You can inject transparent persistence awareness in your persisted classes without modifying their original
+			code.
+This is done by enhancing the <span MadCap:conditions="Primary.Java">class-files</span>  at build time.		</p>
+        <h2><a name="dependencies"></a>Required
+			<span class="PrimaryArtefacts">jars</span></h2>
+        <p>For transparent activation/persistence you need following dependencies at compile time. (see also the <a href="../../dependency_overview.htm">dependency overview</a>)
+		</p>
+        <ul MadCap:conditions="Primary.Java">
+            <li value="1">bloat-1.0.jar</li>
+            <li value="2">db4o-X.XX-instrumentation.jar</li>
+            <li value="3">db4o-X.XX-taj.jar</li>
+            <li value="4">db4o-X.XX-tools.jar</li>
+        </ul>
+        <h2><a name="Enhance"></a>Enhance Persistent Classes</h2>
+        <p>The first step is to enhance the persisted classes. One possibility is to
+			introduce an
+			<span class="PrimaryAnnotation">Annotation</span> to mark your persisted classes.
+</p>
+        <p>By the way, their are alternative way to select the enhanced classes. See   <![CDATA[ ]]><a href="../../advanced_topics/enhancement_tools/enhancement_for_java/build_time_enhancement.htm" MadCap:conditions="Primary.Java">here</a>.	</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Target(ElementType.TYPE)
+<span style="color:Blue;">public</span> @<span style="color:Blue;">interface</span> TransparentPersisted {
+}</pre>
+            <div class="codesnippet-meta">TransparentPersisted.java: Annotation to mark persisted classes
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>This
+			<span class="PrimaryAnnotation">Annotation</span>is then used to mark all persisted classes.
+		</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">@TransparentPersisted
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">class</span> Person {</pre>
+            <div class="codesnippet-meta">Person.java: Mark your domain model with the annotations
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p MadCap:conditions="Primary.Java">The next step is to create a class filter which reports all classes which
+			should be enhanced. There filter checks for the presence of the annotation.		</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">final</span>  <![CDATA[ ]]><span style="color:Blue;">class</span> AnnotationFilter <span style="color:Blue;">implements</span> ClassFilter {
+
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">boolean</span> accept(Class&lt;?&gt; aClass) {
+        <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>==aClass || aClass.equals(Object.<span style="color:Blue;">class</span>)){
+            <span style="color:Blue;">return</span>  <![CDATA[ ]]><span style="color:Blue;">false</span>;
+        }
+        <span style="color:Blue;">return</span> hasAnnotation(aClass)
+                || accept(aClass.getSuperclass());
+    }
+
+    <span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">boolean</span> hasAnnotation(Class&lt;?&gt; aClass) {
+        <span style="color:Green;">// We compare by name, to be class-loader independent</span>
+        Annotation[] annotations = aClass.getAnnotations();
+        <span style="color:Blue;">for</span> (Annotation annotation : annotations) {
+            <span style="color:Blue;">if</span>(annotation.annotationType().getName()
+                    .equals(TransparentPersisted.<span style="color:Blue;">class</span>.getName())){
+                <span style="color:Blue;">return</span>  <![CDATA[ ]]><span style="color:Blue;">true</span>;
+            }
+        }
+        <span style="color:Blue;">return</span>  <![CDATA[ ]]><span style="color:Blue;">false</span>;
+    }
+
+}</pre>
+            <div class="codesnippet-meta">AnnotationFilter.java: Build a filter
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div MadCap:conditions="Primary.Java">
+            <h2>Enhancing Classes Using Ant</h2>
+            <p>This enhancement step injects the required
+				<span class="PrimaryByteCode">bytecode</span> into the domain classes to support transparent activation/persistence.
+			</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">enhance</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Green;">&lt;!-- Change these according to your project --&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">target</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">./target/classes/</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">libraries</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">./lib/</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">path</span>  <![CDATA[ ]]><span style="color:Red;">id</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">project.classpath</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <![CDATA[ ]]><span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${target}</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">fileset</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${libraries}</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">include</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">*.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">fileset</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">path</span><span style="color:Blue;">&gt;</span>
+
+    <span style="color:Green;">&lt;!-- We enhance with an additional Ant-run step. You can put this also in an extra file --&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">typedef</span>  <![CDATA[ ]]><span style="color:Red;">resource</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">instrumentation-def.properties</span><span style="color:Black;">"</span>
+             <span style="color:Red;">classpathref</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">project.classpath</span><span style="color:Black;">"</span>
+             <span style="color:Red;">loaderRef</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">instrumentation.loader</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Green;">&lt;!-- We filter by our annotation --&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">typedef</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">annotation-filter</span><span style="color:Black;">"</span>
+             <span style="color:Red;">classname</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">com.db4odoc.tp.enhancement.AnnotationFilter</span><span style="color:Black;">"</span>
+             <span style="color:Red;">classpathref</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">project.classpath</span><span style="color:Black;">"</span>
+             <span style="color:Red;">loaderRef</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">instrumentation.loader</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">db4o-instrument</span>  <![CDATA[ ]]><span style="color:Red;">classTargetDir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${target}</span><span style="color:Black;">"</span>
+                  <span style="color:Red;">verbose</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">true</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">classpath</span>  <![CDATA[ ]]><span style="color:Red;">refid</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">project.classpath</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">sources</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${target}</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">include</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.class</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">sources</span><span style="color:Blue;">&gt;</span>
+
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">transparent-activation-step</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">annotation-filter</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">transparent-activation-step</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">db4o-instrument</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span></pre>
+                <div class="codesnippet-meta">enhance-with-annotation.xml: Ant target for enhancing your classes after building them
+			<div class="codedownload"><a href="../../CodeExamples/Example-CodeExamples-java-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+            <h2 style="mc-redacted: none;">Configure Eclipse to Run Ant Target</h2>
+            <p>You can configure Eclipse to run the Ant build with each compile step. Right click on your project and choose 'Properties'. Then switch to 'Builders' and add a new one. Choose the 'Ant Builder'. On the new window choose the build-file which contains the example-code. Switch to the 'Targets'-Tab. There choose the enhance-target for the 'Auto-Build'. Now the enhancer-task will be run by Eclipse automatically. The example project above is configured this way.</p>
+            <h2>Enhancing Classes Using Maven</h2>
+            <p>It's also possible to enhance with Maven by using the <a href="http://maven.apache.org/plugins/maven-antrun-plugin/" target="_parent">Ant plugin</a>.</p>
+            <div class="codesnippet" MadCap:conditions="Primary.Java">
+                <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">plugin</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">artifactId</span><span style="color:Blue;">&gt;</span>maven-antrun-plugin<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">artifactId</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">version</span><span style="color:Blue;">&gt;</span>1.6<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">version</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">dependencies</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Green;">&lt;!-- We need the db4o tooling for enhancing stuff --&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">dependency</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">groupId</span><span style="color:Blue;">&gt;</span>com.db4o<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">groupId</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">artifactId</span><span style="color:Blue;">&gt;</span>db4o-tools-java5<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">artifactId</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">version</span><span style="color:Blue;">&gt;</span>8.0-SNAPSHOT<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">version</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">dependency</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">dependencies</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">executions</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">execution</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">phase</span><span style="color:Blue;">&gt;</span>compile<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">phase</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">configuration</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span>
+                    <span style="color:Green;">&lt;!-- We enhance with an additional Ant-run step. You can put this also in an extra file --&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">typedef</span>  <![CDATA[ ]]><span style="color:Red;">resource</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">instrumentation-def.properties</span><span style="color:Black;">"</span>
+                             <span style="color:Red;">classpathref</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">maven.compile.classpath</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+                    <span style="color:Green;">&lt;!-- We filter by our annotation --&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">typedef</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">annotation-filter</span><span style="color:Black;">"</span>
+                             <span style="color:Red;">classname</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">com.db4odoc.tp.enhancement.AnnotationFilter</span><span style="color:Black;">"</span>
+                             <span style="color:Red;">classpathref</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">maven.compile.classpath</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">db4o-instrument</span>  <![CDATA[ ]]><span style="color:Red;">classTargetDir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">target/classes</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+                        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">classpath</span>  <![CDATA[ ]]><span style="color:Red;">refid</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">maven.compile.classpath</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">sources</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">target/classes</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+                            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">include</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.class</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">sources</span><span style="color:Blue;">&gt;</span>
+
+                        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">transparent-activation-step</span><span style="color:Blue;">&gt;</span>
+                            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">annotation-filter</span><span style="color:Blue;">/&gt;</span>
+                        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">transparent-activation-step</span><span style="color:Blue;">&gt;</span>
+                    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">db4o-instrument</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">configuration</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">goals</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;</span><span style="color:#A31515;">goal</span><span style="color:Blue;">&gt;</span>run<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">goal</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">goals</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">execution</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">executions</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">plugin</span><span style="color:Blue;">&gt;</span></pre>
+                <div class="codesnippet-meta">pom.xml: Enhance persisted classes during the build
+			<div class="codedownload"><a href="../../CodeExamples/Example-CodeExamples-java-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+            </div>
+        </div>
+        <h2><a name="Check"></a>Check Enhancement</h2>
+        <p>You can check if the enhancement worked correctly by checking for the activation interface. Such a check
+			should be part of your test-suite to ensure that everything works correctly.
+		</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">if</span> (!Activatable.<span style="color:Blue;">class</span>.isAssignableFrom(Person.<span style="color:Blue;">class</span>)) {
+    <span style="color:Blue;">throw</span>  <![CDATA[ ]]><span style="color:Blue;">new</span> AssertionError(<span style="color:#A31515;">"Expect that the "</span> + Person.<span style="color:Blue;">class</span> + <span style="color:#A31515;">" implements "</span> + Activatable.<span style="color:Blue;">class</span>);
+}</pre>
+            <div class="codesnippet-meta">TransparentPersistence.java: Check for enhancement
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="UsingTP"></a>Using Transparent Activation
+		</h2>
+        <p>Configure the transparent activation in order to use it.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+configuration.common().add(<span style="color:Blue;">new</span> TransparentActivationSupport());
+ObjectContainer container = Db4oEmbedded.openFile(configuration, DATABASE_FILE_NAME);</pre>
+            <div class="codesnippet-meta">TransparentPersistence.java: Add transparent activation
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that transparent activation is working properly you can transverse along the object graph and don’t
+			have to worry about not activated objects:
+		</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">Person person = queryByName(container, <span style="color:#A31515;">"Joanna the 10"</span>);
+Person beginOfDynasty = person.getMother();
+
+<span style="color:Green;">// With transparent activation enabled, you can navigate deeply</span>
+<span style="color:Green;">// nested object graphs. db4o will ensure that the objects</span>
+<span style="color:Green;">// are loaded from the database.</span>
+<span style="color:Blue;">while</span> (<span style="color:Blue;">null</span> != beginOfDynasty.getMother()) {
+    beginOfDynasty = beginOfDynasty.getMother();
+}
+System.out.println(beginOfDynasty.getName());</pre>
+            <div class="codesnippet-meta">TransparentPersistence.java: Activation just works
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2>Using Transparent Persistence</h2>
+        <p>Transparent persistence not only manages the activation, but also manages updating the objects. Configure
+			transparent persistence in order to use it:
+		</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+configuration.common().add(<span style="color:Blue;">new</span> TransparentPersistenceSupport(<span style="color:Blue;">new</span> DeactivatingRollbackStrategy()));
+ObjectContainer container = Db4oEmbedded.openFile(configuration, DATABASE_FILE_NAME);</pre>
+            <div class="codesnippet-meta">TransparentPersistence.java: Add transparent persistence
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that updated objects are automatically stored every time you commit.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">Person person = queryByName(container, <span style="color:#A31515;">"Joanna the 10"</span>);
+Person mother = person.getMother();
+mother.setName(<span style="color:#A31515;">"New Name"</span>);
+<span style="color:Green;">// Just commit the transaction. All modified objects are stored</span>
+container.commit();</pre>
+            <div class="codesnippet-meta">TransparentPersistence.java: Just update and commit. Transparent persistence manages all updates
+			<div class="codedownload"><a href="../../CodeExamples/tp/enhancement/Example-tp-enhancement-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

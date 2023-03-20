@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>OSGi</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#platform_specific_issues/database_for_osgi.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">OSGi</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor121"></a>OSGi</h1>
+        <p>db4o can run in an <a href="#" class="glossaryTerm_0">OSGi</a> environment. db4o jars have a OSGi manifest so that you can use them in your project. </p>
+        <h2>Using db4o with OSGi</h2>
+        <p>In principal you can use db4o in OSGi without any special configuration, as long as the stored objects and db4o are loaded with the same OSGi classloader.</p>
+        <p> However as soon as you're using multiple bundles, and therefore multiple classloaders, you need to configure db4o. You can <a href="../configuration/common/reflector.htm">specify the class-loader explicitly</a> for db4o, or even use multiple class-loaders. This way you can lookup in multiple class-loaders for your class. First write an implementation of the JdkLoader interface:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">class</span> OSGiLoader <span style="color:Blue;">implements</span> JdkLoader{
+    <span style="color:Blue;">private</span>   <![CDATA[ ]]><span style="color:Blue;">final</span> Bundle[] bundlesToLookIn;
+
+    OSGiLoader(Bundle... bundlesToLookIn) {
+        <span style="color:Blue;">this</span>.bundlesToLookIn = bundlesToLookIn;
+    }
+
+    <span style="color:Blue;">public</span> Class loadClass(String s) {
+        <span style="color:Blue;">for</span> (Bundle bundle : bundlesToLookIn) {
+            <span style="color:Blue;">try</span> {
+                <span style="color:Blue;">return</span> bundle.loadClass(s);
+            } <span style="color:Blue;">catch</span> (ClassNotFoundException e) {
+                <span style="color:Green;">// just retry on other bundles</span>
+            }
+        }
+        <span style="color:Blue;">try</span> {
+            <span style="color:Blue;">return</span> getClass().getClassLoader().loadClass(s);
+        } <span style="color:Blue;">catch</span> (ClassNotFoundException e) {
+            <span style="color:Blue;">return</span>   <![CDATA[ ]]><span style="color:Blue;">null</span>;
+        }
+    }
+
+    <span style="color:Blue;">public</span> Object deepClone(Object o) {
+        <span style="color:Blue;">return</span>   <![CDATA[ ]]><span style="color:Blue;">new</span> OSGiLoader(bundlesToLookIn);
+    }
+}</pre>
+            <div class="codesnippet-meta">UsingDb4oDirectly.java: Load classes from multiple bundles
+			<div class="codedownload"><a href="../CodeExamples/osgi/Example-db4odoc-osgi-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that you can use your implementation to load classes for db4o:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Green;">// Specify the bundles from which the classes are used to store objects</span>
+Bundle[] bundles = <span style="color:Blue;">new</span> Bundle[]{bundleContext.getBundle()};
+EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+configuration.common()
+        .reflectWith(<span style="color:Blue;">new</span> JdkReflector(<span style="color:Blue;">new</span> OSGiLoader(bundles)));</pre>
+            <div class="codesnippet-meta">UsingDb4oDirectly.java: Db4o with a special OSGi loader
+			<div class="codedownload"><a href="../CodeExamples/osgi/Example-db4odoc-osgi-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Note also that some db4o jars have a dependency on Ant and need an Ant bundle in your OSGi application to use all features.</p>
+        <h2>Using the db4o OSGi package</h2>
+        <p>An alternative is to use the db4o OSGi package, which is in the db4o--X.XX-osgi.jar and includes all dependencies. <a href="../dependency_overview.htm" target="" title="" alt="" class="MCXref">See "Dependency Overview"</a>. This provides a OSGi service which creates a db4o instance for you. It configures db4o in such a way that classes are loaded from the requesting OSGi service. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ServiceReference reference = bundleContext.getServiceReference(<span style="color:#A31515;">"com.db4o.osgi.Db4oService"</span>);
+Db4oService db4oService = (Db4oService) bundleContext.getService(reference);
+ObjectContainer container = db4oService.openFile(<span style="color:#A31515;">"database.db4o"</span>);</pre>
+            <div class="codesnippet-meta">UsingDb4oViaService.java: Get db4o osgi service
+			<div class="codedownload"><a href="../CodeExamples/osgi/Example-db4odoc-osgi-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Best Practices" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Managing Relations</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#best_practises/managing_relations.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../best_practises.htm">Best Practices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">1-N Relation: Navigating from 1 to N</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor103"></a>Managing Relations</h1>
+        <p>In db4o you manage relations by storing references to other objects. In db4o navigational access is usually a lot faster than queries. Therefore think about how you navigate to the right information. This topic gives an overview how to manage different relations.</p>
+        <h2><a name="1toN-nav"></a>1-N Relation: Navigating from 1 to N.</h2>
+        <p>As example we use shopping cards which hold items. In most use cases you need to know which items are on a card. For that you navigate from the card (the 1-part) to the items (the N-part). In this case you simply can use a collection on the shopping card which references all items.</p>
+        <p>Keep in mind that a <a href="../basics/querying/soda/soda_performance_characteristics.htm#CollectionContains">contains-query on collections is very slow</a>. Finding out which items are on a certain shopping cards is very slow. If you want to know that, take a look at the suggestions below.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">Set&lt;Item&gt; items = <span style="color:Blue;">new</span> HashSet&lt;Item&gt;();
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> add(Item terrain) {
+    items.add(terrain);
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> remove(Item o) {
+    items.remove(o);
+}</pre>
+            <div class="codesnippet-meta">ShoppingCard.java: Simple 1-n relation. Navigating from the card to the items
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="Nto1-nav"></a>1-N Relation: Navigating from N to 1</h2>
+        <p>Imagine that you store people and in which country a person is born. Here you usually navigate from the person (the N-part) to the country (the 1-part). Therefore you can have a field which refers to the country.</p>
+        <p>In the rare case where you want to know all people born in a certain country you can do a query. When the country reference is <a href="../basics/indexing.htm">indexed</a>, then that query is fast.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Green;">// Optionally we can index this field, when we want to find all people for a certain country</span>
+<span style="color:Blue;">private</span> Country bornIn;
+
+<span style="color:Blue;">public</span> Country getBornIn() {
+    <span style="color:Blue;">return</span> bornIn;
+}</pre>
+            <div class="codesnippet-meta">Person.java: Simple 1-n relation. Navigating from the person to the countries
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Getting all people of a country is not that hard and fast when the ‘bornIn’ field is indexed.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> Country country = loadCountry(container,<span style="color:#A31515;">"USA"</span>);
+<span style="color:Blue;">final</span> ObjectSet&lt;Person&gt; peopleBurnInTheUs = container.query(<span style="color:Blue;">new</span> Predicate&lt;Person&gt;() {
+    @Override
+    <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Person p) {
+        <span style="color:Blue;">return</span> p.getBornIn() == country;
+    }
+});</pre>
+            <div class="codesnippet-meta">RelationManagementExamples.java: Query for people burn in a country
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="1toN-bidirect"></a>1-N Relation: Bidirectional</h2>
+        <p>When you want to navigate a 1-N relationship bidirectional you can use the method above, because the query if fast enough. Just ensure that you index the field holding the reference.</p>
+        <p>Alternatively you also can add an additional collection which holds the items. However in that case you need to manually manage the consistency of the relation.</p>
+        <p>For example the relationship between dogs and their owners. The dog has a field with its owner, while the person has a collection of his dogs. The setters then manage the relationship and ensure that it is always consistent.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> Person owner;
+
+<span style="color:Green;">// This setter ensures that the model is always consistent</span>
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> setOwner(Person owner) {
+    <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>!=<span style="color:Blue;">this</span>.owner){
+        Person oldOwner = <span style="color:Blue;">this</span>.owner;
+        <span style="color:Blue;">this</span>.owner = <span style="color:Blue;">null</span>;
+        oldOwner.removeOwnerShipOf(<span style="color:Blue;">this</span>);
+    }
+    <span style="color:Blue;">if</span>(<span style="color:Blue;">null</span>!=owner &amp;&amp; !owner.ownedDogs().contains(<span style="color:Blue;">this</span>)) {
+        owner.addOwnerShipOf(<span style="color:Blue;">this</span>);
+    }
+    <span style="color:Blue;">this</span>.owner = owner;
+}
+
+<span style="color:Blue;">public</span> Person getOwner() {
+    <span style="color:Blue;">return</span> owner;
+}</pre>
+            <div class="codesnippet-meta">Dog.java: Bidirectional 1-N relations. The dog has a owner
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> Set&lt;Dog&gt; owns = <span style="color:Blue;">new</span> HashSet&lt;Dog&gt;();
+
+<span style="color:Green;">// The add and remove method ensure that the relations is always consistent</span>
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> addOwnerShipOf(Dog dog) {
+    owns.add(dog);
+    dog.setOwner(<span style="color:Blue;">this</span>);
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> removeOwnerShipOf(Dog dog) {
+    owns.remove(dog);
+    dog.setOwner(<span style="color:Blue;">null</span>);
+}
+
+<span style="color:Blue;">public</span> Collection&lt;Dog&gt; ownedDogs() {
+    <span style="color:Blue;">return</span> Collections.unmodifiableCollection(owns);
+}</pre>
+            <div class="codesnippet-meta">Person.java: Bidirectional 1-N relations. The person has dogs
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="NtoN-nav"></a>N-N Relations: One Way Navigation</h2>
+        <p>Like 1-N relations N-N relations also can be one directional. For example a person can have multiple citizenships in different countries. Let's suppose that you only want to know the citizenship of a person and not the citizens of a country. Then you navigate from people to countries. You can store that in a simple collection.</p>
+        <p>Keep in mind that a <a href="../basics/querying/soda/soda_performance_characteristics.htm#CollectionContains">contains-query on a collection is very slow</a>. Finding the people of a certain country will be very slow.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> Set&lt;Country&gt; citizenIn = <span style="color:Blue;">new</span> HashSet&lt;Country&gt;();
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> removeCitizenship(Country o) {
+    citizenIn.remove(o);
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> addCitizenship(Country country) {
+    citizenIn.add(country);
+}</pre>
+            <div class="codesnippet-meta">Person.java: One directional N-N relation
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="NtoN-bidirect"></a>N-N Relations: Bidirectional Navigation</h2>
+        <p>For managing bidirectional N-N relations you can use collections, but maintain a collection on both sides. For example a club has a member-list and each member has a list of clubs where he is a member.</p>
+        <p>Keep in mind that a <a href="../basics/querying/soda/soda_performance_characteristics.htm#CollectionContains">contains-query on a collection is very slow</a>. That's why you maintain two collections, so that you can navigate to the club-members or club-membership. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> Set&lt;Person&gt; members = <span style="color:Blue;">new</span> HashSet&lt;Person&gt;();
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> addMember(Person person) {
+    <span style="color:Blue;">if</span> (!members.contains(person)) {
+        members.add(person);
+        person.join(<span style="color:Blue;">this</span>);
+    }
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> removeMember(Person person) {
+    <span style="color:Blue;">if</span> (members.contains(person)) {
+        members.remove(person);
+        person.leave(<span style="color:Blue;">this</span>);
+    }
+}</pre>
+            <div class="codesnippet-meta">Club.java: Bidirectional N-N relation
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">private</span> Set&lt;Club&gt; memberIn = <span style="color:Blue;">new</span> HashSet&lt;Club&gt;();
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> join(Club club) {
+    <span style="color:Blue;">if</span> (!memberIn.contains(club)) {
+        memberIn.add(club);
+        club.addMember(<span style="color:Blue;">this</span>);
+    }
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">void</span> leave(Club club) {
+    <span style="color:Blue;">if</span> (memberIn.contains(club)) {
+        memberIn.remove(club);
+        club.removeMember(<span style="color:Blue;">this</span>);
+    }
+}
+
+<span style="color:Blue;">public</span> Collection&lt;Club&gt; memberOf() {
+    <span style="color:Blue;">return</span> Collections.unmodifiableCollection(memberIn);
+}</pre>
+            <div class="codesnippet-meta">Person.java: Bidirectional N-N relation
+			<div class="codedownload"><a href="../CodeExamples/practises/relations/Example-practises-relations-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

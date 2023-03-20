@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Basics Operations &amp; Concepts</title>
+        <link href="SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../index_CSH.html#basics.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><span class="MCBreadcrumbs">Basics Operations &amp; Concepts</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1>Basics Operations &amp; Concepts</h1>
+        <p>This topic gives you an overview of the most important and basic features of db4o. First add db4o to your project. db4o doesn't need a complex setup. It's just a library which you can add to your project. <a href="basics/getting_started.htm" target="" title="" alt="" class="MCXref">See "Getting Started"</a></p>
+        <h2>Basic Operations</h2>
+        <p>The basic operations are unsurprisingly, storing, updating, querying and deleting objects. <a href="basics/object_container.htm" target="" title="" alt="" class="MCXref">See "The Basic Operations"</a></p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectContainer container = Db4oEmbedded.openFile(<span style="color:#A31515;">"databaseFile.db4o"</span>);
+<span style="color:Blue;">try</span> {
+    <span style="color:Green;">// store a new pilot</span>
+    Pilot pilot = <span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"Joe"</span>);
+    container.store(pilot);
+
+    <span style="color:Green;">// query for pilots</span>
+    List&lt;Pilot&gt; pilots = container.query(<span style="color:Blue;">new</span> Predicate&lt;Pilot&gt;() {
+        @Override
+        <span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">boolean</span> match(Pilot pilot) {
+            <span style="color:Blue;">return</span> pilot.getName().startsWith(<span style="color:#A31515;">"Jo"</span>);
+        }
+    });
+
+    <span style="color:Green;">// update pilot</span>
+    Pilot toUpdate = pilots.get(0);
+    toUpdate.setName(<span style="color:#A31515;">"New Name"</span>);
+    container.store(toUpdate);
+
+    <span style="color:Green;">// delete pilot</span>
+    container.delete(toUpdate);
+} <span style="color:Blue;">finally</span> {
+    container.close();
+}</pre>
+            <div class="codesnippet-meta">Db4oBasics.java: The basic operations
+			<div class="codedownload"><a href="CodeExamples/basics/Example-db4odoc-basics-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>For more information about queries: <a href="basics/querying.htm" target="" title="" alt="" class="MCXref">See "Querying"</a></p>
+        <h2>Basic Concepts</h2>
+        <p>There are some basic concepts which are used in db4o. Understanding them helps you to understand how db4o behaves. Some behaviors are common behaviors which you expect from a database, like transactions and <span class="MCPopup"><a href="javascript:void(0);" class="MCPopupSpot" onclick="FMCPopup( event, this ); return false;" MadCap:src="basics/acid_and_transactions.htm">ACID<img style="border: none;margin-left: 5px;" src="SkinSupport/ExpandingClosed.gif" MadCap:altsrc="SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( 'SkinSupport/ExpandingOpen.gif' ); }" /></a></span> properties. <a href="basics/acid_and_transactions.htm" target="" title="" alt="" class="MCXref">See "ACID Properties and Transactions"</a></p>
+        <p>db4o manages objects by identity. This means db4o doesn't need additional id-field on your object. <a href="basics/identity_concept.htm" target="" title="" alt="" class="MCXref">See "Identity Concept"</a></p>
+        <p style="font-weight: normal;">Other concepts are more unique to db4o, like the activation concept, which controls which objects are loaded from the storage to memory. <a href="basics/activation.htm" target="" title="" alt="" class="MCXref">See "Activation Concept"</a>. The same principals are also applied when updating (<a href="basics/update_concept.htm" target="" title="" alt="" class="MCXref">See "Update Concept"</a> ) or deletion objects (<a href="basics/delete_behavior.htm" target="" title="" alt="" class="MCXref">See "Delete Behavior"</a></p>
+        <script src="Resources/Code/jquery.min.js">
+        </script>
+        <script src="Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Basics Operations &amp; Concepts|Transparent Activation/Persistence" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Collections</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#basics/transparentpersistence/Collections.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../basics.htm">Basics Operations &amp; Concepts</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../transparent_persistence.htm">Transparent Activation/Persistence</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Collections</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor31"></a>Collections</h1>
+        <p>In order to support transparent persistence properly a class needs to implement the     <![CDATA[ ]]><span class="PrimaryActivatable">Activatable</span>-interface. For your domain classes this is easy to archive. But what about the <span class="PrimaryPlattform">Java</span>-collections? Wouldn't it be nice when collections also work together the transparent activation framework?</p>
+        <p>db4o brings special, transparent persistence aware collections with it. This collections load the content only when the collections is actually used.</p>
+        <p>These collections are currently implemented:</p>
+        <ul MadCap:conditions="Primary.Java">
+            <li value="1">ActivatableArrayList&lt;T&gt;: An activatable version of the ArrayList&lt;T&gt;</li>
+            <li value="2">ActivatableHashMap&lt;T&gt;: An activatable version of the HashMap&lt;T&gt;</li>
+            <li value="3">ActivatableHashSet&lt;T&gt;: An activatable version of the HashSet&lt;T&gt;</li>
+            <li value="4">ActivatableHashtable&lt;T&gt;: An activatable version of the HashHashtable&lt;T&gt;</li>
+            <li value="5">ActivatableLinkedList&lt;T&gt;: An activatable version of the LinkedList&lt;T&gt;</li>
+            <li value="6">ActivatableStack&lt;T&gt;: An activatable version of the Stack&lt;T&gt;</li>
+            <li value="7">ActivatableTreeSet&lt;T&gt;: An activatable version of the TreeSet&lt;T&gt;</li>
+        </ul>
+        <p>It's recommended to use the collection-interfaces wherever possible instead of the concrete classes. This avoids unnecessary direct dependencies on the implementations and makes it easy to exchange the implementations.</p>
+        <p>The enhancement tools can automatically replace the <span class="PrimaryPlattform">Java</span>-collections with the db4o-equivalent. However there are few rules and limitations. <a href="collections/enhance_collections.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Enhance Collections"</a></p>
+        <p>You can use the db4o-collection directly in your code. For example in the case you implement the transparent activation support manually. Take a looks these tips: <a href="collections/use_ta_collections.htm" target="" title="" alt="" class="MCXref" xrefformat="See &quot;{paratext}&quot;">See "Using Transparent Activatable Collections Directly"</a></p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

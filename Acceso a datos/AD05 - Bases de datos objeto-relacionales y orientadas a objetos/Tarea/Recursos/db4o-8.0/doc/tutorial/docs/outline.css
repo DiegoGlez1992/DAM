@@ -1,0 +1,25 @@
+body
+{
+	background-color:#ffffff; 
+}
+a
+{
+	font-family: Arial, Helvetica, Verdana; 
+	text-decoration:none;
+	font-size: 10pt; 
+	color:#666666;
+}
+ul
+{
+	margin-left:0px;
+}
+li
+{
+	margin-left:15px;
+	list-style-image:url(darkgreydot.jpg);
+	line-height:1.5;
+}
+
+.outLineImg {
+	margin: 3px;
+}

@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"gonzalezgarciadiego_ad07_tarea","l":"AccedeBD"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"gonzalezgarciadiego_ad07_tarea","l":"Main"}];updateSearchResults();

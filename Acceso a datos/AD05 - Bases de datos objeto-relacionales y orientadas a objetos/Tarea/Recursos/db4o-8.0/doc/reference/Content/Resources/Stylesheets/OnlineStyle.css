@@ -1,0 +1,65 @@
+/*<meta />*/
+
+@import url('BaseStyle.css');
+
+/* rest */
+
+
+tr
+{
+	border: solid 1px #a9a9a9;
+}
+
+td
+{
+	border: solid 1px #a9a9a9;
+}
+
+table
+{
+	border: none;
+	padding: 2px 10px 2px 2px;
+	border-collapse: collapse;
+}
+
+/* Code Snippet */
+pre.prettyprint
+{
+	text-align: left;
+	border-bottom: #AAAAAA solid 1px;
+	background-color:#EEEEEE;
+	margin: 0;
+	padding: 4px;
+}
+div.codesnippet{
+	border: #AAAAAA solid 1px;
+	margin: 8px 0px 0px 0px;
+	padding: 0;
+	text-align:left;
+}
+div.codesnippet-meta{
+	padding: 4px;
+}
+div.codedownload{
+	float:right;
+	margin-left:1pt;
+}
+
+MadCap|xref.TOCPageNumber
+{
+	color: #0000EE;
+	mc-format: 'See {quote}{paraxml}{quote} ';
+}
+
+MadCap|xref.TOCPageNumber:visited
+{
+	color: #551A8B;
+	mc-format: 'See {quote}{paraxml}{quote} ';
+}
+
+MadCap|xref.TOCPageNumber:hover
+{
+	color: #4444EE;
+	mc-format: 'See {quote}{paraxml}{quote} ';
+}
+

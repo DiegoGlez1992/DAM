@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebHelpSystem DefaultUrl="Content/welcome.htm" Toc="Data/Toc.xml" Index="Data/Index.xml" Concepts="Data/Concepts.xml" Glossary="Content/Glossary.htm" SearchDatabase="Data/Search.xml" Alias="Data/Alias.xml" Synonyms="Data/Synonyms.xml" Skin="Data/SkinRedVersant/Skin.xml" Skins="RedVersant" BuildTime="11/5/2012 4:25:48 PM" TargetType="WebHelp" SkinTemplateFolder="Skin/" InPreviewMode="false" MoveOutputContentToRoot="false" MakeFileLowerCase="false" UseCustomTopicFileExtension="false">
+    <Subsystems>
+        <Url Source="Subsystems/index/index.mcwebhelp" TocPath="db4o Replication System" />
+    </Subsystems>
+</WebHelpSystem>

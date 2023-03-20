@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Replication With VOD" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Setup JDO for VOD</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#db4o_replication_system_drs/vod/setup.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../vod_replication.htm">Replication With VOD</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Create A Database</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor9"></a>Setup JDO for VOD</h1>
+        <p>This guide shows how to setup JDO for <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">VOD<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Versant Object Database</span></span>. </p>
+        <p> This topic assumes that you've already installed the VOD database. Visit the <a href="http://www.versant.com/developer/downloads/" target="_top">official website to download</a> VOD and follow the installation guide.</p>
+        <h2><a name="CreateDB"></a>Create A Database</h2>
+        <p>The first step is to create the database. If you already have a database you can skip this step. The official documentation on managing the VOD database can be found in the VOD installation-folder.</p>
+        <p>You can create the database with the 'Administration Console' which is shipped with VOD. Start the 'Administration Console', choose 'File'-&gt;'Create Database...' and follow the wizard to create a new database.</p>
+        <p>As alternative you can create a new database in the command line with these commands:</p>
+        <pre class="monospace" xml:space="preserve">makedb databaseName@localhost<br />createdb databaseName@localhost
+startdb databaseName@localhost
+</pre>
+        <h2><a name="JDOSetup"></a>JDO Setup</h2>
+        <p>The replication system uses the JDO API to replicate objects between db4o and VOD. Therefore you need to setup the VOD JDO implementation. Again the official documentation is part of the VOD installation. This is just a very short guide to setting JDO up and doesn't cover all details.</p>
+        <p>First you need to add the JDO-libraries to you project. The JDO-libraries are in the VOD-directory under the 'lib'-subdirectory. You need to add at least these jars.</p>
+        <ul>
+            <li value="1">jdo2-api-2.1.jar</li>
+            <li value="2">vodjdo.jar</li>
+            <li value="3">asm-all-3.1.jar</li>
+            <li value="4">jta-1.1.jar</li>
+        </ul>
+        <p>Second you need to provide the JDO configuration. You can keep this information in a property file. For example in a versant.properties-file which is stored along with your code. There are three important configuration settings you need to set, the factory-class, the connection-URL and information which classes are enhanced.</p>
+        <p>For more properties and settings read the JDO and VOD documentation. The example property-file looks like this:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">## The implementation of the JDO standard
+javax.jdo.PersistenceManagerFactoryClass=com.versant.core.jdo.BootstrapPMF
+# The connection-string
+javax.jdo.option.ConnectionURL=versant:dRSVodExample
+# Files which contain a list of meta information for the persistent
+# classes. You can list more with versant.metadata.1= versant.metadata.2= ... versant.metadata.n
+versant.metadata.0=com/db4odoc/drs/vod/package.jdo</pre>
+            <div class="codesnippet-meta">versant.properties: JDO configuration for VOD
+			<div class="codedownload"><a href="../../CodeExamples/javaDRS/src/Example-javaDRS-src-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Additionally you need to have a package description where you declare all persistent classes:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">jdo</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">package</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">com.db4odoc.drs.vod</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">class</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">com.db4odoc.drs.vod.Car</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">class</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">com.db4odoc.drs.vod.Pilot</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">package</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">jdo</span><span style="color:Blue;">&gt;</span></pre>
+            <div class="codesnippet-meta">package.jdo: List all persistent classes of this package 
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>The last preparation step is to get the enhancer in place. JDO requires that classes implements the PersistenceCapable interface. Implementing this by hand would be extremely painful. That's why you can use an enhancer which does this for you. Create an Ant build script which does that.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">&lt;</span><span style="color:#A31515;">project</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">tutorial</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">default</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">build-and-enhance</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">basedir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">.</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">file</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">machine.properties</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Green;">&lt;!--The location of the build-result (the compiled class-files).
+     Depends on you're build-system / IDE.
+     For plain Eclipse projects it's usually "./bin" --&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">dir.build.output</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">./bin</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">dir.build.source</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">./src</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">dir.lib</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">./lib</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">dir.jdo.lib</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.vod.install.location}\lib</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">property</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">dir.jdo.sdklib</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">value</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.vod.install.location}\sdk\lib</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">path</span>  <![CDATA[ ]]><span style="color:Red;">id</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">enhancerClassPath</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">fileset</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.jdo.lib}</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">includes</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">fileset</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.jdo.sdklib}</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">includes</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">path</span><span style="color:Blue;">&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">build-and-enhance</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">depends</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">compile, enhance</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">enhance</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">description</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">Enhance the JOD classes</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">taskdef</span>  <![CDATA[ ]]><span style="color:Red;">resource</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">versant.tasks</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;</span><span style="color:#A31515;">path</span>  <![CDATA[ ]]><span style="color:Red;">refid</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">enhancerClassPath</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">taskdef</span><span style="color:Blue;">&gt;</span>
+
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">jdo-enhance</span>  <![CDATA[ ]]><span style="color:Red;">outputdir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span>
+                     <span style="color:Red;">classpathref</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">enhancerClassPath</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">persistentaware</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">jdo-enhance</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span>
+
+    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">target</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">compile</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">mkdir</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span>  <span style="color:Blue;">/&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">javac</span>  <![CDATA[ ]]><span style="color:Red;">srcdir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.source}</span><span style="color:Black;">"</span>
+            <span style="color:Red;">destdir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span>
+            <span style="color:Red;">target</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">6</span><span style="color:Black;">"</span>
+			<span style="color:Red;">source</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">6</span><span style="color:Black;">"</span>
+			<span style="color:Red;">debug</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">on</span><span style="color:Black;">"</span>
+			<span style="color:Red;">encoding</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">UTF-8</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+                <span style="color:Blue;">&lt;</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <![CDATA[ ]]><span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.jdo.lib}/jdo2-api-2.1.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <![CDATA[ ]]><span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.jdo.lib}/vodjdo.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <![CDATA[ ]]><span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.jdo.lib}/asm-all-3.1.jar</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                    <span style="color:Blue;">&lt;</span><span style="color:#A31515;">pathelement</span>  <![CDATA[ ]]><span style="color:Red;">path</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.lib}/*</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+                <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">classpath</span><span style="color:Blue;">&gt;</span>
+			<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">javac</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;</span><span style="color:#A31515;">copy</span>  <![CDATA[ ]]><span style="color:Red;">todir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.output}</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+            <span style="color:Blue;">&lt;</span><span style="color:#A31515;">fileset</span>  <![CDATA[ ]]><span style="color:Red;">dir</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">${dir.build.source}</span><span style="color:Black;">"</span>  <![CDATA[ ]]><span style="color:Red;">casesensitive</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">yes</span><span style="color:Black;">"</span><span style="color:Blue;">&gt;</span>
+              <span style="color:Blue;">&lt;</span><span style="color:#A31515;">include</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.*</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+              <span style="color:Blue;">&lt;</span><span style="color:#A31515;">exclude</span>  <![CDATA[ ]]><span style="color:Red;">name</span><span style="color:Blue;">=</span><span style="color:Black;">"</span><span style="color:Blue;">**/*.java</span><span style="color:Black;">"</span><span style="color:Blue;">/&gt;</span>
+            <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">fileset</span><span style="color:Blue;">&gt;</span>
+        <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">copy</span><span style="color:Blue;">&gt;</span>
+    <span style="color:Blue;">&lt;/</span><span style="color:#A31515;">target</span><span style="color:Blue;">&gt;</span>
+<span style="color:Blue;">&lt;/</span><span style="color:#A31515;">project</span><span style="color:Blue;">&gt;</span></pre>
+            <div class="codesnippet-meta">build.xml: Enhancer script 
+			<div class="codedownload"><a href="../../CodeExamples/javaDRS/Example-CodeExamples-javaDRS-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Along to the Ant-script add a machine.properties-file, which contains the installation specific information. Like the installation-location of VOD.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"># The installation folder of VOD
+dir.vod.install.location=C:/progs/Versant/8</pre>
+            <div class="codesnippet-meta">machine.properties: The properties for our project
+			<div class="codedownload"><a href="../../CodeExamples/javaDRS/Example-CodeExamples-javaDRS-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="UsingJDo"></a>Using JDO</h2>
+        <p>After running the enhancer you can start using JDO. First you need to create a PersistenceManagerFactory-instance. This can be created with the static helper methods from the JDOHelper-class:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">InputStream propertySource = Thread.currentThread()
+        .getContextClassLoader().getResourceAsStream(VERSANT_PROPERTY_FILE);
+<span style="color:Blue;">if</span> (<span style="color:Blue;">null</span> == propertySource) {
+    <span style="color:Blue;">throw</span>  <![CDATA[ ]]><span style="color:Blue;">new</span> RuntimeException(<span style="color:#A31515;">"Couldn't find resource '"</span> + VERSANT_PROPERTY_FILE + <span style="color:#A31515;">"' in the classpath"</span>);
+}
+<span style="color:Blue;">try</span> {
+    <span style="color:Blue;">return</span> JDOHelper.getPersistenceManagerFactory(propertySource);
+} <span style="color:Blue;">finally</span> {
+    <span style="color:Blue;">try</span> {
+        propertySource.close();
+    } <span style="color:Blue;">catch</span> (IOException ignored) {
+    }
+}</pre>
+            <div class="codesnippet-meta">JDOUtilities.java: Opening the persistence factory
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that you can create persistence manager with the factory and use it to store, query and update objects with JDO:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">PersistenceManagerFactory factory = JDOUtilities.createPersistenceFactory();
+
+PersistenceManager persistence = factory.getPersistenceManager();
+persistence.currentTransaction().begin();
+
+Pilot john = <span style="color:Blue;">new</span> Pilot(<span style="color:#A31515;">"John"</span>,42);
+Car car = <span style="color:Blue;">new</span> Car(john,<span style="color:#A31515;">"Fiat Punto"</span>);
+
+persistence.makePersistent(car);
+
+persistence.currentTransaction().commit();
+persistence.close();</pre>
+            <div class="codesnippet-meta">StoreObjectsWithJDO.java: Use the persistence manager to store objects
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>For more information and help on JDO read the official VOD documentation and take a look the <a href="http://www.datanucleus.org/products/accessplatform_2_1/jdo/api.html">JOD API</a>.</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

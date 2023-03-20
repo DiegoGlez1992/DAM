@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Replication With VOD" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>VOD Replication</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#db4o_replication_system_drs/vod/vod_replication.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../vod_replication.htm">Replication With VOD</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Prepare db4o</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link");
+			document.write('</a>');/*]]>*/</script>
+        <h1>VOD Replication</h1>
+        <p>After setting up <a href="setup.htm">JDO</a> and the <a href="setup-event-processing.htm">event processing</a> we're ready to start the replication. </p>
+        <p><b>Note: Replication with <span class="MCTextPopup"><a href="javascript:void(0);" class="MCTextPopupSpot" onclick="FMCTextPopup( event, this ); return false;">VOD<img style="border: none;margin-left: 5px;" src="../../SkinSupport/ExpandingClosed.gif" MadCap:altsrc="../../SkinSupport/ExpandingOpen.gif" class="MCExpandingIcon" onload="if ( typeof( FMCPreloadImage ) == 'function' ) { FMCPreloadImage( '../../SkinSupport/ExpandingOpen.gif' ); }" /></a><span class="MCTextPopupBody" style="display: none; ">Versant Object Database</span></span> requires at least VOD version 8.0.1.3 with  JVI installed.</b>
+        </p>
+        <h2>Classpath</h2>
+        <p>For the VOD replication following libraries need to be in the class-path:</p>
+        <p>From the VOD distribution</p>
+        <ul>
+            <li value="1">jdo2-api-2.1.jar</li>
+            <li value="2">vodjdo.jar</li>
+            <li value="3">asm-all-3.1.jar</li>
+            <li value="4">antlr-3.1.1-runtime.jar</li>
+            <li value="5">jta-1.1.jar</li>
+            <li value="6">jvi80.jar</li>
+        </ul>
+        <p>From the db4o / dRS distribution</p>
+        <ul>
+            <li value="1">db4o-X.XX-core-java5.jar (or db4o-X.XX-all-java5.jar)</li>
+            <li value="2">dRS-X.XX-core.jar</li>
+        </ul>
+        <h2><a name="Prepare"></a>Prepare db4o </h2>
+        <p>The first thing you need to do is preparing db4o for replication. Enable the UUID and version-number support for your database. UUID's are used to recognize objects across the database boundary. The version number is used the track changes.</p>
+        <p>Because classes are enhanced for JDO they have additional fields. To avoid that these artificial fields are stored in the db4o database you need to use the JDOReflector. This reflector recognized JDO -aware objects and treats them differently.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+config.file().generateUUIDs(ConfigScope.GLOBALLY);
+config.file().generateCommitTimestamps(<span style="color:Blue;">true</span>);
+config.common().reflectWith(
+        <span style="color:Blue;">new</span> JdoReflector(Thread.currentThread().getContextClassLoader()));</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Enable UUIDs and commit timestamps use the JDO reflector
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="db4oToVod"></a>Replication from db4o to VOD</h2>
+        <p>After this preparation you can store, retrieve and update normally. To start the replication-process you need to create the two replication partners. Open a replication partner for db4o like this:</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ReplicationProvider mobileDatabase
+        = <span style="color:Blue;">new</span> Db4oEmbeddedReplicationProvider(container);</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Open the db4o replication provider
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Then open a replication provider for VOD. First create a new VodDatabase instance by passing the JDO PersistenceManagerFactory or the <a href="setup.htm#JDOSetup">configuration properties</a> to the constructor.</p>
+        <p>Second configure the host and port of the event processor with the configureEventProcessor method. Use the port which you've configured when setting up the <a href="setup-event-processing.htm">event processor</a>. It's the port you've configured with the '-eventProcessorPort'-configuration.</p>
+        <p>Then create the VOD replication provider. For the VOD replication provider you should additionally add all classes which you want to replicate. Why is this necessary? In VOD you usually have a huge database and you only want to replicate parts of it to db4o. Therefore you can specify which classes are replicated. In case you don’t specify anything only the types which have been already replicate once are replicated.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">VodDatabase vodDatabase = <span style="color:Blue;">new</span> VodDatabase(factory);
+vodDatabase.configureEventProcessor(<span style="color:#A31515;">"localhost"</span>,4088);
+VodReplicationProvider centralDatabase
+        = <span style="color:Blue;">new</span> VodReplicationProvider(vodDatabase);
+centralDatabase.listenForReplicationEvents(Car.<span style="color:Blue;">class</span>, Pilot.<span style="color:Blue;">class</span>);</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Open the VOD replication provider
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After that you can start the replication. Request the changes from the db4o replication provider. Then iterate over the changed objects and replicate them. Commit to complete the replication process.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ReplicationSession replicationSession =
+        Replication.begin(mobileDatabase, centralDatabase);
+
+ObjectSet changesOnMobileDB = mobileDatabase.objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesOnMobileDB) {
+    replicationSession.replicate(changedObject);
+}
+replicationSession.commit();</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Start replication
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>After this we've replicated the objects from db4o to VOD.</p>
+        <h2><a name="vodToDb4o"></a>Replicate From VOD To db4o</h2>
+        <p>To replicate from VOD to db4o ensure that you have configured the VOD replication provider properly. You need to add the types which you're going to replicate.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">VodDatabase vodDatabase = <span style="color:Blue;">new</span> VodDatabase(factory);
+vodDatabase.configureEventProcessor(<span style="color:#A31515;">"localhost"</span>,4088);
+VodReplicationProvider centralDatabase
+        = <span style="color:Blue;">new</span> VodReplicationProvider(vodDatabase);
+centralDatabase.listenForReplicationEvents(Car.<span style="color:Blue;">class</span>, Pilot.<span style="color:Blue;">class</span>);</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Open the VOD replication provider
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>To replicate from VOD to db4o you just need to change the replication direction. Take the changes from the VOD database and replicate them to db4o.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ReplicationSession replicationSession =
+        Replication.begin(mobileDatabase, centralDatabase);
+
+ObjectSet changesOnVOD = centralDatabase.objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesOnVOD) {
+    replicationSession.replicate(changedObject);
+}
+replicationSession.commit();</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: From VOD to db4o
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <h2><a name="Bidirectional"></a>Bidirectional Replication</h2>
+        <p>To replicate bidirectional you need to get the changes from both databases and then replicate those changes.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ReplicationSession replicationSession =
+        Replication.begin(mobileDatabase, centralDatabase);
+
+ObjectSet changesOnDB4O = mobileDatabase.objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesOnDB4O) {
+    replicationSession.replicate(changedObject);
+}
+
+ObjectSet changesOnVOD = centralDatabase.objectsChangedSinceLastReplication();
+<span style="color:Blue;">for</span> (Object changedObject : changesOnVOD) {
+    replicationSession.replicate(changedObject);
+}
+replicationSession.commit();</pre>
+            <div class="codesnippet-meta">SimpleReplication.java: Bidirectional replication
+			<div class="codedownload"><a href="../../CodeExamples/drs/vod/Example-drs-vod-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>&#160;</p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

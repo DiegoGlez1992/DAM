@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Advanced Features|Defragment" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Defragmentation Configuration</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#advanced_topics/defragment/defragmentation_configuration.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../advanced_topics.htm">Advanced Features</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../defragment.htm">Defragment</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Defragmentation Configuration</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor46"></a>Defragmentation Configuration</h1>
+        <p>You can configure the defragmentation processes for your needs. This topic discusses the available configuration options.</p>
+        <p>First you need to configure which database file to defragment. <a href="configuration/database_files.htm" target="" title="" alt="" class="MCXref">See "Original Database And Backup"</a></p>
+        <p>It's also recommended to use the db4o database configuration for the defragmentation process. This ensures that all low level settings which influence the database-file layout are used. <a href="configuration/database_configuration.htm" target="" title="" alt="" class="MCXref">See "Database Configuration"</a></p>
+        <p>When you defragment large database you should configure a commit-frequency to speed up the defragmentation process. <a href="configuration/commit_frequency.htm" target="" title="" alt="" class="MCXref">See "Commit Frequency"</a></p>
+        <p>If you have refractored your classes you might want to remove old meta data. This is possible with the class filters. <a href="configuration/class_filter.htm" target="" title="" alt="" class="MCXref">See "Class Filter"</a>&#160;</p>
+        <p>By default the backup file isn't deleted after a successful defragmentation. You can change that. <a href="configuration/delete_backup.htm" target="" title="" alt="" class="MCXref">See "Delete The Backup"</a></p>
+        <p>You can force a database update before defragmenting the database-file. <a href="configuration/upgrade_db.htm" target="" title="" alt="" class="MCXref">See "Upgrade Database File"</a></p>
+        <p>You can disable the read-only more the for backup file. <a href="configuration/disable_read_only.htm" target="" title="" alt="" class="MCXref">See "Disable Read Only Mode"</a></p>
+        <p>If you want to have different storage implementation for the old database file and the new defragmented database file you can configure a separate storage. <a href="configuration/storage_backupdb.htm" target="" title="" alt="" class="MCXref">See "Configure Storage for Backup File"</a></p>
+        <p>You can change the id-mapping implementation for the defragmentation-process. <a href="configuration/id_mapping.htm" target="" title="" alt="" class="MCXref">See "Configure IDMapping"</a></p>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

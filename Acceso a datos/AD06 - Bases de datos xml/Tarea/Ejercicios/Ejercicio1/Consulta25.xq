@@ -1,0 +1,2 @@
+(: Nombre de los alumnos matriculados en carreras que no tienen subdirector. :)
+universidad/alumnos/alumno[not(/universidad/carreras/carrera/@codigo=[/universidad/carreras/carrera[subdirector]/@codigo])]/nombre

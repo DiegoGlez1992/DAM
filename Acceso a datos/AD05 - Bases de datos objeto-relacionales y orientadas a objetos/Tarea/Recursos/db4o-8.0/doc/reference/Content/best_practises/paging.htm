@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Best Practices" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Paging</title>
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../index_CSH.html#best_practises/paging.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../best_practises.htm">Best Practices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Paging</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor104"></a>Paging</h1>
+        <p>Currently db4o doesn't provide any paging mechanism at all. However all db4o query results are lazy loaded. db4o returns a result list which only contains the ids of the objects and will load the object as soon as you access it. This means you can page by only accessing the indexes of the range you're interested in.</p>
+        <p MadCap:conditions="Primary.Java">Since the result sets of db4o implement the Java List interface it has the sub list method. With this method you easily get only a sub set of the result. Or you can build your own paging-method based on the sub list method on the lists.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">static</span> &lt;T&gt; List&lt;T&gt; paging(List&lt;T&gt; listToPage, <span style="color:Blue;">int</span> limit){
+    <span style="color:Blue;">return</span> paging(listToPage,0,limit);
+}
+
+<span style="color:Blue;">public</span>  <![CDATA[ ]]><span style="color:Blue;">static</span> &lt;T&gt; List&lt;T&gt; paging(List&lt;T&gt; listToPage, <span style="color:Blue;">int</span> start, <span style="color:Blue;">int</span> limit){
+    <span style="color:Blue;">if</span>(start&gt;listToPage.size()){
+        <span style="color:Blue;">throw</span>  <![CDATA[ ]]><span style="color:Blue;">new</span> IllegalArgumentException(<span style="color:#A31515;">"You cannot start the paging outside the list."</span> +
+                <span style="color:#A31515;">" List-size: "</span>+listToPage.size()+<span style="color:#A31515;">" start: "</span>+start);
+    }
+    <span style="color:Blue;">int</span> end = calculateEnd(listToPage, start, limit);
+    <span style="color:Blue;">return</span> listToPage.subList(start, end);
+
+}
+
+<span style="color:Blue;">private</span>  <![CDATA[ ]]><span style="color:Blue;">static</span> &lt;T&gt; <span style="color:Blue;">int</span> calculateEnd(List&lt;T&gt; resultList, <span style="color:Blue;">int</span> start, <span style="color:Blue;">int</span> limit) {
+    <span style="color:Blue;">int</span> end = start + limit;
+    <span style="color:Blue;">if</span>(end&gt;=resultList.size()){
+        <span style="color:Blue;">return</span> resultList.size();
+    }
+    <span style="color:Blue;">return</span> end;
+}</pre>
+            <div class="codesnippet-meta">PagingUtility.java: Paging utility methods
+			<div class="codedownload"><a href="../CodeExamples/strategies/paging/Example-strategies-paging-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>And then of course you can use the utility methods on the result-sets of db4o. </p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve"><span style="color:Blue;">final</span> ObjectSet&lt;StoredItems&gt; queryResult = container.query(StoredItems.<span style="color:Blue;">class</span>);
+List&lt;StoredItems&gt; pagedResult = PagingUtility.paging(queryResult, 2, 2);</pre>
+            <div class="codesnippet-meta">TestPagingUtility.java: Use the paging utility
+			<div class="codedownload"><a href="../CodeExamples/strategies/paging/Example-strategies-paging-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>&#160;</p>
+        <script src="../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

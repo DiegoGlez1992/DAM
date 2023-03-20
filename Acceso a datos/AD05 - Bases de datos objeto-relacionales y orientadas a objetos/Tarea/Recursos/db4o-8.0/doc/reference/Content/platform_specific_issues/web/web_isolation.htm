@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="120" MadCap:lastWidth="624" MadCap:disableMasterStylesheet="true" MadCap:tocPath="Platform Specific Issues|Web Environment" MadCap:InPreviewMode="false" MadCap:RuntimeFileType="Topic" MadCap:TargetType="WebHelp" MadCap:PathToHelpSystem="../../../" MadCap:HelpSystemFileName="index.xml" MadCap:SearchType="Stem">
+    <head><title>Isolation in Web-Applications</title>
+        <link href="../../SkinSupport/MadCap.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/OnlineStyle.css" rel="stylesheet" />
+        <script src="../../SkinSupport/MadCapAll.js" type="text/javascript">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink" style="display: none;"><a href="../../../index_CSH.html#platform_specific_issues/web/web_isolation.htm" style="">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../platform_specific_issues.htm">Platform Specific Issues</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../web_environment.htm">Web Environment</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Isolation in Web-Applications</span>
+        </div>
+        <script type="text/javascript">/*<![CDATA[*/
+			document.write("<a href=\"" + location.href +"\">");
+			document.write("Direct Link to this Article");
+			document.write('</a>');/*]]>*/</script>
+        <h1><a name="kanchor110"></a>Isolation in Web-Applications</h1>
+        <p>In most web-application multiple concurrent request are processes. You want to isolate the request from each other. db4o supports <a href="../../basics/acid_and_transactions.htm">transactions</a>, which are perfect for this kind of isolation. Each unit of work gets its own transaction, for example each request. You can create a new session object container for this purpose. Such a session-container brings its own transaction and reference-system. This ensures that the session container is isolated from other operations on the database.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectContainer rootContainer = Db4oEmbedded.openFile(DATABASE_FILE_NAME);
+
+<span style="color:Green;">// open the db4o-session. For example at the beginning for a web-request</span>
+ObjectContainer session = rootContainer.ext().openSession();
+<span style="color:Blue;">try</span> {
+    <span style="color:Green;">// do the operations on the session-container</span>
+    session.store(<span style="color:Blue;">new</span> Person(<span style="color:#A31515;">"Joe"</span>));
+} <span style="color:Blue;">finally</span> {
+    <span style="color:Green;">// close the container. For example when the request ends</span>
+    session.close();
+}</pre>
+            <div class="codesnippet-meta">Db4oSessions.java: Session object container
+			<div class="codedownload"><a href="../../CodeExamples/container/sessions/Example-container-sessions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <p>Or you can use embedded clients when your <a href="../../client-server/embedded.htm">embedded clients</a>.</p>
+        <div class="codesnippet" MadCap:conditions="Primary.Java">
+            <pre class="prettyprint" xml:space="preserve">ObjectServer server = Db4oClientServer.openServer(DATABASE_FILE_NAME, 0);
+
+<span style="color:Green;">// open the db4o-embedded client. For example at the beginning for a web-request</span>
+ObjectContainer container = server.openClient();
+<span style="color:Blue;">try</span> {
+    <span style="color:Green;">// do the operations on the session-container</span>
+    container.store(<span style="color:Blue;">new</span> Person(<span style="color:#A31515;">"Joe"</span>));
+} <span style="color:Blue;">finally</span> {
+    <span style="color:Green;">// close the container. For example when the request ends</span>
+    container.close();
+}</pre>
+            <div class="codesnippet-meta">Db4oSessions.java: Embedded client
+			<div class="codedownload"><a href="../../CodeExamples/container/sessions/Example-container-sessions-java.zip" class="codedownload" MadCap:conditions="Primary.Online">Download Code</a></div><div class="codedownload copylink-marker" MadCap:conditions="Primary.Online"><a href="#copy">Copy Code</a></div></div>
+        </div>
+        <script src="../../Resources/Code/jquery.min.js">
+        </script>
+        <script src="../../Resources/Code/ZeroClipboard.js">
+        </script>
+        <script type="text/javascript">/* <![CDATA[ */
+window.onload = function(){
+	var pathToFlash = $('html').attr('MadCap:PathToHelpSystem') + 'Content/Resources/Code/ZeroClipboard.swf';
+	ZeroClipboard.setMoviePath(pathToFlash);
+			
+	function bindToClipBord(element,content){
+		var clip = new ZeroClipboard.Client();
+		clip.setText(content);
+		clip.glue(element);
+	};
+		
+	if(location.protocol==='file:'){
+		$('.copylink-marker').remove();
+	} else{
+			$('.copylink-marker').each(function(){
+				var text = $(this).parent().parent().children('.prettyprint').text();
+				$(this).hover(function(){
+					bindToClipBord(this,text);
+				},
+				function(){});
+			});	
+	}		
+};
+                /* ]]> */</script>
+        <script type="text/javascript" src="../../SkinSupport/MadCapBodyEnd.js">
+        </script>
+    </body>
+</html>

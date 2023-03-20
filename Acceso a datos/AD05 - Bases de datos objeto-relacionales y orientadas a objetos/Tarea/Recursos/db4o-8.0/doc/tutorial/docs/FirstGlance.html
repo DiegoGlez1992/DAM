@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="docs.css">
+<!--[if gte IE 5]>
+     <link href="docs_ie.css" rel="stylesheet" type="text/css">
+<![endif]-->
+</head>
+<body><div id="pagecontainer"><table><tr><td width="5">&nbsp;</td><td><a name="FirstGlance"></a><br>
+<a name="outline2"></a><br><h1>1. First Glance</h1>Before diving straight into the first source code samples&nbsp;let's get you familiar with some basics.<br>
+<br>
+<ul>
+<a name="outline3"></a><br><h2>1.1. The db4o engine</h2>The db4o object database engine consists of one single core jar file.&nbsp;In addition you may want to use client/server library or optional components.&nbsp;You may also get it all in a single jar "db4o-all": <br>
+<br>
+<b>db4o-</b>8.0-core-java5.jar<br>
+is built for Java JDK 5 and JDK 6<br>
+<br>
+If you intend to use client/server version of db4o you will additionally need&nbsp;the client/server library :<br>
+<br>
+<b>db4o-</b>8.0-cs-java5.jar<br>
+ <br>
+Some advanced functionality such as cluster support, platform-specific IO adapters,<br>
+statistic tools etc can be added by including the db4o optional library:<br>
+<br>
+<b>db4o-</b>8.0-optional-java5.jar<br>
+<br>
+You can also get all of the above in a single jar:<br>
+<br>
+<b>db4o-</b>8.0-all-java5.jar<br>
+&nbsp;&nbsp;&nbsp;<br>
+<a name="outline4"></a><br><h2>1.2. Installation</h2>If you add one of the above db4o-*.jar files to your CLASSPATH&nbsp;db4o is installed. For beginners it is recommended to use "db4o-all" library&nbsp;to avoid confusion with the location of certain classes. In case you work with an integrated development&nbsp;environment like <a href="http://www.eclipse.org" target="_blank">Eclipse</a>&nbsp;you would&nbsp;copy the db4o-*.jar to the /lib/&nbsp;folder under your project and add db4o to your project as a library.<br>
+<br>
+<a name="outline5"></a><br><h2>1.3. Object Manager Enterprise installation</h2>Object Manager Enterprise (OME) is an object browser for db4o databases. OME installation&nbsp;can be found in /ome folder of the distribution. The zip&nbsp;file in this folder contains the Eclipse plugin version of OME. <br>
+To install the plugin, you need to have a version of Eclipse >= 3.3 installed. Unzip&nbsp;the file to a folder of your choice. Then open Eclipse,&nbsp;select 'Help' -> 'Software Updates...' -> 'Available Software' from the menu. Choose&nbsp;'Add Site...' -> 'Local...' and select the unzipped folder. Follow the Eclipse&nbsp;Update Manager instructions for the OME feature from here on.<br>
+The actual menu structure may vary over Eclipse versions. (The above applies&nbsp;to Eclipse 3.4 Ganymede.) When in doubt, please refer to the Eclipse documentation&nbsp;on Software Updates.<br>
+Alternatively, you can install the plugin manually by simply copying the contents&nbsp;of the 'plugins' and 'features' folders from the unzipped folder to the corresponding&nbsp;subfolders in the root folder of your Eclipse installation. <br>
+<br>
+<a name="outline6"></a><br><h2>1.4. API Overview</h2>Do not forget the API documentation while reading through this&nbsp;tutorial. It provides an organized view of the API, looking from a&nbsp;java package perspective and you may find related functionality to&nbsp;the theme you are currently reading up on.<br>
+<br>
+For starters, the java packages com.db4o and com.db4o.query are all&nbsp;that you need to worry about.<br>
+<br>
+<b>com.db4o</b><br>
+<br>
+The com.db4o java package contains almost all of the functionality&nbsp;you will commonly need when using db4o. Two objects of note are&nbsp;com.db4o.Db4oEmbedded, and the com.db4o.ObjectContainer interface.<br>
+<br>
+The com.db4o.Db4o factory is your starting point. Static methods in&nbsp;this class&nbsp;allow you to open a database file and create an initial configuration.&nbsp;For client/server environment you will need&nbsp;to use com.db4o.cs.Db4oClientServer factory class to&nbsp;start a server, or connect to an existing server, but this will be discussed <a href="ClientServer.html#ClientServer">later</a>&nbsp;, start a server, or connect to an existing server.&nbsp;The most important interface, and the one that you will be using 99% of the time is <br>
+com.db4o.ObjectContainer: This is your db4o database.<br>
+- An ObjectContainer can either be a database in single-user mode or&nbsp;a client connection to a db4o server.<br>
+- Every ObjectContainer owns one transaction. All work is transactional.&nbsp;When you open an ObjectContainer, you are in a transaction, when you&nbsp;commit() or rollback(), the next transaction is started immediately.<br>
+- Every ObjectContainer maintains it's own references to stored and&nbsp;instantiated objects. In doing so, it manages object identities, and&nbsp;is able to achieve a high level of performance.<br>
+- ObjectContainers are intended to be kept open as long as you work&nbsp;against them. When you close an ObjectContainer, all database references&nbsp;to objects in RAM will be discarded.<br>
+<br>
+<b>com.db4o.ext</b><br>
+<br>
+In case you wonder why you only see very few methods in an ObjectContainer,&nbsp;here is why: The db4o interface is supplied in two steps in two java&nbsp;packages, com.db4o and com.db4o.ext&nbsp;for the following reasons:<br>
+- It's easier to get started, because the important methods are emphasized.<br>
+- It will be easier for other products to copy the basic db4o interface.<br>
+- It is an example of how a lightweight version of db4o could look.<br>
+<br>
+Every com.db4o.ObjectContainer object is also an com.db4o.ext.ExtObjectContainer.&nbsp;You can cast it to ExtObjectContainer or you can use the&nbsp;method &nbsp;to get to&nbsp;the advanced features.<br>
+<br>
+<b>com.db4o.config</b><br>
+<br>
+The com.db4o.config java package&nbsp;contains types and classes necessary to configure db4o. The objects and interfaces&nbsp;within are discussed in the <a href="Configuration.html#Configuration">Configuration</a>&nbsp;section.<br>
+<br>
+<b>com.db4o.query</b><br>
+<br>
+The com.db4o.query java package contains&nbsp;the Predicate class to construct <a href="Query.html#Query">Native Queries</a>. The Native Query&nbsp;interface is the primary db4o querying interface and should be preferred over&nbsp;the Soda Query API. <br>
+<br>
+<br><br><div id="footer"><p align="center">Do you have any questions, suggestions or feedback? Ask your questions in the <a href="http://developer.db4o.com/Forums.aspx" target=_top>db4o forums</a>. Join the <a href="http://developer.db4o.com" target=_top>db4o community</a> for addional resources and news.<br><br><a href="http://www.db4o.com/" target=_top><small>www.db4o.com</small></a></p>.</div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></td></tr></table></div></body></html>

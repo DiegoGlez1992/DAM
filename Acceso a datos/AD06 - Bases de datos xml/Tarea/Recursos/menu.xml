@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+<menu id="1">
+ <plato tipo="primero">
+            <nombre>gazpacho</nombre>
+            <ingrediente nombre="tomate"><cantidad>150 </cantidad> </ingrediente>
+            <ingrediente nombre="pimiento verde"><cantidad>50</cantidad></ingrediente>
+            <ingrediente nombre="ajo"><cantidad>5</cantidad></ingrediente>
+            <ingrediente nombre="aceite"><cantidad>50</cantidad></ingrediente>
+  </plato>
+<plato tipo="segundo">
+                 	 <nombre>filete con patatas fritas</nombre>
+                              <ingrediente nombre="ternera"> <cantidad>150 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+<plato tipo ="postre">
+                 	 <nombre>tarta de manzana</nombre>
+                              <ingrediente nombre="leche"> <cantidad>50 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>80</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="harina"> <cantidad>15</cantidad></ingrediente>         
+		 <ingrediente nombre="huevo"> <cantidad>35</cantidad></ingrediente>                                             
+  </plato>
+  </menu>
+<menu id="2">
+<plato tipo="primero">
+                 	 <nombre>ensalada mixta</nombre>
+                              <ingrediente nombre="tomate"> <cantidad>50 </cantidad></ingrediente>
+                              <ingrediente nombre="lechuga"> 30<cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="vinagre"> <cantidad>5</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>10</cantidad></ingrediente>                           
+  </plato>
+<plato tipo="segundo">
+                 	 <nombre>huevos con patatas fritas</nombre>
+                              <ingrediente nombre="huevos"> <cantidad>70 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+<plato  tipo="postre">
+                 	 <nombre>tarta de chocolate</nombre>
+                              <ingrediente nombre="leche"> <cantidad>50 </cantidad></ingrediente>
+                              <ingrediente nombre="chocolate"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="harina"> <cantidad>15</cantidad></ingrediente>         
+		 <ingrediente nombre="huevo"> <cantidad>35</cantidad></ingrediente>                                             
+  </plato>
+</menu>
+<menu id="3">
+<plato tipo="primero">
+                 	 <nombre>sopa fideos</nombre>
+                              <ingrediente nombre="jamon"> <cantidad>15 </cantidad></ingrediente>
+                              <ingrediente nombre="pollo"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="ajo"> <cantidad>5</cantidad></ingrediente>
+                	 <ingrediente nombre="cebolla"> <cantidad>50</cantidad></ingrediente>            
+	    	 <ingrediente nombre="pasta"> <cantidad>20</cantidad></ingrediente>            
+  </plato>
+<plato tipo="segundo">
+                 	 <nombre>filete merluza con pimientos</nombre>
+                              <ingrediente nombre="filete merluza"> <cantidad>150 </cantidad></ingrediente>
+                              <ingrediente nombre="pimientos morrones"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+<plato  tipo="postre">
+                 	 <nombre>macedonia de frutas</nombre>
+                              <ingrediente nombre="platano"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>30</cantidad></ingrediente>
+                	            <ingrediente nombre="azucar"> <cantidad>10</cantidad></ingrediente>
+                	            <ingrediente nombre="naranja"> <cantidad>30</cantidad></ingrediente>         
+		                          <ingrediente nombre="fresa"> <cantidad>15</cantidad></ingrediente>                                             
+  </plato>
+</menu>
+<menu id="4">
+<plato tipo="primero">
+                 	 <nombre>canelones</nombre>
+                              <ingrediente nombre="jamon"> <cantidad>15 </cantidad></ingrediente>
+                              <ingrediente nombre="pollo"> <cantidad>50</cantidad></ingrediente>
+                	            <ingrediente nombre="ajo"> <cantidad>5</cantidad></ingrediente>
+                	            <ingrediente nombre="cebolla"> <cantidad>50</cantidad></ingrediente>    
+                	            <ingrediente nombre="tomate"> <cantidad>50 </cantidad></ingrediente>
+                	            <ingrediente nombre="harina"> <cantidad>15</cantidad></ingrediente>         
+                      	    	<ingrediente nombre="pasta obleas"> <cantidad>20</cantidad></ingrediente>            
+  </plato>
+  <plato tipo="segundo">
+                 	 <nombre>filete panga con patatas fritas</nombre>
+                              <ingrediente nombre="panga"> <cantidad>150 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                	           <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+  <plato  tipo="postre">
+                 	 <nombre>macedonia de frutas</nombre>
+                              <ingrediente nombre="platano"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>30</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>10</cantidad></ingrediente>
+                	 <ingrediente nombre="naranja"> <cantidad>30</cantidad></ingrediente>         
+		 <ingrediente nombre="fresa"> <cantidad>15</cantidad></ingrediente>                                             
+  </plato>
+</menu>
+<menu id="5">
+<plato tipo="primero">>
+                 	 <nombre>sopa fideos</nombre>
+                              <ingrediente nombre="jamon"> <cantidad>15 </cantidad></ingrediente>
+                              <ingrediente nombre="pollo"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="ajo"> <cantidad>5</cantidad></ingrediente>
+                	 <ingrediente nombre="cebolla"> <cantidad>50</cantidad></ingrediente>            
+	    	 <ingrediente nombre="pasta"> <cantidad>20</cantidad></ingrediente>            
+  </plato>
+  <plato tipo="segundo">
+                 	 <nombre>filete con patatas fritas</nombre>
+                              <ingrediente nombre="ternera"> <cantidad>150 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+  <plato  tipo="postre">
+                 	 <nombre>macedonia de frutas</nombre>
+                              <ingrediente nombre="platano"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>30</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>10</cantidad></ingrediente>
+                	 <ingrediente nombre="naranja"> <cantidad>30</cantidad></ingrediente>         
+		 <ingrediente nombre="fresa"> <cantidad>15</cantidad></ingrediente>                                             
+  </plato>
+</menu>
+<menu id="6">
+<plato  tipo="primero">
+                 	 <nombre>lentejas</nombre>
+                              <ingrediente nombre="tomate"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="pimiento verde"> <cantidad>50</cantidad></ingrediente>
+                	           <ingrediente nombre="ajo"> <cantidad>5</cantidad></ingrediente>
+                          	 <ingrediente nombre="aceite"> <cantidad>50</cantidad></ingrediente>  
+                            <ingrediente nombre="lentejas"> <cantidad>30 </cantidad></ingrediente>             
+                            <ingrediente nombre="chorizo"> <cantidad>10 </cantidad></ingrediente>
+  </plato>
+<plato tipo="segundo">
+                 	 <nombre>huevos con patatas fritas</nombre>
+                              <ingrediente nombre="huevos"> <cantidad>70 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+ <plato  tipo="postre">
+                 	 <nombre>macedonia de frutas</nombre>
+                              <ingrediente nombre="platano"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>30</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>10</cantidad></ingrediente>
+                	 <ingrediente nombre="naranja"> <cantidad>30</cantidad></ingrediente>         
+		 <ingrediente nombre="fresa"> <cantidad>15</cantidad></ingrediente>                                             
+  </plato>
+
+
+</menu>
+<menu id="7">
+<plato  tipo="primero">
+                 	 <nombre>lentejas</nombre>
+                              <ingrediente nombre="tomate"> <cantidad>30 </cantidad></ingrediente>
+                              <ingrediente nombre="pimiento verde"> <cantidad>50</cantidad></ingrediente>
+                	           <ingrediente nombre="ajo"> <cantidad>5</cantidad></ingrediente>
+                          	 <ingrediente nombre="aceite"> <cantidad>15</cantidad></ingrediente>  
+                            <ingrediente nombre="lentejas"> <cantidad>30 </cantidad></ingrediente>             
+                            <ingrediente nombre="chorizo"> <cantidad>10 </cantidad></ingrediente>
+  </plato>
+<plato tipo="segundo">
+                 	 <nombre>pollo guisado</nombre>
+                              <ingrediente nombre="pollo"> <cantidad>200 </cantidad></ingrediente>
+                              <ingrediente nombre="tomate"> <cantidad>50</cantidad></ingrediente>
+                          	 <ingrediente nombre="cebolla"> <cantidad>25</cantidad></ingrediente>
+                               <ingrediente nombre="jamon"> <cantidad>20</cantidad></ingrediente>
+                             	 <ingrediente nombre="aceite"> <cantidad>15</cantidad></ingrediente>  
+ </plato>
+ <plato  tipo="postre">
+                 	 <nombre>tarta de chocolate</nombre>
+                              <ingrediente nombre="leche"> <cantidad>50 </cantidad></ingrediente>
+                              <ingrediente nombre="chocolate"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="harina"> <cantidad>15</cantidad></ingrediente>         
+		 <ingrediente nombre="huevo"> <cantidad>35</cantidad></ingrediente>                                             
+  </plato>
+
+</menu>
+<menu id="8">
+<plato  tipo="primero">
+                 	 <nombre>arroz tres decilias</nombre>
+                              <ingrediente nombre="huevos"> <cantidad>25 </cantidad></ingrediente>
+                              <ingrediente nombre="arroz"> <cantidad>50</cantidad></ingrediente>
+                	 <ingrediente nombre="gambas"> <cantidad>25</cantidad></ingrediente>
+                               <ingrediente nombre="jamon york"> <cantidad>20</cantidad></ingrediente>
+                             	 <ingrediente nombre="aceite"> <cantidad>15</cantidad></ingrediente>  
+ </plato>
+<plato tipo="segundo">
+                 	 <nombre>huevos con salchichas</nombre>
+                              <ingrediente nombre="huevos"> <cantidad>70 </cantidad></ingrediente>
+                              <ingrediente nombre="patatas"> <cantidad>50</cantidad></ingrediente>
+                               <ingrediente nombre="salchicha"> <cantidad>30</cantidad></ingrediente>
+                	 <ingrediente nombre="aceite"> <cantidad>5</cantidad></ingrediente>
+ </plato>
+<plato tipo ="postre">
+                 	 <nombre>tarta de manzana</nombre>
+                              <ingrediente nombre="leche"> <cantidad>50 </cantidad></ingrediente>
+                              <ingrediente nombre="manzana"> <cantidad>80</cantidad></ingrediente>
+                	 <ingrediente nombre="azucar"> <cantidad>20</cantidad></ingrediente>
+                	 <ingrediente nombre="harina"> <cantidad>15</cantidad></ingrediente>         
+		 <ingrediente nombre="huevo"> <cantidad>35</cantidad></ingrediente>                                             
+  </plato>
+
+
+</menu>
+
+</menus>
