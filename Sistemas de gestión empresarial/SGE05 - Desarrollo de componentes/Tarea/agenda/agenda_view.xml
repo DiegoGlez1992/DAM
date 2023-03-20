@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+  
+    <!-- Vista de formulario -->
+    <record model="ir.ui.view" id="agenda.agenda_view_form">
+      <field name="name">formAgenda</field>
+      <field name="model">agenda</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <h4>Nombre</h4>
+            <field name="nombre" placeholder="Nombre"/>
+            <h4>Teléfono</h4>
+            <field name="telefono" placeholder="Teléfono"/>
+            <h4>Observaciones</h4>
+            <field name="observaciones" placeholder=""/> 
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Vista de árbol -->
+    <record model="ir.ui.view" id="agenda.agenda_view_list">
+      <field name="name">treeAgenda</field>
+      <field name="model">agenda</field>
+      <field name="arch" type="xml">
+          <tree>
+            <field name="nombre"/>
+            <field name="telefono"/>
+            <field name="observaciones"/>
+          </tree>
+      </field>
+    </record>
+
+    <!-- Acciones para menú root -->
+    <record model="ir.actions.act_window" id="agenda.agenda_action_window_root">
+      <field name="name">Agenda</field>
+      <field name="res_model">agenda</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="agenda.agenda_action_window_tree">
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="agenda.agenda_view_list"/>
+      <field name="act_window_id" ref="agenda.agenda_action_window_root"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="agenda.agenda_action_window_form">
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="agenda.agenda_view_form"/>
+      <field name="act_window_id" ref="agenda.agenda_action_window_root"/>
+    </record>
+
+
+    <!-- Menú raiz -->
+    <menuitem name="Agenda" id="agenda.menu_root" action="agenda.agenda_action_window_root"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,166 @@
+<odoo>
+  <data>
+
+    <!-- Vista de formulario -->
+    <record model="ir.ui.view" id="empresas.empresa_view_form">
+      <field name="name">formGOGA</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <h4>Nombre de la empresa</h4>
+            <field name="company_name" placeholder="Nombre de la empresa..."/>
+            <h4>Título</h4>
+            <field name="title" placeholder="Título"/>
+            <h4>Idioma</h4>
+            <field name="lang"/>
+
+            <separator/>
+            <h1>Contactos de la empresa</h1>
+            <h4>Nombre</h4>
+            <field name="name" placeholder="Nombre completo..."/>
+            <h4>Función</h4>
+            <field name="function" placeholder="Función..."/>
+
+            <separator string="Dirección"/>
+            <h4>Calle</h4>
+            <field name="street" placeholder="Calle..."/>
+            <h4>Calle 2</h4>
+            <field name="street2" placeholder="Calle 2..."/>
+            <div>
+              <h4>Código postal</h4>
+              <field name="zip" placeholder="C.P."/>
+              <h4>Ciudad</h4>
+              <field name="city" placeholder="Ciudad..."/>
+              <h4>Provincia</h4>
+              <field name="state_id" placeholder="Provincia..."/>
+              <h4>Pais</h4>
+              <field name="country_id" placeholder="País..."/>
+            </div>
+
+            <separator string="Datos de contacto"/>
+            <h4>Teléfono</h4>
+            <field name="phone" placeholder="Telefono fijo..."/>
+            <h4>Móvil</h4>
+            <field name="mobile" placeholder="Teléfono móvil..."/>
+            <h4>E-mail</h4>
+            <field name="email" placeholder="Correo electrónico..."/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Vista de árbol -->
+    <record model="ir.ui.view" id="empresas.empresa_view_list">
+      <field name="name">treeGOGA</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+          <tree>
+            <field name="company_name"/>
+            <field name="name"/>
+            <field name="zip"/>
+            <field name="city"/>
+            <field name="country_id"/>
+            <field name="phone"/>
+            <field name="email"/>
+          </tree>
+      </field>
+    </record>
+
+    <!-- Acciones para root -->
+    <record model="ir.actions.act_window" id="empresas.empresa_action_window_root">
+      <field name="name">Empresas</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Acciones para MenuGOGA -->
+    <record model="ir.actions.act_window" id="empresas.empresa_action_window_goga">
+      <field name="name">MenuGOGA</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="empresas.empresa_action_window_goga_tree">
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="empresas.empresa_view_list"/>
+      <field name="act_window_id" ref="empresas.empresa_action_window_goga"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="empresas.empresa_action_window_goga_form">
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="empresas.empresa_view_form"/>
+      <field name="act_window_id" ref="empresas.empresa_action_window_goga"/>
+    </record>
+
+
+    <!-- Menú raiz -->
+    <menuitem name="Empresas" id="empresas.menu_root" action="empresas.empresa_action_window_root"/>
+
+    <!-- Menús de categoría -->
+    <menuitem name="MenuGOGA" id="empresas.menu_menugoga" parent="empresas.menu_root"/>
+
+    <!-- Menús hijos -->
+    <menuitem name="Ver Empresas" id="empresas.menu_ver_empresas" parent="empresas.menu_menugoga" 
+      action="empresas.empresa_action_window_goga"/>
+
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="empresas.list">
+      <field name="name">empresas list</field>
+      <field name="model">empresas.empresas</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="empresas.action_window">
+      <field name="name">empresas window</field>
+      <field name="res_model">empresas.empresas</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="empresas.action_server">
+      <field name="name">empresas server</field>
+      <field name="model_id" ref="model_empresas_empresas"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="empresas" id="empresas.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="empresas.menu_1" parent="empresas.menu_root"/>
+    <menuitem name="Menu 2" id="empresas.menu_2" parent="empresas.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="empresas.menu_1_list" parent="empresas.menu_1"
+              action="empresas.action_window"/>
+    <menuitem name="Server to list" id="empresas" parent="empresas.menu_2"
+              action="empresas.action_server"/>
+-->
+
+
+  </data>
+</odoo>

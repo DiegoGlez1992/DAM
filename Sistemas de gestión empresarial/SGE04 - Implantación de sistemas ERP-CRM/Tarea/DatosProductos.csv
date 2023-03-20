@@ -1,0 +1,6 @@
+Código;Nombre;Categoría;Descripción;Método abastecimiento;Método coste;Método suministro;Precio coste;Precio de venta;Puede ser comprado;Puede ser vendido;Tipo de producto;Empresas/Empresa;Impuestos cliente;Impuestos proveedor;UdM de compra;UdM por defecto
+cod1;nombreproducto1;cosmetica;descripcion producto1;Take From Stock;standard;buy;0;0;True;True;product;Datalab;21% IVA soportado (servicios corrientes);21% IVA soportado (servicios corrientes);kg;kg
+cod2;nombreproducto2;cosmetica;descripcion producto2;Take From Stock;standard;buy;0;0;True;True;product;Datalab;21% IVA soportado (servicios corrientes);21% IVA soportado (servicios corrientes);kg;kg
+cod3;nombreproducto3;cosmetica;descripcion producto3;Take From Stock;standard;buy;0;0;True;True;product;Datalab;21% IVA soportado (servicios corrientes);21% IVA soportado (servicios corrientes);kg;kg
+;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;

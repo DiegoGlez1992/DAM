@@ -1,0 +1,4 @@
+﻿name;display_name;street;street2;city;state_id;zip;phone;mobile;email;country_code;website;category_id;is_company
+Jose Pérez;Electricidad Jose;Cardenal Cisneros;Nº 27;Santander;S;39001;942712586;680195632;jose@electricidadjose.es;ES;www.electricidadjose.es;Electricidad;FALSE
+Ana Pilar González;Estetica Ana;La que me invento;S/N;Llanes;O;33500;985456859;;ana@gmail.com;ES;;Estetica;FALSE
+Juan De La Casa;Limpiezas De La Casa;No sé que poner;;Lisboa;11;;;;;PT;;Mantenimiento;FALSE

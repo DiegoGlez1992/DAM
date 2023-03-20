@@ -1,0 +1,4 @@
+"Código";"Nombre";"Categoría";"Descripción";"Método abastecimiento";"Método coste";"Método suministro";"Precio coste";"Precio de venta";"Puede ser comprado";"Puede ser vendido";"Tipo de producto";"Empresas/Empresa";"Impuestos cliente";"Impuestos proveedor";"UdM de compra";"UdM por defecto"
+"cod1";"nombreproducto1";"cosmetica";"descripcion producto1";"make_to_order";"standard";"buy";0;0;"True";"True";"product";"Empresa demo";"IVA 7%";"7% IVA Soportado (operaciones corrientes)";"Kg.";"Kg."
+"cod2";"nombreproducto2";"cosmetica";"descripcion producto2";"make_to_stock";"standard";"buy";0;0;"True";"True";"product";"Empresa demo";"IVA 7%";"7% IVA Soportado (operaciones corrientes)";"Kg.";"Kg."
+"cod3";"nombreproducto3";"cosmetica";"descripcion producto3";"make_to_order";"standard";"buy";0;0;"True";"True";"product";"Empresa demo";"IVA 7%";"7% IVA Soportado (operaciones corrientes)";"Kg.";"Kg."
