@@ -13,6 +13,3 @@ Este temario y ejercicios corresponden al módulo de sistemas de gestión empres
 ### [SGE05 - Desarrollo de componentes](https://github.com/DiegoGlez1992/DAM/tree/main/Sistemas%20de%20gesti%C3%B3n%20empresarial/SGE05%20-%20Desarrollo%20de%20componentes)
 * Nota tarea: 10.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
