@@ -17,6 +17,6 @@ Este temario y ejercicios corresponden al módulo de acceso a datos de 2º, del 
 ### [AD07 - Creación de componentes visuales](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos/AD07%20-%20Creaci%C3%B3n%20de%20componentes%20visuales)
 * Nota tarea: 10.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
+### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos/Examen%201%C2%AA%20evaluaci%C3%B3n)
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos/Examen%202%C2%AA%20evaluaci%C3%B3n)
+### [Ordinaria 1](https://github.com/DiegoGlez1992/DAM/tree/main/Acceso%20a%20datos/Examen%201%C2%AA%20ordinaria)
