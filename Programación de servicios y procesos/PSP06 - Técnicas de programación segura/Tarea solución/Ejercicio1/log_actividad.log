@@ -1,0 +1,34 @@
+feb 20, 2023 3:41:07 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:41:16 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prueba.txt
+feb 20, 2023 3:46:39 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:46:47 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prueba.txt
+feb 20, 2023 3:47:23 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:47:29 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = hola.txt
+feb 20, 2023 3:48:40 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:49:03 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = hola.txt
+feb 20, 2023 3:49:18 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:49:25 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prueba.txt
+feb 20, 2023 3:50:07 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemita
+feb 20, 2023 3:50:12 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prueba.txt
+feb 20, 2023 3:54:41 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = algogo
+feb 20, 2023 3:54:49 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prue.txt
+feb 20, 2023 3:54:49 P. M. ejercicio1.Ejercicio1 VerFichero
+INFO: Fichero no encontrado = {1}
+feb 20, 2023 6:50:53 P. M. ejercicio1.Ejercicio1 <init>
+INFO: Se ha conectado el usuario = gemapf
+feb 20, 2023 6:50:58 P. M. ejercicio1.Ejercicio1 <init>
+INFO: El usuario quiere ver el fichero = prueba.txt

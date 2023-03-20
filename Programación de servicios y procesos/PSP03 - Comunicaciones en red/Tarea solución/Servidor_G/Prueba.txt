@@ -1,0 +1,3 @@
+Este es un fichero de prueba.
+Su objetivo es comprobar el funcionamiento de la estructura cliente-servidor.
+¡¡Espero que lo hayas leído correctamente!!

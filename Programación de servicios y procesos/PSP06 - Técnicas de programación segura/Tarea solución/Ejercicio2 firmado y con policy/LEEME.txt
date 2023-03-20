@@ -1,0 +1,20 @@
+
+La carpeta "Ejercicio2" incluye el código de la aplicación.
+
+La carpeta "para cliente" contiene el .jar y el certificado con la clave pública
+
+El archivo PDF explica los procesos para:
+- Firmar la aplicación
+- En la parte del cliente o destinatario: extraer la clave pública del certificado, configurar el .policy por firma (SignedBy) en lugar de por ubicación de la aplicación (CodeBase).
+
+El archivo "segura.policy" contiene el archivo con la política de seguridad configurada en el cliente.
+
+ACLARACIÓN: En el policy, puedo mantener la política por CodeBase e incluir la firma, es decir, puedo tener también esto:
+
+keystore "file:/c:/datos/keystore/MDAM", "jks";
+
+grant codeBase "file:/c:/datos/*", signedBy "ejercicio2" {
+  permission java.util.logging.LoggingPermission "control";
+  permission java.io.FilePermission "c:\\datos", "read, write";
+  permission java.io.FilePermission "c:\\datos\\*", "read, write";
+};

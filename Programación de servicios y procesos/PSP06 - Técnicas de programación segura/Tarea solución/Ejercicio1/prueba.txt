@@ -1,0 +1,3 @@
+Este es un archivo para comprobar la lectura de un fichero.
+Espero que todo haya salido bien y lo leas correctamente.
+Animo

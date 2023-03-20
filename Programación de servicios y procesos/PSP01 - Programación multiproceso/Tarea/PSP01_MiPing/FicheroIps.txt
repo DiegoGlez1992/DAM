@@ -1,0 +1,56 @@
+
+Haciendo ping a 192.168.4.45 con 32 bytes de datos:
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+
+Estad�sticas de ping para 192.168.4.45:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+
+Haciendo ping a 192.168.4.46 con 32 bytes de datos:
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+Respuesta desde 192.168.4.47: Host de destino inaccesible.
+
+Estad�sticas de ping para 192.168.4.46:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+
+Haciendo ping a 192.168.4.47 con 32 bytes de datos:
+Respuesta desde 192.168.4.47: bytes=32 tiempo<1m TTL=128
+Respuesta desde 192.168.4.47: bytes=32 tiempo<1m TTL=128
+Respuesta desde 192.168.4.47: bytes=32 tiempo<1m TTL=128
+Respuesta desde 192.168.4.47: bytes=32 tiempo<1m TTL=128
+
+Estad�sticas de ping para 192.168.4.47:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M�nimo = 0ms, M�ximo = 0ms, Media = 0ms
+
+Haciendo ping a 192.168.4.48 con 32 bytes de datos:
+Respuesta desde 192.168.4.48: bytes=32 tiempo=37ms TTL=64
+Respuesta desde 192.168.4.48: bytes=32 tiempo=49ms TTL=64
+Respuesta desde 192.168.4.48: bytes=32 tiempo=67ms TTL=64
+Respuesta desde 192.168.4.48: bytes=32 tiempo=87ms TTL=64
+
+Estad�sticas de ping para 192.168.4.48:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M�nimo = 37ms, M�ximo = 87ms, Media = 60ms
+
+Haciendo ping a 192.168.4.49 con 32 bytes de datos:
+Respuesta desde 192.168.4.49: bytes=32 tiempo=271ms TTL=255
+Respuesta desde 192.168.4.49: bytes=32 tiempo=78ms TTL=255
+Respuesta desde 192.168.4.49: bytes=32 tiempo=97ms TTL=255
+Respuesta desde 192.168.4.49: bytes=32 tiempo=114ms TTL=255
+
+Estad�sticas de ping para 192.168.4.49:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0
+    (0% perdidos),
+Tiempos aproximados de ida y vuelta en milisegundos:
+    M�nimo = 78ms, M�ximo = 271ms, Media = 140ms

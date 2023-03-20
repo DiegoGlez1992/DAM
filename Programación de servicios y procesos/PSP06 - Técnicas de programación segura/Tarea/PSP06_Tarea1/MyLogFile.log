@@ -1,0 +1,266 @@
+ene 23, 2023 4:08:21 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:12:45 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:26:23 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:39:17 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:39:21 P. M. psp06_tarea1.MyLogger addLog
+WARNING: 452
+ene 23, 2023 4:40:07 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:40:11 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Nombre introducido: diego
+ene 23, 2023 4:47:15 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 4:47:18 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 4:47:28 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: Diegos
+ene 23, 2023 4:47:31 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:09:21 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:09:25 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:09:30 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: diego1.txt
+ene 23, 2023 6:09:37 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:09:42 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:09:56 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: archivo9.mp3
+ene 23, 2023 6:35:57 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:36:00 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 6:36:03 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:36:18 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: fichero123.txt
+ene 23, 2023 6:38:29 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:38:32 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:38:45 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: ficheross.txt
+ene 23, 2023 6:39:34 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:39:37 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:39:41 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: fichero
+ene 23, 2023 6:39:49 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:40:02 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 6:47:37 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:47:40 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 6:47:45 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego1
+ene 23, 2023 6:47:50 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegoss
+ene 23, 2023 6:48:20 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:48:23 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 6:48:27 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegoss
+ene 23, 2023 6:53:52 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:53:55 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:54:09 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: Fichero1.txt
+ene 23, 2023 6:54:09 P. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: Fichero1.txt
+ene 23, 2023 6:54:59 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:55:02 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 6:55:07 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: file.txt
+ene 23, 2023 6:55:07 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Fichero file.txt no encontrado en el sistema
+ene 23, 2023 6:59:40 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 6:59:44 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 6:59:47 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: Diego
+ene 23, 2023 6:59:51 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: Diegos
+ene 23, 2023 6:59:53 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diegoss
+ene 23, 2023 6:59:56 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:02:02 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:02:05 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:02:15 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: Fichero123.txt1
+ene 23, 2023 7:02:21 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: Fichero1.txt1
+ene 23, 2023 7:02:33 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: Fichero1.TX1
+ene 23, 2023 7:03:37 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: Fichero.txt
+ene 23, 2023 7:03:37 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Fichero Fichero.txt no encontrado en el sistema
+ene 23, 2023 7:03:44 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:03:49 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:03:53 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: Fichero1.txt
+ene 23, 2023 7:03:53 P. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: Fichero1.txt
+ene 23, 2023 7:11:57 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:12:02 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: pepe
+ene 23, 2023 7:12:05 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:12:05 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:12:05 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:12:28 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:12:31 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:12:31 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:12:31 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:15:11 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:15:14 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: juan
+ene 23, 2023 7:15:17 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: Pacoss
+ene 23, 2023 7:15:20 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diegoss
+ene 23, 2023 7:15:23 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:15:23 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:15:23 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:18:44 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:18:46 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:18:46 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:18:46 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:21:47 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:21:49 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:21:49 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:21:49 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:22:06 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:22:11 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:22:11 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:22:11 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:22:23 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:22:25 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:22:25 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:22:25 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:24:50 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:24:53 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:24:53 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:24:53 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:25:25 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:25:28 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:25:28 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:25:28 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:27:57 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:28:00 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diegoss
+ene 23, 2023 7:28:08 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:28:08 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: Stream closed
+ene 23, 2023 7:28:08 P. M. psp06_tarea1.MyLogger addLog
+SEVERE: null
+ene 23, 2023 7:28:28 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:28:31 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:28:37 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: fichero1
+ene 23, 2023 7:28:43 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: fichero1.txt
+ene 23, 2023 7:28:43 P. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: fichero1.txt
+ene 23, 2023 7:36:56 P. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 23, 2023 7:36:59 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 23, 2023 7:37:01 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: Diegos
+ene 23, 2023 7:37:03 P. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 23, 2023 7:37:13 P. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: ficherooooooo1.txt
+ene 23, 2023 7:37:30 P. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: fichero2.txt
+ene 23, 2023 7:37:30 P. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: fichero2.txt
+ene 23, 2023 7:37:30 P. M. psp06_tarea1.MyLogger addLog
+INFO: Programa cerrado
+ene 24, 2023 10:50:58 A. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 24, 2023 10:51:01 A. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 24, 2023 10:51:04 A. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 24, 2023 10:51:12 A. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: fichero31421.txt
+ene 24, 2023 10:51:21 A. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: Fichero1.txt
+ene 24, 2023 10:51:21 A. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: Fichero1.txt
+ene 24, 2023 10:51:21 A. M. psp06_tarea1.MyLogger addLog
+INFO: Programa cerrado
+ene 24, 2023 11:19:18 A. M. psp06_tarea1.MyLogger <init>
+INFO: Programa ejecutado
+ene 25, 2023 10:50:49 A. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de usuario erroneo: diego
+ene 25, 2023 10:50:53 A. M. psp06_tarea1.MyLogger addLog
+INFO: Usuario conectado: diegos
+ene 25, 2023 10:51:00 A. M. psp06_tarea1.MyLogger addLog
+WARNING: Formato de fichero erroneo: Fichero123.txt
+ene 25, 2023 10:51:06 A. M. psp06_tarea1.MyLogger addLog
+INFO: Fichero solicitado: Fichero2.txt
+ene 25, 2023 10:51:06 A. M. psp06_tarea1.MyLogger addLog
+INFO: Muestra el fichero: Fichero2.txt
+ene 25, 2023 10:51:06 A. M. psp06_tarea1.MyLogger addLog
+INFO: Programa cerrado

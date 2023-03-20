@@ -1,0 +1,9 @@
+En el ejercicio 1 no se pide aplicar política de seguridad java. No obstante, en la solución propuesta, incluyo el archivo de policy que sería necesario aplicar si quisiésemos usar el Security Manager, con la intención de que sirva de ejemplo. 
+
+El ejercicio 2, incluye dos versiones:
+
+- Ejercicio 2 sin firmar (estaría incompleto). La intención es ver como sería el archivo con la política de seguridad por ubicación. He incluído Security Manager y el archivo de policy dentro del código, luego no es necesario invocarlos como parámetros en la ejecución.
+
+- Ejercicio 2 firmado y con policy (solución completa). La política de seguridad se establece por firma.
+
+(Se puede probar también la versión mixta, por ubicación y firma).

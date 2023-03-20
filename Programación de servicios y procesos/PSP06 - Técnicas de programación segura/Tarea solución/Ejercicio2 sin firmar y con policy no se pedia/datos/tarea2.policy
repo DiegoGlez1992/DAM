@@ -1,0 +1,9 @@
+/* AUTOMATICALLY GENERATED ON Sun Feb 21 18:40:48 CET 2016*/
+/* DO NOT EDIT */
+
+grant codeBase "file:/c:/datos/*" {
+	permission java.util.logging.LoggingPermission "control";
+	permission java.io.FilePermission "c:\\datos\\*", "read, write, delete, execute";
+	permission java.io.FilePermission "c:\\datos", "read, write, delete, execute";
+};
+

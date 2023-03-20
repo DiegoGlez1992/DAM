@@ -1,0 +1,8 @@
+
+grant {
+  permission java.io.FilePermission "${user.home}/*", "read, write";
+  permission java.util.logging.LoggingPermission "control";
+  permission java.io.FilePermission "./*", "read, write";
+  permission java.util.PropertyPermission "${user.home}/*", "read";
+};
+

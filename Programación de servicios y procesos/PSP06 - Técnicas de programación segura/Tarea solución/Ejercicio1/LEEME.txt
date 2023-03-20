@@ -1,0 +1,5 @@
+El ejercicio 1 no pide aplicar política de seguridad java.
+
+No obstante, en la solución propuesta, incluyo el archivo de policy 
+que sería necesario aplicar si quisiésemos usar el Security Manager, 
+con la intención de que sirva de ejemplo.

@@ -1,0 +1,6 @@
+feb 04, 2020 9:33:33 AM ejercicio2ms.Ejercicio2 <init>
+INFORMACIÓN: Se ha conectado el usuario = joaquinn
+feb 04, 2020 9:33:35 AM ejercicio2ms.Ejercicio2 <init>
+INFORMACIÓN: El usuario quiere ver el fichero = hola.txt
+feb 04, 2020 9:33:35 AM ejercicio2ms.Ejercicio2 VerFichero
+ADVERTENCIA: No se ha encontrado el fichero

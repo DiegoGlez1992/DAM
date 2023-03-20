@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"PSP04_Tarea3_Cliente","l":"Cliente"},{"p":"PSP04_Tarea3_Cliente","l":"MainCliente"}];updateSearchResults();

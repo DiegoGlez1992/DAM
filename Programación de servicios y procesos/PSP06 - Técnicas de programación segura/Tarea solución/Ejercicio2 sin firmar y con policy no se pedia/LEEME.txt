@@ -1,0 +1,16 @@
+Ejercicio 2 - Sin firma.
+
+Aplico la política de seguridad por ubicación del .jar (codeBase). 
+
+He incluído Security Manager y el archivo de policy dentro del código, luego no es necesario invocarlos como parámetros en la ejecución.
+
+IMPORTANTE: Cuando incluímos el archivo .policy dentro del código, debe ir antes de invocar al security manager. El orden correcto es:
+	System.setProperty("java.security.policy", "./tarea2.policy");
+	System.setSecurityManager(new SecurityManager());
+
+Probar la ejecución:
+	1) Mover Ejercicio2.jar a c:\datos
+	2) Mover tarea2.policy a c:\datos
+	3) Probar la ejecución:
+		java -jar Ejercicio2.jar
+

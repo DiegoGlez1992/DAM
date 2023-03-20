@@ -1,0 +1,11 @@
+/* AUTOMATICALLY GENERATED ON Sat Feb 25 13:31:33 CET 2017*/
+/* DO NOT EDIT */
+
+keystore "file:/c:/datos/keystore/MDAM", "jks";
+
+grant signedBy "ejercicio2" {
+  permission java.util.logging.LoggingPermission "control";
+  permission java.io.FilePermission "c:\\datos", "read, write";
+  permission java.io.FilePermission "c:\\datos\\*", "read, write";
+};
+
