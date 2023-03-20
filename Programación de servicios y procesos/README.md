@@ -17,6 +17,5 @@ Este temario y ejercicios corresponden al módulo de programación de servicios 
 ### [PSP07 - Aplicaciones con comunicaciones seguras](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20de%20servicios%20y%20procesos/PSP07%20-%20Aplicaciones%20con%20comunicaciones%20seguras)
 * Nota tarea: 10.00
 ## Exámenes
-### [1ª evaluación]()
-### [2ª evaluación]()
-### [Ordinaria 1]()
+### [1ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20de%20servicios%20y%20procesos/Examen%201%C2%AA%20evaluaci%C3%B3n)
+### [2ª evaluación](https://github.com/DiegoGlez1992/DAM/tree/main/Programaci%C3%B3n%20de%20servicios%20y%20procesos/Examen%202%C2%AA%20evaluaci%C3%B3n)
